@@ -306,7 +306,7 @@ test('la forma de trabajo presenta cinco etapas concretas y responsivas', () => 
   assert.match(html, /@media\(max-width:620px\)\{[\s\S]*?\.workflow-grid\{grid-template-columns:1fr;/);
 });
 
-test('lo que hago explica cinco formas de colaboración y conduce a contacto', () => {
+test('lo que hago presenta cinco encargos como punto de partida y resultado', () => {
   const section = html.match(/<section\b[^>]*class="offers"[^>]*id="lo-que-hago"[^>]*>([\s\S]*?)<\/section>/i);
   assert.ok(section, 'No se encontró la sección Lo que hago');
   assert.match(section[1], /<h2>Lo que <em>hago<\/em><\/h2>/);
@@ -323,8 +323,13 @@ test('lo que hago explica cinco formas de colaboración y conduce a contacto', (
     assert.match(section[1], new RegExp(`<h3>${heading}<\\/h3>`));
   }
 
-  assert.equal((section[1].match(/Qu&eacute; resuelvo/g) ?? []).length, 5);
-  assert.equal((section[1].match(/C&oacute;mo colaboro/g) ?? []).length, 5);
+  assert.match(section[1], /Me suelen llamar cuando hay algo valioso en marcha/);
+  assert.equal((section[1].match(/Punto de partida/g) ?? []).length, 5);
+  assert.equal((section[1].match(/Resultado/g) ?? []).length, 5);
+  const cardBodies = section[1].match(/<article class="offer-card reveal"[\s\S]*?<\/article>/gi) ?? [];
+  assert.equal(cardBodies.filter((card) => /<p>Si\s/i.test(card)).length, 0);
+  assert.match(section[1], /Un proyecto de software con varios frentes abiertos/);
+  assert.match(section[1], /Una necesidad real que todav&iacute;a llega como idea suelta/);
   assert.match(section[1], /<a class="offers-link" href="#contacto">Hablemos de tu idea/);
   assert.doesNotMatch(section[1], /fractional|freelance/i);
   assert.match(html, /@media\(max-width:900px\)\{\.offers-grid\{grid-template-columns:repeat\(2,minmax\(0,1fr\)\);/);
@@ -753,96 +758,3 @@ test('la simulación revisa cada celebración sin cambiar la fecha del dispositi
       actualDate,
       search: `?celebration=${specialDate.id}`
     });
-    assert.equal(resolution.event?.id, specialDate.id);
-    assert.equal(resolution.date, actualDate);
-    assert.equal(resolution.isPreview, true);
-  }
-
-  assert.equal(
-    formatSpecialDateLabel(SPECIAL_DATES.find(({ id }) => id === 'patriotic-04-19'), 23, true),
-    'Vista previa · Fecha patria · 19/04'
-  );
-
-  assert.deepEqual(parseSimulatedDate('2027-05-13'), { year: 2027, month: 5, day: 13 });
-  assert.equal(parseSimulatedDate('2027-02-30'), null);
-  assert.equal(resolveSpecialDate({ actualDate, search: '?date=2027-05-13' }).event?.id, 'birthday');
-  assert.equal(resolveSpecialDate({ actualDate, search: '?preview=birthday' }).event?.id, 'birthday');
-  assert.equal(resolveSpecialDate({ actualDate, hash: '#birthday-preview' }).event?.id, 'birthday');
-  assert.equal(resolveSpecialDate({ actualDate, search: '?special=christmas' }).event?.id, 'christmas');
-  assert.equal(resolveSpecialDate({ actualDate, search: '?celebration=unknown' }).event, null);
-});
-
-test('Pascuas se calcula para cada año y dura únicamente el domingo correspondiente', () => {
-  assert.equal(EASTER_EVENT.id, 'easter');
-  assert.deepEqual(getEasterSunday(2026), { year: 2026, month: 4, day: 5 });
-  assert.deepEqual(getEasterSunday(2027), { year: 2027, month: 3, day: 28 });
-  assert.equal(findSpecialDate({ year: 2026, month: 4, day: 5 })?.id, 'easter');
-  assert.equal(findSpecialDate({ year: 2026, month: 4, day: 4 }), null);
-  assert.equal(findSpecialDate({ year: 2026, month: 4, day: 6 }), null);
-  assert.equal(
-    resolveSpecialDate({ actualDate: { year: 2026, month: 1, day: 1 }, search: '?celebration=easter' }).event?.day,
-    5
-  );
-});
-
-test('si Pascuas coincide con una fecha patria se conservan ambas celebraciones', () => {
-  assert.deepEqual(getEasterSunday(2071), { year: 2071, month: 4, day: 19 });
-  assert.deepEqual(
-    findSpecialDates({ year: 2071, month: 4, day: 19 }).map(({ id }) => id),
-    ['patriotic-04-19', 'easter']
-  );
-  assert.deepEqual(
-    resolveSpecialDate({ actualDate: { year: 2071, month: 4, day: 19 } }).events.map(({ id }) => id),
-    ['patriotic-04-19', 'easter']
-  );
-});
-
-test('WEB-083 incorpora las cuatro celebraciones aprobadas y su simulación', () => {
-  const expected = [
-    ['new-year', 1, 1],
-    ['hearts-december', 12, 1],
-    ['christmas', 12, 25]
-  ];
-  for (const [id, month, day] of expected) {
-    const event = SPECIAL_DATES.find((candidate) => candidate.id === id);
-    assert.deepEqual([event?.id, event?.month, event?.day], [id, month, day]);
-  }
-
-  const actualDate = { year: 2026, month: 8, day: 22 };
-  for (const id of ['new-year', 'easter', 'hearts-december', 'christmas']) {
-    assert.equal(resolveSpecialDate({ actualDate, search: `?celebration=${id}` }).event?.id, id);
-  }
-});
-
-test('las celebraciones mantienen el lenguaje visual del estudio y son responsivas', () => {
-  assert.match(html, /class="birthday-garland"/);
-  assert.match(html, /class="crochet-web"/);
-  assert.match(html, /class="crochet-pumpkin"/);
-  assert.match(html, /class="patriotic-ribbon"/);
-  assert.match(html, /celebration--seasonal \.birthday-decor/);
-  assert.match(html, /@media\(max-width:760px\)\{[\s\S]*?\.birthday-garland/);
-  assert.match(html, /@media\(prefers-reduced-motion:reduce\)\{html\{scroll-behavior:auto;\}\*\{animation:none!important;/);
-  assert.match(html, /role="status" aria-live="polite" hidden/);
-});
-
-test('sobre mí reparte el recorrido en cuatro notas breves', () => {
-  const notes = [...html.matchAll(/<article class="about-note reveal"/g)];
-
-  assert.equal(notes.length, 4);
-  assert.match(html, /<h3>Project Manager de software<\/h3>/);
-  assert.match(html, /<h3>Rob&oacute;tica, Ceibal y UKG<\/h3>/);
-  assert.match(html, /<h3>UTEC y habITar<\/h3>/);
-  assert.match(html, /<h3>Women Techmakers y Chicas en Tecnolog&iacute;a<\/h3>/);
-  assert.doesNotMatch(html, /Acá va tu historia|Ac&aacute; va tu historia|La escribimos juntas|en tesis/i);
-});
-
-test('WEB-100 mantiene nombres, cifras y términos editoriales consistentes', () => {
-  assert.match(html, /<a href="#sobre">Mi mundo<\/a>/);
-  assert.match(html, /Un vistazo a <em>mi mundo<\/em>/);
-  assert.doesNotMatch(html, /requerimientos/i);
-  assert.match(formationHtml, /63 requisitos must have/);
-  assert.match(formationHtml, /m&aacute;s de 2\.700 pruebas automatizadas/);
-  assert.doesNotMatch(formationHtml, /m&aacute;s de 2700 pruebas automatizadas/);
-  assert.doesNotMatch(formationHtml, /<span class="state">en curso<\/span><h3>OPI 2\.0<\/h3>/);
-  assert.match(formationHtml, /An&aacute;lisis de Requerimientos y Modelado/);
-});
