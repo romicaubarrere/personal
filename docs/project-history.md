@@ -104,6 +104,14 @@ El pipeline incluye presupuestos explícitos de transferencia. Esto significa qu
 
 Ese episodio consolidó una regla: los límites técnicos forman parte del diseño del producto, no son una validación posterior.
 
+### Agosto de 2026 · el estado del trabajo también se vuelve auditable
+
+Después de varias integraciones consecutivas, Trello y GitHub llegaron a mostrar estados distintos para algunos tickets. Se definió un límite de tres tickets de entrega en curso, una revisión de duplicados y dependencias antes de reclamar y un cierre que exige PR, commit, CI y publicación. Así, Done deja de ser una intención y pasa a representar evidencia comprobable.
+
+Documentación relacionada:
+
+- [Trazabilidad de entrega](./delivery-traceability.md)
+
 ### Agosto de 2026 · contenido, SEO y multilenguaje
 
 El sitio evolucionó hacia una experiencia en español, inglés y portugués. También se trabajó la jerarquía de contenido, metadatos, enlaces internos, estados activos, sitemap, feed y SEO técnico.
