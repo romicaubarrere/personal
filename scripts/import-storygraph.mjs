@@ -2,7 +2,7 @@ import fs from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
-const STATUS_ALIASES = new Set([
+const CURRENT_STATUS_ALIASES = new Set([
   'currently-reading',
   'currently reading',
   'current',
@@ -10,12 +10,23 @@ const STATUS_ALIASES = new Set([
   'leyendo ahora'
 ]);
 
+const FINISHED_STATUS_ALIASES = new Set([
+  'read',
+  'finished',
+  'completed',
+  'leído',
+  'leido',
+  'terminado',
+  'terminada'
+]);
+
 const HEADER_ALIASES = {
   title: ['title', 'book title', 'título', 'titulo'],
   author: ['authors', 'author', 'autor', 'autores'],
   status: ['read status', 'reading status', 'status', 'estado'],
   lastRead: ['last date read', 'last read date', 'date last read', 'última fecha leída', 'ultima fecha leida'],
-  added: ['date added', 'added date', 'fecha agregada']
+  added: ['date added', 'added date', 'fecha agregada'],
+  rating: ['star rating', 'rating', 'calificación', 'calificacion', 'valoración', 'valoracion']
 };
 
 function normalise(value = '') {
@@ -78,7 +89,21 @@ function parseSortableDate(value) {
   return Number.isNaN(parsed) ? 0 : parsed;
 }
 
-export function selectCurrentReading(csvText) {
+function normaliseDate(value) {
+  const raw = String(value ?? '').trim();
+  const match = raw.match(/^(\d{4})[\/-](\d{1,2})[\/-](\d{1,2})$/);
+  if (!match) return raw;
+  return `${match[1]}-${match[2].padStart(2, '0')}-${match[3].padStart(2, '0')}`;
+}
+
+function parseRating(value) {
+  if (!String(value ?? '').trim()) return null;
+  const parsed = Number.parseFloat(String(value).replace(',', '.'));
+  if (!Number.isFinite(parsed) || parsed < 0 || parsed > 5) return null;
+  return parsed;
+}
+
+function parseLibrary(csvText) {
   const rows = parseCsv(csvText);
   if (rows.length < 2) throw new Error('El export de StoryGraph no contiene filas de datos.');
 
@@ -93,15 +118,19 @@ export function selectCurrentReading(csvText) {
     }
   }
 
-  const candidates = data
-    .map((row) => ({
-      title: row[indexes.title]?.trim() ?? '',
-      author: row[indexes.author]?.trim() ?? '',
-      status: normalise(row[indexes.status]),
-      lastRead: indexes.lastRead >= 0 ? row[indexes.lastRead]?.trim() ?? '' : '',
-      added: indexes.added >= 0 ? row[indexes.added]?.trim() ?? '' : ''
-    }))
-    .filter((book) => STATUS_ALIASES.has(book.status) && book.title && book.author)
+  return data.map((row) => ({
+    title: row[indexes.title]?.trim() ?? '',
+    author: row[indexes.author]?.trim() ?? '',
+    status: normalise(row[indexes.status]),
+    lastRead: indexes.lastRead >= 0 ? normaliseDate(row[indexes.lastRead]) : '',
+    added: indexes.added >= 0 ? row[indexes.added]?.trim() ?? '' : '',
+    rating: indexes.rating >= 0 ? parseRating(row[indexes.rating]) : null
+  })).filter((book) => book.title && book.author);
+}
+
+export function selectCurrentReading(csvText) {
+  const candidates = parseLibrary(csvText)
+    .filter((book) => CURRENT_STATUS_ALIASES.has(book.status))
     .sort((a, b) => {
       const bDate = parseSortableDate(b.lastRead) || parseSortableDate(b.added);
       const aDate = parseSortableDate(a.lastRead) || parseSortableDate(a.added);
@@ -112,7 +141,43 @@ export function selectCurrentReading(csvText) {
     throw new Error('No encontré ningún libro con estado “currently-reading” en el export de StoryGraph.');
   }
 
-  return candidates[0];
+  const { rating: _rating, ...book } = candidates[0];
+  return book;
+}
+
+export function selectReadingHistory(csvText) {
+  return parseLibrary(csvText)
+    .filter((book) => FINISHED_STATUS_ALIASES.has(book.status))
+    .map((book) => ({
+      title: book.title,
+      author: book.author,
+      ...(book.lastRead ? { finishedAt: book.lastRead } : {}),
+      ...(book.rating !== null ? { rating: book.rating } : {})
+    }))
+    .sort((a, b) => parseSortableDate(b.finishedAt) - parseSortableDate(a.finishedAt));
+}
+
+export function calculateReadingStats(history) {
+  if (!history.length) return null;
+
+  const ratings = history.map((book) => book.rating).filter((rating) => Number.isFinite(rating));
+  const yearCounts = new Map();
+  for (const book of history) {
+    const match = book.finishedAt?.match(/^(\d{4})/);
+    if (!match) continue;
+    yearCounts.set(match[1], (yearCounts.get(match[1]) ?? 0) + 1);
+  }
+
+  return {
+    totalFinished: history.length,
+    ratedCount: ratings.length,
+    averageRating: ratings.length
+      ? Math.round((ratings.reduce((sum, rating) => sum + rating, 0) / ratings.length) * 100) / 100
+      : null,
+    byYear: [...yearCounts.entries()]
+      .map(([year, count]) => ({ year, count }))
+      .sort((a, b) => Number(b.year) - Number(a.year))
+  };
 }
 
 export function makeCoverLabel(title) {
@@ -141,8 +206,15 @@ function quoteTs(value) {
   return `'${String(value).replace(/\\/g, '\\\\').replace(/'/g, "\\'")}'`;
 }
 
-export function renderReadingModule(book, isoDate) {
-  return `// Generado por scripts/import-storygraph.mjs a partir de un export personal de StoryGraph.\n// No editar a mano salvo como fallback; volver a ejecutar npm run reading:import -- <archivo.csv>.\nexport const currentReading = {\n  title: ${quoteTs(book.title)},\n  author: ${quoteTs(book.author)},\n  coverLabel: ${quoteTs(makeCoverLabel(book.title))},\n  updatedAt: ${quoteTs(isoDate)},\n  updatedLabel: ${quoteTs(formatSpanishDate(isoDate))}\n} as const;\n`;
+function renderTs(value, indent = 0) {
+  return JSON.stringify(value, null, 2)
+    .split('\n')
+    .map((line, index) => index === 0 ? line : `${' '.repeat(indent)}${line}`)
+    .join('\n');
+}
+
+export function renderReadingModule(book, isoDate, history = [], stats = calculateReadingStats(history)) {
+  return `// Generado por scripts/import-storygraph.mjs a partir de un export personal de StoryGraph.\n// No editar a mano salvo como fallback; volver a ejecutar npm run reading:import -- <archivo.csv>.\nexport const currentReading = {\n  title: ${quoteTs(book.title)},\n  author: ${quoteTs(book.author)},\n  coverLabel: ${quoteTs(makeCoverLabel(book.title))},\n  updatedAt: ${quoteTs(isoDate)},\n  updatedLabel: ${quoteTs(formatSpanishDate(isoDate))}\n} as const;\n\nexport const readingHistory = ${renderTs(history)} as const;\n\nexport const readingStats = ${stats === null ? 'null' : renderTs(stats)} as const;\n`;
 }
 
 function todayInMontevideo() {
@@ -168,8 +240,10 @@ async function main() {
   const outputPath = path.resolve(process.cwd(), 'src/data/reading.ts');
   const csv = await fs.readFile(inputPath, 'utf8');
   const book = selectCurrentReading(csv);
-  await fs.writeFile(outputPath, renderReadingModule(book, isoDate), 'utf8');
-  console.log(`Leyendo ahora actualizado: ${book.title} — ${book.author}`);
+  const history = selectReadingHistory(csv);
+  const stats = calculateReadingStats(history);
+  await fs.writeFile(outputPath, renderReadingModule(book, isoDate, history, stats), 'utf8');
+  console.log(`Lecturas actualizadas: ${book.title} — ${book.author}; ${history.length} terminadas.`);
 }
 
 const isDirectRun = process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url);

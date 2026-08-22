@@ -1,0 +1,123 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Footer from '../components/home/Footer.astro';
+import { currentReading, readingHistory, readingStats } from '../data/reading';
+import '../styles/home.css';
+
+const title = 'Lecturas | Romina Caubarrere';
+const description = 'Mi historial de lecturas y estadísticas derivadas de mi export personal de StoryGraph, sin completar datos que no existan.';
+const canonical = 'https://romicaubarrere.github.io/personal/lecturas.html';
+
+function formatDate(value) {
+  if (!value) return null;
+  const [year, month, day] = value.split('-').map(Number);
+  if (!year || !month || !day) return value;
+  return new Intl.DateTimeFormat('es-UY', {
+    day: 'numeric', month: 'short', year: 'numeric', timeZone: 'America/Montevideo'
+  }).format(new Date(Date.UTC(year, month - 1, day, 12)));
+}
+---
+
+<style is:inline>
+  .reading-page{min-height:100vh;background:var(--cork);color:var(--ink);padding:86px 20px 56px}
+  .reading-desk{width:min(1060px,100%);margin:0 auto}
+  .reading-back{display:inline-flex;align-items:center;min-height:44px;margin-bottom:24px;padding:8px 13px;background:var(--cream);color:var(--green-dark);font-family:var(--sans);font-weight:700;text-decoration:none;box-shadow:3px 4px 0 rgba(36,31,24,.2);transform:rotate(-1deg)}
+  .reading-back:is(:hover,:focus-visible){transform:rotate(0) translateY(-2px)}
+  .reading-hero{position:relative;padding:38px clamp(24px,6vw,72px) 42px;background:var(--cream);box-shadow:8px 12px 28px rgba(36,31,24,.24);transform:rotate(.25deg)}
+  .reading-hero::before{content:"";position:absolute;top:-12px;left:17%;width:92px;height:26px;background:rgba(229,205,153,.82);transform:rotate(-4deg)}
+  .reading-kicker{font-family:var(--hand);font-size:1.25rem;color:var(--warm)}
+  .reading-hero h1{max-width:760px;margin:6px 0 14px;font-family:var(--serif);font-size:clamp(2.4rem,7vw,5.4rem);line-height:.94;font-weight:600}
+  .reading-hero h1 em{color:var(--green);font-weight:400}
+  .reading-intro{max-width:680px;font-size:1.04rem;line-height:1.7}
+  .reading-now{display:grid;grid-template-columns:110px 1fr;gap:20px;align-items:center;margin-top:28px;padding:19px;background:#f1d3c8;border-left:7px solid var(--warm)}
+  .reading-mini-cover{display:grid;place-items:center;aspect-ratio:3/4;background:var(--green-dark);color:var(--cream);font-family:var(--serif);font-size:1rem;text-align:center;box-shadow:4px 5px 0 rgba(36,31,24,.22)}
+  .reading-now strong{display:block;font-family:var(--serif);font-size:1.55rem}.reading-now span,.reading-now time{display:block;margin-top:4px;color:var(--ink-soft)}
+  .reading-section{margin-top:42px}.reading-section-head{display:flex;align-items:end;justify-content:space-between;gap:20px;margin-bottom:18px}.reading-section h2{font-family:var(--serif);font-size:clamp(2rem,5vw,3.5rem);font-weight:500}.reading-section-head p{max-width:420px;font-family:var(--hand);font-size:1.15rem;color:var(--ink-soft)}
+  .reading-empty{position:relative;padding:28px 30px;background:#f6b9a6;box-shadow:5px 7px 0 rgba(36,31,24,.18);transform:rotate(-.5deg)}
+  .reading-empty::after{content:"pendiente del export completo";position:absolute;right:18px;bottom:-17px;padding:5px 10px;background:var(--gold);font-family:var(--hand);font-size:.98rem;transform:rotate(2deg)}
+  .reading-empty strong{display:block;margin-bottom:8px;font-family:var(--serif);font-size:1.35rem}.reading-empty p{max-width:720px;line-height:1.65}
+  .reading-stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;list-style:none}.reading-stat{min-height:144px;padding:21px;background:var(--cream);border-top:7px solid var(--green);box-shadow:4px 5px 0 rgba(36,31,24,.16)}
+  .reading-stat strong{display:block;font-family:var(--serif);font-size:2.2rem;font-weight:500}.reading-stat span{display:block;margin-top:7px;line-height:1.45;color:var(--ink-soft)}
+  .reading-years{margin-top:16px;padding:18px 22px;background:#e8dfbd}.reading-years p{margin-bottom:11px;color:var(--ink-soft);font-size:.92rem}.reading-years ul{display:flex;flex-wrap:wrap;gap:10px;list-style:none}.reading-years li{padding:7px 11px;background:var(--cream);font-family:var(--hand)}
+  .reading-history{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px;list-style:none}.reading-card{height:100%;padding:22px 24px;background:var(--cream);border-left:5px solid var(--brick);box-shadow:4px 6px 0 rgba(36,31,24,.15);transform:rotate(var(--tilt,-.35deg))}.reading-card h3{font-family:var(--serif);font-size:1.45rem}.reading-card p{margin-top:5px;color:var(--ink-soft)}.reading-meta{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}.reading-meta span,.reading-meta time{padding:4px 8px;background:#e8dfbd;font-size:.88rem}
+  .reading-source{margin-top:42px;padding:18px 22px;border:2px dashed rgba(36,31,24,.35);font-size:.9rem;line-height:1.55}.reading-source code{font-family:var(--sans);font-size:.9em;font-weight:700}
+  @media(max-width:720px){.reading-page{padding:72px 14px 40px}.reading-hero{padding:30px 20px 34px}.reading-now{grid-template-columns:76px 1fr}.reading-section-head{display:block}.reading-section-head p{margin-top:7px}.reading-stats,.reading-history{grid-template-columns:1fr}.reading-empty::after{position:static;display:inline-block;margin-top:18px}.reading-stat{min-height:auto}}
+  @media(prefers-reduced-motion:reduce){.reading-back,.reading-hero,.reading-empty,.reading-card{transform:none!important;transition:none!important}}
+</style>
+
+<BaseLayout {title} {description} {canonical}>
+  <a class="skip-link" href="#main-content">Saltar al contenido principal</a>
+  <main class="reading-page" id="main-content" tabindex="-1">
+    <div class="reading-desk">
+      <a class="reading-back" href="index.html#lecturas">← Volver a mi estante</a>
+
+      <header class="reading-hero">
+        <span class="reading-kicker">mi cuaderno de lecturas</span>
+        <h1>Lo que fui <em>leyendo</em></h1>
+        <p class="reading-intro">Acá junto el historial y algunas cuentas que salen de mis propios datos. No completo fechas, valoraciones ni libros cuando el export no los trae.</p>
+        <div class="reading-now">
+          <div class="reading-mini-cover" aria-hidden="true">{currentReading.coverLabel}</div>
+          <div>
+            <span class="reading-kicker">ahora mismo</span>
+            <strong>{currentReading.title}</strong>
+            <span>de {currentReading.author}</span>
+            <time datetime={currentReading.updatedAt}>actualizado el {currentReading.updatedLabel}</time>
+          </div>
+        </div>
+      </header>
+
+      <section class="reading-section" aria-labelledby="stats-title">
+        <div class="reading-section-head">
+          <h2 id="stats-title">Las cuentas del margen</h2>
+          <p>sí, hasta esto mido</p>
+        </div>
+        {readingStats ? (
+          <>
+            <ul class="reading-stats">
+              <li class="reading-stat"><strong>{readingStats.totalFinished}</strong><span>lecturas terminadas en el export</span></li>
+              <li class="reading-stat"><strong>{readingStats.ratedCount}</strong><span>con valoración registrada</span></li>
+              <li class="reading-stat"><strong>{readingStats.averageRating ?? '—'}</strong><span>promedio entre las que sí tienen valoración</span></li>
+            </ul>
+            {readingStats.byYear.length > 0 && <div class="reading-years"><p>Por año, solo entre las lecturas que traen fecha de finalización:</p><ul>{readingStats.byYear.map(({ year, count }) => <li>{year}: {count}</li>)}</ul></div>}
+          </>
+        ) : (
+          <div class="reading-empty" role="status">
+            <strong>Todavía no publico estadísticas.</strong>
+            <p>El dato real que tengo cargado alcanza para “Leyendo ahora”, pero no para reconstruir mi historial. Cuando procese el export personal completo de StoryGraph, estas cuentas se generan solas desde ese archivo.</p>
+          </div>
+        )}
+      </section>
+
+      <section class="reading-section" aria-labelledby="history-title">
+        <div class="reading-section-head">
+          <h2 id="history-title">Historial</h2>
+          <p>libro por libro, sin rellenar huecos</p>
+        </div>
+        {readingHistory.length > 0 ? (
+          <ol class="reading-history">
+            {readingHistory.map((book, index) => (
+              <li>
+                <article class="reading-card" style={`--tilt:${index % 2 ? '.35deg' : '-.35deg'}`}>
+                  <h3>{book.title}</h3>
+                  <p>de {book.author}</p>
+                  <div class="reading-meta">
+                    {'finishedAt' in book && book.finishedAt && <time datetime={book.finishedAt}>{formatDate(book.finishedAt)}</time>}
+                    {'rating' in book && typeof book.rating === 'number' && <span>{book.rating}/5</span>}
+                  </div>
+                </article>
+              </li>
+            ))}
+          </ol>
+        ) : (
+          <div class="reading-empty">
+            <strong>El historial espera el archivo completo.</strong>
+            <p>No convierto la lectura actual ni recuerdos sueltos en una lista de libros terminados. Esta sección queda preparada para recibir únicamente filas reales marcadas como leídas en el export.</p>
+          </div>
+        )}
+      </section>
+
+      <p class="reading-source">Fuente: export personal de StoryGraph procesado en build con <code>npm run reading:import</code>. No hay scraping, consultas runtime ni portadas descargadas.</p>
+    </div>
+  </main>
+  <Footer />
+</BaseLayout>

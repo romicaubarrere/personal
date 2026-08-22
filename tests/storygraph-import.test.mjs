@@ -37,3 +37,18 @@ test('renderReadingModule genera datos estáticos y etiqueta visual coherente', 
   assert.match(moduleText, /22 de agosto de 2026/);
   assert.equal(makeCoverLabel('Dune'), 'DUN');
 });
+
+test('normaliza las fechas con barras del export real para ordenar y agrupar', async () => {
+  const { selectReadingHistory, calculateReadingStats } = await import('../scripts/import-storygraph.mjs');
+  const csv = [
+    'Title,Authors,Read Status,Last Date Read,Star Rating',
+    'Más nuevo,Autora,read,2026/08/15,4',
+    'Más viejo,Autor,read,2025/01/02,5'
+  ].join('\n');
+  const history = selectReadingHistory(csv);
+  assert.equal(history[0].finishedAt, '2026-08-15');
+  assert.deepEqual(calculateReadingStats(history).byYear, [
+    { year: '2026', count: 1 },
+    { year: '2025', count: 1 }
+  ]);
+});

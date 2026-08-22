@@ -377,15 +377,15 @@ test('WEB-050 concentra los intereses personales cerca del final', () => {
   assert.doesNotMatch(personalBlock[1], /borrador|tu romantasy|lo cambi\u00e1s cuando quieras/i);
 });
 
-test('WEB-080 publica Leyendo ahora desde una fuente manual estable', () => {
+test('WEB-141 publica Leyendo ahora desde el export personal estable', () => {
   const personalBlock = html.match(/<section class="reads" id="lecturas">([\s\S]*?)<\/section>/i);
   assert.ok(personalBlock, 'No se encontró el bloque personal de lecturas');
   assert.match(personalBlock[1], /leyendo ahora/i);
-  assert.match(personalBlock[1], /Reina de Sombras/);
-  assert.match(personalBlock[1], /Sarah J\. Maas/);
+  assert.match(personalBlock[1], /La Guerra del Arte/);
+  assert.match(personalBlock[1], /Steven Pressfield, David Alpuche, Shawn Coyne/);
   assert.match(personalBlock[1], /<time class="ba" datetime="2026-08-22">/);
   assert.match(readingData, /updatedAt: '2026-08-22'/);
-  assert.match(readingDocs, /Fuente vigente: manual/);
+  assert.match(readingDocs, /Fuente vigente: manual, regenerada automáticamente desde un export personal de StoryGraph/);
   assert.match(readingDocs, /No se usa scraping/);
   assert.doesNotMatch(personalBlock[1], /fetch\(|StoryGraph|iframe/i);
 });
@@ -832,7 +832,9 @@ test('la apertura de notas despega el papel sin romper la navegación', () => {
   assert.match(html, /link\.classList\.add\('is-lifting'\)/);
   assert.match(html, /window\.setTimeout\(function\(\)\{window\.location\.assign\(destination\.href\);\},170\)/);
   assert.match(html, /\.sticky-link\.is-lifting\{animation:paper-lift \.17s/);
-  assert.match(html, /@media\(prefers-reduced-motion:reduce\)\{\.sticky-link\.is-lifting\{animation:none\}\}/);
+  assert.match(html, /@media\(prefers-reduced-motion:reduce\)\{/);
+  assert.match(html, /\.sticky-link\.is-lifting\{animation:none\}/);
+  assert.match(html, /\.reading-ledger-link\{transition:none;transform:none!important\}/);
   assert.equal((html.match(/class="sticky sticky-link"/g) ?? []).length, 2);
   assert.doesNotMatch(html, /loader|loading-spinner/i);
 });
