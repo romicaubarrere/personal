@@ -9,6 +9,7 @@ const dist = join(repositoryRoot, 'dist');
 const publicRoutes = [
   'index.html',
   'formacion.html',
+  'comunidad-charlas.html',
   'posts/por-que-hago-tantas-preguntas.html',
   'posts/cuando-puedas.html'
 ];
@@ -33,10 +34,11 @@ function ids(source) {
   return new Set([...source.matchAll(/\sid="([^"]+)"/g)].map((match) => match[1]));
 }
 
-test('las cuatro rutas tienen títulos, descripciones, canonical y jerarquía coherentes', () => {
+test('las cinco rutas tienen títulos, descripciones, canonical y jerarquía coherentes', () => {
   const expectedCanonicals = new Map([
     ['index.html', 'https://romicaubarrere.github.io/personal/'],
     ['formacion.html', 'https://romicaubarrere.github.io/personal/formacion.html'],
+    ['comunidad-charlas.html', 'https://romicaubarrere.github.io/personal/comunidad-charlas.html'],
     ['posts/por-que-hago-tantas-preguntas.html', 'https://romicaubarrere.github.io/personal/posts/por-que-hago-tantas-preguntas.html'],
     ['posts/cuando-puedas.html', 'https://romicaubarrere.github.io/personal/posts/cuando-puedas.html']
   ]);
@@ -139,6 +141,7 @@ test('robots, sitemap y 404 quedan listos para GitHub Pages', async () => {
   for (const canonical of [
     'https://romicaubarrere.github.io/personal/',
     'https://romicaubarrere.github.io/personal/formacion.html',
+    'https://romicaubarrere.github.io/personal/comunidad-charlas.html',
     'https://romicaubarrere.github.io/personal/posts/por-que-hago-tantas-preguntas.html',
     'https://romicaubarrere.github.io/personal/posts/cuando-puedas.html'
   ]) {

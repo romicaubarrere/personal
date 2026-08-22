@@ -15,6 +15,7 @@ const deployWorkflow = await readFile(
 const routes = [
   'index.html',
   'formacion.html',
+  'comunidad-charlas.html',
   'posts/por-que-hago-tantas-preguntas.html',
   'posts/cuando-puedas.html'
 ];
@@ -60,7 +61,6 @@ test('la portada compilada conserva estructura, contenido e interacciones', asyn
     'forma-de-trabajo',
     'lo-que-hago',
     'charlas',
-    'comunidades',
     'lecturas',
     'contacto'
   ]) {
@@ -110,6 +110,7 @@ test('todas las rutas son Astro nativo y el adaptador legado ya no participa', a
   const sourcePages = [
     join(repositoryRoot, 'src', 'pages', 'index.astro'),
     join(repositoryRoot, 'src', 'pages', 'formacion.astro'),
+    join(repositoryRoot, 'src', 'pages', 'comunidad-charlas.astro'),
     join(repositoryRoot, 'src', 'pages', 'posts', 'por-que-hago-tantas-preguntas.astro'),
     join(repositoryRoot, 'src', 'pages', 'posts', 'cuando-puedas.astro')
   ];

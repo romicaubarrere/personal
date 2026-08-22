@@ -20,6 +20,7 @@ const repositoryRoot = join(dirname(fileURLToPath(import.meta.url)), '..');
 const distRoot = join(repositoryRoot, 'dist');
 const htmlDocument = await readFile(join(distRoot, 'index.html'), 'utf8');
 const formationDocument = await readFile(join(distRoot, 'formacion.html'), 'utf8');
+const communityDocument = await readFile(join(distRoot, 'comunidad-charlas.html'), 'utf8');
 const homeStyles = await readFile(join(repositoryRoot, 'src', 'styles', 'home.css'), 'utf8');
 const homeScripts = await readFile(
   join(repositoryRoot, 'src', 'components', 'home', 'HomeScripts.astro'),
@@ -28,6 +29,7 @@ const homeScripts = await readFile(
 const formationStyles = await readFile(join(repositoryRoot, 'src', 'styles', 'formation.css'), 'utf8');
 const html = htmlDocument.replace(/<\/head>/i, `<style>${homeStyles}</style></head>`);
 const formationHtml = formationDocument.replace(/<\/head>/i, `<style>${formationStyles}</style></head>`);
+const communityHtml = communityDocument.replace(/<\/head>/i, `<style>${formationStyles}</style></head>`);
 const favicon = await readFile(join(distRoot, 'favicon.svg'), 'utf8');
 const socialPreview = await readFile(join(distRoot, 'social-preview.png'));
 const socialPreviewSource = await readFile(join(distRoot, 'social-preview.svg'), 'utf8');
@@ -155,14 +157,14 @@ test('el blog publica una nota real con estructura reutilizable y accesible', ()
 });
 
 test('todos los identificadores HTML son únicos', () => {
-  for (const [filename, source] of [['index.html', html], ['formacion.html', formationHtml]]) {
+  for (const [filename, source] of [['index.html', html], ['formacion.html', formationHtml], ['comunidad-charlas.html', communityHtml]]) {
     const ids = extractIds(source);
     assert.equal(new Set(ids).size, ids.length, `Hay IDs duplicados en ${filename}`);
   }
 });
 
-test('ambas páginas permiten saltar al contenido principal', () => {
-  for (const source of [html, formationHtml]) {
+test('las páginas permiten saltar al contenido principal', () => {
+  for (const source of [html, formationHtml, communityHtml]) {
     assert.match(source, /<a\b[^>]*class="skip-link"[^>]*href="#main-content"/i);
     assert.match(source, /<main\b[^>]*id="main-content"[^>]*tabindex="-1"/i);
     assert.match(source, /:where\(a,button,summary,\[tabindex\]:not\(\[tabindex="-1"\]\)\):focus-visible/);
@@ -170,7 +172,7 @@ test('ambas páginas permiten saltar al contenido principal', () => {
 });
 
 test('el orden de encabezados no salta niveles', () => {
-  for (const [filename, source] of [['index.html', html], ['formacion.html', formationHtml]]) {
+  for (const [filename, source] of [['index.html', html], ['formacion.html', formationHtml], ['comunidad-charlas.html', communityHtml]]) {
     const levels = headingLevels(source);
     assert.equal(levels[0], 1, `${filename} debe comenzar con un h1`);
     for (let index = 1; index < levels.length; index += 1) {
@@ -192,7 +194,7 @@ test('los SVG decorativos quedan fuera del árbol de accesibilidad', () => {
 });
 
 test('la paleta y los textos secundarios conservan contraste AA', () => {
-  for (const source of [html, formationHtml]) {
+  for (const source of [html, formationHtml, communityHtml]) {
     assert.match(source, /--green:#3c7549/);
     assert.match(source, /--sage:#657249/);
     assert.match(source, /--warm:#974629/);
@@ -253,7 +255,6 @@ test('las secciones de la portada siguen el orden aprobado', () => {
     'forma-de-trabajo',
     'lo-que-hago',
     'charlas',
-    'comunidades',
     'sobre',
     'lecturas',
     'contacto'
@@ -300,8 +301,32 @@ test('la experiencia profesional es cronológica, verificable y separa la mentor
   const experienceIndex = html.indexOf('id="experiencia"');
   assert.ok(experienceIndex < html.indexOf('id="formacion"'));
   assert.ok(experienceIndex < html.indexOf('id="charlas"'));
-  assert.ok(experienceIndex < html.indexOf('id="comunidades"'));
   assert.match(html, /@media\(max-width:760px\)\{[\s\S]*?\.experience-list\{grid-template-columns:1fr;\}/);
+});
+
+test('T8 publica comunidad y el registro completo de charlas sin inventar campos', () => {
+  assert.match(html, /href="comunidad-charlas\.html"/);
+  assert.match(communityHtml, /<h1>Comunidad y charlas, <em>sin mezclar los papeles<\/em><\/h1>/);
+  assert.match(communityHtml, /id="comunidades"/);
+  assert.match(communityHtml, /id="comunidad-en-accion"/);
+  assert.match(communityHtml, /id="registro-charlas"/);
+  assert.equal((communityHtml.match(/class="extra-note"/g) ?? []).length, 6);
+  assert.equal((communityHtml.match(/class="project-sheet"/g) ?? []).length, 13);
+  for (const event of [
+    'Presentación de habITar',
+    'Break the Pattern',
+    'Explorando diferentes roles en tecnología',
+    'End-to-End: Ser mujer en un rol tech',
+    'Foro de Mujeres Emprendedoras',
+    'Lanzamiento de las Tertulias',
+    'IMPacto, Impulsando Más Proyectos',
+    'Mujeres en ciencia y tecnología',
+    'Charla de ciberseguridad',
+    'Gala de clausura LPF Hackathon'
+  ]) assert.match(communityHtml, new RegExp(event));
+  assert.match(communityHtml, /Fecha por confirmar/);
+  assert.match(communityHtml, /No relleno esos huecos por intuici&oacute;n/);
+  assert.doesNotMatch(communityHtml, /organizado por m&iacute;/i);
 });
 
 test('la forma de trabajo presenta cuatro momentos concretos después de proyectos', () => {

@@ -1,0 +1,173 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import '../styles/formation.css';
+
+const title = 'Comunidad y charlas · Romina Caubarrere';
+const description = 'Comunidades, liderazgo y registro de charlas de Romina Caubarrere: Women Techmakers, Chicas en Tecnología, PMI y participaciones como oradora y panelista.';
+const canonical = 'https://romicaubarrere.github.io/personal/comunidad-charlas.html';
+
+const communities = [
+  { name: 'Women Techmakers', role: 'Ambassador', period: 'julio 2023 a hoy' },
+  { name: 'Chicas en Tecnología', role: 'Embajadora', period: 'marzo 2026 a hoy' },
+  { name: 'PMI Nuevo Cuyo', role: 'VP de Alianzas', period: 'julio 2022 a octubre 2023' },
+  { name: 'Jóvenes a Programar', role: 'Egresada', period: 'recorrido completado' },
+  { name: 'Líderes del Presente', role: 'Retromentora', period: '2022 · PMI y PMIEF' },
+  { name: 'OPI 2.0', role: 'Formación en oratoria', period: 'Franco Pisso' }
+];
+
+const communityWork = [
+  {
+    code: 'WTM',
+    title: 'Women Techmakers',
+    text: 'Desde julio de 2023. El rol combina organizaci&oacute;n de encuentros, participaci&oacute;n como oradora y creaci&oacute;n de contenido.'
+  },
+  {
+    code: 'CET',
+    title: 'Chicas en Tecnología',
+    text: 'Me sum&eacute; como embajadora en marzo de 2026, despu&eacute;s de egresar del Laboratorio de Liderazgo. Trabajo para acercar a m&aacute;s mujeres j&oacute;venes a la tecnolog&iacute;a.'
+  },
+  {
+    code: 'PMI',
+    title: 'Club de Jóvenes Líderes de Proyectos',
+    text: 'Como VP de Alianzas dise&ntilde;&eacute; e implement&eacute; un programa de relaciones p&uacute;blicas para crear y sostener alianzas.'
+  }
+];
+
+const talks = [
+  { date: '2026 · fecha exacta por confirmar', role: 'Oradora', event: 'Presentación de habITar', org: 'Cámara Uruguaya de Blockchain (CBU)', place: 'Uruguay', topic: 'Presentación del proyecto final de tesis habITar.' },
+  { date: 'marzo 2026 · día por confirmar', role: 'Panelista', event: 'Break the Pattern', org: 'Women Techmakers Uruguay · UCU', place: 'Montevideo', topic: 'Estereotipos en el liderazgo en TI. El encuentro tuvo una entrevista en Canal 4 en el marco del 8M.' },
+  { date: '2025 · fecha exacta por confirmar', role: 'Panelista', event: 'Explorando diferentes roles en tecnología', org: 'Campus Party Uruguay · WTM Uruguay', place: 'Montevideo', topic: 'Qu&eacute; hacemos en tecnolog&iacute;a y c&oacute;mo llegamos a nuestros roles.' },
+  { date: 'Fecha por confirmar', role: 'Panelista', event: 'End-to-End: Ser mujer en un rol tech', org: 'Más Voces en Diseño · Uruguay Mujeres IT · WTM Uruguay', place: 'Espacio Colabora, Montevideo', topic: 'Ser mujer en un rol tecnol&oacute;gico.' },
+  { date: 'Fecha por confirmar', role: 'Oradora', event: 'Foro de Mujeres Emprendedoras', org: 'Organización por confirmar', place: 'Hotel Dazzler, Montevideo', topic: 'El rol de liderazgo de las mujeres en las &aacute;reas STEM.' },
+  { date: 'Fecha por confirmar', role: 'Ponente', event: 'Lanzamiento de las Tertulias', org: 'Club Jóvenes PMI · PMI Andes Patagonia', place: 'Lugar por confirmar', topic: 'Tema por confirmar en el registro.' },
+  { date: 'Fecha por confirmar', role: 'Panelista', event: 'IMPacto, Impulsando Más Proyectos', org: 'Club Jóvenes PMI · PMI Andes Patagonia', place: 'Lugar por confirmar', topic: 'Impulsando proyectos junto a j&oacute;venes de Colombia y Per&uacute;.' },
+  { date: 'Fecha por confirmar', role: 'Oradora', event: 'Mujeres en ciencia y tecnología', org: 'OMEU', place: 'Lugar por confirmar', topic: 'Presentaci&oacute;n de F&iacute;sica Mente Posible.' },
+  { date: 'marzo · año por confirmar', role: 'Oradora', event: 'Charla de ciberseguridad', org: 'Colegio y Liceo Pablo Neruda', place: 'Atlántida', topic: 'Ciberseguridad para estudiantes de 4.&ordm;, 5.&ordm; y 6.&ordm;, junto a Karina Urrutia.' },
+  { date: 'Fecha por confirmar', role: 'Ponente', event: 'Gala de clausura LPF Hackathon', org: 'PMI Andes Patagonia', place: 'Lugar por confirmar', topic: 'Presentaci&oacute;n de MetaConnect junto a Daniela Lopes.' }
+];
+---
+
+<BaseLayout {title} {description} {canonical}>
+  <a class="skip-link" href="#main-content">Saltar al contenido principal</a>
+
+  <div class="topbar">
+    <a href="index.html#charlas" aria-label="Volver a la muestra de comunidad y charlas del estudio"><span class="back-copy">&larr; Volver al estudio</span><span class="back-short" aria-hidden="true">&larr; Estudio</span></a>
+    <nav aria-label="Secciones de comunidad y charlas">
+      <a href="#comunidades">Comunidades</a>
+      <a href="#comunidad-en-accion">En acci&oacute;n</a>
+      <a href="#registro-charlas">Charlas</a>
+    </nav>
+  </div>
+  <a class="contact-tab" href="index.html#contacto">Contacto</a>
+
+  <header class="academic-hero brick" id="inicio">
+    <div class="hero-inner">
+      <div class="open-folder" data-label="comunidad">
+        <div class="folder-pages">
+          <div class="hero-copy">
+            <span class="kick">la pared completa</span>
+            <h1>Comunidad y charlas, <em>sin mezclar los papeles</em></h1>
+            <p>Ac&aacute; junto dos cosas distintas: las comunidades que ayudo a construir y las veces que tom&eacute; el micr&oacute;fono. Participar como oradora no es lo mismo que organizar un evento, y el registro lo deja claro.</p>
+          </div>
+          <aside class="file-card">
+            <span class="label">Registro revisado · 22 ago 2026</span>
+            <h2>Diez participaciones registradas</h2>
+            <p>Hay fechas, lugares y enlaces que todav&iacute;a necesitan confirmaci&oacute;n.</p>
+            <p class="spoiler">No relleno esos huecos por intuici&oacute;n: cuando falta un dato, queda dicho.</p>
+            <div class="file-stamps"><span>6 comunidades</span><span>10 charlas y paneles</span></div>
+          </aside>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main id="main-content" tabindex="-1">
+    <section class="extra" id="comunidades">
+      <div class="extra-inner">
+        <div class="section-title">
+          <span class="small">los espacios que me formaron</span>
+          <h2>Mis comunidades, <em>con nombre y rol</em></h2>
+          <p>No son logos sueltos. En cada una hubo una forma distinta de aprender, acompa&ntilde;ar o abrir lugar para otras personas.</p>
+        </div>
+        <div class="credentials-pocket">
+          <div class="extra-row">
+            {communities.map((community) => (
+              <article class="extra-note">
+                <span class="state">{community.period}</span>
+                <h3>{community.name}</h3>
+                <p>{community.role}</p>
+              </article>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="academic-projects" id="comunidad-en-accion">
+      <div class="projects-inner">
+        <div class="section-title">
+          <span class="small">lo que pasa antes de abrir las puertas</span>
+          <h2>Construir comunidad tambi&eacute;n es <em>gestionar</em></h2>
+          <p>Ac&aacute; registro el trabajo comunitario que s&iacute; est&aacute; confirmado. Los eventos organizados se sumar&aacute;n por nombre cuando est&eacute;n verificadas la fecha y mi responsabilidad exacta.</p>
+        </div>
+        <div class="project-stack">
+          {communityWork.map((item) => (
+            <article class="project-sheet">
+              <div class="code">{item.code}</div>
+              <div><h3>{item.title}</h3><p set:html={item.text}></p></div>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="route" id="registro-charlas">
+      <div class="route-inner">
+        <div class="section-title">
+          <span class="small">cada flyer, una participaci&oacute;n</span>
+          <h2>El registro del <em>escenario</em></h2>
+          <p>Charlas, paneles y presentaciones que ya aparecen en el registro maestro. Los campos incompletos quedan visibles para no convertir una suposici&oacute;n en dato.</p>
+        </div>
+        <div class="project-stack">
+          {talks.map((talk, index) => (
+            <article class="project-sheet" style={`grid-column:span 6;--sheet-rotate:${index % 2 ? '.7deg' : '-.7deg'};${index % 2 ? 'background:#eef3df' : ''}`}>
+              <div class="code">{String(index + 1).padStart(2, '0')}</div>
+              <div>
+                <span class="state">{talk.date} · {talk.role}</span>
+                <h3>{talk.event}</h3>
+                <p><strong>{talk.org}</strong> · {talk.place}</p>
+                <p set:html={talk.topic}></p>
+              </div>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>el registro sigue creciendo; la pared no est&aacute; cerrada</p>
+    <a href="index.html#charlas">Volver al portfolio</a>
+  </footer>
+
+  <script is:inline>
+  (function(){
+    var sectionLinks=Array.prototype.slice.call(document.querySelectorAll('.topbar nav a'));
+    var sections=sectionLinks.map(function(link){return document.querySelector(link.getAttribute('href'));}).filter(Boolean);
+    if('IntersectionObserver' in window){
+      var sectionObserver=new IntersectionObserver(function(entries){
+        entries.forEach(function(entry){
+          if(!entry.isIntersecting) return;
+          sectionLinks.forEach(function(link){
+            var active=link.getAttribute('href')==='#'+entry.target.id;
+            link.classList.toggle('is-active',active);
+            if(active) link.setAttribute('aria-current','location');
+            else link.removeAttribute('aria-current');
+          });
+        });
+      },{rootMargin:'-25% 0px -60%',threshold:0});
+      sections.forEach(function(section){sectionObserver.observe(section);});
+    }
+  })();
+  </script>
+</BaseLayout>
