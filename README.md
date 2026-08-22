@@ -9,7 +9,7 @@ las rutas históricas se conservaron durante la transición WEB-086 a WEB-090.
 
 ## Ejecutar localmente
 
-El sitio se genera con Astro y requiere Node.js 22.12 o posterior.
+El sitio se genera con Astro y fija Node.js 22.12.0 y npm 11.9.0 para reproducir el entorno.
 
 ```bash
 npm ci
@@ -98,3 +98,4 @@ La estrategia de calidad, sus capas de verificación y la Definition of Done est
 - `docs/analytics-events.md`: contrato neutral de eventos y límites de privacidad para una integración futura.
 - `docs/ci-cd.md`: orden, permisos y garantías del pipeline de entrega.
 - `docs/qa-strategy.md`: estrategia de QA, evidencia y Definition of Done.
+- `docs/supply-chain.md`: entorno reproducible y controles de cadena de suministro.
