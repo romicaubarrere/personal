@@ -8,6 +8,8 @@ const repositoryRoot = join(dirname(fileURLToPath(import.meta.url)), '..');
 const html = await readFile(join(repositoryRoot, 'index.html'), 'utf8');
 const formationHtml = await readFile(join(repositoryRoot, 'formacion.html'), 'utf8');
 const favicon = await readFile(join(repositoryRoot, 'favicon.svg'), 'utf8');
+const socialPreview = await readFile(join(repositoryRoot, 'social-preview.png'));
+const socialPreviewSource = await readFile(join(repositoryRoot, 'social-preview.svg'), 'utf8');
 
 function extractIds(source) {
   return [...source.matchAll(/\sid="([^"]+)"/g)].map((match) => match[1]);
@@ -253,6 +255,29 @@ test('la portada incluye metadatos SEO básicos válidos', () => {
   assert.equal(person.name, 'Romina Caubarrere');
   assert.equal(person.jobTitle, 'Project Manager de software');
   assert.equal(person.url, 'https://romicaubarrere.github.io/personal/');
+});
+
+test('la vista previa social tiene metadatos completos y una imagen de 1200 por 630', () => {
+  const title = 'Romina Caubarrere | Project Manager de software';
+  const description = 'Conecto personas, producto y tecnología para que proyectos complejos avancen y lleguen a resultados.';
+  const imageUrl = 'https://romicaubarrere.github.io/personal/social-preview.png';
+
+  assert.match(html, new RegExp(`<meta property="og:title" content="${title.replace('|', '\\|')}">`));
+  assert.match(html, new RegExp(`<meta property="og:description" content="${description}">`));
+  assert.match(html, new RegExp(`<meta property="og:image" content="${imageUrl.replaceAll('/', '\\/')}">`));
+  assert.match(html, /<meta property="og:image:type" content="image\/png">/);
+  assert.match(html, /<meta property="og:image:width" content="1200">/);
+  assert.match(html, /<meta property="og:image:height" content="630">/);
+  assert.match(html, /<meta property="og:image:alt" content="[^"]+">/);
+  assert.match(html, /<meta name="twitter:card" content="summary_large_image">/);
+  assert.match(html, /<meta name="twitter:image" content="https:\/\/romicaubarrere\.github\.io\/personal\/social-preview\.png">/);
+
+  assert.equal(socialPreview.subarray(1, 4).toString('ascii'), 'PNG');
+  assert.equal(socialPreview.readUInt32BE(16), 1200);
+  assert.equal(socialPreview.readUInt32BE(20), 630);
+  assert.match(socialPreviewSource, /#22432c/i);
+  assert.match(socialPreviewSource, /Romina Caubarrere/);
+  assert.match(socialPreviewSource, /Project Manager de software/);
 });
 
 test('el hero comunica el posicionamiento y ofrece las dos acciones principales', () => {
