@@ -344,7 +344,7 @@ test('las secciones de la portada siguen el orden aprobado', () => {
 test('la portada enlaza al recorrido académico completo', () => {
   assert.match(html, /<section\b[^>]*id="sobre"/i);
   assert.match(html, /href="formacion\.html#experiencia"/i);
-  assert.match(formationHtml, /href="index\.html#sobre"/i);
+  assert.match(formationHtml, /href=\"\/personal\/#sobre\"/i);
   assert.doesNotMatch(html, /id="experiencia"|id="formacion"/i);
 });
 
@@ -520,7 +520,7 @@ test('lo que hago presenta cinco encargos como problema y resultado sin rótulos
   assert.equal(cardBodies.filter((card) => /<p>Si\s/i.test(card)).length, 0);
   assert.match(section[1], /Hay un proyecto de software abierto en demasiados frentes/);
   assert.match(section[1], /La necesidad es real, pero llega como una idea suelta/);
-  assert.match(section[1], /<a class="offers-link" href="index\.html#contacto">Hablemos de tu idea/);
+  assert.match(section[1], /<a class=\"offers-link\" href=\"\/personal\/#contacto\">Hablemos de tu idea/);
   assert.doesNotMatch(section[1], /fractional|freelance/i);
   assert.match(workHtml, /\.offers-grid\{display:grid;grid-template-columns:repeat\(12,minmax\(0,1fr\)\)/);
   assert.match(workHtml, /\.offer-card:nth-child\(5\)\{grid-column:3\/span 8;/);
