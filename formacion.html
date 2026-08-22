@@ -13,11 +13,12 @@
     --paper:#efe4cd;--paper2:#e5d6ba;--cream:#faf3e4;--ink:#241f18;--ink-soft:#5f5749;
     --green:#3c7549;--green-deep:#2b5a38;--green-dark:#22432c;--sage:#657249;--olive:#55603f;
     --brick:#8f4230;--brick2:#7a3626;--mortar:#d8c4a4;--iron:#161310;--gold:#cf9a3f;--warm:#974629;--rose:#cf7f6a;--cork:#c8a678;
+    --folder:#c8a66f;--folder-dark:#9d7745;--wood:#5d3b22;
     --serif:'Fraunces',Georgia,serif;--sans:'DM Sans',system-ui,sans-serif;--hand:'Caveat',cursive;
   }
   *{box-sizing:border-box;margin:0;padding:0;}
   html{scroll-behavior:smooth;}
-  body{font-family:var(--sans);color:var(--ink);background:var(--paper);line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden;}
+  body{font-family:var(--sans);color:var(--ink);background:var(--green-dark);line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden;}
   a{color:inherit;}
   ::selection{background:var(--gold);color:var(--ink);}
   section{scroll-margin-top:72px;}
@@ -25,229 +26,198 @@
   .skip-link:focus{transform:translateY(0);}
   .hand{font-family:var(--hand);}
   .brick{background-color:var(--brick);background-image:linear-gradient(335deg,rgba(0,0,0,.22),transparent 55%),repeating-linear-gradient(0deg,var(--mortar) 0 3px,transparent 3px 46px),repeating-linear-gradient(90deg,var(--mortar) 0 3px,var(--brick) 3px 120px),repeating-linear-gradient(90deg,transparent 0 60px,var(--mortar) 60px 63px,transparent 63px 120px);}
+
+  /* etiquetas colgadas, como en la portada */
   .topbar{position:fixed;top:0;left:0;right:0;z-index:50;display:flex;justify-content:space-between;align-items:start;padding:0 24px;pointer-events:none;}
-  .topbar a{pointer-events:auto;background:var(--iron);color:var(--cream);text-decoration:none;padding:10px 16px 9px;border-radius:0 0 9px 9px;font-size:12px;font-weight:700;box-shadow:0 4px 12px rgba(0,0,0,.35);}
+  .topbar a{pointer-events:auto;position:relative;top:-2px;background:var(--iron);color:var(--cream);text-decoration:none;padding:10px 16px 9px;border-radius:0 0 9px 9px;font-size:12px;font-weight:700;box-shadow:0 4px 12px rgba(0,0,0,.35);transition:top .18s,background .18s,color .18s;}
   .topbar nav{display:flex;gap:6px;}
-  .topbar a:hover{background:var(--green-deep);}
+  .topbar a:hover,.topbar a.is-active{top:2px;background:var(--green-deep);}
+  .topbar a.is-active{color:#b8e4b9;}
+  .back-short{display:none;}
+  .contact-tab{position:fixed;right:0;top:45%;z-index:45;background:var(--gold);color:#342509;text-decoration:none;font-weight:800;font-size:12px;padding:12px 13px 12px 16px;border-radius:10px 0 0 10px;box-shadow:-3px 5px 16px rgba(0,0,0,.28);writing-mode:vertical-rl;transform:rotate(180deg);transition:padding .18s,background .18s;}
+  .contact-tab:hover{padding-top:18px;background:#e1b55f;}
   .topbar a:focus-visible,.contact-tab:focus-visible{outline:3px solid var(--gold);outline-offset:3px;}
-  .contact-tab{position:fixed;right:0;top:45%;z-index:45;background:var(--gold);color:#342509;text-decoration:none;font-weight:800;font-size:12px;padding:12px 13px 12px 16px;border-radius:10px 0 0 10px;box-shadow:-3px 5px 16px rgba(0,0,0,.28);writing-mode:vertical-rl;transform:rotate(180deg);}
 
-  /* portada */
-  .academic-hero{min-height:86vh;padding:120px 40px 84px;position:relative;overflow:hidden;color:var(--cream);}
-  .academic-hero::after{content:"";position:absolute;inset:0;background:linear-gradient(100deg,rgba(22,19,16,.82),rgba(22,19,16,.3) 62%,rgba(22,19,16,.56));}
-  .hero-inner{max-width:1120px;margin:0 auto;position:relative;z-index:2;display:grid;grid-template-columns:1.1fr .9fr;gap:70px;align-items:center;}
-  .hero-copy .kick{font-family:var(--hand);font-size:28px;color:var(--gold);display:inline-block;transform:rotate(-3deg);}
-  .hero-copy h1{font-family:var(--serif);font-size:clamp(3rem,7.7vw,6.6rem);font-weight:330;line-height:.91;letter-spacing:-.035em;margin:10px 0 26px;}
-  .hero-copy h1 em{display:block;color:#98d69b;font-style:italic;margin-left:.35em;}
-  .hero-copy p{max-width:650px;color:rgba(250,243,228,.83);font-size:17px;}
-  .file-card{position:relative;background:var(--cream);color:var(--ink);padding:42px 36px 36px;box-shadow:7px 15px 35px rgba(0,0,0,.42);transform:rotate(3deg);}
-  .file-card::before{content:"";position:absolute;width:100px;height:29px;top:-13px;left:50%;background:rgba(207,154,63,.66);transform:translateX(-50%) rotate(-3deg);}
+  /* portada: la carpeta de la home, ahora abierta */
+  .academic-hero{min-height:100vh;padding:112px 38px 118px;position:relative;overflow:hidden;color:var(--cream);isolation:isolate;}
+  .academic-hero::before{content:"";position:absolute;inset:0;z-index:-2;background:radial-gradient(520px 420px at var(--light-x,72%) var(--light-y,30%),rgba(255,226,160,.2),transparent 70%),linear-gradient(180deg,rgba(22,19,16,.08),rgba(22,19,16,.46));}
+  .academic-hero::after{content:"";position:absolute;left:-5%;right:-5%;bottom:-74px;height:205px;z-index:-1;background:repeating-linear-gradient(90deg,#5a3a22 0 148px,#3f2818 148px 153px,#70482b 153px 300px,#3f2818 300px 305px);box-shadow:0 -15px 35px rgba(0,0,0,.36),inset 0 4px rgba(255,255,255,.05);transform:rotate(-1deg);}
+  .hero-inner{max-width:1160px;margin:0 auto;position:relative;}
+  .open-folder{position:relative;padding:20px 22px 24px;background:linear-gradient(145deg,#d0b17a,var(--folder) 62%,var(--folder-dark));border-radius:7px 11px 12px 8px;box-shadow:9px 24px 50px rgba(0,0,0,.5),inset 0 1px rgba(255,255,255,.35);transform:rotate(-.55deg);transition:transform .35s cubic-bezier(.2,.8,.2,1),box-shadow .35s;}
+  .open-folder:hover{transform:rotate(0) translateY(-4px);box-shadow:10px 29px 58px rgba(0,0,0,.54),inset 0 1px rgba(255,255,255,.35);}
+  .open-folder::before{content:"formaci\00f3n";position:absolute;left:30px;top:-34px;width:175px;height:42px;padding:8px 20px 0;background:var(--folder);border-radius:8px 8px 0 0;font-family:var(--hand);font-size:21px;color:#513b1f;box-shadow:0 -4px 9px rgba(0,0,0,.12);}
+  .folder-pages{position:relative;display:grid;grid-template-columns:1.08fr .92fr;min-height:570px;background:var(--cream);box-shadow:inset 0 0 35px rgba(83,59,30,.12),0 3px 8px rgba(61,38,18,.22);}
+  .folder-pages::before{content:"";position:absolute;z-index:4;left:50%;top:0;bottom:0;width:18px;transform:translateX(-50%);background:linear-gradient(90deg,transparent,rgba(73,53,32,.12) 42%,rgba(255,255,255,.5) 50%,rgba(73,53,32,.08) 60%,transparent);}
+  .folder-pages::after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(110deg,rgba(255,255,255,.2),transparent 26%,transparent 72%,rgba(108,75,37,.06));}
+  .hero-copy,.file-card{position:relative;z-index:2;color:var(--ink);}
+  .hero-copy{grid-column:1;grid-row:1;padding:64px 58px 58px;display:flex;flex-direction:column;justify-content:center;background-image:repeating-linear-gradient(0deg,transparent 0 31px,rgba(60,117,73,.09) 31px 32px);}
+  .hero-copy::before{content:"";position:absolute;top:30px;left:55px;width:100px;height:30px;background:rgba(207,154,63,.5);transform:rotate(-4deg);mix-blend-mode:multiply;}
+  .hero-copy .kick{font-family:var(--hand);font-size:28px;color:var(--warm);display:inline-block;align-self:flex-start;transform:rotate(-3deg);margin-bottom:8px;}
+  .hero-copy h1{font-family:var(--serif);font-size:clamp(3.1rem,6.4vw,5.8rem);font-weight:330;line-height:.91;letter-spacing:-.035em;margin:0 0 28px;max-width:680px;}
+  .hero-copy h1 em{display:block;color:var(--green);font-style:italic;margin-left:.25em;}
+  .hero-copy p{max-width:650px;color:var(--ink-soft);font-size:16px;}
+  .file-card{grid-column:2;grid-row:1;align-self:center;margin:52px 45px 46px 35px;padding:44px 38px 39px;background:#eef3df;box-shadow:5px 11px 24px rgba(36,31,24,.22);transform:rotate(2.2deg);transition:transform .28s,box-shadow .28s;}
+  .file-card:hover{transform:rotate(.7deg) translateY(-6px);box-shadow:7px 17px 30px rgba(36,31,24,.27);}
+  .file-card::before{content:"";position:absolute;width:108px;height:30px;top:-14px;left:50%;background:rgba(207,154,63,.62);transform:translateX(-50%) rotate(-3deg);}
+  .file-card::after{content:"";position:absolute;right:22px;top:22px;width:22px;height:76px;border:3px solid #6c6a64;border-bottom:0;border-radius:13px 13px 0 0;transform:rotate(8deg);opacity:.75;}
   .file-card .label{font-size:10px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--green-deep);}
-  .file-card h2{font-family:var(--serif);font-size:2rem;font-weight:520;line-height:1.1;margin:9px 0 18px;}
+  .file-card h2{font-family:var(--serif);font-size:clamp(1.75rem,3vw,2.2rem);font-weight:520;line-height:1.08;margin:9px 0 18px;padding-right:18px;}
   .file-card p{color:var(--ink-soft);font-size:14px;}
-  .file-card .spoiler{font-family:var(--hand);font-size:22px;line-height:1.22;color:var(--warm);border-top:1px dashed var(--paper2);margin-top:22px;padding-top:16px;}
+  .file-card .spoiler{font-family:var(--hand);font-size:22px;line-height:1.22;color:var(--warm);border-top:1px dashed #b8bea9;margin-top:22px;padding-top:16px;}
   .file-stamps{display:flex;gap:10px;flex-wrap:wrap;margin-top:20px;}
-  .file-stamps span{border:2px solid var(--green);color:var(--green-deep);font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.08em;padding:5px 9px;transform:rotate(-2deg);}
+  .file-stamps span{border:2px solid var(--green);color:var(--green-deep);font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.08em;padding:5px 9px;transform:rotate(-2deg);transition:transform .18s,background .18s;}
   .file-stamps span:nth-child(2){border-color:var(--warm);color:var(--warm);transform:rotate(2deg);}
+  .file-stamps span:hover{transform:rotate(0) scale(1.05);background:rgba(255,255,255,.48);}
+  .desk-fern{position:absolute;z-index:5;color:#78a65f;filter:drop-shadow(3px 8px 8px rgba(0,0,0,.36));pointer-events:none;}
+  .desk-fern.left{left:-105px;bottom:-85px;width:235px;transform:rotate(20deg);}
+  .desk-fern.right{right:-92px;top:-90px;width:205px;transform:rotate(-28deg) scaleX(-1);}
 
-  /* recorrido */
-  .route{position:relative;padding:102px 0 112px;background-color:var(--cork);background-image:radial-gradient(rgba(0,0,0,.14) 1px,transparent 1.4px),radial-gradient(rgba(255,255,255,.12) 1px,transparent 1.4px);background-size:9px 9px;background-position:0 0,4px 5px;border-top:10px solid #6b4a2a;border-bottom:10px solid #6b4a2a;box-shadow:inset 0 0 90px rgba(0,0,0,.3);}
-  .route-inner{max-width:1080px;margin:0 auto;padding:0 40px;}
-  .section-title{max-width:760px;margin-bottom:38px;}
+  /* recorrido: dos hojas dentro de una carpeta de anillas */
+  .route{position:relative;padding:112px 0 124px;background-color:var(--cork);background-image:radial-gradient(rgba(0,0,0,.14) 1px,transparent 1.4px),radial-gradient(rgba(255,255,255,.12) 1px,transparent 1.4px);background-size:9px 9px;background-position:0 0,4px 5px;border-top:10px solid #6b4a2a;border-bottom:10px solid #6b4a2a;box-shadow:inset 0 0 90px rgba(0,0,0,.32);overflow:hidden;}
+  .route::before{content:"";position:absolute;left:3%;top:85px;width:17px;height:310px;background:linear-gradient(90deg,#d3a34d 0 55%,#bb7830 56% 74%,#30251e 75%);border-radius:8px 8px 4px 4px;box-shadow:3px 8px 13px rgba(0,0,0,.28);transform:rotate(7deg);}
+  .route-inner{max-width:1160px;margin:0 auto;padding:0 40px;position:relative;}
+  .section-title{max-width:760px;margin-bottom:42px;position:relative;z-index:3;}
   .section-title .small{font-family:var(--hand);font-size:24px;color:var(--green-deep);}
   .section-title h2{font-family:var(--serif);font-size:clamp(2.4rem,5vw,4rem);font-weight:350;line-height:1.03;}
   .section-title h2 em{font-style:italic;color:var(--green-deep);}
   .section-title p{color:#5b4022;margin-top:12px;max-width:680px;}
-  .transversal{position:relative;background:#f4e58c;padding:17px 22px;margin:0 0 28px auto;max-width:630px;box-shadow:3px 7px 18px rgba(0,0,0,.22);transform:rotate(1deg);font-size:14px;color:#5a4a12;}
+  .transversal{position:relative;z-index:5;background:#f4e58c;padding:17px 22px;margin:0 58px -18px auto;max-width:630px;box-shadow:3px 7px 18px rgba(0,0,0,.22);transform:rotate(1deg);font-size:14px;color:#5a4a12;}
   .transversal::before{content:"";position:absolute;width:16px;height:16px;border-radius:50%;background:var(--brick);top:-8px;left:50%;box-shadow:0 3px 4px rgba(0,0,0,.35);}
-  .semesters{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px 22px;align-items:start;}
-  .semester{background:var(--cream);box-shadow:3px 8px 20px rgba(0,0,0,.24);transform:rotate(-.6deg);}
-  .semester:nth-child(4n+2){transform:rotate(.8deg);}
-  .semester:nth-child(4n+3){transform:rotate(.4deg);background:#eef3df;}
-  .semester:nth-child(4n+4){transform:rotate(-.8deg);}
-  .semester[open]{transform:rotate(0) scale(1.01);box-shadow:5px 13px 26px rgba(0,0,0,.3);}
-  .semester summary{cursor:pointer;list-style:none;padding:19px 22px;display:grid;grid-template-columns:auto 1fr auto;gap:14px;align-items:center;}
+  .study-binder{position:relative;padding:26px;background:linear-gradient(145deg,#b88e58,var(--folder) 55%,#a67d49);border-radius:8px 13px 12px 7px;box-shadow:8px 20px 40px rgba(68,42,20,.33);transform:rotate(.25deg);}
+  .study-binder::before{content:"plan de estudios";position:absolute;left:38px;top:-31px;width:190px;height:38px;padding:7px 18px 0;background:#bb925c;border-radius:8px 8px 0 0;font-family:var(--hand);font-size:19px;color:#513b1f;}
+  .semesters{position:relative;display:grid;grid-template-columns:1fr 1fr;background:var(--cream);box-shadow:inset 0 0 28px rgba(100,70,36,.11),0 4px 9px rgba(76,47,20,.2);}
+  .semesters::before{content:"";position:absolute;z-index:4;left:50%;top:0;bottom:0;width:24px;transform:translateX(-50%);background:linear-gradient(90deg,transparent,rgba(82,57,31,.12) 38%,rgba(255,255,255,.6) 50%,rgba(82,57,31,.1) 62%,transparent);}
+  .semester-page{position:relative;padding:46px 42px 48px;background-image:repeating-linear-gradient(0deg,transparent 0 29px,rgba(63,117,73,.08) 29px 30px);}
+  .semester-page:first-child{grid-column:1;grid-row:1;padding-right:55px;}
+  .semester-page:last-child{grid-column:2;grid-row:1;padding-left:55px;}
+  .binder-rings{position:absolute;z-index:8;left:50%;top:76px;bottom:76px;width:50px;transform:translateX(-50%);display:flex;flex-direction:column;justify-content:space-between;pointer-events:none;}
+  .binder-rings span{display:block;width:50px;height:15px;border:4px solid #77736b;border-left-color:#bab6aa;border-right-color:#45433f;border-radius:50%;background:rgba(255,255,255,.6);box-shadow:0 3px 5px rgba(0,0,0,.22);}
+  .semester{--tab-color:var(--green);position:relative;border:0;border-bottom:1px dashed #b7ab96;background:rgba(250,243,228,.7);transition:background .2s,transform .2s,box-shadow .2s;}
+  .semester:first-child{border-top:1px dashed #b7ab96;}
+  .semester summary{position:relative;cursor:pointer;list-style:none;padding:19px 43px 18px 18px;display:grid;grid-template-columns:48px 1fr;gap:13px;align-items:center;transition:transform .2s,color .2s;}
   .semester summary::-webkit-details-marker{display:none;}
-  .semester summary:focus-visible{outline:3px solid var(--green-deep);outline-offset:-4px;}
-  .semester .num{font-family:var(--serif);font-size:1.7rem;color:var(--warm);}
+  .semester summary::before{content:"";position:absolute;left:-29px;top:8px;bottom:8px;width:34px;background:var(--tab-color);border-radius:5px 0 0 5px;box-shadow:-3px 3px 6px rgba(0,0,0,.16);transition:width .2s,left .2s;}
+  .semester summary::after{content:"+";position:absolute;right:15px;top:50%;width:24px;height:24px;border:1px solid currentColor;border-radius:50%;transform:translateY(-50%);display:grid;place-items:center;font-family:var(--hand);font-size:21px;line-height:1;color:var(--green-deep);transition:transform .25s,background .2s;}
+  .semester summary:hover{transform:translateX(5px);}
+  .semester summary:hover::before{left:-34px;width:39px;}
+  .semester[open]{z-index:2;background:#fffaf0;box-shadow:3px 8px 18px rgba(53,39,24,.13);transform:scale(1.015);}
+  .semester[open] summary::after{content:"−";transform:translateY(-50%) rotate(180deg);background:#eef3df;}
+  .semester .num{font-family:var(--serif);font-size:1.75rem;color:var(--warm);}
   .semester .when{font-weight:800;font-size:13px;}
   .semester .note{display:block;font-family:var(--hand);font-size:17px;font-weight:500;color:var(--ink-soft);line-height:1.1;}
-  .semester summary::after{content:"+";font-family:var(--hand);font-size:27px;color:var(--green-deep);}
-  .semester[open] summary::after{content:"−";}
-  .semester ul{padding:0 24px 22px 58px;color:var(--ink-soft);font-size:13.5px;}
+  .semester ul{padding:0 28px 23px 78px;color:var(--ink-soft);font-size:13.5px;}
   .semester li+li{margin-top:7px;}
-  .source-note{margin-top:25px;font-size:11.5px;color:#5b4022;max-width:850px;}
+  .source-note{position:relative;max-width:850px;margin:30px 0 0 36px;padding:17px 22px;background:#eef3df;box-shadow:2px 6px 15px rgba(0,0,0,.18);font-size:11.5px;color:#4c412f;transform:rotate(-.6deg);}
+  .source-note::before{content:"";position:absolute;left:32px;top:-11px;width:82px;height:23px;background:rgba(207,154,63,.5);transform:rotate(-3deg);}
 
-  /* proyectos academicos */
-  .academic-projects{background:var(--green-dark);color:var(--cream);padding:102px 0 112px;}
-  .projects-inner{max-width:1080px;margin:0 auto;padding:0 40px;}
+  /* proyectos: papeles de trabajo sobre la pared del estudio */
+  .academic-projects{position:relative;background:var(--green-dark);color:var(--cream);padding:112px 0 126px;overflow:hidden;}
+  .academic-projects::before{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px),linear-gradient(rgba(255,255,255,.018) 1px,transparent 1px);background-size:54px 54px;}
+  .academic-projects::after{content:"";position:absolute;left:0;right:0;bottom:0;height:21px;background:linear-gradient(#3a2817,#241811);box-shadow:0 -8px 20px rgba(0,0,0,.35),inset 0 2px rgba(255,255,255,.06);}
+  .projects-inner{max-width:1120px;margin:0 auto;padding:0 40px;position:relative;z-index:2;}
   .academic-projects .section-title .small{color:var(--gold);}
   .academic-projects .section-title h2 em{color:var(--gold);}
-  .academic-projects .section-title p{color:rgba(250,243,228,.7);}
-  .project-stack{position:relative;display:flex;flex-direction:column;gap:18px;max-width:900px;margin:45px auto 0;}
-  .project-sheet{position:relative;display:grid;grid-template-columns:140px 1fr;gap:26px;background:var(--cream);color:var(--ink);padding:25px 30px;box-shadow:5px 10px 25px rgba(0,0,0,.35);transform:rotate(-.5deg);}
-  .project-sheet:nth-child(even){transform:rotate(.65deg);margin-left:38px;}
-  .project-sheet .code{font-family:var(--hand);font-size:27px;color:var(--warm);border-right:1px dashed var(--paper2);padding-right:20px;align-self:stretch;display:flex;align-items:center;}
-  .project-sheet h3{font-family:var(--serif);font-size:1.35rem;font-weight:600;margin-bottom:5px;}
+  .academic-projects .section-title p{color:rgba(250,243,228,.74);}
+  .project-stack{position:relative;display:grid;grid-template-columns:repeat(12,1fr);gap:32px 24px;margin:52px auto 0;padding:0 24px 18px;}
+  .project-stack::before{content:"";position:absolute;left:2%;right:2%;top:-22px;height:5px;background:#17130f;box-shadow:0 3px 8px rgba(0,0,0,.4);}
+  .project-sheet{--sheet-rotate:-1.1deg;position:relative;display:grid;grid-template-columns:86px 1fr;gap:22px;background:var(--cream);color:var(--ink);padding:31px 31px 29px;box-shadow:6px 14px 30px rgba(0,0,0,.4);transform:rotate(var(--sheet-rotate));transition:transform .28s cubic-bezier(.2,.8,.2,1),box-shadow .28s;}
+  .project-sheet::before{content:"";position:absolute;top:-12px;left:50%;width:78px;height:25px;background:rgba(207,154,63,.52);transform:translateX(-50%) rotate(2deg);}
+  .project-sheet::after{content:"";position:absolute;right:18px;bottom:17px;width:28px;height:28px;border-radius:50%;border:2px solid rgba(151,70,41,.4);}
+  .project-sheet:nth-child(1){grid-column:1 / span 7;}
+  .project-sheet:nth-child(2){--sheet-rotate:1.2deg;grid-column:7 / span 6;margin-top:34px;background:#eef3df;}
+  .project-sheet:nth-child(3){--sheet-rotate:.65deg;grid-column:2 / span 6;}
+  .project-sheet:nth-child(4){--sheet-rotate:-.45deg;grid-column:6 / span 7;margin-top:20px;padding:38px 34px;background:#f4e8bc;}
+  .project-sheet:hover{transform:rotate(0) translateY(-9px) scale(1.01);box-shadow:8px 21px 38px rgba(0,0,0,.46);}
+  .project-sheet .code{font-family:var(--hand);font-size:29px;color:var(--warm);border-right:1px dashed var(--paper2);padding-right:18px;align-self:stretch;display:flex;align-items:center;justify-content:center;}
+  .project-sheet .code{grid-column:1;grid-row:1;}
+  .project-sheet>div:last-child{grid-column:2;grid-row:1;}
+  .project-sheet h3{font-family:var(--serif);font-size:1.38rem;font-weight:600;margin-bottom:7px;line-height:1.12;}
   .project-sheet p{color:var(--ink-soft);font-size:14px;}
   .project-sheet strong{color:var(--ink);}
 
-  /* complementaria */
-  .extra{padding:102px 0 112px;background:var(--paper);position:relative;}
-  .extra::before{content:"";position:absolute;inset:0;opacity:.22;background-image:linear-gradient(rgba(63,125,78,.12) 1px,transparent 1px);background-size:100% 29px;}
-  .extra-inner{max-width:1080px;margin:0 auto;padding:0 40px;position:relative;z-index:1;}
-  .extra-row{display:grid;grid-template-columns:repeat(3,1fr);gap:28px;margin-top:44px;align-items:start;}
-  .extra-note{position:relative;background:var(--cream);padding:28px 25px 30px;box-shadow:3px 9px 23px rgba(36,31,24,.2);transform:rotate(-2deg);}
-  .extra-note:nth-child(2){transform:rotate(1.5deg);margin-top:25px;background:#eef3df;}
-  .extra-note:nth-child(3){transform:rotate(-.5deg);}
+  /* complementaria: documentos guardados en el bolsillo de la carpeta */
+  .extra{padding:112px 0 126px;background:var(--paper);position:relative;overflow:hidden;}
+  .extra::before{content:"";position:absolute;inset:0;opacity:.26;background-image:linear-gradient(rgba(63,125,78,.12) 1px,transparent 1px);background-size:100% 29px;}
+  .extra-inner{max-width:1120px;margin:0 auto;padding:0 40px;position:relative;z-index:1;}
+  .credentials-pocket{position:relative;margin-top:82px;padding:0 52px 48px;min-height:390px;}
+  .credentials-pocket::before{content:"";position:absolute;z-index:-1;left:0;right:0;top:86px;bottom:0;background:linear-gradient(155deg,#d3b681,var(--folder) 58%,#b98d55);border-radius:5px 5px 12px 12px;box-shadow:8px 18px 35px rgba(58,39,20,.27);clip-path:polygon(0 10%,50% 55%,100% 10%,100% 100%,0 100%);}
+  .credentials-pocket::after{content:"";position:absolute;z-index:-2;left:22px;right:22px;top:0;height:180px;background:#b98e59;border-radius:10px 10px 0 0;transform:skewX(-3deg);}
+  .extra-row{display:grid;grid-template-columns:repeat(3,1fr);gap:28px;align-items:start;}
+  .extra-note{position:relative;min-height:270px;background:var(--cream);padding:38px 28px 32px;box-shadow:4px 11px 25px rgba(36,31,24,.25);transform:rotate(-2.3deg);transition:transform .3s cubic-bezier(.2,.8,.2,1),box-shadow .3s;}
+  .extra-note:nth-child(2){transform:rotate(1.7deg) translateY(-24px);background:#eef3df;}
+  .extra-note:nth-child(3){transform:rotate(-.7deg) translateY(10px);background:#f1d3c8;}
   .extra-note::before{content:"";position:absolute;width:85px;height:26px;top:-12px;left:50%;transform:translateX(-50%) rotate(2deg);background:rgba(207,154,63,.52);}
+  .extra-note::after{content:"";position:absolute;right:20px;bottom:18px;width:38px;height:38px;border:3px double rgba(151,70,41,.42);border-radius:50%;}
+  .extra-note:hover{transform:rotate(0) translateY(-44px);box-shadow:7px 21px 34px rgba(36,31,24,.31);}
   .extra-note .state{font-family:var(--hand);font-size:20px;color:var(--warm);}
-  .extra-note h3{font-family:var(--serif);font-size:1.25rem;line-height:1.15;margin:8px 0 7px;}
+  .extra-note h3{font-family:var(--serif);font-size:1.28rem;line-height:1.15;margin:8px 0 9px;padding-right:18px;}
   .extra-note p{font-size:13.5px;color:var(--ink-soft);}
-  .extra-note .place{display:block;margin-top:15px;font-size:10px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--green-deep);}
+  .extra-note .place{display:block;margin-top:17px;font-size:10px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--green-deep);}
 
-  footer{background:var(--iron);color:rgba(250,243,228,.75);padding:48px 24px;text-align:center;}
+  footer{position:relative;background:var(--iron);color:rgba(250,243,228,.78);padding:52px 24px;text-align:center;}
+  footer::before{content:"";position:absolute;left:0;right:0;top:0;height:11px;background:linear-gradient(#4b321e,#2b1d13);box-shadow:0 5px 13px rgba(0,0,0,.35);}
   footer p{font-family:var(--hand);font-size:22px;margin-bottom:16px;}
-  footer a{display:inline-block;border:1px solid rgba(250,243,228,.35);border-radius:4px;padding:9px 15px;text-decoration:none;font-size:13px;}
-  footer a:hover{background:var(--green-deep);}
+  footer a{display:inline-block;border:1px solid rgba(250,243,228,.38);border-radius:4px;padding:9px 15px;text-decoration:none;font-size:13px;transition:transform .18s,background .18s;}
+  footer a:hover{background:var(--green-deep);transform:translateY(-3px);}
   :where(a,button,summary,[tabindex]:not([tabindex="-1"])):focus-visible{outline:3px solid var(--cream);outline-offset:2px;box-shadow:0 0 0 5px var(--ink);}
 
-  @media(max-width:860px){
-    .hero-inner{grid-template-columns:1fr;gap:45px;}.academic-hero{padding-left:24px;padding-right:24px;}.file-card{max-width:560px;}
-    .extra-row{grid-template-columns:1fr;max-width:620px;}.extra-note:nth-child(2){margin-top:0;}
+  @media(max-width:1000px){
+    .academic-hero{padding-left:24px;padding-right:24px;}
+    .folder-pages{grid-template-columns:1fr;}.folder-pages::before{display:none;}
+    .hero-copy{grid-column:1;grid-row:1;}.file-card{grid-column:1;grid-row:2;}
+    .hero-copy{padding:66px 56px 52px;}.file-card{max-width:620px;margin:8px 56px 58px;justify-self:center;}
+    .semesters{grid-template-columns:1fr;}.semesters::before,.binder-rings{display:none;}
+    .semester-page,.semester-page:first-child,.semester-page:last-child{grid-column:1;padding:42px 52px;}.semester-page:first-child{grid-row:1;}.semester-page:last-child{grid-row:2;}.semester-page+ .semester-page{padding-top:0;}
+    .project-sheet:nth-child(1){grid-column:1 / span 8;}.project-sheet:nth-child(2){grid-column:6 / span 7;}
+    .project-sheet:nth-child(3){grid-column:1 / span 7;}.project-sheet:nth-child(4){grid-column:5 / span 8;}
   }
-  @media(max-width:700px){
-    .topbar{padding:0 10px;}.topbar nav a:not(:last-child){display:none;}.academic-hero{padding-top:105px;}.hero-copy h1 em{margin-left:0;}
-    .route-inner,.projects-inner,.extra-inner{padding:0 22px;}.semesters{grid-template-columns:1fr;}.project-sheet,.project-sheet:nth-child(even){grid-template-columns:1fr;margin-left:0;transform:none;}
-    .project-sheet .code{border-right:0;border-bottom:1px dashed var(--paper2);padding:0 0 8px;}.contact-tab{top:auto;bottom:18px;writing-mode:horizontal-tb;transform:none;border-radius:10px 0 0 10px;}
+  @media(max-width:760px){
+    .topbar{padding:0 8px;gap:6px;}.topbar nav{gap:3px;min-width:0;overflow-x:auto;scrollbar-width:none;}.topbar nav::-webkit-scrollbar{display:none;}
+    .topbar a{top:0;padding:9px 10px 8px;font-size:10.5px;white-space:nowrap;}.back-copy{display:none;}.back-short{display:inline;}
+    .contact-tab{top:auto;bottom:18px;writing-mode:horizontal-tb;transform:none;border-radius:10px 0 0 10px;}
+    .academic-hero{min-height:auto;padding:104px 14px 92px;}.open-folder{padding:13px 12px 15px;transform:none;}.open-folder:hover{transform:none;}
+    .open-folder::before{left:18px;top:-29px;width:142px;height:34px;padding:5px 14px 0;font-size:18px;}
+    .hero-copy{padding:52px 24px 42px;}.hero-copy::before{left:25px;top:24px;width:78px;height:24px;}
+    .hero-copy h1{font-size:clamp(2.65rem,13vw,4.2rem);}.hero-copy h1 em{margin-left:0;}.hero-copy p{font-size:15px;}
+    .file-card{margin:0 24px 42px;padding:38px 26px 31px;transform:rotate(1deg);}.file-card:hover{transform:rotate(0);}
+    .desk-fern.left{left:-105px;bottom:-92px;width:185px;}.desk-fern.right{right:-105px;top:-70px;width:170px;}
+    .route{padding:90px 0 100px;}.route::before{display:none;}.route-inner,.projects-inner,.extra-inner{padding:0 20px;}
+    .transversal{margin:0 8px -10px 22px;transform:rotate(.5deg);}
+    .study-binder{padding:13px 11px 15px;transform:none;}.study-binder::before{left:18px;top:-27px;width:156px;height:32px;padding:5px 13px 0;font-size:17px;}
+    .semester-page,.semester-page:first-child,.semester-page:last-child{padding:35px 24px 28px;}
+    .semester-page+ .semester-page{padding-top:0;}.semester summary{grid-template-columns:41px 1fr;padding:17px 40px 16px 14px;}
+    .semester summary::before{left:-19px;width:23px;}.semester summary:hover{transform:none;}.semester summary:hover::before{left:-19px;width:23px;}
+    .semester ul{padding:0 20px 22px 62px;}.source-note{margin:27px 8px 0;}
+    .academic-projects{padding:90px 0 105px;}.project-stack{display:flex;flex-direction:column;gap:27px;margin-top:42px;padding:0 5px 12px;}
+    .project-sheet,.project-sheet:nth-child(n){display:grid;grid-template-columns:65px 1fr;margin:0;padding:28px 24px;transform:rotate(var(--sheet-rotate));}
+    .project-sheet:hover{transform:rotate(0) translateY(-4px);}.project-sheet .code{padding-right:13px;}
+    .extra{padding:90px 0 105px;}.credentials-pocket{margin-top:62px;padding:0 18px 42px;}
+    .credentials-pocket::before{top:115px;}.credentials-pocket::after{left:9px;right:9px;height:210px;}
+    .extra-row{display:flex;flex-direction:column;gap:24px;}
+    .extra-note,.extra-note:nth-child(n){width:100%;min-height:0;transform:rotate(-1deg);padding:35px 26px 34px;}
+    .extra-note:nth-child(2){transform:rotate(1deg);}.extra-note:nth-child(3){transform:rotate(-.4deg);}
+    .extra-note:hover{transform:rotate(0) translateY(-6px);}
   }
-
-  /* La carpeta académica dentro del estudio */
-  :root{--folder:#c9a66f;--folder-dark:#9d7548;--folder-edge:#7a5634;--desk:#4b321f;--page-shadow:0 18px 42px rgba(30,20,12,.28);}
-  body{background:var(--green-dark);}
-  .academic-hero,.route,.academic-projects,.extra{overflow:hidden;}
-
-  .academic-hero{
-    min-height:auto;padding:132px 24px 118px;background-color:var(--desk);
-    background-image:radial-gradient(circle at 18% 24%,rgba(255,255,255,.07),transparent 24%),linear-gradient(90deg,rgba(255,255,255,.035) 1px,transparent 1px),repeating-linear-gradient(2deg,transparent 0 42px,rgba(20,10,4,.14) 43px 45px,transparent 46px 92px);
-    background-size:auto,92px 100%,auto;isolation:isolate;
+  @media(max-width:430px){
+    .topbar a{padding-left:8px;padding-right:8px;font-size:10px;}
+    .hero-copy{padding-left:19px;padding-right:19px;}.file-card{margin-left:16px;margin-right:16px;padding-left:22px;padding-right:22px;}
+    .project-sheet,.project-sheet:nth-child(n){grid-template-columns:1fr;gap:10px;}
+    .project-sheet .code{justify-content:flex-start;border-right:0;border-bottom:1px dashed var(--paper2);padding:0 0 7px;}
+    .project-sheet .code{grid-column:1;grid-row:1;}.project-sheet>div:last-child{grid-column:1;grid-row:2;}
+    .semester-page,.semester-page:first-child,.semester-page:last-child{padding-left:18px;padding-right:18px;}
   }
-  .academic-hero::before{content:"";position:absolute;width:190px;height:190px;border:12px solid rgba(79,43,23,.2);border-radius:50%;right:8%;top:14%;filter:blur(.2px);transform:rotate(-12deg);}
-  .academic-hero::after{z-index:0;background:radial-gradient(ellipse at center,transparent 38%,rgba(20,12,7,.46) 100%);}
-  .hero-inner{
-    max-width:1160px;gap:0;align-items:stretch;padding:48px 48px 50px;background:var(--folder);border:1px solid var(--folder-edge);border-radius:7px 15px 15px 7px;box-shadow:0 30px 70px rgba(15,8,3,.48),inset 0 1px rgba(255,255,255,.25);transform:rotate(-.35deg);isolation:isolate;
+  @media(prefers-reduced-motion:reduce){
+    html{scroll-behavior:auto;}
+    *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;}
+    .open-folder,.file-card,.project-sheet,.extra-note,.semester,.semester summary{transform:none!important;}
   }
-  .hero-inner::before{content:"";position:absolute;inset:13px -12px -14px 16px;background:#b88e5d;border:1px solid #74502f;border-radius:8px 15px 15px 8px;transform:rotate(1.1deg);z-index:-2;box-shadow:8px 12px 22px rgba(0,0,0,.22);}
-  .hero-inner::after{content:"";position:absolute;top:-31px;left:34px;width:230px;height:48px;background:var(--folder);border:1px solid var(--folder-edge);border-bottom:0;border-radius:11px 28px 0 0;z-index:-1;}
-  .hero-copy{position:relative;z-index:2;background-color:var(--cream);background-image:linear-gradient(rgba(63,125,78,.1) 1px,transparent 1px);background-size:100% 30px;padding:42px 40px 48px;box-shadow:var(--page-shadow);transform:rotate(-1.1deg);}
-  .hero-copy::before{content:"";position:absolute;width:98px;height:28px;top:-12px;left:18%;background:rgba(207,154,63,.54);transform:rotate(-3deg);}
-  .hero-copy .kick{color:var(--warm);}
-  .hero-copy h1{color:var(--ink);font-size:clamp(2.7rem,6.3vw,5.5rem);}
-  .hero-copy h1 em{color:var(--green-deep);}
-  .hero-copy p{color:var(--ink-soft);background:rgba(250,243,228,.78);padding:4px 6px;}
-  .file-card{z-index:3;margin:34px 0 23px -13px;padding:42px 36px 36px;background:#f0dfbd;border:1px solid #9d7548;transform:rotate(1.8deg);box-shadow:9px 18px 34px rgba(35,20,10,.32);}
-  .file-card::after{content:"";position:absolute;right:22px;bottom:20px;width:74px;height:74px;border:3px double rgba(143,66,48,.42);border-radius:50%;transform:rotate(-17deg);}
-  .desk-vine{position:absolute;z-index:1;left:-4px;top:35px;width:120px;height:310px;opacity:.84;transform:rotate(8deg);}
-  .desk-plant{position:absolute;z-index:1;right:-20px;bottom:-4px;width:190px;height:220px;filter:drop-shadow(4px 9px 8px rgba(0,0,0,.35));transform:rotate(-4deg);}
-
-  .route{padding:126px 24px 132px;background-color:var(--cork);}
-  .route-inner{
-    position:relative;max-width:1120px;padding:78px 74px 74px;background:var(--folder);border:1px solid var(--folder-edge);border-radius:8px 18px 18px 8px;box-shadow:0 30px 65px rgba(46,27,12,.34),inset 0 1px rgba(255,255,255,.28);isolation:isolate;
-  }
-  .route-inner::before{content:"";position:absolute;top:-35px;left:38px;width:260px;height:52px;background:var(--folder);border:1px solid var(--folder-edge);border-bottom:0;border-radius:12px 30px 0 0;z-index:-1;}
-  .route-inner::after{content:"";position:absolute;inset:23px 22px 20px 30px;background:#b98f5c;border:1px solid rgba(90,55,30,.48);transform:rotate(.55deg);z-index:-1;}
-  .route .section-title{position:relative;max-width:790px;margin:-18px 0 34px;background:var(--cream);padding:34px 38px 31px;box-shadow:var(--page-shadow);transform:rotate(-.65deg);}
-  .route .section-title::before{content:"";position:absolute;width:92px;height:26px;top:-12px;left:54%;background:rgba(207,154,63,.52);transform:rotate(2deg);}
-  .transversal{z-index:3;margin:-12px -24px 25px auto;transform:rotate(1.3deg);}
-  .semesters{
-    position:relative;display:block;padding:18px 28px 18px 68px;background-color:var(--cream);background-image:linear-gradient(90deg,transparent 0 46px,rgba(143,66,48,.24) 47px 49px,transparent 50px),linear-gradient(rgba(63,125,78,.09) 1px,transparent 1px);background-size:100% 100%,100% 32px;border:1px solid rgba(99,71,41,.3);box-shadow:var(--page-shadow);transform:rotate(.22deg);
-  }
-  .semesters::before{content:"";position:absolute;left:18px;top:28px;bottom:28px;width:24px;background:repeating-radial-gradient(circle at center,#6b4a2a 0 4px,#d9c7a6 5px 7px,transparent 8px 56px);}
-  .semester,.semester:nth-child(n),.semester[open]{background:transparent;box-shadow:none;transform:none;transition:background-color .18s ease;}
-  .semester+ .semester{border-top:1px dashed rgba(92,70,42,.28);}
-  .semester[open]{background:rgba(238,243,223,.74);}
-  .semester summary{padding:17px 10px 17px 0;grid-template-columns:58px 1fr auto;gap:16px;}
-  .semester .num{width:58px;padding:4px 6px;background:var(--gold);color:#3d2b0a;text-align:center;box-shadow:2px 4px 0 rgba(92,55,26,.25);transform:rotate(-2deg);transition:translate .16s ease,transform .16s ease;}
-  .semester:nth-child(even) .num{background:#cbd8ad;transform:rotate(1.5deg);}
-  .semester summary::after{width:36px;height:36px;display:grid;place-items:center;border:1px solid rgba(43,90,56,.38);border-radius:50%;line-height:1;}
-  .semester ul{padding:0 44px 23px 75px;color:#50473b;}
-  .source-note{position:relative;margin:24px 8px 0 auto;padding:17px 19px;max-width:780px;background:#f1d3c8;color:#5d321f;box-shadow:2px 6px 14px rgba(70,37,18,.2);transform:rotate(-.6deg);}
-
-  .academic-projects{padding:128px 24px 136px;background-color:var(--green-dark);background-image:radial-gradient(circle at 12% 18%,rgba(250,243,228,.08),transparent 24%),linear-gradient(120deg,rgba(255,255,255,.02),transparent 55%);}
-  .projects-inner{position:relative;max-width:1120px;padding:78px 76px 92px;background-color:#b98d5b;background-image:radial-gradient(rgba(45,28,15,.18) 1px,transparent 1.2px);background-size:10px 10px;border:11px solid #654326;box-shadow:0 26px 60px rgba(0,0,0,.4),inset 0 0 55px rgba(55,28,10,.24);}
-  .projects-inner::before{content:"";position:absolute;top:-30px;left:8%;width:130px;height:44px;background:rgba(239,223,189,.74);transform:rotate(-3deg);box-shadow:0 2px 6px rgba(0,0,0,.15);}
-  .academic-projects .section-title{position:relative;z-index:3;background:var(--cream);color:var(--ink);padding:32px 36px;margin:0 0 50px;box-shadow:var(--page-shadow);transform:rotate(-1deg);}
-  .academic-projects .section-title .small{color:var(--warm);}
-  .academic-projects .section-title h2 em{color:var(--green-deep);}
-  .academic-projects .section-title p{color:var(--ink-soft);}
-  .project-stack{gap:0;margin-top:0;isolation:isolate;}
-  .project-sheet{width:88%;padding:30px 34px;background-color:var(--cream);background-image:linear-gradient(rgba(63,125,78,.08) 1px,transparent 1px);background-size:100% 29px;border:1px solid rgba(91,64,35,.28);transition:translate .18s ease;}
-  .project-sheet::before{content:"";position:absolute;width:82px;height:24px;top:-11px;left:46%;background:rgba(207,154,63,.48);transform:rotate(2deg);}
-  .project-sheet:nth-child(2){width:92%;margin:-10px 0 0 7%;transform:rotate(.8deg);z-index:2;}
-  .project-sheet:nth-child(3){width:86%;margin:-8px 0 0 3%;transform:rotate(-.35deg);z-index:3;}
-  .project-sheet:nth-child(4){width:96%;margin:-7px 0 0 1%;transform:rotate(.55deg);z-index:4;}
-  .project-sheet .code{font-size:31px;color:var(--warm);}
-
-  .extra{padding:132px 24px 142px;background-color:#d8c5a2;background-image:repeating-linear-gradient(4deg,rgba(83,53,30,.08) 0 1px,transparent 1px 46px);}
-  .extra::before{opacity:.18;}
-  .extra-inner{max-width:1120px;padding:76px 70px 92px;background:var(--folder);border:1px solid var(--folder-edge);border-radius:8px 17px 17px 8px;box-shadow:0 28px 62px rgba(43,25,12,.35);}
-  .extra-inner::before{content:"";inset:auto auto auto auto;position:absolute;top:-35px;left:36px;width:255px;height:52px;background:var(--folder);border:1px solid var(--folder-edge);border-bottom:0;border-radius:12px 30px 0 0;}
-  .extra .section-title{position:relative;z-index:3;background:var(--cream);padding:32px 36px;box-shadow:var(--page-shadow);transform:rotate(.55deg);}
-  .extra-row{position:relative;grid-template-columns:repeat(3,1fr);gap:0;margin:54px 0 0;padding:0 18px;isolation:isolate;}
-  .extra-row::before{content:"";position:absolute;z-index:-1;left:-20px;right:-20px;bottom:-42px;height:66%;background:#a87c4d;border:1px solid #76522f;clip-path:polygon(0 18%,50% 0,100% 18%,100% 100%,0 100%);box-shadow:0 13px 24px rgba(55,31,15,.27);}
-  .extra-note{min-height:235px;margin:0 -7px;padding:31px 28px 34px;border:1px solid rgba(91,64,35,.25);transition:translate .18s ease;}
-  .extra-note:nth-child(2){margin:22px -7px 0;}
-  .extra-note:nth-child(3){margin:5px -7px 0;}
-
-  @media(hover:hover){
-    .semester summary:hover .num{translate:0 -2px;transform:rotate(0);}
-    .project-sheet:hover,.extra-note:hover{translate:0 -5px;}
-  }
-  @media(max-width:900px){
-    .academic-hero{padding:120px 28px 100px;}.hero-inner{grid-template-columns:1fr;padding:42px 38px 45px;}.file-card{max-width:none;margin:18px 22px 4px;}.desk-plant{width:150px;opacity:.75;}
-    .route-inner,.projects-inner,.extra-inner{padding:68px 48px 72px;}.extra-row{grid-template-columns:1fr;max-width:650px;margin-left:auto;margin-right:auto;padding:0 22px 25px;}.extra-note,.extra-note:nth-child(2),.extra-note:nth-child(3){margin:-7px 0 0;min-height:0;}
-  }
-  @media(max-width:700px){
-    .topbar{padding:0 6px;gap:4px;}.topbar nav{gap:3px;min-width:0;overflow-x:auto;scrollbar-width:none;}.topbar nav::-webkit-scrollbar{display:none;}.topbar a{display:block!important;white-space:nowrap;padding:9px 8px;font-size:10px;}
-    .academic-hero{padding:108px 17px 82px;}.hero-inner{padding:25px 16px 29px;border-radius:5px 10px 10px 5px;transform:none;}.hero-inner::after{left:12px;width:170px;height:38px;top:-27px;}.hero-copy{padding:30px 23px 34px;transform:rotate(-.45deg);}.hero-copy h1{font-size:clamp(2.45rem,14vw,4rem);}.hero-copy p{font-size:15px;}.file-card{margin:15px 2px 0;padding:34px 24px 28px;}.desk-vine{width:82px;height:240px;left:-30px;opacity:.55;}.desk-plant{width:115px;height:150px;right:-35px;opacity:.65;}
-    .route,.academic-projects,.extra{padding:92px 14px 98px;}.route-inner,.projects-inner,.extra-inner{padding:45px 16px 50px;border-radius:6px;}.route-inner::before,.extra-inner::before{left:12px;width:170px;height:40px;top:-28px;}.route .section-title,.academic-projects .section-title,.extra .section-title{padding:28px 22px;margin-bottom:28px;transform:none;}.section-title h2{font-size:clamp(2.1rem,10vw,3rem);}.transversal{margin:0 -6px 22px 12px;padding:15px 17px;}.semesters{padding:12px 14px 12px 48px;transform:none;}.semesters::before{left:10px;width:22px;}.semester summary{grid-template-columns:48px 1fr 32px;gap:10px;padding:15px 0;}.semester .num{width:48px;font-size:1.45rem;}.semester .when{font-size:12px;}.semester .note{font-size:16px;}.semester ul{padding:0 4px 21px 58px;font-size:13px;}.source-note{margin-top:20px;}
-    .projects-inner{border-width:7px;}.project-stack{padding:0 2px;}.project-sheet,.project-sheet:nth-child(n){width:100%;grid-template-columns:1fr;margin:-5px 0 0;padding:27px 22px;}.project-sheet .code{border-right:0;border-bottom:1px dashed var(--paper2);padding:0 0 8px;}.extra-row{padding:0 5px 28px;margin-top:42px;}.extra-row::before{left:-8px;right:-8px;bottom:-25px;}.contact-tab{right:0;bottom:14px;min-height:44px;display:flex;align-items:center;}
-  }
-  @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto;}.semester,.semester .num,.project-sheet,.extra-note{transition:none!important;}.project-sheet,.extra-note,.semester .num{translate:none!important;}}
 </style>
 </head>
 <body>
   <a class="skip-link" href="#main-content">Saltar al contenido principal</a>
-  <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
-    <defs>
-      <g id="academic-vine">
-        <path d="M50 0 C42 50 58 90 46 140 C38 180 56 210 50 258" fill="none" stroke="#4f5a37" stroke-width="2.5"/>
-        <g stroke="#3f5233" stroke-width="0.8">
-          <ellipse cx="42" cy="30" rx="7.5" ry="10.5" transform="rotate(-34 42 30)" fill="#6f7a54"/>
-          <ellipse cx="58" cy="58" rx="7.5" ry="10.5" transform="rotate(30 58 58)" fill="#5c6b3f"/>
-          <ellipse cx="41" cy="90" rx="7.5" ry="10.5" transform="rotate(-32 41 90)" fill="#6f7a54"/>
-          <ellipse cx="57" cy="120" rx="7" ry="10" transform="rotate(28 57 120)" fill="#55603f"/>
-          <ellipse cx="42" cy="150" rx="7" ry="10" transform="rotate(-30 42 150)" fill="#6f7a54"/>
-          <ellipse cx="56" cy="182" rx="6.5" ry="9" transform="rotate(30 56 182)" fill="#5c6b3f"/>
-          <ellipse cx="45" cy="212" rx="6" ry="8" transform="rotate(-28 45 212)" fill="#55603f"/>
-          <ellipse cx="51" cy="240" rx="5.5" ry="7.5" transform="rotate(20 51 240)" fill="#6f7a54"/>
-        </g>
-      </g>
-      <g id="academic-pot">
-        <path d="M40 118 h44 l-7 30 h-30 z" fill="#b5643f" stroke="#7a3f24" stroke-width="2"/>
-        <path d="M36 118 h52 l-3 10 h-46 z" fill="#c47a52" stroke="#7a3f24" stroke-width="2"/>
-        <g stroke="#3f5233" stroke-width="2" fill="#5c6b3f">
-          <path d="M62 120 C60 96 46 84 38 70" fill="none"/><ellipse cx="34" cy="64" rx="15" ry="9" transform="rotate(-38 34 64)"/>
-          <path d="M62 120 C64 92 80 82 90 66" fill="none"/><ellipse cx="94" cy="60" rx="15" ry="9" transform="rotate(34 94 60)" fill="#6f7a54"/>
-          <path d="M62 120 C60 88 58 60 58 40" fill="none"/><ellipse cx="58" cy="34" rx="11" ry="16" fill="#6f7a54"/>
-          <path d="M62 120 C66 96 74 78 82 58" fill="none"/><ellipse cx="84" cy="52" rx="11" ry="15" transform="rotate(24 84 52)" fill="#55603f"/>
-          <path d="M62 120 C58 96 48 80 42 60" fill="none"/><ellipse cx="40" cy="54" rx="11" ry="15" transform="rotate(-22 40 54)" fill="#55603f"/>
-        </g>
-      </g>
-    </defs>
-  </svg>
+
   <div class="topbar">
-    <a href="index.html#formacion">&larr; Volver al estudio</a>
+    <a href="index.html#formacion" aria-label="Volver a la secci&oacute;n Formaci&oacute;n del estudio"><span class="back-copy">&larr; Volver al estudio</span><span class="back-short" aria-hidden="true">&larr; Estudio</span></a>
     <nav aria-label="Secciones de formaci&oacute;n">
       <a href="#utec">UTEC</a>
       <a href="#proyectos-academicos">Proyectos</a>
@@ -256,22 +226,43 @@
   </div>
   <a class="contact-tab" href="index.html#contacto">Contacto</a>
 
-  <header class="academic-hero brick">
-    <svg class="desk-vine" viewBox="0 0 100 260" aria-hidden="true" focusable="false"><use href="#academic-vine"/></svg>
-    <svg class="desk-plant" viewBox="0 0 120 150" aria-hidden="true" focusable="false"><use href="#academic-pot"/></svg>
+  <header class="academic-hero brick" id="inicio">
     <div class="hero-inner">
-      <div class="hero-copy">
-        <span class="kick">mi carpeta acad&eacute;mica</span>
-        <h1>Mi recorrido por UTEC, <em>sin meterlo en una l&iacute;nea</em></h1>
-        <p>Entr&eacute; en 2022 pensando que iba a aprender tecnolog&iacute;a. Aprend&iacute; eso, claro, pero tambi&eacute;n aprend&iacute; a trabajar con equipos, sostener proyectos cuando se complican y convertir problemas t&eacute;cnicos en decisiones concretas. En 2026 cerr&eacute; la carrera con habITar.</p>
+      <svg class="desk-fern left" viewBox="0 0 240 360" aria-hidden="true" focusable="false">
+        <path d="M116 356C123 272 118 169 89 36" fill="none" stroke="currentColor" stroke-width="6"/>
+        <g fill="currentColor">
+          <ellipse cx="92" cy="62" rx="42" ry="13" transform="rotate(-32 92 62)"/><ellipse cx="112" cy="88" rx="39" ry="12" transform="rotate(28 112 88)"/>
+          <ellipse cx="79" cy="111" rx="43" ry="13" transform="rotate(-27 79 111)"/><ellipse cx="119" cy="137" rx="41" ry="13" transform="rotate(29 119 137)"/>
+          <ellipse cx="79" cy="164" rx="38" ry="12" transform="rotate(-24 79 164)"/><ellipse cx="123" cy="190" rx="37" ry="12" transform="rotate(27 123 190)"/>
+          <ellipse cx="88" cy="216" rx="34" ry="11" transform="rotate(-22 88 216)"/><ellipse cx="126" cy="244" rx="31" ry="10" transform="rotate(25 126 244)"/>
+        </g>
+      </svg>
+      <svg class="desk-fern right" viewBox="0 0 240 360" aria-hidden="true" focusable="false">
+        <path d="M116 356C123 272 118 169 89 36" fill="none" stroke="currentColor" stroke-width="6"/>
+        <g fill="currentColor">
+          <ellipse cx="92" cy="62" rx="42" ry="13" transform="rotate(-32 92 62)"/><ellipse cx="112" cy="88" rx="39" ry="12" transform="rotate(28 112 88)"/>
+          <ellipse cx="79" cy="111" rx="43" ry="13" transform="rotate(-27 79 111)"/><ellipse cx="119" cy="137" rx="41" ry="13" transform="rotate(29 119 137)"/>
+          <ellipse cx="79" cy="164" rx="38" ry="12" transform="rotate(-24 79 164)"/><ellipse cx="123" cy="190" rx="37" ry="12" transform="rotate(27 123 190)"/>
+          <ellipse cx="88" cy="216" rx="34" ry="11" transform="rotate(-22 88 216)"/><ellipse cx="126" cy="244" rx="31" ry="10" transform="rotate(25 126 244)"/>
+        </g>
+      </svg>
+
+      <div class="open-folder">
+        <div class="folder-pages">
+          <div class="hero-copy">
+            <span class="kick">mi carpeta acad&eacute;mica</span>
+            <h1>Mi recorrido por UTEC, <em>sin meterlo en una l&iacute;nea</em></h1>
+            <p>Entr&eacute; en 2022 pensando que iba a aprender tecnolog&iacute;a. Aprend&iacute; eso, claro, pero tambi&eacute;n aprend&iacute; a trabajar con equipos, sostener proyectos cuando se complican y convertir problemas t&eacute;cnicos en decisiones concretas. En 2026 cerr&eacute; la carrera con habITar.</p>
+          </div>
+          <aside class="file-card">
+            <span class="label">Expediente 2022&ndash;2026</span>
+            <h2>Licenciatura en Tecnolog&iacute;as de la Informaci&oacute;n</h2>
+            <p>UTEC, sede Minas. Plan 2018.</p>
+            <p class="spoiler">No termin&eacute; trabajando como programadora. Igual, saber c&oacute;mo se construye software cambia por completo c&oacute;mo gestiono.</p>
+            <div class="file-stamps"><span>Finalizada</span><span>Proyecto final: habITar</span></div>
+          </aside>
+        </div>
       </div>
-      <aside class="file-card">
-        <span class="label">Expediente 2022&ndash;2026</span>
-        <h2>Licenciatura en Tecnolog&iacute;as de la Informaci&oacute;n</h2>
-        <p>UTEC, sede Minas. Plan 2018.</p>
-        <p class="spoiler">No termin&eacute; trabajando como programadora. Igual, saber c&oacute;mo se construye software cambia por completo c&oacute;mo gestiono.</p>
-        <div class="file-stamps"><span>Finalizada</span><span>Proyecto final: habITar</span></div>
-      </aside>
     </div>
   </header>
 
@@ -283,41 +274,51 @@
           <h2>Ocho semestres, <em>uno por uno</em></h2>
           <p>Ac&aacute; s&iacute; est&aacute;n todas las materias. Las dej&eacute; guardadas por semestre, como una carpeta que se abre cuando quer&eacute;s mirar el detalle.</p>
         </div>
+
         <div class="transversal"><strong>En todos los semestres:</strong> Ingl&eacute;s, niveles 1 a 8, y UTEC Innova, niveles 1 a 8, el eje de innovaci&oacute;n y emprendimiento de la carrera.</div>
-        <div class="semesters">
-          <details class="semester">
-            <summary><span class="num">01</span><span><span class="when">Semestre 1 &middot; 2022</span><span class="note">ac&aacute; empez&oacute; todo</span></span></summary>
-            <ul><li>Curso Inicial Virtual</li><li>Introducci&oacute;n y Perspectivas de las TI</li><li>Fundamentos de la Programaci&oacute;n Orientada a Objetos</li><li>Introducci&oacute;n a la Programaci&oacute;n en Java</li><li>Programaci&oacute;n en lenguaje SQL</li><li>Base de Datos: conceptos y dise&ntilde;o</li><li>Metodolog&iacute;as de Testing Funcional</li></ul>
-          </details>
-          <details class="semester">
-            <summary><span class="num">02</span><span><span class="when">Semestre 2 &middot; 2023</span><span class="note">primer proyecto integrador</span></span></summary>
-            <ul><li>Patrones de Dise&ntilde;o y Algoritmos</li><li>An&aacute;lisis de Requerimientos y Modelado</li><li>Metodolog&iacute;as de Desarrollo &Aacute;gil</li><li>Aplicaciones Enterprise (Java EE)</li><li>Base de Datos Corporativas</li><li>Implementaci&oacute;n del Testing Funcional</li><li>Proyecto de Desarrollo y Testing</li></ul>
-          </details>
-          <details class="semester">
-            <summary><span class="num">03</span><span><span class="when">Semestre 3 &middot; 2023</span><span class="note">redes, servidores y bastante equipo</span></span></summary>
-            <ul><li>Infraestructura de Redes</li><li>Interconexi&oacute;n de Redes</li><li>Administraci&oacute;n de Base de Datos</li><li>Gesti&oacute;n del Testing Funcional</li><li>Proyecto de Infraestructura</li></ul>
-          </details>
-          <details class="semester">
-            <summary><span class="num">04</span><span><span class="when">Semestre 4 &middot; 2024</span><span class="note">cierre del Tecn&oacute;logo</span></span></summary>
-            <ul><li>Sistemas Operativos de Red</li><li>Fundamentos de Virtualizaci&oacute;n</li><li>Introducci&oacute;n a la Seguridad y Auditor&iacute;a</li><li>Desarrollo de Aplicaciones para Dispositivos M&oacute;viles</li><li>Proyecto Final de Tecn&oacute;logo</li><li>Optativa: IA aplicada y aprendizaje supervisado con Python</li></ul>
-          </details>
-          <details class="semester">
-            <summary><span class="num">05</span><span><span class="when">Semestre 5 &middot; 2024</span><span class="note">la gesti&oacute;n dej&oacute; de ser intuici&oacute;n</span></span></summary>
-            <ul><li>Gesti&oacute;n de Proyectos</li><li>Liderazgo</li><li>Automatizaci&oacute;n de Testing</li><li>Gesti&oacute;n y Gobierno de TI</li><li>Derecho Inform&aacute;tico</li><li>Proyecto Final de semestre</li></ul>
-          </details>
-          <details class="semester">
-            <summary><span class="num">06</span><span><span class="when">Semestre 6 &middot; 2025</span><span class="note">cloud, seguridad y datos</span></span></summary>
-            <ul><li>Fundamentos de Ciberseguridad, Arquitectura y Cloud</li><li>Arquitectura de Cloud Computing</li><li>Fundamentos de Machine Learning</li><li>Data Science</li></ul>
-          </details>
-          <details class="semester">
-            <summary><span class="num">07</span><span><span class="when">Semestre 7 &middot; 2025</span><span class="note">continuidad, UX y anteproyecto</span></span></summary>
-            <ul><li>Ciberseguridad: Conceptos, Incidencias y Contramedidas</li><li>Ciberseguridad: Continuidad del Negocio</li><li>Taller de Ciberseguridad vinculado a Desarrollo en la Nube</li><li>Fundamentos de Rob&oacute;tica y Dom&oacute;tica</li><li>Dise&ntilde;o de Experiencia de Usuario</li><li>Anteproyecto de tesis</li></ul>
-          </details>
-          <details class="semester">
-            <summary><span class="num">08</span><span><span class="when">Semestre 8 &middot; 2026</span><span class="note">la tesis y el cierre</span></span></summary>
-            <ul><li>Proyecto Final de Carrera: habITar</li><li>Inteligencia Artificial</li><li>Introducci&oacute;n a DevOps</li><li>&Eacute;tica, Tecnolog&iacute;a y Sociedad</li></ul>
-          </details>
+
+        <div class="study-binder">
+          <div class="binder-rings" aria-hidden="true"><span></span><span></span><span></span><span></span></div>
+          <div class="semesters">
+            <div class="semester-page">
+              <details class="semester" style="--tab-color:#3c7549">
+                <summary><span class="num">01</span><span><span class="when">Semestre 1 &middot; 2022</span><span class="note">ac&aacute; empez&oacute; todo</span></span></summary>
+                <ul><li>Curso Inicial Virtual</li><li>Introducci&oacute;n y Perspectivas de las TI</li><li>Fundamentos de la Programaci&oacute;n Orientada a Objetos</li><li>Introducci&oacute;n a la Programaci&oacute;n en Java</li><li>Programaci&oacute;n en lenguaje SQL</li><li>Base de Datos: conceptos y dise&ntilde;o</li><li>Metodolog&iacute;as de Testing Funcional</li></ul>
+              </details>
+              <details class="semester" style="--tab-color:#974629">
+                <summary><span class="num">02</span><span><span class="when">Semestre 2 &middot; 2023</span><span class="note">primer proyecto integrador</span></span></summary>
+                <ul><li>Patrones de Dise&ntilde;o y Algoritmos</li><li>An&aacute;lisis de Requerimientos y Modelado</li><li>Metodolog&iacute;as de Desarrollo &Aacute;gil</li><li>Aplicaciones Enterprise (Java EE)</li><li>Base de Datos Corporativas</li><li>Implementaci&oacute;n del Testing Funcional</li><li>Proyecto de Desarrollo y Testing</li></ul>
+              </details>
+              <details class="semester" style="--tab-color:#cf9a3f">
+                <summary><span class="num">03</span><span><span class="when">Semestre 3 &middot; 2023</span><span class="note">redes, servidores y bastante equipo</span></span></summary>
+                <ul><li>Infraestructura de Redes</li><li>Interconexi&oacute;n de Redes</li><li>Administraci&oacute;n de Base de Datos</li><li>Gesti&oacute;n del Testing Funcional</li><li>Proyecto de Infraestructura</li></ul>
+              </details>
+              <details class="semester" style="--tab-color:#657249">
+                <summary><span class="num">04</span><span><span class="when">Semestre 4 &middot; 2024</span><span class="note">cierre del Tecn&oacute;logo</span></span></summary>
+                <ul><li>Sistemas Operativos de Red</li><li>Fundamentos de Virtualizaci&oacute;n</li><li>Introducci&oacute;n a la Seguridad y Auditor&iacute;a</li><li>Desarrollo de Aplicaciones para Dispositivos M&oacute;viles</li><li>Proyecto Final de Tecn&oacute;logo</li><li>Optativa: IA aplicada y aprendizaje supervisado con Python</li></ul>
+              </details>
+            </div>
+            <div class="semester-page">
+              <details class="semester" style="--tab-color:#974629">
+                <summary><span class="num">05</span><span><span class="when">Semestre 5 &middot; 2024</span><span class="note">la gesti&oacute;n dej&oacute; de ser intuici&oacute;n</span></span></summary>
+                <ul><li>Gesti&oacute;n de Proyectos</li><li>Liderazgo</li><li>Automatizaci&oacute;n de Testing</li><li>Gesti&oacute;n y Gobierno de TI</li><li>Derecho Inform&aacute;tico</li><li>Proyecto Final de semestre</li></ul>
+              </details>
+              <details class="semester" style="--tab-color:#3c7549">
+                <summary><span class="num">06</span><span><span class="when">Semestre 6 &middot; 2025</span><span class="note">cloud, seguridad y datos</span></span></summary>
+                <ul><li>Fundamentos de Ciberseguridad, Arquitectura y Cloud</li><li>Arquitectura de Cloud Computing</li><li>Fundamentos de Machine Learning</li><li>Data Science</li></ul>
+              </details>
+              <details class="semester" style="--tab-color:#cf9a3f">
+                <summary><span class="num">07</span><span><span class="when">Semestre 7 &middot; 2025</span><span class="note">continuidad, UX y anteproyecto</span></span></summary>
+                <ul><li>Ciberseguridad: Conceptos, Incidencias y Contramedidas</li><li>Ciberseguridad: Continuidad del Negocio</li><li>Taller de Ciberseguridad vinculado a Desarrollo en la Nube</li><li>Fundamentos de Rob&oacute;tica y Dom&oacute;tica</li><li>Dise&ntilde;o de Experiencia de Usuario</li><li>Anteproyecto de tesis</li></ul>
+              </details>
+              <details class="semester" style="--tab-color:#974629">
+                <summary><span class="num">08</span><span><span class="when">Semestre 8 &middot; 2026</span><span class="note">la tesis y el cierre</span></span></summary>
+                <ul><li>Proyecto Final de Carrera: habITar</li><li>Inteligencia Artificial</li><li>Introducci&oacute;n a DevOps</li><li>&Eacute;tica, Tecnolog&iacute;a y Sociedad</li></ul>
+              </details>
+            </div>
+          </div>
         </div>
+
         <p class="source-note">Los nombres de los semestres 1 a 4 siguen la tabla oficial de homologaci&oacute;n del Plan 2018. Los semestres 5 a 8 se reconstruyeron desde mis carpetas acad&eacute;micas, por eso aparecen como parte de mi recorrido personal y no como una transcripci&oacute;n oficial del plan.</p>
       </div>
     </section>
@@ -345,10 +346,12 @@
           <h2>Lo que fui <em>sumando en el camino</em></h2>
           <p>Algunas cosas cerraron huecos t&eacute;cnicos. Otras me ayudaron a poner en palabras lo que ya ven&iacute;a haciendo.</p>
         </div>
-        <div class="extra-row">
-          <article class="extra-note"><span class="state">egresada</span><h3>J&oacute;venes a Programar</h3><p>Mi entrada al desarrollo web y al trabajo en tecnolog&iacute;a.</p><span class="place">Plan Ceibal</span></article>
-          <article class="extra-note"><span class="state">finalizada &middot; 2024</span><h3>Diplomatura en Gesti&oacute;n de Proyectos</h3><p>Un recorrido por alcance, cronograma, riesgos y agilidad, con una estructura m&aacute;s formal para cosas que ya empezaba a aplicar.</p><span class="place">Academia Numen &middot; avalada por PMI</span></article>
-          <article class="extra-note"><span class="state">en curso</span><h3>OPI 2.0</h3><p>Oratoria y comunicaci&oacute;n para ordenar una idea, defenderla y hacer que llegue mejor.</p><span class="place">Franco Pisso</span></article>
+        <div class="credentials-pocket">
+          <div class="extra-row">
+            <article class="extra-note"><span class="state">egresada</span><h3>J&oacute;venes a Programar</h3><p>Mi entrada al desarrollo web y al trabajo en tecnolog&iacute;a.</p><span class="place">Plan Ceibal</span></article>
+            <article class="extra-note"><span class="state">finalizada &middot; 2024</span><h3>Diplomatura en Gesti&oacute;n de Proyectos</h3><p>Un recorrido por alcance, cronograma, riesgos y agilidad, con una estructura m&aacute;s formal para cosas que ya empezaba a aplicar.</p><span class="place">Academia Numen &middot; avalada por PMI</span></article>
+            <article class="extra-note"><span class="state">en curso</span><h3>OPI 2.0</h3><p>Oratoria y comunicaci&oacute;n para ordenar una idea, defenderla y hacer que llegue mejor.</p><span class="place">Franco Pisso</span></article>
+          </div>
         </div>
       </div>
     </section>
@@ -358,5 +361,38 @@
     <p>hasta ac&aacute; lleg&oacute; la carpeta, el resto est&aacute; en el estudio</p>
     <a href="index.html">Volver al portfolio</a>
   </footer>
+
+<script>
+  (function(){
+    var reducedMotion=window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var hero=document.querySelector('.academic-hero');
+
+    if(hero && !reducedMotion){
+      hero.addEventListener('pointermove',function(event){
+        var rect=hero.getBoundingClientRect();
+        hero.style.setProperty('--light-x',((event.clientX-rect.left)/rect.width*100)+'%');
+        hero.style.setProperty('--light-y',((event.clientY-rect.top)/rect.height*100)+'%');
+      },{passive:true});
+    }
+
+    var sectionLinks=Array.prototype.slice.call(document.querySelectorAll('.topbar nav a'));
+    var sections=sectionLinks.map(function(link){return document.querySelector(link.getAttribute('href'));}).filter(Boolean);
+
+    if('IntersectionObserver' in window){
+      var sectionObserver=new IntersectionObserver(function(entries){
+        entries.forEach(function(entry){
+          if(!entry.isIntersecting) return;
+          sectionLinks.forEach(function(link){
+            var active=link.getAttribute('href')==='#'+entry.target.id;
+            link.classList.toggle('is-active',active);
+            if(active) link.setAttribute('aria-current','location');
+            else link.removeAttribute('aria-current');
+          });
+        });
+      },{rootMargin:'-25% 0px -60%',threshold:0});
+      sections.forEach(function(section){sectionObserver.observe(section);});
+    }
+  })();
+</script>
 </body>
 </html>
