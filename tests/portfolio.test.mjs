@@ -714,17 +714,28 @@ test('la portada incluye metadatos SEO básicos válidos', () => {
   );
   assert.ok(jsonLd, 'No se encontraron datos estructurados JSON-LD');
 
-  const person = JSON.parse(jsonLd[1]);
-  assert.equal(person['@context'], 'https://schema.org');
+  const structuredData = JSON.parse(jsonLd[1]);
+  assert.equal(structuredData['@context'], 'https://schema.org');
+  assert.equal(structuredData['@graph'].length, 3);
+  const person = structuredData['@graph'].find((entity) => entity['@type'] === 'Person');
+  const profile = structuredData['@graph'].find((entity) => entity['@type'] === 'ProfilePage');
+  const website = structuredData['@graph'].find((entity) => entity['@type'] === 'WebSite');
   assert.equal(person['@type'], 'Person');
+  assert.equal(person['@id'], 'https://romicaubarrere.github.io/personal/#person');
   assert.equal(person.name, 'Romina Caubarrere');
   assert.equal(person.jobTitle, 'Project Manager de software');
   assert.equal(person.url, 'https://romicaubarrere.github.io/personal/');
   assert.deepEqual(person.sameAs, [
     'https://www.linkedin.com/in/rominacaubarrere/'
   ]);
+  assert.equal(website['@id'], 'https://romicaubarrere.github.io/personal/#website');
+  assert.equal(website.url, 'https://romicaubarrere.github.io/personal/');
+  assert.equal(profile['@id'], 'https://romicaubarrere.github.io/personal/#profile');
+  assert.deepEqual(profile.mainEntity, { '@id': person['@id'] });
+  assert.deepEqual(profile.isPartOf, { '@id': website['@id'] });
+  assert.equal(profile.url, 'https://romicaubarrere.github.io/personal/');
   assert.equal('email' in person, false);
-  assert.doesNotMatch(JSON.stringify(person), /instagram|placeholder/i);
+  assert.doesNotMatch(JSON.stringify(structuredData), /instagram|placeholder|email/i);
 });
 
 test('la vista previa social tiene metadatos completos y una imagen de 1200 por 630', () => {
