@@ -17,9 +17,9 @@ interface Props {
 
 const { title, description, canonical, summary, dateTime, dateLabel, lang = 'es', page, alternates = [] } = Astro.props;
 const labels = {
-  es: { skip: 'Saltar al contenido', back: 'volver a lo que leo y escribo', kicker: 'una nota mía', footer: 'hecho con método, plantas y un poco de lana' },
-  en: { skip: 'Skip to content', back: 'back to what I read and write', kicker: 'a note of my own', footer: 'made with method, plants and a little yarn' },
-  pt: { skip: 'Pular para o conteúdo', back: 'voltar ao que leio e escrevo', kicker: 'uma nota minha', footer: 'feito com método, plantas e um pouco de lã' }
+  es: { skip: 'Saltar al contenido', back: 'volver a lo que leo y escribo', kicker: 'una nota mía', footer: 'hecho con método, plantas y un poco de lana', privacy: 'Privacidad' },
+  en: { skip: 'Skip to content', back: 'back to what I read and write', kicker: 'a note of my own', footer: 'made with method, plants and a little yarn', privacy: 'Privacy' },
+  pt: { skip: 'Pular para o conteúdo', back: 'voltar ao que leio e escrevo', kicker: 'uma nota minha', footer: 'feito com método, plantas e um pouco de lã', privacy: 'Privacidade' }
 } as const;
 const copy = labels[lang];
 const article = {
@@ -67,5 +67,5 @@ const article = {
       <slot />
     </article>
   </main>
-  <footer class="footer">{copy.footer} · <a href={lang === 'es' ? '../index.html' : `../../${lang}.html`}>Romina Caubarrere</a></footer>
+  <footer class="footer">{copy.footer} · <a href={lang === 'es' ? '../index.html' : `../../${lang}.html`}>Romina Caubarrere</a> · <a href={lang === 'es' ? '../privacidad.html' : `../${lang === 'en' ? 'privacy' : 'privacidade'}.html`}>{copy.privacy}</a></footer>
 </BaseLayout>

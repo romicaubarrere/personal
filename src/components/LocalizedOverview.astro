@@ -21,7 +21,8 @@ const copy = lang === 'en' ? {
   ],
   contactTitle: 'Let’s talk',
   contactText: 'About a software project, a collaboration, a talk or an idea that needs structure.',
-  footer: 'made with method, plants and a little yarn · Romina Caubarrere'
+  footer: 'made with method, plants and a little yarn · Romina Caubarrere',
+  privacy: 'Privacy'
 } : {
   skip: 'Pular para o conteúdo principal',
   hello: 'Oi, eu sou',
@@ -40,7 +41,8 @@ const copy = lang === 'en' ? {
   ],
   contactTitle: 'Vamos conversar',
   contactText: 'Sobre um projeto de software, uma colaboração, uma palestra ou uma ideia que precisa de organização.',
-  footer: 'feito com método, plantas e um pouco de lã · Romina Caubarrere'
+  footer: 'feito com método, plantas e um pouco de lã · Romina Caubarrere',
+  privacy: 'Privacidade'
 };
 ---
 
@@ -85,4 +87,4 @@ const copy = lang === 'en' ? {
     <a href="mailto:rominacaubarrere@gmail.com">rominacaubarrere@gmail.com</a>
   </section>
 </main>
-<footer class="localized-footer">{copy.footer}</footer>
+<footer class="localized-footer">{copy.footer} · <a href={`/personal/${lang}/${lang === 'en' ? 'privacy' : 'privacidade'}.html`}>{copy.privacy}</a></footer>

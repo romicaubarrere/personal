@@ -579,6 +579,7 @@
   @media(max-width:700px){.cfern{width:88px;opacity:.55;}}
 
   footer{background:var(--iron);color:rgba(250,243,228,.7);text-align:center;padding:22px;font-family:var(--hand);font-size:19px;}
+  footer a{color:var(--cream);}
 
   /* ---------- LIBRO QUE SE ABRE (flipbook) ---------- */
   .bookmodal{position:fixed;inset:0;z-index:200;display:none;align-items:center;justify-content:center;padding:20px;}
