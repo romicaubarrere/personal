@@ -48,4 +48,13 @@ el smoke test lo compara con el commit del workflow. Los reintentos cubren la
 propagación de Pages, pero la ejecución termina con error si el contrato sigue
 sin cumplirse.
 
-El rollback seleccionable se implementa en WEB-129.
+## Rollback de producción
+
+`.github/workflows/rollback-pages.yml` permite seleccionar explícitamente un commit,
+tag o rama del historial de `main`. Resuelve el ref a un SHA, reconstruye y prueba esa
+revisión antes de desplegarla, y reutiliza el verificador de producción para confirmar
+que Pages sirve exactamente el SHA elegido. El pipeline normal y el rollback comparten
+un grupo de concurrencia para serializar toda escritura sobre producción.
+
+La decisión operativa, ejecución y recuperación están documentadas en
+[`docs/rollback-pages.md`](./rollback-pages.md).
