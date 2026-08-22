@@ -21,6 +21,10 @@ const firstPost = await readFile(
 );
 const postStyles = await readFile(join(repositoryRoot, 'posts', 'post.css'), 'utf8');
 const blogGuide = await readFile(join(repositoryRoot, 'docs', 'blog-guide.md'), 'utf8');
+const languageStrategy = await readFile(
+  join(repositoryRoot, 'docs', 'language-strategy.md'),
+  'utf8'
+);
 
 function extractIds(source) {
   return [...source.matchAll(/\sid="([^"]+)"/g)].map((match) => match[1]);
@@ -60,6 +64,21 @@ test('la arquitectura estática y su flujo operativo quedan documentados', () =>
   assert.match(architectureDecision, /Astro debe evaluarse primero como generador estático sin React/);
   assert.match(readme, /No necesita instalación de dependencias ni un proceso de build/);
   assert.match(readme, /docs\/architecture-decision\.md/);
+});
+
+test('la decisión de publicar solo en español queda explícita y es consistente', () => {
+  assert.match(languageStrategy, /Estado: no incorporar inglés en la versión actual/);
+  assert.match(languageStrategy, /El portfolio se mantiene solamente en español/);
+  assert.match(languageStrategy, /La versión inglesa vive en rutas propias bajo `\/en\/`/);
+  assert.match(languageStrategy, /no se mezclan idiomas dentro de una página/);
+  assert.match(languageStrategy, /selector usa un control accesible/);
+  assert.match(languageStrategy, /todas las páginas, no solamente la portada/);
+  assert.match(readme, /docs\/language-strategy\.md/);
+
+  for (const source of [html, formationHtml, firstPost]) {
+    assert.match(source, /<html\s+lang="es">/i);
+    assert.doesNotMatch(source, /hreflang=|language-selector|id="language-selector"/i);
+  }
 });
 
 test('el blog publica una nota real con estructura reutilizable y accesible', () => {
