@@ -230,17 +230,26 @@ export default function ProjectBookcase() {
           (element): element is HTMLElement => element instanceof HTMLElement && element !== modal
         )
       : [];
+    const previousInert = new Map<HTMLElement, boolean>();
 
-    for (const element of bodyElements) {
-      if (element !== island && !(island && element.contains(island))) element.inert = isOpen;
+    const makeInert = (element: HTMLElement) => {
+      if (!previousInert.has(element)) previousInert.set(element, element.inert);
+      element.inert = true;
+    };
+
+    if (isOpen) {
+      for (const element of bodyElements) {
+        if (element !== island && !(island && element.contains(island))) makeInert(element);
+      }
+      for (const element of islandElements) makeInert(element);
     }
-    for (const element of islandElements) element.inert = isOpen;
     modal.inert = !isOpen;
     document.body.classList.toggle('modal-open', isOpen);
 
     return () => {
-      for (const element of bodyElements) element.inert = false;
-      for (const element of islandElements) element.inert = false;
+      for (const [element, inert] of previousInert) {
+        if (element.isConnected) element.inert = inert;
+      }
       modal.inert = true;
       document.body.classList.remove('modal-open');
     };
