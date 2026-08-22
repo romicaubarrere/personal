@@ -7,6 +7,7 @@ import { fileURLToPath } from 'node:url';
 const repositoryRoot = join(dirname(fileURLToPath(import.meta.url)), '..');
 const html = await readFile(join(repositoryRoot, 'index.html'), 'utf8');
 const formationHtml = await readFile(join(repositoryRoot, 'formacion.html'), 'utf8');
+const favicon = await readFile(join(repositoryRoot, 'favicon.svg'), 'utf8');
 
 function extractIds(source) {
   return [...source.matchAll(/\sid="([^"]+)"/g)].map((match) => match[1]);
@@ -79,9 +80,9 @@ test('los enlaces de navegación no dependen de hover', () => {
 });
 
 test('todos los bloques JavaScript tienen sintaxis válida', () => {
-  const scripts = [...html.matchAll(/<script[^>]*>([\s\S]*?)<\/script>/gi)].map(
-    (match) => match[1]
-  );
+  const scripts = [...html.matchAll(/<script([^>]*)>([\s\S]*?)<\/script>/gi)]
+    .filter((match) => !/type="application\/ld\+json"/i.test(match[1]))
+    .map((match) => match[2]);
 
   assert.ok(scripts.length > 0, 'No se encontraron bloques JavaScript');
   for (const [index, script] of scripts.entries()) {
@@ -102,4 +103,27 @@ test('la experiencia respeta la preferencia de movimiento reducido', () => {
     html,
     /@media\(prefers-reduced-motion:reduce\)\{html\{scroll-behavior:auto;\}[\s\S]*?\.reveal\{opacity:1;transform:none;\}\}/
   );
+});
+
+test('la portada incluye metadatos SEO básicos válidos', () => {
+  assert.match(html, /<title>Romina Caubarrere \| Project Manager de software<\/title>/i);
+  assert.match(html, /<meta name="description" content="[^"]*Project Manager[^"]*">/i);
+  assert.match(
+    html,
+    /<link rel="canonical" href="https:\/\/romicaubarrere\.github\.io\/personal\/">/i
+  );
+  assert.match(html, /<link rel="icon" type="image\/svg\+xml" href="favicon\.svg">/i);
+  assert.match(favicon, /<svg\b[^>]*xmlns="http:\/\/www\.w3\.org\/2000\/svg"/i);
+
+  const jsonLd = html.match(
+    /<script type="application\/ld\+json">([\s\S]*?)<\/script>/i
+  );
+  assert.ok(jsonLd, 'No se encontraron datos estructurados JSON-LD');
+
+  const person = JSON.parse(jsonLd[1]);
+  assert.equal(person['@context'], 'https://schema.org');
+  assert.equal(person['@type'], 'Person');
+  assert.equal(person.name, 'Romina Caubarrere');
+  assert.equal(person.jobTitle, 'Project Manager de software');
+  assert.equal(person.url, 'https://romicaubarrere.github.io/personal/');
 });
