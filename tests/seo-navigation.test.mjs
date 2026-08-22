@@ -1,19 +1,14 @@
 import assert from 'node:assert/strict';
-import { access, readFile } from 'node:fs/promises';
+import { access, readFile, readdir } from 'node:fs/promises';
 import { dirname, join, normalize } from 'node:path';
 import test from 'node:test';
 import { fileURLToPath } from 'node:url';
 
 const repositoryRoot = join(dirname(fileURLToPath(import.meta.url)), '..');
 const dist = join(repositoryRoot, 'dist');
-const publicRoutes = [
-  'index.html',
-  'formacion.html',
-  'como-trabajo.html',
-  'comunidad-charlas.html',
-  'posts/por-que-hago-tantas-preguntas.html',
-  'posts/cuando-puedas.html'
-];
+const publicRoutes = (await readdir(dist, { recursive: true }))
+  .filter((route) => route.endsWith('.html') && route !== '404.html')
+  .sort();
 const routeDocuments = new Map(
   await Promise.all(publicRoutes.map(async (route) => [route, await readFile(join(dist, route), 'utf8')]))
 );
@@ -35,15 +30,7 @@ function ids(source) {
   return new Set([...source.matchAll(/\sid="([^"]+)"/g)].map((match) => match[1]));
 }
 
-test('las seis rutas tienen títulos, descripciones, canonical y jerarquía coherentes', () => {
-  const expectedCanonicals = new Map([
-    ['index.html', 'https://romicaubarrere.github.io/personal/'],
-    ['formacion.html', 'https://romicaubarrere.github.io/personal/formacion.html'],
-    ['como-trabajo.html', 'https://romicaubarrere.github.io/personal/como-trabajo.html'],
-    ['comunidad-charlas.html', 'https://romicaubarrere.github.io/personal/comunidad-charlas.html'],
-    ['posts/por-que-hago-tantas-preguntas.html', 'https://romicaubarrere.github.io/personal/posts/por-que-hago-tantas-preguntas.html'],
-    ['posts/cuando-puedas.html', 'https://romicaubarrere.github.io/personal/posts/cuando-puedas.html']
-  ]);
+test('todas las rutas tienen títulos, descripciones, canonical y jerarquía coherentes', () => {
   const titles = new Set();
   const descriptions = new Set();
 
@@ -55,7 +42,10 @@ test('las seis rutas tienen títulos, descripciones, canonical y jerarquía cohe
 
     assert.match(title ?? '', /Romina Caubarrere/);
     assert.ok(description.length >= 80 && description.length <= 180, `${route} tiene una descripción fuera de rango`);
-    assert.equal(canonical, expectedCanonicals.get(route));
+    const expectedCanonical = route === 'index.html'
+      ? 'https://romicaubarrere.github.io/personal/'
+      : `https://romicaubarrere.github.io/personal/${route}`;
+    assert.equal(canonical, expectedCanonical);
     assert.equal(levels[0], 1, `${route} debe empezar con h1`);
     for (let index = 1; index < levels.length; index += 1) {
       assert.ok(levels[index] <= levels[index - 1] + 1, `${route} salta de h${levels[index - 1]} a h${levels[index]}`);
