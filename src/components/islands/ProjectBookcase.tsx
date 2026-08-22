@@ -317,6 +317,30 @@ export default function ProjectBookcase() {
             <use href="#pot" />
           </svg>
         </div>
+        <ul className="project-summaries" aria-label="Resumen de proyectos">
+          {PROJECTS.filter((book) => book.summary).map((book) => (
+            <li key={book.id}>
+              <article
+                className="project-summary"
+                style={{ '--summary-color': book.color } as CSSProperties}
+              >
+                <span className="tag">{book.tag}</span>
+                <h3>{book.title}</h3>
+                <p>{book.summary}</p>
+                <button
+                  className="project-brief"
+                  type="button"
+                  data-book={book.id}
+                  aria-haspopup="dialog"
+                  aria-label={`Abrir caso de proyecto: ${book.title}`}
+                  onClick={(event) => openBook(book, event.currentTarget)}
+                >
+                  Abrir caso <span aria-hidden="true">→</span>
+                </button>
+              </article>
+            </li>
+          ))}
+        </ul>
         <div className="shelfhint hand">todavía queda lugar en el estante</div>
       </section>
 
