@@ -141,3 +141,18 @@ test('la portada incluye metadatos SEO básicos válidos', () => {
   assert.equal(person.jobTitle, 'Project Manager de software');
   assert.equal(person.url, 'https://romicaubarrere.github.io/personal/');
 });
+
+test('el hero comunica el posicionamiento y ofrece las dos acciones principales', () => {
+  assert.match(html, /Project Manager de software/);
+  assert.match(
+    html,
+    /Conecto personas, producto y tecnolog&iacute;a para que proyectos complejos avancen y lleguen a resultados\./
+  );
+  assert.match(html, /class="hero-link primary" href="#proyectos">Ver proyectos<\/a>/);
+  assert.match(html, /class="hero-link" href="#contacto">Contactarme<\/a>/);
+});
+
+test('el post-it del hero participa del layout y no usa posicionamiento parallax', () => {
+  assert.match(html, /@media\(min-width:901px\)[\s\S]*?\.stickynote\{position:relative;/);
+  assert.doesNotMatch(html, /class="stickynote parallax"/);
+});

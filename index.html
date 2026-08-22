@@ -120,14 +120,20 @@
   .hang.lb{left:19%;width:120px;opacity:.9;z-index:3;} .hang.rb{right:19%;width:120px;opacity:.9;z-index:3;}
   @media(max-width:760px){.hang.lb,.hang.rb{display:none;}}
 
-  .titlewrap{position:relative;z-index:5;padding-top:40px;}
+  .titlewrap{position:relative;z-index:5;padding-top:40px;max-width:830px;}
   .kick{font-family:var(--hand);color:var(--gold);font-size:30px;transform:rotate(-4deg);display:inline-block;margin-left:6px;}
   .bigname{font-family:var(--serif);color:var(--cream);font-weight:360;line-height:.82;letter-spacing:-.02em;
-    font-size:clamp(3.4rem,13vw,11rem);text-shadow:2px 3px 0 rgba(0,0,0,.5), 0 8px 30px rgba(0,0,0,.6);}
+    font-size:clamp(3.4rem,11vw,9.2rem);text-shadow:2px 3px 0 rgba(0,0,0,.5), 0 8px 30px rgba(0,0,0,.6);}
   .bigname .l2{display:block;font-style:italic;color:#93d694;margin-left:.6em;
     text-shadow:2px 3px 0 rgba(0,0,0,.55), 0 8px 26px rgba(0,0,0,.5);}
   .rolebar{display:inline-block;margin-top:18px;background:var(--iron);color:var(--cream);font-weight:600;
     letter-spacing:.16em;text-transform:uppercase;font-size:13px;padding:8px 16px;transform:rotate(-1.2deg);box-shadow:3px 4px 0 rgba(0,0,0,.3);}
+  .hero-copy{max-width:650px;margin-top:22px;color:var(--cream);font-family:var(--serif);font-size:clamp(1.15rem,2vw,1.5rem);line-height:1.35;text-shadow:0 2px 12px rgba(0,0,0,.55);}
+  .hero-actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:22px;}
+  .hero-link{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:10px 18px;border:1px solid var(--cream);border-radius:4px;color:var(--cream);font-size:13px;font-weight:700;text-decoration:none;transition:background .18s,color .18s,transform .18s;}
+  .hero-link.primary{background:var(--cream);color:var(--ink);}
+  .hero-link:hover{background:var(--gold);border-color:var(--gold);color:var(--ink);transform:translateY(-2px);}
+  .hero-link:focus-visible{outline:3px solid var(--gold);outline-offset:3px;}
 
   .photo-tack{position:absolute;top:6%;right:3%;width:230px;transform:rotate(6deg);z-index:6;}
   @media(max-width:900px){.photo-tack{position:static;margin:34px auto 0;transform:rotate(-2deg);}}
@@ -136,6 +142,13 @@
     box-shadow:3px 8px 18px rgba(0,0,0,.3);z-index:6;}
   .stickynote b{font-weight:700;}
   @media(max-width:900px){.stickynote{position:static;margin:26px auto 0;}}
+
+  @media(min-width:901px){
+    .stage{display:grid;grid-template-columns:minmax(0,1fr) 240px;grid-template-rows:auto 1fr;column-gap:34px;align-items:start;}
+    .titlewrap{grid-column:1;grid-row:1 / span 2;}
+    .photo-tack{position:relative;top:auto;right:auto;grid-column:2;grid-row:1;justify-self:end;margin-top:12px;}
+    .stickynote{position:relative;left:auto;bottom:auto;grid-column:2;grid-row:2;align-self:end;justify-self:center;margin-bottom:42px;}
+  }
 
   .scrollhint{position:absolute;left:50%;bottom:22px;transform:translateX(-50%);color:var(--cream);opacity:.75;
     font-family:var(--hand);font-size:20px;z-index:5;text-align:center;}
@@ -505,10 +518,15 @@
       <div class="titlewrap">
         <span class="kick hand">hola, soy</span>
         <h1 class="bigname">Romina<span class="l2">Caubarrere</span></h1>
-        <div class="rolebar">Project Manager &bull; Uruguay</div>
+        <div class="rolebar">Project Manager de software</div>
+        <p class="hero-copy">Conecto personas, producto y tecnolog&iacute;a para que proyectos complejos avancen y lleguen a resultados.</p>
+        <div class="hero-actions" aria-label="Acciones principales">
+          <a class="hero-link primary" href="#proyectos">Ver proyectos</a>
+          <a class="hero-link" href="#contacto">Contactarme</a>
+        </div>
       </div>
 
-      <div class="photo-tack parallax" data-depth="-14">
+      <div class="photo-tack">
         <span class="tape rose" style="top:-14px;left:50%;transform:translateX(-50%) rotate(3deg);"></span>
         <div class="polaroid">
           <div class="ph">tu foto ac&aacute;</div>
@@ -516,7 +534,7 @@
         </div>
       </div>
 
-      <div class="stickynote parallax" data-depth="10">
+      <div class="stickynote">
         <span class="pin gold" style="top:-9px;left:50%;transform:translateX(-50%);"></span>
         plantas, crochet, cocina <b>+</b> fantasy<br>y proyectos que salen bien
       </div>
