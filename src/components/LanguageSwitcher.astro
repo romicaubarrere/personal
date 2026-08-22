@@ -1,13 +1,20 @@
 ---
 interface Props {
   current: 'es' | 'en' | 'pt';
+  page?: 'home' | 'work' | 'community' | 'education';
 }
 
-const { current } = Astro.props;
+const { current, page = 'home' } = Astro.props;
+const paths = {
+  home: { es: '/personal/', en: '/personal/en.html', pt: '/personal/pt.html' },
+  work: { es: '/personal/como-trabajo.html', en: '/personal/en/como-trabajo.html', pt: '/personal/pt/como-trabajo.html' },
+  community: { es: '/personal/comunidad-charlas.html', en: '/personal/en/comunidad-charlas.html', pt: '/personal/pt/comunidad-charlas.html' },
+  education: { es: '/personal/formacion.html', en: '/personal/en/formacion.html', pt: '/personal/pt/formacion.html' }
+} as const;
 const links = [
-  { code: 'es', label: 'Español', href: '/personal/' },
-  { code: 'en', label: 'English', href: '/personal/en.html' },
-  { code: 'pt', label: 'Português', href: '/personal/pt.html' }
+  { code: 'es', label: 'Español', href: paths[page].es },
+  { code: 'en', label: 'English', href: paths[page].en },
+  { code: 'pt', label: 'Português', href: paths[page].pt }
 ] as const;
 ---
 

@@ -139,6 +139,22 @@ test('WEB-054 publica una estrategia multilingüe sin exagerar niveles', async (
   }
 });
 
+test('WEB-054 publica rutas internas equivalentes en inglés y portugués', async () => {
+  for (const route of ['como-trabajo.html', 'comunidad-charlas.html', 'formacion.html']) {
+    const english = await readFile(join(distRoot, 'en', route), 'utf8');
+    const portuguese = await readFile(join(distRoot, 'pt', route), 'utf8');
+    for (const source of [english, portuguese]) {
+      assert.match(source, /hreflang="es"/);
+      assert.match(source, /hreflang="en"/);
+      assert.match(source, /hreflang="pt"/);
+      assert.match(source, /hreflang="x-default"/);
+      assert.doesNotMatch(source, /próximamente|coming soon|em breve/i);
+    }
+    assert.match(english, /<html\s+lang="en">/i);
+    assert.match(portuguese, /<html\s+lang="pt">/i);
+  }
+});
+
 test('el blog publica una nota real con estructura reutilizable y accesible', () => {
   assert.match(firstPost, /<title>¿Por qué hago tantas preguntas\? \| Romina Caubarrere<\/title>/);
   assert.match(firstPost, /<meta name="description" content="[^"]+">/);

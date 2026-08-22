@@ -9,6 +9,8 @@ const copy = lang === 'en' ? {
   role: 'Software Project Manager',
   lede: 'I connect people, product and technology so complex projects can move forward and reach real outcomes.',
   projects: 'See how I work',
+  community: 'Community and talks',
+  education: 'Education and experience',
   contact: 'Contact me',
   title: 'A look into my world',
   notes: [
@@ -26,6 +28,8 @@ const copy = lang === 'en' ? {
   role: 'Project Manager de software',
   lede: 'Conecto pessoas, produto e tecnologia para que projetos complexos avancem e cheguem a resultados concretos.',
   projects: 'Ver como eu trabalho',
+  community: 'Comunidade e palestras',
+  education: 'Formação e experiência',
   contact: 'Falar comigo',
   title: 'Um pouco do meu mundo',
   notes: [
@@ -50,9 +54,14 @@ const copy = lang === 'en' ? {
       <span class="localized-role">{copy.role}</span>
       <p class="localized-lede">{copy.lede}</p>
       <div class="localized-actions">
-        <a href="#overview">{copy.projects}</a>
+        <a href={`${lang}/como-trabajo.html`}>{copy.projects}</a>
         <a href="mailto:rominacaubarrere@gmail.com">{copy.contact}</a>
       </div>
+      <nav class="localized-actions localized-route-links" aria-label={lang === 'en' ? 'Portfolio sections' : 'Seções do portfólio'}>
+        <a href={`${lang}/como-trabajo.html`}>{copy.projects}</a>
+        <a href={`${lang}/comunidad-charlas.html`}>{copy.community}</a>
+        <a href={`${lang}/formacion.html`}>{copy.education}</a>
+      </nav>
     </div>
   </header>
   <section class="localized-board" id="overview">

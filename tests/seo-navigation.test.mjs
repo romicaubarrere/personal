@@ -113,8 +113,8 @@ test('cada documento publica una única instancia de sus metadatos críticos', a
 
 test('idioma, locale e indexación son coherentes en toda la salida', async () => {
   for (const [route, source] of routeDocuments) {
-    const expectedLanguage = route === 'en.html' ? 'en' : route === 'pt.html' ? 'pt' : 'es';
-    const expectedLocale = route === 'en.html' ? 'en_US' : route === 'pt.html' ? 'pt_BR' : 'es_UY';
+    const expectedLanguage = route === 'en.html' || route.startsWith('en/') ? 'en' : route === 'pt.html' || route.startsWith('pt/') ? 'pt' : 'es';
+    const expectedLocale = expectedLanguage === 'en' ? 'en_US' : expectedLanguage === 'pt' ? 'pt_BR' : 'es_UY';
     assert.match(source, new RegExp(`<html\\b[^>]*lang="${expectedLanguage}"[^>]*>`, 'i'), `${route}: idioma incorrecto`);
     assert.equal(getAttribute(source, /<meta\b[^>]*property="og:locale"[^>]*>/i, 'content'), expectedLocale);
     assert.equal(getAttribute(source, /<meta\b[^>]*name="robots"[^>]*>/i, 'content'), 'index,follow');
@@ -188,11 +188,12 @@ test('las páginas internas publican breadcrumbs estructurados y 404 queda exclu
     const title = source.match(/<title>([^<]+)<\/title>/i)?.[1]
       .replace(/\s+\|\s+Romina Caubarrere$/, '');
     assert.equal(breadcrumbs.length, 1, `${route} debe tener un solo breadcrumb`);
+    const language = route.startsWith('en/') ? 'en' : route.startsWith('pt/') ? 'pt' : 'es';
     assert.deepEqual(breadcrumbs[0].itemListElement, [
       {
         '@type': 'ListItem',
         position: 1,
-        name: 'Inicio',
+        name: language === 'en' ? 'Home' : language === 'pt' ? 'Início' : 'Inicio',
         item: 'https://romicaubarrere.github.io/personal/'
       },
       {

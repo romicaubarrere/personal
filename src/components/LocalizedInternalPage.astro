@@ -1,0 +1,174 @@
+---
+import LanguageSwitcher from './LanguageSwitcher.astro';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import '../styles/formation.css';
+
+type Lang = 'en' | 'pt';
+type Page = 'work' | 'community' | 'education';
+interface Item { meta?: string; title: string; body: string }
+interface Section { id: string; eyebrow: string; title: string; intro: string; items: Item[] }
+interface Copy { title: string; description: string; kicker: string; heading: string; lede: string; record: string; note: string; sections: Section[]; footer: string }
+interface Props { lang: Lang; page: Page }
+
+const { lang, page } = Astro.props;
+const base = 'https://romicaubarrere.github.io/personal/';
+const slugs = { work: 'como-trabajo', community: 'comunidad-charlas', education: 'formacion' } as const;
+const slug = slugs[page];
+
+const work: Record<Lang, Copy> = {
+  en: {
+    title: 'How I work | Romina Caubarrere', description: 'Romina Caubarrere’s strengths, working process and services for software and product projects.',
+    kicker: 'project mise en place', heading: 'From a loose problem to work that can be sustained', lede: 'This page brings together three different things: what I contribute, how I organize the path and what can be resolved afterwards.', record: 'A practical working recipe', note: 'Clear conversations, visible decisions and a plan the team can actually use.', footer: 'Back to the portfolio',
+    sections: [
+      { id:'strengths', eyebrow:'what I bring', title:'Four strengths, stitched together', intro:'They work as one piece rather than as isolated skills.', items:[
+        {title:'Order in complexity',body:'I turn scattered information, dependencies and open questions into a plan people can understand and maintain.'},
+        {title:'Conversations that unblock',body:'I ask until assumptions, decisions and owners are explicit, without turning the process into bureaucracy.'},
+        {title:'Product judgment',body:'I connect the need behind a request with scope, priorities and the value the team is trying to create.'},
+        {title:'Technical and quality foundation',body:'My technical background helps me discuss feasibility, risks, testing and delivery with the people building the product.'}
+      ]},
+      { id:'process', eyebrow:'my process', title:'How I take an idea into something buildable', intro:'Four moments that repeat, without pretending every project is identical.', items:[
+        {meta:'01',title:'Understand before organizing',body:'I gather context, ask why and identify the people, constraints and decisions involved.'},
+        {meta:'02',title:'Turn it into a plan',body:'I define scope, priorities, dependencies, owners and a sequence the team can discuss.'},
+        {meta:'03',title:'Sustain the work',body:'I follow progress, surface risks and keep decisions and next steps visible while the project moves.'},
+        {meta:'04',title:'Look at what happened and adjust',body:'I compare outcomes with the original need, learn from the delivery and update the plan.'}
+      ]},
+      { id:'services', eyebrow:'what I do', title:'Problems I can help organize', intro:'Each card starts with a real kind of problem and ends with a concrete result.', items:[
+        {title:'Software project management',body:'From competing priorities and open fronts to a shared plan, visible dependencies and sustainable delivery.'},
+        {title:'Product definition and refinement',body:'From a broad idea or request to product decisions and requirements ready to prioritize.'},
+        {title:'Talks, workshops and moderation',body:'From a technical topic to a prepared conversation with clear content and rhythm.'},
+        {title:'Event planning',body:'From an event idea with scattered details to coordinated people, timing and responsibilities.'},
+        {title:'Social media content',body:'From loose topics to an editorial direction and a production system that can be sustained.'}
+      ]}
+    ]
+  },
+  pt: {
+    title:'Como trabalho | Romina Caubarrere', description:'As fortalezas, o processo de trabalho e os serviços de Romina Caubarrere para projetos de software e produto.',
+    kicker:'mise en place do projeto', heading:'De um problema solto a um trabalho que pode ser sustentado', lede:'Esta página reúne três coisas diferentes: o que eu trago, como organizo o caminho e o que pode ficar resolvido depois.', record:'Uma receita prática de trabalho', note:'Conversas claras, decisões visíveis e um plano que a equipe realmente consegue usar.', footer:'Voltar ao portfólio',
+    sections:[
+      {id:'strengths',eyebrow:'o que eu trago',title:'Quatro fortalezas, tecidas juntas',intro:'Elas funcionam como uma peça só, não como habilidades isoladas.',items:[
+        {title:'Ordem na complexidade',body:'Transformo informação dispersa, dependências e perguntas abertas em um plano que as pessoas conseguem entender e manter.'},
+        {title:'Conversas que destravam',body:'Pergunto até que premissas, decisões e responsáveis fiquem explícitos, sem transformar o processo em burocracia.'},
+        {title:'Critério de produto',body:'Conecto a necessidade por trás de um pedido com escopo, prioridades e o valor que a equipe quer criar.'},
+        {title:'Base técnica e de qualidade',body:'Minha formação técnica me ajuda a conversar sobre viabilidade, riscos, testes e entrega com quem constrói o produto.'}
+      ]},
+      {id:'process',eyebrow:'meu processo',title:'Como levo uma ideia até algo construível',intro:'Quatro momentos que se repetem, sem fingir que todo projeto é igual.',items:[
+        {meta:'01',title:'Entender antes de organizar',body:'Reúno contexto, pergunto por quê e identifico pessoas, restrições e decisões envolvidas.'},
+        {meta:'02',title:'Transformar em um plano',body:'Defino escopo, prioridades, dependências, responsáveis e uma sequência que a equipe pode discutir.'},
+        {meta:'03',title:'Sustentar o trabalho',body:'Acompanho o avanço, torno os riscos visíveis e mantenho decisões e próximos passos claros.'},
+        {meta:'04',title:'Olhar o resultado e ajustar',body:'Comparo o resultado com a necessidade inicial, aprendo com a entrega e atualizo o plano.'}
+      ]},
+      {id:'services',eyebrow:'o que eu faço',title:'Problemas que posso ajudar a organizar',intro:'Cada ficha começa com um problema real e termina com um resultado concreto.',items:[
+        {title:'Gestão de projetos de software',body:'De prioridades que competem e frentes abertas para um plano compartilhado, dependências visíveis e entregas sustentáveis.'},
+        {title:'Definição e refinamento de produto',body:'De uma ideia ampla para decisões de produto e requisitos prontos para priorizar.'},
+        {title:'Palestras, oficinas e moderação',body:'De um tema técnico para uma conversa preparada, com conteúdo claro e ritmo.'},
+        {title:'Planejamento de eventos',body:'De uma ideia com detalhes dispersos para pessoas, tempos e responsabilidades coordenados.'},
+        {title:'Conteúdo para redes sociais',body:'De temas soltos para uma linha editorial e um sistema de produção sustentável.'}
+      ]}
+    ]
+  }
+};
+
+const education: Record<Lang, Copy> = {
+  en:{title:'Education and experience | Romina Caubarrere',description:'Romina Caubarrere’s professional and academic path, from robotics and software product work to her IT degree at UTEC.',kicker:'my academic folder',heading:'My path through UTEC, without forcing it into one line',lede:'I entered in 2022 thinking I would learn technology. I also learned how to work with teams, sustain difficult projects and turn technical problems into concrete decisions.',record:'IT degree · UTEC Minas · 2022–2026',note:'Knowing how software is built completely changes how I manage it.',footer:'Back to the portfolio',sections:[
+    {id:'experience',eyebrow:'from today backwards',title:'Professional experience',intro:'Different roles with the same thread: understand what is needed, organize the work and help people move forward.',items:[
+      {meta:'Dec 2025 · present',title:'Project Manager · eagerworks',body:'I coordinate teams and stakeholders, facilitate planning and follow progress and delivery.'},
+      {meta:'Oct 2024 · Nov 2025',title:'Associate Product Manager · UKG',body:'I turned insights and feedback into product requirements and priorities with cross-functional teams.'},
+      {meta:'Jun 2023 · Feb 2024',title:'Project Manager Trainee · Plan Ceibal',body:'I planned projects and resources, managed scope and risks and followed several technology initiatives.'},
+      {meta:'Oct 2022 · Jun 2023',title:'Robotics and programming teacher',body:'I taught technology through practical projects and adapted explanations to different learning rhythms.'}
+    ]},
+    {id:'utec',eyebrow:'the complete plan',title:'Eight semesters, one by one',intro:'English and UTEC Innova accompanied all eight semesters.',items:[
+      {meta:'Semester 1 · 2022',title:'Programming, databases and functional testing',body:'Object-oriented foundations, Java, SQL, database design and functional testing methodologies.'},
+      {meta:'Semester 2 · 2023',title:'Development and testing project',body:'Design patterns, requirements, agile development, Java EE, corporate databases and functional testing.'},
+      {meta:'Semester 3 · 2023',title:'Infrastructure',body:'Networks, interconnection, database administration, testing management and an infrastructure project.'},
+      {meta:'Semester 4 · 2024',title:'Technology degree milestone',body:'Network operating systems, virtualization, security and auditing, mobile applications and applied AI.'},
+      {meta:'Semester 5 · 2024',title:'Management became explicit',body:'Project management, leadership, test automation, IT governance, technology law and a semester project.'},
+      {meta:'Semester 6 · 2025',title:'Cloud, security and data',body:'Cybersecurity, cloud architecture, machine learning and data science.'},
+      {meta:'Semester 7 · 2025',title:'Continuity, UX and thesis proposal',body:'Cybersecurity, business continuity, cloud development, robotics, home automation and UX design.'},
+      {meta:'Semester 8 · 2026',title:'Thesis and graduation',body:'habITar, artificial intelligence, DevOps, and ethics, technology and society.'}
+    ]},
+    {id:'projects',eyebrow:'what a transcript cannot show',title:'Projects that shaped the path',intro:'Each project left something I still use.',items:[
+      {meta:'S2',title:'Development and Testing Project',body:'An integrated solution, its technical documentation and the complete testing cycle.'},
+      {meta:'S3',title:'Infrastructure Project',body:'VLAN, VRRP, bonding, firewall, VPN and RAID storage, delivered after the team shrank from five people to three.'},
+      {meta:'S4',title:'Technology Degree Final Project',body:'The close of the first cycle, integrating programming, databases, testing and a final defense.'},
+      {meta:'S8',title:'habITar',body:'A housing cooperative platform with 63 must-have requirements, 226 manual test cases and more than 2,700 automated tests. I focused on product, management and quality.'}
+    ]},
+    {id:'additional',eyebrow:'beyond UTEC',title:'What I added along the way',intro:'Some experiences closed technical gaps; others helped me name what I was already doing.',items:[
+      {title:'Jóvenes a Programar · Plan Ceibal',body:'My entry point into web development and technology work.'},{meta:'Completed · 2024',title:'Project Management Diploma · Academia Numen',body:'Scope, schedule, risks and agility, endorsed by PMI.'},{title:'OPI 2.0 · Franco Pisso',body:'Public speaking and communication to organize, defend and communicate an idea.'}
+    ]}
+  ]},
+  pt:{title:'Formação e experiência | Romina Caubarrere',description:'A trajetória profissional e acadêmica de Romina Caubarrere, da robótica e produto de software até a graduação em TI na UTEC.',kicker:'minha pasta acadêmica',heading:'Meu caminho pela UTEC, sem colocar tudo em uma linha',lede:'Entrei em 2022 pensando que aprenderia tecnologia. Também aprendi a trabalhar com equipes, sustentar projetos difíceis e transformar problemas técnicos em decisões concretas.',record:'Graduação em TI · UTEC Minas · 2022–2026',note:'Saber como o software é construído muda completamente a forma como eu o gerencio.',footer:'Voltar ao portfólio',sections:[
+    {id:'experience',eyebrow:'de hoje para trás',title:'Experiência profissional',intro:'Funções diferentes com o mesmo fio: entender o que é necessário, organizar o trabalho e ajudar as pessoas a avançar.',items:[
+      {meta:'dez 2025 · atual',title:'Project Manager · eagerworks',body:'Coordeno equipes e stakeholders, facilito o planejamento e acompanho o progresso e as entregas.'},{meta:'out 2024 · nov 2025',title:'Associate Product Manager · UKG',body:'Transformei insights e feedback em requisitos e prioridades de produto com equipes multifuncionais.'},{meta:'jun 2023 · fev 2024',title:'Project Manager Trainee · Plan Ceibal',body:'Planejei projetos e recursos, trabalhei com escopo e riscos e acompanhei várias iniciativas tecnológicas.'},{meta:'out 2022 · jun 2023',title:'Professora de robótica e programação',body:'Ensinei tecnologia com projetos práticos e adaptei as explicações a diferentes ritmos de aprendizagem.'}
+    ]},
+    {id:'utec',eyebrow:'o plano completo',title:'Oito semestres, um por um',intro:'Inglês e UTEC Innova acompanharam os oito semestres.',items:[
+      {meta:'Semestre 1 · 2022',title:'Programação, bancos de dados e testes',body:'Fundamentos orientados a objetos, Java, SQL, desenho de bancos de dados e testes funcionais.'},{meta:'Semestre 2 · 2023',title:'Projeto de desenvolvimento e testes',body:'Padrões de desenho, requisitos, desenvolvimento ágil, Java EE, bancos corporativos e testes.'},{meta:'Semestre 3 · 2023',title:'Infraestrutura',body:'Redes, interconexão, administração de bancos, gestão de testes e projeto de infraestrutura.'},{meta:'Semestre 4 · 2024',title:'Fechamento do Tecnólogo',body:'Sistemas de rede, virtualização, segurança e auditoria, aplicações móveis e IA aplicada.'},{meta:'Semestre 5 · 2024',title:'A gestão deixou de ser intuição',body:'Gestão de projetos, liderança, automação de testes, governança de TI e direito informático.'},{meta:'Semestre 6 · 2025',title:'Cloud, segurança e dados',body:'Cibersegurança, arquitetura cloud, machine learning e ciência de dados.'},{meta:'Semestre 7 · 2025',title:'Continuidade, UX e anteprojeto',body:'Cibersegurança, continuidade de negócio, desenvolvimento cloud, robótica, domótica e UX.'},{meta:'Semestre 8 · 2026',title:'Tese e conclusão',body:'habITar, inteligência artificial, DevOps e ética, tecnologia e sociedade.'}
+    ]},
+    {id:'projects',eyebrow:'o que não cabe no histórico',title:'Projetos que marcaram o caminho',intro:'Cada projeto deixou algo que continuo usando.',items:[
+      {meta:'S2',title:'Projeto de Desenvolvimento e Testes',body:'Uma solução integrada, documentação técnica e o ciclo completo de testes.'},{meta:'S3',title:'Projeto de Infraestrutura',body:'VLAN, VRRP, bonding, firewall, VPN e armazenamento RAID, entregue depois que a equipe passou de cinco pessoas para três.'},{meta:'S4',title:'Projeto Final do Tecnólogo',body:'O fechamento do primeiro ciclo, integrando programação, bancos de dados, testes e defesa final.'},{meta:'S8',title:'habITar',body:'Uma plataforma para cooperativas habitacionais com 63 requisitos must have, 226 casos manuais e mais de 2.700 testes automatizados. Meu foco foi produto, gestão e qualidade.'}
+    ]},
+    {id:'additional',eyebrow:'fora da UTEC',title:'O que fui somando no caminho',intro:'Algumas experiências fecharam lacunas técnicas; outras me ajudaram a nomear o que eu já fazia.',items:[{title:'Jóvenes a Programar · Plan Ceibal',body:'Minha entrada no desenvolvimento web e no trabalho em tecnologia.'},{meta:'Concluída · 2024',title:'Diploma em Gestão de Projetos · Academia Numen',body:'Escopo, cronograma, riscos e agilidade, com aval do PMI.'},{title:'OPI 2.0 · Franco Pisso',body:'Oratória e comunicação para organizar, defender e transmitir uma ideia.'}]}
+  ]}
+};
+
+const community: Record<Lang, Copy> = {
+  en:{title:'Community and talks | Romina Caubarrere',description:'Romina Caubarrere’s community-building work and record of talks, panels and events.',kicker:'the complete wall',heading:'Community and talks, without mixing the roles',lede:'Building a community and taking the microphone are different kinds of work. This record keeps them separate and leaves unconfirmed details explicitly unconfirmed.',record:'15 recorded activities',note:'5 organized events · 10 talks and panels',footer:'Back to the portfolio',sections:[
+    {id:'communities',eyebrow:'spaces that shaped me',title:'Communities, with name and role',intro:'Each one involved a different way of learning, supporting or making room for others.',items:[
+      {meta:'Jul 2023 · present',title:'Women Techmakers · Ambassador',body:'Events, speaking and content creation.'},{meta:'Mar 2026 · present',title:'Chicas en Tecnología · Ambassador',body:'Helping more young women get closer to technology.'},{meta:'Jul 2022 · Oct 2023',title:'PMI Nuevo Cuyo · VP of Partnerships',body:'Designed and implemented a public-relations program to create and sustain partnerships.'},{meta:'Completed path',title:'Jóvenes a Programar · Graduate',body:'Training and community within Plan Ceibal.'},{meta:'2022',title:'Líderes del Presente · Reverse mentor',body:'PMI and PMIEF volunteer experience.'},{title:'OPI 2.0 · Public speaking training',body:'Training with Franco Pisso.'}
+    ]},
+    {id:'organized',eyebrow:'community in action',title:'Organized events',intro:'The source record identifies these as organized activities; where individual responsibilities are not documented, I do not invent them.',items:[
+      {meta:'20 Aug 2024 · 50 attendees',title:'Financial Innovation: Investment and Technology',body:'Women Techmakers Uruguay. A half-day in-person session about investing in Uruguay and technology applied to personal finance.'},{meta:'8 Mar 2025 · 55 attendees',title:'IWD 2025 · Redefine Possible',body:'Women Techmakers Uruguay at Espacio Colabora. Four talks on tech paths, AI bias, multicultural teams and personal brand.'},{meta:'18 Dec 2025 · 25 attendees',title:'CX: Putting People at the Center',body:'Women Techmakers Uruguay at Espacio Colabora. A conference focused on customer experience.'},{meta:'20 Mar 2026 · 65 attendees',title:'Break the Pattern',body:'Women Techmakers Uruguay in Montevideo. AI, women’s leadership and stereotypes in technology.'},{meta:'30 Jul 2026 · 25 attendees',title:'Data in Action: Analysis and Automation',body:'A virtual Chicas en Tecnología workshop with Marlen Delgado about data, automation and applied AI.'}
+    ]},
+    {id:'talks',eyebrow:'each card, one participation',title:'Talks, panels and presentations',intro:'Incomplete dates and organizations remain marked as pending confirmation.',items:[
+      {meta:'2026 · exact date pending',title:'habITar presentation · Speaker',body:'Uruguayan Blockchain Chamber. Presentation of the final degree project.'},{meta:'Mar 2026 · day pending',title:'Break the Pattern · Panelist',body:'Women Techmakers Uruguay and UCU. Stereotypes in IT leadership.'},{meta:'2025 · exact date pending',title:'Exploring Roles in Technology · Panelist',body:'Campus Party Uruguay and WTM Uruguay.'},{meta:'Date pending',title:'End-to-End: Being a Woman in a Tech Role · Panelist',body:'Más Voces en Diseño, Uruguay Mujeres IT and WTM Uruguay.'},{meta:'Date pending',title:'Women Entrepreneurs Forum · Speaker',body:'Women’s leadership in STEM. Organization pending confirmation.'},{meta:'Date pending',title:'Launch of Tertulias · Presenter',body:'Club Jóvenes PMI and PMI Andes Patagonia. Topic pending in the source record.'},{meta:'Date pending',title:'IMPacto, Driving More Projects · Panelist',body:'Projects with young people from Colombia and Peru.'},{meta:'Date pending',title:'Women in Science and Technology · Speaker',body:'OMEU. Presentation of Física Mente Posible.'},{meta:'March · year pending',title:'Cybersecurity Talk · Speaker',body:'Colegio y Liceo Pablo Neruda in Atlántida, with Karina Urrutia.'},{meta:'Date pending',title:'LPF Hackathon Closing Gala · Presenter',body:'PMI Andes Patagonia. MetaConnect presentation with Daniela Lopes.'}
+    ]}
+  ]},
+  pt:{title:'Comunidade e palestras | Romina Caubarrere',description:'O trabalho de Romina Caubarrere em comunidades e seu registro de palestras, painéis e eventos.',kicker:'a parede completa',heading:'Comunidade e palestras, sem misturar os papéis',lede:'Construir comunidade e pegar o microfone são trabalhos diferentes. Este registro os mantém separados e deixa os dados não confirmados explicitamente pendentes.',record:'15 atividades registradas',note:'5 eventos organizados · 10 palestras e painéis',footer:'Voltar ao portfólio',sections:[
+    {id:'communities',eyebrow:'espaços que me formaram',title:'Comunidades, com nome e função',intro:'Cada uma trouxe uma forma diferente de aprender, acompanhar ou abrir espaço para outras pessoas.',items:[
+      {meta:'jul 2023 · atual',title:'Women Techmakers · Ambassador',body:'Eventos, palestras e criação de conteúdo.'},{meta:'mar 2026 · atual',title:'Chicas en Tecnología · Embaixadora',body:'Aproximando mais mulheres jovens da tecnologia.'},{meta:'jul 2022 · out 2023',title:'PMI Nuevo Cuyo · VP de Parcerias',body:'Desenhei e implementei um programa de relações públicas para criar e sustentar alianças.'},{meta:'trajetória concluída',title:'Jóvenes a Programar · Egressa',body:'Formação e comunidade dentro do Plan Ceibal.'},{meta:'2022',title:'Líderes del Presente · Retromentora',body:'Experiência voluntária com PMI e PMIEF.'},{title:'OPI 2.0 · Formação em oratória',body:'Formação com Franco Pisso.'}
+    ]},
+    {id:'organized',eyebrow:'comunidade em ação',title:'Eventos organizados',intro:'O registro fonte identifica estas atividades como organização própria; quando as tarefas individuais não estão documentadas, eu não as invento.',items:[
+      {meta:'20 ago 2024 · 50 pessoas',title:'Inovação Financeira: Investimento e Tecnologia',body:'Women Techmakers Uruguay. Encontro presencial sobre investimentos no Uruguai e tecnologia aplicada às finanças pessoais.'},{meta:'8 mar 2025 · 55 pessoas',title:'IWD 2025 · Redefine Possible',body:'Women Techmakers Uruguay no Espacio Colabora. Quatro palestras sobre trajetórias tech, vieses em IA, equipes multiculturais e marca pessoal.'},{meta:'18 dez 2025 · 25 pessoas',title:'CX: Colocando as Pessoas no Centro',body:'Women Techmakers Uruguay no Espacio Colabora. Conferência sobre experiência do cliente.'},{meta:'20 mar 2026 · 65 pessoas',title:'Break the Pattern',body:'Women Techmakers Uruguay em Montevidéu. IA, liderança feminina e estereótipos em tecnologia.'},{meta:'30 jul 2026 · 25 pessoas',title:'Dados em Ação: Análise e Automações',body:'Oficina virtual de Chicas en Tecnología com Marlen Delgado sobre dados, automação e IA aplicada.'}
+    ]},
+    {id:'talks',eyebrow:'cada ficha, uma participação',title:'Palestras, painéis e apresentações',intro:'Datas e organizações incompletas continuam marcadas como pendentes.',items:[
+      {meta:'2026 · data exata pendente',title:'Apresentação do habITar · Palestrante',body:'Câmara Uruguaia de Blockchain. Apresentação do projeto final.'},{meta:'mar 2026 · dia pendente',title:'Break the Pattern · Painelista',body:'Women Techmakers Uruguay e UCU. Estereótipos na liderança em TI.'},{meta:'2025 · data exata pendente',title:'Explorando Funções em Tecnologia · Painelista',body:'Campus Party Uruguay e WTM Uruguay.'},{meta:'data pendente',title:'End-to-End: Ser Mulher em uma Função Tech · Painelista',body:'Más Voces en Diseño, Uruguay Mujeres IT e WTM Uruguay.'},{meta:'data pendente',title:'Fórum de Mulheres Empreendedoras · Palestrante',body:'Liderança feminina em STEM. Organização pendente.'},{meta:'data pendente',title:'Lançamento das Tertulias · Apresentadora',body:'Club Jóvenes PMI e PMI Andes Patagonia. Tema pendente no registro.'},{meta:'data pendente',title:'IMPacto, Impulsionando Mais Projetos · Painelista',body:'Projetos com jovens da Colômbia e do Peru.'},{meta:'data pendente',title:'Mulheres em Ciência e Tecnologia · Palestrante',body:'OMEU. Apresentação de Física Mente Posible.'},{meta:'março · ano pendente',title:'Palestra de Cibersegurança · Palestrante',body:'Colegio y Liceo Pablo Neruda em Atlántida, com Karina Urrutia.'},{meta:'data pendente',title:'Gala de Encerramento LPF Hackathon · Apresentadora',body:'PMI Andes Patagonia. Apresentação do MetaConnect com Daniela Lopes.'}
+    ]}
+  ]}
+};
+
+const copy = ({ work, community, education } as const)[page][lang];
+const path = `${lang}/${slug}.html`;
+const canonical = `${base}${path}`;
+const alternates = [
+  {lang:'es',href:`${base}${slug}.html`},{lang:'en',href:`${base}en/${slug}.html`},{lang:'pt',href:`${base}pt/${slug}.html`},{lang:'x-default',href:`${base}${slug}.html`}
+];
+const pageLabel = page === 'work' ? 'work' : page === 'community' ? 'community' : 'education';
+---
+
+<BaseLayout lang={lang} ogLocale={lang === 'en' ? 'en_US' : 'pt_BR'} title={copy.title} description={copy.description} {canonical} {alternates}>
+  <a class="skip-link" href="#main-content">{lang === 'en' ? 'Skip to main content' : 'Pular para o conteúdo principal'}</a>
+  <LanguageSwitcher current={lang} page={page} />
+  <div class="topbar localized-topbar"><a href={`/${'personal'}/${lang}.html`}>&larr; {lang === 'en' ? 'Back to the studio' : 'Voltar ao estúdio'}</a><nav aria-label={lang === 'en' ? 'Page sections' : 'Seções da página'}>{copy.sections.map(section => <a href={`#${section.id}`}>{section.eyebrow}</a>)}</nav></div>
+  <header class="academic-hero brick" id="inicio"><div class="hero-inner"><div class="open-folder" data-label={pageLabel}><div class="folder-pages"><div class="hero-copy"><span class="kick">{copy.kicker}</span><h1>{copy.heading}</h1><p>{copy.lede}</p></div><aside class="file-card"><span class="label">{copy.record}</span><h2>{copy.title.split('|')[0]}</h2><p class="spoiler">{copy.note}</p><div class="file-stamps"><span>ES</span><span>{lang.toUpperCase()}</span><span>{lang === 'en' ? 'PT available' : 'EN disponível'}</span></div></aside></div></div></div></header>
+  <main id="main-content" tabindex="-1">
+    {copy.sections.map((section, sectionIndex) => <section class={sectionIndex % 2 ? 'academic-projects' : 'route'} id={section.id}><div class={sectionIndex % 2 ? 'projects-inner' : 'route-inner'}><div class="section-title"><span class="small">{section.eyebrow}</span><h2>{section.title}</h2><p>{section.intro}</p></div><div class="project-stack">{section.items.map((item,index) => <article class="project-sheet" style={`grid-column:span 6;--sheet-rotate:${index % 2 ? '.6deg' : '-.6deg'};${index % 2 ? 'background:#eef3df' : ''}`}><div class="code">{item.meta || String(index + 1).padStart(2,'0')}</div><div><h3>{item.title}</h3><p>{item.body}</p></div></article>)}</div></div></section>)}
+  </main>
+  <footer><p>{copy.note}</p><a href={`/${'personal'}/${lang}.html`}>{copy.footer}</a></footer>
+  <script is:inline>
+  (function(){
+    var sectionLinks=Array.prototype.slice.call(document.querySelectorAll('.topbar nav a'));
+    var sections=sectionLinks.map(function(link){return document.querySelector(link.getAttribute('href'));}).filter(Boolean);
+    if(!('IntersectionObserver' in window)) return;
+    var observer=new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        if(!entry.isIntersecting) return;
+        sectionLinks.forEach(function(link){
+          var active=link.getAttribute('href')==='#'+entry.target.id;
+          if(active) link.setAttribute('aria-current','location');
+          else link.removeAttribute('aria-current');
+        });
+      });
+    },{rootMargin:'-25% 0px -60%',threshold:0});
+    sections.forEach(function(section){observer.observe(section);});
+  })();
+  </script>
+</BaseLayout>
