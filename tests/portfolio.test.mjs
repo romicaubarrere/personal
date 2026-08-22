@@ -270,6 +270,20 @@ test('la portada enlaza al recorrido académico completo', () => {
   assert.doesNotMatch(html, /id="experiencia"|id="formacion"/i);
 });
 
+test('WEB-121 permite fijar las notas de Sobre mí con mouse, tacto y teclado', () => {
+  const about = html.match(/<section\b[^>]*id="sobre"[^>]*>([\s\S]*?)<\/section>/i);
+  assert.ok(about, 'No se encontró la sección Sobre mí');
+  assert.equal((about[1].match(/class="note-pin(?: green)?" type="button"/g) ?? []).length, 2);
+  assert.equal((about[1].match(/aria-pressed="false"/g) ?? []).length, 2);
+  assert.match(about[1], /id="note-pin-status" aria-live="polite"/);
+  assert.match(html, /note\.classList\.toggle\('is-pinned',pinned\)/);
+  assert.match(html, /pin\.setAttribute\('aria-pressed',String\(pinned\)\)/);
+  assert.match(html, /\.about-note\.reveal\.in\.is-pinned\{transform:translateY\(-4px\) rotate\(0deg\);/);
+  assert.match(html, /\.note-pin\{[^}]*width:44px;height:44px;/);
+  assert.match(html, /\.note-pin:focus-visible\{outline:3px solid var\(--cream\)/);
+  assert.match(html, /@media\(prefers-reduced-motion:reduce\)\{html\{scroll-behavior:auto;\}\*\{animation:none!important;transition-duration:\.001ms!important;\}/);
+});
+
 test('WEB-050 concentra los intereses personales cerca del final', () => {
   const personalBlock = html.match(/<section class="reads" id="lecturas">([\s\S]*?)<\/section>/i);
   assert.ok(personalBlock, 'No se encontr\u00f3 el bloque personal de lecturas');
