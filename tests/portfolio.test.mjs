@@ -520,7 +520,7 @@ test('lo que hago presenta cinco encargos como problema y resultado sin rótulos
   assert.equal(cardBodies.filter((card) => /<p>Si\s/i.test(card)).length, 0);
   assert.match(section[1], /Hay un proyecto de software abierto en demasiados frentes/);
   assert.match(section[1], /La necesidad es real, pero llega como una idea suelta/);
-  assert.match(section[1], /<a class="offers-link" href="index\.html#contacto">Hablemos de tu idea/);
+  assert.match(section[1], /<a class=\"offers-link\" href=\"\/personal\/#contacto\">Hablemos de tu idea/);
   assert.doesNotMatch(section[1], /fractional|freelance/i);
   assert.match(workHtml, /\.offers-grid\{display:grid;grid-template-columns:repeat\(12,minmax\(0,1fr\)\)/);
   assert.match(workHtml, /\.offer-card:nth-child\(5\)\{grid-column:3\/span 8;/);
