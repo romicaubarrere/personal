@@ -187,6 +187,23 @@
   })();
 
   (function(){
+    var notePins=Array.from(document.querySelectorAll('.note-pin'));
+    var notePinStatus=document.querySelector('#note-pin-status');
+    notePins.forEach(function(pin){
+      pin.addEventListener('click',function(){
+        var note=pin.closest('.about-note');
+        var pinned=pin.getAttribute('aria-pressed')!=='true';
+        pin.setAttribute('aria-pressed',String(pinned));
+        note.classList.toggle('is-pinned',pinned);
+        if(notePinStatus){
+          var title=note.querySelector('h3').textContent;
+          notePinStatus.textContent=pinned ? 'Nota fijada: '+title+'.' : 'Nota liberada: '+title+'.';
+        }
+      });
+    });
+  })();
+
+  (function(){
     var els = document.querySelectorAll('.reveal');
     if(reducedMotion){showReveals();return;}
     if(!('IntersectionObserver' in window)){els.forEach(function(e){e.classList.add('in');});return;}
