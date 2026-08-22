@@ -91,26 +91,6 @@ export const PROJECTS: ProjectBook[] = [
       results: 'Llegamos a la defensa técnica final el 14 de agosto de 2026 con una versión funcional que integraba cuotas y morosidad, mantenimiento, reservas, eventos, comunicados y votaciones. La validación incluyó 226 casos manuales, más de 2.700 pruebas automatizadas y seis suites.',
       learnings: 'El proyecto confirmó que adaptar el método no es aflojarlo: es sostener sus objetivos con una dinámica que el equipo y las personas usuarias puedan mantener. También dejó una regla clara: una tecnología compleja solo aporta valor si la experiencia sigue siendo simple.'
     }
-  },
-  {
-    id: 'personal',
-    spineClass: 's1',
-    spineLabel: 'El estudio de Romi',
-    ariaLabel: 'Abrir proyecto: El estudio de Romi',
-    bands: 2,
-    tag: 'Producto · diseño · QA · DevOps',
-    color: '#3f7d4e',
-    title: 'El estudio de Romi',
-    subtitle: 'mi primer proyecto post-UTEC',
-    summary: 'Mi portfolio también es un producto: lo empecé una semana después de recibirme y estoy llevando producto, diseño, gestión, testing y DevOps de punta a punta.',
-    sections: {
-      context: 'Empecé este portfolio una semana después de recibirme como Licenciada en Tecnologías de la Información. Quería que el primer proyecto de esta nueva etapa no fuera una plantilla para mostrar trabajos anteriores, sino un producto propio que también demostrara cómo pienso y cómo trabajo.',
-      challenge: 'El desafío es construir una experiencia que se sienta realmente mía y que, al mismo tiempo, funcione como software mantenible: responsive, accesible, traducible, verificable y fácil de seguir evolucionando. Cada decisión visual tiene que convivir con requisitos de producto, navegación, contenido, calidad y operación.',
-      role: 'Estoy llevando el proyecto de punta a punta: definición de producto, dirección de diseño, priorización y gestión del backlog, QA y testing, y decisiones de DevOps. Reviso el resultado visual y funcional, convierto hallazgos en tickets y uso cada iteración para acercar el producto a una identidad propia, no a una estética genérica.',
-      decisions: 'Migré la base a Astro, organicé los cambios por tickets y ramas, incorporé verificaciones automatizadas, accesibilidad y <em>prefers-reduced-motion</em>, documentación técnica, soporte en español, inglés y portugués, SEO técnico y un sistema de microinteracciones que forma parte de la identidad del sitio.',
-      results: 'El proyecto ya funciona como portfolio y como evidencia de proceso. El código, las decisiones y la evolución están disponibles para revisar: <a href="https://github.com/romicaubarrere/personal" target="_blank" rel="noreferrer">ver repositorio</a> · <a href="https://github.com/romicaubarrere/personal/blob/main/docs/project-history.md" target="_blank" rel="noreferrer">ver historial del proyecto</a> · <a href="https://github.com/romicaubarrere/personal/tree/main/docs" target="_blank" rel="noreferrer">entrar a la documentación</a>.',
-      learnings: 'Me gusta que este sea mi primer proyecto después de graduarme porque junta áreas que normalmente aparecen separadas: producto, diseño, gestión, calidad y operación. No lo estoy tratando como una pieza terminada: el historial queda abierto para registrar decisiones, problemas, cambios y aprendizajes a medida que el producto crece.'
-    }
   }
 ];
 
