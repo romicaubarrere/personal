@@ -543,6 +543,13 @@ test('robots, sitemap y 404 quedan listos para GitHub Pages', async () => {
   assert.match(notFound, /<meta name="robots" content="noindex,follow">/i);
   assert.match(notFound, /href="\/personal\/"/i);
   assert.doesNotMatch(notFound, /href="index\.html"/i);
+  assert.match(notFound, /data-i18n="heading"/i);
+  assert.ok(notFound.includes("relativePath.startsWith('en/')"));
+  assert.ok(notFound.includes("relativePath.startsWith('pt/')"));
+  assert.ok(notFound.includes("home: \`${base}en.html\`"));
+  assert.ok(notFound.includes("home: \`${base}pt.html\`"));
+  assert.ok(notFound.includes('document.documentElement.lang = lang'));
+  assert.ok(notFound.includes("setAttribute('href', copy.home)"));
 });
 
 test('ninguna ruta genera referencias pegadas o duplicadas a /personal', () => {

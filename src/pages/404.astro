@@ -11,20 +11,88 @@ const base = import.meta.env.BASE_URL.endsWith('/')
 ---
 
 <BaseLayout {title} {description} {canonical} robots="noindex,follow">
-  <a class="skip-link" href="#main-content">Saltar al contenido</a>
+  <a class="skip-link" href="#main-content" data-i18n="skip">Saltar al contenido</a>
   <header class="top brick">
     <div class="hero">
-      <span class="kicker">parece que este papel se perdi&oacute;</span>
-      <h1>P&aacute;gina no encontrada</h1>
-      <p class="summary">La direcci&oacute;n puede haber cambiado o el enlace puede estar incompleto.</p>
+      <span class="kicker" data-i18n="kicker">parece que este papel se perdi&oacute;</span>
+      <h1 data-i18n="heading">P&aacute;gina no encontrada</h1>
+      <p class="summary" data-i18n="summary">La direcci&oacute;n puede haber cambiado o el enlace puede estar incompleto.</p>
     </div>
   </header>
   <main class="cork" id="main-content" tabindex="-1">
     <article class="paper">
       <span class="tape" aria-hidden="true"></span>
-      <p class="short"><strong>Volvamos al estudio.</strong></p>
-      <p><a href={base}>Ir al portfolio de Romina Caubarrere</a></p>
+      <p class="short"><strong data-i18n="return">Volvamos al estudio.</strong></p>
+      <p><a href={base} data-i18n="cta">Ir al portfolio de Romina Caubarrere</a></p>
     </article>
   </main>
-  <footer class="footer">hecho con m&eacute;todo, plantas y un poco de lana &middot; Romina Caubarrere</footer>
+  <footer class="footer" data-i18n="footer">hecho con m&eacute;todo, plantas y un poco de lana &middot; Romina Caubarrere</footer>
+
+  <script is:inline define:vars={{ base }}>
+    const translations = {
+      es: {
+        title: 'Página no encontrada | Romina Caubarrere',
+        description: 'La página que buscabas no existe o cambió de lugar dentro del portfolio de Romina Caubarrere.',
+        locale: 'es_UY',
+        skip: 'Saltar al contenido',
+        kicker: 'parece que este papel se perdió',
+        heading: 'Página no encontrada',
+        summary: 'La dirección puede haber cambiado o el enlace puede estar incompleto.',
+        return: 'Volvamos al estudio.',
+        cta: 'Ir al portfolio de Romina Caubarrere',
+        home: base,
+        footer: 'hecho con método, plantas y un poco de lana · Romina Caubarrere'
+      },
+      en: {
+        title: 'Page not found | Romina Caubarrere',
+        description: "The page you were looking for does not exist or has moved within Romina Caubarrere's portfolio.",
+        locale: 'en_US',
+        skip: 'Skip to content',
+        kicker: 'it looks like this paper got lost',
+        heading: 'Page not found',
+        summary: 'The address may have changed or the link may be incomplete.',
+        return: "Let's go back to the studio.",
+        cta: "Go to Romina Caubarrere's portfolio",
+        home: `${base}en.html`,
+        footer: 'made with method, plants and a little yarn · Romina Caubarrere'
+      },
+      pt: {
+        title: 'Página não encontrada | Romina Caubarrere',
+        description: 'A página que você procurava não existe ou mudou de lugar no portfólio de Romina Caubarrere.',
+        locale: 'pt_BR',
+        skip: 'Pular para o conteúdo',
+        kicker: 'parece que este papel se perdeu',
+        heading: 'Página não encontrada',
+        summary: 'O endereço pode ter mudado ou o link pode estar incompleto.',
+        return: 'Vamos voltar ao estúdio.',
+        cta: 'Ir ao portfólio de Romina Caubarrere',
+        home: `${base}pt.html`,
+        footer: 'feito com método, plantas e um pouco de lã · Romina Caubarrere'
+      }
+    };
+    const relativePath = window.location.pathname.startsWith(base)
+      ? window.location.pathname.slice(base.length)
+      : '';
+    const lang = relativePath === 'en.html' || relativePath.startsWith('en/') 
+      ? 'en'
+      : relativePath === 'pt.html' || relativePath.startsWith('pt/')
+        ? 'pt'
+        : 'es';
+    const copy = translations[lang];
+    document.documentElement.lang = lang;
+    document.title = copy.title;
+    document.querySelector('meta[name="description"]')?.setAttribute('content', copy.description);
+    document.querySelector('meta[property="og:locale"]')?.setAttribute('content', copy.locale);
+    document.querySelector('meta[property="og:title"]')?.setAttribute('content', copy.title);
+    document.querySelector('meta[property="og:description"]')?.setAttribute('content', copy.description);
+    document.querySelector('meta[name="twitter:title"]')?.setAttribute('content', copy.title);
+    document.querySelector('meta[name="twitter:description"]')?.setAttribute('content', copy.description);
+    for (const [key, value] of Object.entries(copy)) {
+      if (['title', 'description', 'locale', 'home'].includes(key)) continue;
+      document.querySelectorAll(`[data-i18n="${key}"]`).forEach((element) => {
+        element.textContent = value;
+      });
+    }
+    document.querySelector('[data-i18n="cta"]')?.setAttribute('href', copy.home);
+  </script>
 </BaseLayout>

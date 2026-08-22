@@ -23,6 +23,23 @@ test('las rutas principales cargan en el idioma esperado', async ({ page }) => {
   }
 });
 
+test('la 404 conserva el idioma y vuelve a la portada equivalente', async ({ page }) => {
+  const cases = [
+    { path: '/personal/no-existe', lang: 'es', heading: 'Página no encontrada', home: '/personal/' },
+    { path: '/personal/en/no-existe', lang: 'en', heading: 'Page not found', home: '/personal/en.html' },
+    { path: '/personal/pt/no-existe', lang: 'pt', heading: 'Página não encontrada', home: '/personal/pt.html' }
+  ];
+
+  for (const current of cases) {
+    const response = await page.goto(current.path, { waitUntil: 'domcontentloaded' });
+    expect(response?.status(), current.path).toBe(404);
+    await expect(page.locator('html')).toHaveAttribute('lang', current.lang);
+    await expect(page.locator('h1')).toHaveText(current.heading);
+    await expect(page.locator('[data-i18n="cta"]')).toHaveAttribute('href', current.home);
+    await expect(page.locator('meta[name="robots"]')).toHaveAttribute('content', 'noindex,follow');
+  }
+});
+
 test('el selector conserva la página al cambiar de idioma', async ({ page }) => {
   await page.goto('/personal/como-trabajo.html');
   const languages = page.locator('.language-switcher');
