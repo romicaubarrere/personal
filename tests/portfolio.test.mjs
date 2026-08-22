@@ -66,8 +66,24 @@ test('el estante de proyectos se desplaza en una sola fila en móvil', () => {
   assert.match(html, /\.books\{flex-wrap:nowrap;width:max-content;min-width:100%;\}/);
   assert.match(html, /\.spine\{flex:0 0 76px;scroll-snap-align:start;\}/);
 
-  const projectTriggers = html.match(/class="spine [^"]+"[^>]*role="button"[^>]*tabindex="0"/g) ?? [];
+  const projectTriggers = html.match(/<button\b[^>]*class="spine [^"]+"[^>]*type="button"/g) ?? [];
   assert.equal(projectTriggers.length, 5);
+});
+
+test('los proyectos usan botones semánticos con nombres accesibles', () => {
+  const projectTriggers = [...html.matchAll(/<button\b([^>]*)class="spine [^"]+"([^>]*)>/g)];
+  assert.equal(projectTriggers.length, 5);
+
+  for (const trigger of projectTriggers) {
+    const attributes = `${trigger[1]}${trigger[2]}`;
+    assert.match(attributes, /type="button"/);
+    assert.match(attributes, /aria-haspopup="dialog"/);
+    assert.match(attributes, /aria-label="Abrir proyecto[^\"]+"/);
+    assert.doesNotMatch(attributes, /role="button"|tabindex="0"/);
+  }
+
+  assert.match(html, /\.spine:focus-visible\{outline:3px solid var\(--gold\);outline-offset:3px;\}/);
+  assert.doesNotMatch(html, /sp\.addEventListener\('keydown'/);
 });
 
 test('el recorrido académico conserva toda la información aprobada', () => {
