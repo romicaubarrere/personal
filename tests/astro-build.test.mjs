@@ -83,7 +83,8 @@ test('la portada se compone desde módulos Astro con una única isla React', asy
 
   assert.match(page, /components\/home\/Hero\.astro/);
   assert.match(page, /components\/islands\/ProjectBookcase/);
-  assert.match(page, /<ProjectBookcase client:load \/>/);
+  assert.match(page, /<ProjectBookcase client:idle \/>/);
+  assert.doesNotMatch(page, /<ProjectBookcase client:load \/>/);
   assert.match(page, /layouts\/BaseLayout\.astro/);
   assert.equal((page.match(/client:/g) ?? []).length, 1);
   assert.doesNotMatch(page, /LegacyDocument/);

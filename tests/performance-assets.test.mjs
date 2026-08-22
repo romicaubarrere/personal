@@ -55,3 +55,12 @@ test('las fuentes externas conservan conexiones anticipadas', async () => {
   assert.match(home, /rel="preconnect" href="https:\/\/fonts\.gstatic\.com" crossorigin/);
   assert.match(home, /family=Fraunces:[^"']+family=DM\+Sans:[^"']+family=Caveat:[^"']+display=swap/);
 });
+
+test('la isla React se hidrata cuando el navegador queda libre', async () => {
+  const home = await readFile(join(distRoot, 'index.html'), 'utf8');
+  const pageSource = await readFile(join(repositoryRoot, 'src', 'pages', 'index.astro'), 'utf8');
+
+  assert.match(pageSource, /<ProjectBookcase client:idle \/>/);
+  assert.doesNotMatch(pageSource, /client:load/);
+  assert.match(home, /client="idle"/);
+});
