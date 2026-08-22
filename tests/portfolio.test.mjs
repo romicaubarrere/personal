@@ -3,6 +3,7 @@ import { readFile } from 'node:fs/promises';
 import { dirname, join } from 'node:path';
 import test from 'node:test';
 import { fileURLToPath } from 'node:url';
+import { runInNewContext } from 'node:vm';
 
 const repositoryRoot = join(dirname(fileURLToPath(import.meta.url)), '..');
 const html = await readFile(join(repositoryRoot, 'index.html'), 'utf8');
@@ -23,6 +24,10 @@ const postStyles = await readFile(join(repositoryRoot, 'posts', 'post.css'), 'ut
 const blogGuide = await readFile(join(repositoryRoot, 'docs', 'blog-guide.md'), 'utf8');
 const languageStrategy = await readFile(
   join(repositoryRoot, 'docs', 'language-strategy.md'),
+  'utf8'
+);
+const projectCaseTemplate = await readFile(
+  join(repositoryRoot, 'docs', 'project-case-template.md'),
   'utf8'
 );
 
@@ -276,6 +281,56 @@ test('los proyectos usan botones semánticos con nombres accesibles', () => {
 
   assert.match(html, /\.spine:focus-visible\{outline:3px solid var\(--gold\);outline-offset:3px;\}/);
   assert.doesNotMatch(html, /sp\.addEventListener\('keydown'/);
+});
+
+test('los casos de proyecto comparten una plantilla ordenada y omiten campos vacíos', () => {
+  const model = html.match(/var CASE_PAGE_ORDER = [\s\S]*?\n  var BOOKS = [\s\S]*?\n  };\n\n  \(function\(\)\{/);
+  assert.ok(model, 'No se encontró el modelo reutilizable de casos');
+
+  const context = {};
+  runInNewContext(model[0].replace(/\n\n  \(function\(\)\{$/, ''), context);
+  const expectedOrder = [
+    'Contexto',
+    'Desafío',
+    'Rol de Romina',
+    'Equipo y stakeholders',
+    'Decisiones y acciones',
+    'Resultados',
+    'Aprendizajes'
+  ];
+
+  assert.deepEqual(
+    Array.from(context.CASE_PAGE_ORDER, (definition) => definition.title),
+    expectedOrder
+  );
+  assert.equal(Object.keys(context.BOOKS).length, 5);
+  for (const book of Object.values(context.BOOKS)) {
+    assert.equal(book.pages[0].cover, true);
+    const headings = Array.from(book.pages.slice(1), (page) => page.h);
+    const positions = headings.map((heading) => expectedOrder.indexOf(heading));
+    assert.ok(positions.every((position) => position >= 0));
+    assert.deepEqual(positions, [...positions].sort((a, b) => a - b));
+    assert.ok(book.pages.every((page) => page.cover || page.html));
+  }
+
+  const partial = context.makeBookCase({
+    title: 'Caso de prueba',
+    subtitle: 'sin campos vacíos',
+    tag: 'Prueba',
+    color: '#000000',
+    sections: {context: 'Contexto visible', challenge: '', role: 'Rol visible'}
+  });
+  assert.deepEqual(
+    Array.from(partial.pages, (page) => page.cover ? 'Portada' : page.h),
+    ['Portada', 'Contexto', 'Rol de Romina']
+  );
+
+  assert.match(projectCaseTemplate, /Contexto[\s\S]*Desafío[\s\S]*Rol de Romina[\s\S]*Equipo y stakeholders[\s\S]*Decisiones y acciones[\s\S]*Resultados[\s\S]*Aprendizajes/);
+  assert.match(projectCaseTemplate, /No se inventan métricas/);
+  assert.match(projectCaseTemplate, /anonimizar/i);
+  assert.match(projectCaseTemplate, /campos vacíos no generan páginas/);
+  assert.match(projectCaseTemplate, /Metodologías y herramientas/);
+  assert.match(projectCaseTemplate, /evidencia visual o enlazada/i);
 });
 
 test('el modal de proyectos gestiona el foco como un diálogo accesible', () => {
