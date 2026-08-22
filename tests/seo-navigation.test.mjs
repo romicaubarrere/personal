@@ -86,6 +86,15 @@ test('Open Graph y X describen cada ruta y reutilizan la tarjeta aprobada', () =
   }
 });
 
+test('todas las rutas declaran una única identidad profesional verificada', () => {
+  for (const [route, source] of routeDocuments) {
+    const identityLinks = [...source.matchAll(/<link\b[^>]*rel="me"[^>]*href="([^"]+)"[^>]*>/gi)];
+    assert.equal(identityLinks.length, 1, `${route} debe declarar una identidad`);
+    assert.equal(identityLinks[0][1], 'https://www.linkedin.com/in/rominacaubarrere/');
+    assert.doesNotMatch(identityLinks[0][0], /instagram|mailto:|placeholder/i);
+  }
+});
+
 test('las notas publican datos estructurados específicos y sin datos no aprobados', () => {
   for (const route of [
     'posts/por-que-hago-tantas-preguntas.html',
