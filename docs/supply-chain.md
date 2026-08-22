@@ -22,7 +22,7 @@ CI comprueba explícitamente las versiones raíz y mantiene `engine-strict`
 activo. Los metadatos de dependencias transitivas se conservan exactamente como
 los publica el registro: fijar el entorno del proyecto no implica reescribir
 los contratos de terceros. El lockfile v3 es obligatorio y `npm ci` falla si
-`package.json` y `package-lock.json` no coinciden.
+`package.json` y `package-lock.json` no coinciden. El resultado esperado es una instalación reproducible sin excepciones locales.
 
 ## Controles de suministro
 
