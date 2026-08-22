@@ -357,6 +357,24 @@ test('los casos de proyecto comparten una plantilla ordenada y omiten campos vac
     ['Portada', 'Contexto', 'Rol de Romina']
   );
 
+  const habitar = context.BOOKS.habitar;
+  assert.ok(habitar, 'El caso habITar debe estar publicado en el estante');
+  assert.deepEqual(
+    Array.from(habitar.pages.slice(1), (page) => page.h),
+    expectedOrder
+  );
+  const habitarContent = Array.from(habitar.pages, (page) => page.html ?? '').join(' ');
+  assert.match(habitarContent, /46 semanas/);
+  assert.match(habitarContent, /gestión del proyecto, la definición y priorización del producto y el testing manual/);
+  assert.match(habitarContent, /Diego Furiati/);
+  assert.match(habitarContent, /Alejandro Hernández/);
+  assert.match(habitarContent, /63 requisitos/);
+  assert.match(habitarContent, /14 de agosto de 2026/);
+  assert.match(habitarContent, /226 casos manuales/);
+  assert.match(habitarContent, /2\.700 pruebas automatizadas/);
+  assert.doesNotMatch(habitarContent, /COVIMA|Elena Quinteros|35 familias/);
+  assert.match(html, /data-book="habitar"[^>]*aria-label="Abrir proyecto: habITar"/);
+
   assert.match(projectCaseTemplate, /Contexto[\s\S]*Desafío[\s\S]*Rol de Romina[\s\S]*Equipo y stakeholders[\s\S]*Decisiones y acciones[\s\S]*Resultados[\s\S]*Aprendizajes/);
   assert.match(projectCaseTemplate, /No se inventan métricas/);
   assert.match(projectCaseTemplate, /anonimizar/i);
