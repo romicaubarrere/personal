@@ -1,15 +1,11 @@
 ---
 import PostLayout from '../../layouts/PostLayout.astro';
+import { getPublishedPost } from '../../data/posts';
+
+const post = getPublishedPost('cuando-puedas');
 ---
 
-<PostLayout
-  title="Cuando puedas (cuando en realidad necesito que sea hoy) | Romina Caubarrere"
-  description="Una nota personal sobre comunicación, feedback y aprender a ser directa sin sentir que todo tiene que convertirse en un reclamo."
-  canonical="https://romicaubarrere.github.io/personal/posts/cuando-puedas.html"
-  summary="Cuando en realidad necesito que sea hoy. Sobre feedback, mensajes de tres líneas y aprender a bancarme un poco la incomodidad."
-  dateTime="2026-08"
-  dateLabel="agosto 2026"
->
+<PostLayout {...post}>
   <Fragment slot="heading">Cuando <em>puedas</em></Fragment>
     <p>Tengo un problema con “cuando puedas”.</p>
     <p>Porque muchas veces digo “cuando puedas” cuando, en realidad, necesito que sea hoy.</p>
