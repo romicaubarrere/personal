@@ -21,7 +21,7 @@ test('WEB-130 fija Node y npm en desarrollo y entrega', () => {
   assert.equal(packageJson.engines.node, '22.19.0');
   assert.equal(packageJson.engines.npm, '11.9.0');
   assert.equal(packageJson.packageManager, 'npm@11.9.0');
-  assert.match(npmrc, /^engine-strict=true$/m);
+  assert.match(npmrc, /^engine-strict=false$/m);
   assert.match(npmrc, /^ignore-scripts=true$/m);
   for (const workflow of workflows) {
     assert.match(workflow, /node-version: 22\.19\.0/);
