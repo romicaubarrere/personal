@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-labelledby="title description">
+  <title id="title">Romina Caubarrere, Project Manager de software</title>
+  <desc id="description">Tarjeta verde y crema con la identidad visual del portfolio El estudio de Romi.</desc>
+  <rect width="1200" height="630" fill="#22432c"/>
+  <rect x="0" y="0" width="18" height="630" fill="#cf9a3f"/>
+  <circle cx="1075" cy="80" r="245" fill="#2b5a38" opacity="0.72"/>
+  <circle cx="1135" cy="620" r="260" fill="#1a3422" opacity="0.58"/>
+
+  <g transform="translate(72 65)">
+    <rect width="338" height="46" rx="6" fill="#161310"/>
+    <text x="22" y="30" fill="#faf3e4" font-family="Arial, sans-serif" font-size="17" font-weight="700" letter-spacing="2.2">PORTFOLIO · PROJECT MANAGEMENT</text>
+
+    <text x="0" y="158" fill="#faf3e4" font-family="Georgia, serif" font-size="82" font-weight="400">Romina</text>
+    <text x="0" y="244" fill="#93d694" font-family="Georgia, serif" font-size="82" font-style="italic" font-weight="400">Caubarrere</text>
+
+    <rect x="2" y="284" width="104" height="5" rx="2.5" fill="#cf9a3f"/>
+    <text x="0" y="342" fill="#faf3e4" font-family="Arial, sans-serif" font-size="30" font-weight="700">Project Manager de software</text>
+    <text x="0" y="400" fill="#efe4cd" font-family="Arial, sans-serif" font-size="24">
+      <tspan x="0" dy="0">Conecto personas, producto y tecnología</tspan>
+      <tspan x="0" dy="36">para que proyectos complejos avancen.</tspan>
+    </text>
+    <text x="0" y="518" fill="#f3d18c" font-family="Arial, sans-serif" font-size="18" letter-spacing="1.3">ROMICAUBARRERE.GITHUB.IO/PERSONAL</text>
+  </g>
+
+  <g transform="translate(846 96) rotate(3 143 202)">
+    <rect x="0" y="0" width="286" height="404" rx="5" fill="#faf3e4"/>
+    <rect x="18" y="18" width="250" height="280" rx="3" fill="#efe4cd"/>
+    <circle cx="143" cy="158" r="76" fill="#22432c"/>
+    <text x="143" y="184" text-anchor="middle" fill="#faf3e4" font-family="Georgia, serif" font-size="76" font-style="italic">RC</text>
+
+    <g fill="none" stroke="#3c7549" stroke-width="7" stroke-linecap="round">
+      <path d="M45 259 C89 221, 106 177, 99 121"/>
+      <path d="M51 247 C34 233, 31 214, 39 198"/>
+      <path d="M68 226 C54 205, 57 185, 71 172"/>
+      <path d="M83 202 C71 183, 76 163, 91 151"/>
+    </g>
+    <g fill="#657249">
+      <ellipse cx="38" cy="198" rx="15" ry="28" transform="rotate(-42 38 198)"/>
+      <ellipse cx="69" cy="170" rx="14" ry="26" transform="rotate(-34 69 170)"/>
+      <ellipse cx="92" cy="145" rx="13" ry="24" transform="rotate(-25 92 145)"/>
+      <ellipse cx="57" cy="236" rx="14" ry="26" transform="rotate(38 57 236)"/>
+    </g>
+
+    <text x="143" y="341" text-anchor="middle" fill="#5f5749" font-family="Georgia, serif" font-size="26" font-style="italic">el estudio de Romi</text>
+    <text x="143" y="373" text-anchor="middle" fill="#8f4230" font-family="Arial, sans-serif" font-size="14" font-weight="700" letter-spacing="1.6">PERSONAS · PRODUCTO · TECNOLOGÍA</text>
+  </g>
+
+  <rect x="902" y="73" width="128" height="30" fill="#cf9a3f" opacity="0.72" transform="rotate(-5 966 88)"/>
+</svg>
