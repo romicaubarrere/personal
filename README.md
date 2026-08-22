@@ -41,6 +41,8 @@ GitHub Actions ejecuta los tests automáticamente en cada push y pull request.
 
 No se incorpora React para contenido estático. Las interacciones se resuelven primero con APIs del navegador y deben conservar navegación, accesibilidad y responsive.
 
+El sitio se publica solamente en español por ahora. La evaluación y las condiciones para reconsiderar una versión completa en inglés están en [`docs/language-strategy.md`](docs/language-strategy.md).
+
 ## Estructura
 
 - `index.html`: portada y secciones principales del portfolio.
@@ -48,4 +50,5 @@ No se incorpora React para contenido estático. Las interacciones se resuelven p
 - `tests/portfolio.test.mjs`: validaciones automáticas sin dependencias externas.
 - `.github/workflows/test.yml`: integración continua.
 - `docs/architecture-decision.md`: decisión de arquitectura y flujo operativo.
+- `docs/language-strategy.md`: decisión de idioma y condiciones de reevaluación.
 - `docs/branching-strategy.md`: estrategia de ramas y flujo de integración.
