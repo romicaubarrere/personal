@@ -7,6 +7,10 @@ import { fileURLToPath } from 'node:url';
 const repositoryRoot = join(dirname(fileURLToPath(import.meta.url)), '..');
 const dist = join(repositoryRoot, 'dist');
 const readme = await readFile(join(repositoryRoot, 'README.md'), 'utf8');
+const deployWorkflow = await readFile(
+  join(repositoryRoot, '.github', 'workflows', 'deploy-pages.yml'),
+  'utf8'
+);
 
 const routes = [
   'index.html',
@@ -31,6 +35,10 @@ test('la documentación explica el flujo Astro vigente', () => {
   assert.match(readme, /npm run build/);
   assert.match(readme, /base pública `\/personal`/);
   assert.match(readme, /tests\/astro-build\.test\.mjs/);
+  assert.match(readme, /GitHub Actions/);
+  assert.match(deployWorkflow, /uses: withastro\/action@v6/);
+  assert.match(deployWorkflow, /uses: actions\/deploy-pages@v5/);
+  assert.match(deployWorkflow, /branches: \[main\]/);
 });
 
 test('la portada compilada conserva estructura, contenido e interacciones', async () => {
@@ -87,8 +95,7 @@ test('la salida conserva assets públicos y cantidades académicas', async () =>
     access(join(dist, 'favicon.svg')),
     access(join(dist, 'social-preview.png')),
     access(join(dist, 'social-preview.svg')),
-    access(join(dist, 'microinteractions.css')),
-    access(join(dist, 'posts', 'post.css'))
+    access(join(dist, 'microinteractions.css'))
   ]);
 
   const formation = await readFile(join(dist, 'formacion.html'), 'utf8');
@@ -96,4 +103,18 @@ test('la salida conserva assets públicos y cantidades académicas', async () =>
   assert.equal((formation.match(/<li>/g) ?? []).length, 45);
   assert.equal((formation.match(/class="project-sheet"/g) ?? []).length, 4);
   assert.equal((formation.match(/class="extra-note"/g) ?? []).length, 3);
+});
+
+test('todas las rutas son Astro nativo y el adaptador legado ya no participa', async () => {
+  const sourcePages = [
+    join(repositoryRoot, 'src', 'pages', 'index.astro'),
+    join(repositoryRoot, 'src', 'pages', 'formacion.astro'),
+    join(repositoryRoot, 'src', 'pages', 'posts', 'por-que-hago-tantas-preguntas.astro'),
+    join(repositoryRoot, 'src', 'pages', 'posts', 'cuando-puedas.astro')
+  ];
+
+  for (const page of sourcePages) {
+    const source = await readFile(page, 'utf8');
+    assert.doesNotMatch(source, /LegacyDocument|\?raw/);
+  }
 });

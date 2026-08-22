@@ -1,0 +1,37 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import '../styles/post.css';
+
+interface Props {
+  title: string;
+  description: string;
+  canonical: string;
+  summary: string;
+  dateTime: string;
+  dateLabel: string;
+}
+
+const { title, description, canonical, summary, dateTime, dateLabel } = Astro.props;
+---
+
+<BaseLayout {title} {description} {canonical}>
+  <meta slot="head" name="author" content="Romina Caubarrere" />
+
+  <a class="skip-link" href="#main-content">Saltar al contenido</a>
+  <header class="top brick">
+    <div class="hero">
+      <a class="back" href="../index.html#lecturas">← volver a lo que leo y escribo</a><br />
+      <span class="kicker">una nota mía</span>
+      <h1><slot name="heading" /></h1>
+      <p class="summary">{summary}</p>
+      <div class="meta">Romina Caubarrere · <time datetime={dateTime}>{dateLabel}</time></div>
+    </div>
+  </header>
+  <main class="cork" id="main-content" tabindex="-1">
+    <article class="paper">
+      <span class="tape" aria-hidden="true"></span>
+      <slot />
+    </article>
+  </main>
+  <footer class="footer">hecho con método, plantas y un poco de lana · <a href="../index.html">Romina Caubarrere</a></footer>
+</BaseLayout>

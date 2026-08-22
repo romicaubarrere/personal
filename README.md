@@ -4,10 +4,8 @@ Portfolio personal de Romina Caubarrere, Project Manager en Uruguay.
 
 ## Estado
 
-El sitio está en desarrollo. La identidad visual y las interacciones principales están implementadas, pero todavía existen textos y recursos placeholder que serán reemplazados antes de la publicación.
-
-La migración incremental a Astro fue aprobada el 22 de agosto de 2026. Mientras
-se completa WEB-086 a WEB-090, `main` continúa siendo la versión HTML estable.
+El sitio usa Astro como generador estático. La identidad visual, el contenido y
+las rutas históricas se conservaron durante la transición WEB-086 a WEB-090.
 
 ## Ejecutar localmente
 
@@ -27,6 +25,12 @@ npm run build
 Astro genera las cuatro rutas públicas dentro de `dist/` y conserva el formato
 `.html` usado por GitHub Pages.
 
+Para revisar exactamente la salida de producción:
+
+```bash
+npm run preview
+```
+
 ## Tests
 
 ```bash
@@ -44,7 +48,8 @@ Los tests comprueban:
 - Disponibilidad de las siete secciones en móvil.
 - Sintaxis de los bloques JavaScript.
 
-GitHub Actions ejecuta los tests automáticamente en cada push y pull request.
+GitHub Actions ejecuta los tests automáticamente en cada push y pull request. Al
+integrar cambios en `main`, el workflow de Pages compila Astro y publica `dist/`.
 
 ## Arquitectura y publicación
 
@@ -64,14 +69,16 @@ Los casos del estante comparten el orden y las reglas editoriales de [`docs/proj
 ## Estructura
 
 - `src/pages/`: rutas públicas generadas por Astro.
-- `src/layouts/`: estructura compartida de los documentos.
-- `src/lib/`: utilidades de build y datos compartidos.
+- `src/components/`: secciones de la portada y la isla React del libro.
+- `src/layouts/`: estructura compartida del sitio y de las notas.
+- `src/data/`: contenido estructurado de los casos de proyecto.
+- `src/styles/`: estilos de portada, formación y notas.
 - `public/`: assets servidos sin transformación.
-- `index.html`, `formacion.html` y `posts/*.html`: fuentes legacy temporales durante la migración incremental.
 - `astro.config.mjs`: salida estática, base `/personal` y rutas con formato `.html`.
 - `tests/portfolio.test.mjs`: validaciones automáticas sin dependencias externas.
 - `tests/astro-build.test.mjs`: paridad y rutas sobre la salida compilada.
 - `.github/workflows/test.yml`: integración continua.
+- `.github/workflows/deploy-pages.yml`: build y publicación de `dist/` en GitHub Pages.
 - `docs/architecture-decision.md`: decisión de arquitectura y flujo operativo.
 - `docs/astro-migration-plan.md`: arquitectura Astro objetivo, contratos de paridad y rollback.
 - `docs/language-strategy.md`: decisión de idioma y condiciones de reevaluación.

@@ -1,6 +1,6 @@
 # ADR 002: migrar el portfolio a Astro de forma incremental
 
-- Estado: aceptada
+- Estado: implementada en rama, pendiente de revisión e integración
 - Fecha: 22 de agosto de 2026
 - Ticket: WEB-086
 - Reemplaza: WEB-071 y ADR 001 como arquitectura objetivo
@@ -53,15 +53,15 @@ Astro usará `build.format: 'file'` para conservar las extensiones `.html` y
 
 ## Secuencia de migración
 
-1. **WEB-086:** fijar esta línea base, documentar decisiones y preparar pruebas
+1. **WEB-086, completado:** fijar esta línea base, documentar decisiones y preparar pruebas
    de paridad.
-2. **WEB-087:** incorporar Astro, el layout compartido y las cuatro rutas
+2. **WEB-087, completado:** incorporar Astro, el layout compartido y las cuatro rutas
    públicas sin cambios visuales.
-3. **WEB-088:** separar la portada en componentes mantenibles y extraer datos
+3. **WEB-088, completado:** separar la portada en componentes mantenibles y extraer datos
    repetidos.
-4. **WEB-089:** migrar el libro a una isla de React y modularizar el resto de las
+4. **WEB-089, completado:** migrar el libro a una isla de React y modularizar el resto de las
    interacciones.
-5. **WEB-090:** publicar `dist`, adaptar CI y pruebas, retirar el legado y hacer
+5. **WEB-090, listo para revisión:** publicar `dist`, adaptar CI y pruebas, retirar el legado y hacer
    el corte final después de la revisión de Romina.
 
 Cada ticket debe dejar un sitio compilable. No se aceptan pasos intermedios que
@@ -69,10 +69,9 @@ rompan una ruta pública o dependan de que otro ticket incompleto llegue a `main
 
 ## Pruebas de paridad
 
-Durante la transición, las pruebas leerán primero los archivos actuales y luego
-el HTML generado en `dist`. La paridad se verificará por contratos observables,
-no por igualdad byte a byte, porque Astro puede normalizar espacios o atributos
-sin alterar el resultado.
+Las pruebas construyen el sitio y validan el HTML generado en `dist`. La paridad
+se verifica por contratos observables, no por igualdad byte a byte, porque Astro
+puede normalizar espacios o atributos sin alterar el resultado.
 
 Como mínimo se validarán:
 
@@ -100,3 +99,10 @@ La migración agrega dependencias y un paso de build, pero elimina la edición
 manual de cabeceras y estructuras repetidas, permite componentes mantenibles y
 prepara el blog para crecer. El costo se controla evitando hidratar contenido
 estático y preservando una salida completamente estática para GitHub Pages.
+
+## Corte de publicación
+
+Antes de integrar la rama, en `Settings > Pages > Build and deployment` se debe
+elegir `GitHub Actions` como fuente. A partir de ese momento,
+`.github/workflows/deploy-pages.yml` compila y publica `dist/` con cada push a
+`main`. La URL pública y la base `/personal` no cambian.

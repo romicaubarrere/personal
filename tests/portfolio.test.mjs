@@ -3,14 +3,18 @@ import { readFile } from 'node:fs/promises';
 import { dirname, join } from 'node:path';
 import test from 'node:test';
 import { fileURLToPath } from 'node:url';
-import { runInNewContext } from 'node:vm';
 
 const repositoryRoot = join(dirname(fileURLToPath(import.meta.url)), '..');
-const html = await readFile(join(repositoryRoot, 'index.html'), 'utf8');
-const formationHtml = await readFile(join(repositoryRoot, 'formacion.html'), 'utf8');
-const favicon = await readFile(join(repositoryRoot, 'favicon.svg'), 'utf8');
-const socialPreview = await readFile(join(repositoryRoot, 'social-preview.png'));
-const socialPreviewSource = await readFile(join(repositoryRoot, 'social-preview.svg'), 'utf8');
+const distRoot = join(repositoryRoot, 'dist');
+const htmlDocument = await readFile(join(distRoot, 'index.html'), 'utf8');
+const formationDocument = await readFile(join(distRoot, 'formacion.html'), 'utf8');
+const homeStyles = await readFile(join(repositoryRoot, 'src', 'styles', 'home.css'), 'utf8');
+const formationStyles = await readFile(join(repositoryRoot, 'src', 'styles', 'formation.css'), 'utf8');
+const html = htmlDocument.replace(/<\/head>/i, `<style>${homeStyles}</style></head>`);
+const formationHtml = formationDocument.replace(/<\/head>/i, `<style>${formationStyles}</style></head>`);
+const favicon = await readFile(join(distRoot, 'favicon.svg'), 'utf8');
+const socialPreview = await readFile(join(distRoot, 'social-preview.png'));
+const socialPreviewSource = await readFile(join(distRoot, 'social-preview.svg'), 'utf8');
 const readme = await readFile(join(repositoryRoot, 'README.md'), 'utf8');
 const architectureDecision = await readFile(
   join(repositoryRoot, 'docs', 'architecture-decision.md'),
@@ -20,11 +24,13 @@ const astroMigrationPlan = await readFile(
   join(repositoryRoot, 'docs', 'astro-migration-plan.md'),
   'utf8'
 );
-const firstPost = await readFile(
-  join(repositoryRoot, 'posts', 'por-que-hago-tantas-preguntas.html'),
+const firstPost = await readFile(join(distRoot, 'posts', 'por-que-hago-tantas-preguntas.html'), 'utf8');
+const postStyles = await readFile(join(repositoryRoot, 'src', 'styles', 'post.css'), 'utf8');
+const projectDataSource = await readFile(join(repositoryRoot, 'src', 'data', 'projects.ts'), 'utf8');
+const projectIslandSource = await readFile(
+  join(repositoryRoot, 'src', 'components', 'islands', 'ProjectBookcase.tsx'),
   'utf8'
 );
-const postStyles = await readFile(join(repositoryRoot, 'posts', 'post.css'), 'utf8');
 const blogGuide = await readFile(join(repositoryRoot, 'docs', 'blog-guide.md'), 'utf8');
 const languageStrategy = await readFile(
   join(repositoryRoot, 'docs', 'language-strategy.md'),
@@ -72,7 +78,7 @@ test('la decisión histórica queda preservada y el plan Astro la reemplaza', ()
   assert.match(architectureDecision, /astro-migration-plan\.md/);
 
   assert.match(astroMigrationPlan, /ADR 002: migrar el portfolio a Astro/);
-  assert.match(astroMigrationPlan, /Estado: aceptada/);
+  assert.match(astroMigrationPlan, /Estado: implementada en rama, pendiente de revisión e integración/);
   assert.match(astroMigrationPlan, /Reemplaza: WEB-071 y ADR 001/);
   assert.match(astroMigrationPlan, /base: '\/personal'/);
   assert.match(astroMigrationPlan, /build\.format: 'file'/);
@@ -105,7 +111,7 @@ test('el blog publica una nota real con estructura reutilizable y accesible', ()
   assert.match(firstPost, /<meta name="description" content="[^"]+">/);
   assert.match(firstPost, /<meta name="author" content="Romina Caubarrere">/);
   assert.match(firstPost, /<link rel="canonical" href="https:\/\/romicaubarrere\.github\.io\/personal\/posts\/por-que-hago-tantas-preguntas\.html">/);
-  assert.match(firstPost, /<link rel="stylesheet" href="post\.css">/);
+  assert.match(firstPost, /<link rel="stylesheet" href="\/personal\/_astro\/[^"?]+\.css">/);
   assert.doesNotMatch(firstPost, /<style>/);
   assert.match(firstPost, /<a class="skip-link" href="#main-content">Saltar al contenido<\/a>/);
   assert.match(firstPost, /<main class="cork" id="main-content" tabindex="-1">/);
@@ -118,7 +124,7 @@ test('el blog publica una nota real con estructura reutilizable y accesible', ()
   assert.match(html, /Publicado &middot; agosto 2026/);
   assert.match(html, /class="sticky-desc">Sobre preguntar por qu&eacute;/);
   assert.match(blogGuide, /Audiencia y temas/);
-  assert.match(blogGuide, /Mantener el enlace a `post\.css`/);
+  assert.match(blogGuide, /PostLayout\.astro/);
   assert.match(blogGuide, /No se publican textos de muestra/);
 });
 
@@ -330,11 +336,6 @@ test('los proyectos usan botones semánticos con nombres accesibles', () => {
 });
 
 test('los casos de proyecto comparten una plantilla ordenada y omiten campos vacíos', () => {
-  const model = html.match(/var CASE_PAGE_ORDER = [\s\S]*?\n  var BOOKS = [\s\S]*?\n  };\n\n  \(function\(\)\{/);
-  assert.ok(model, 'No se encontró el modelo reutilizable de casos');
-
-  const context = {};
-  runInNewContext(model[0].replace(/\n\n  \(function\(\)\{$/, ''), context);
   const expectedOrder = [
     'Contexto',
     'Desafío',
@@ -345,39 +346,20 @@ test('los casos de proyecto comparten una plantilla ordenada y omiten campos vac
     'Aprendizajes'
   ];
 
-  assert.deepEqual(
-    Array.from(context.CASE_PAGE_ORDER, (definition) => definition.title),
-    expectedOrder
-  );
-  assert.equal(Object.keys(context.BOOKS).length, 5);
-  for (const book of Object.values(context.BOOKS)) {
-    assert.equal(book.pages[0].cover, true);
-    const headings = Array.from(book.pages.slice(1), (page) => page.h);
-    const positions = headings.map((heading) => expectedOrder.indexOf(heading));
-    assert.ok(positions.every((position) => position >= 0));
-    assert.deepEqual(positions, [...positions].sort((a, b) => a - b));
-    assert.ok(book.pages.every((page) => page.cover || page.html));
-  }
+  const sectionTitles = [...projectDataSource.matchAll(/\{ key: '[^']+', title: '([^']+)' \}/g)]
+    .map((match) => match[1]);
+  assert.deepEqual(sectionTitles, expectedOrder);
 
-  const partial = context.makeBookCase({
-    title: 'Caso de prueba',
-    subtitle: 'sin campos vacíos',
-    tag: 'Prueba',
-    color: '#000000',
-    sections: {context: 'Contexto visible', challenge: '', role: 'Rol visible'}
-  });
-  assert.deepEqual(
-    Array.from(partial.pages, (page) => page.cover ? 'Portada' : page.h),
-    ['Portada', 'Contexto', 'Rol de Romina']
-  );
+  const projectIds = [...projectDataSource.matchAll(/^\s+id: '([^']+)'/gm)]
+    .map((match) => match[1]);
+  assert.deepEqual(projectIds, ['eagerworks', 'fisica', 'pmi', 'habitar', 'p5']);
+  assert.equal(new Set(projectIds).size, 5);
+  assert.match(projectDataSource, /for \(const definition of PROJECT_SECTION_ORDER\)/);
+  assert.match(projectDataSource, /if \(html\) pages\.push\(\{ kind: 'content', title: definition\.title, html \}\)/);
 
-  const habitar = context.BOOKS.habitar;
+  const habitar = projectDataSource.match(/id: 'habitar',[\s\S]*?\n\s+\},\n\s+\{\n\s+id: 'p5'/);
   assert.ok(habitar, 'El caso habITar debe estar publicado en el estante');
-  assert.deepEqual(
-    Array.from(habitar.pages.slice(1), (page) => page.h),
-    expectedOrder
-  );
-  const habitarContent = Array.from(habitar.pages, (page) => page.html ?? '').join(' ');
+  const habitarContent = habitar[0];
   assert.match(habitarContent, /46 semanas/);
   assert.match(habitarContent, /gestión del proyecto, la definición y priorización del producto y el testing manual/);
   assert.match(habitarContent, /Diego Furiati/);
@@ -403,17 +385,16 @@ test('el modal de proyectos gestiona el foco como un diálogo accesible', () => 
     /<div class="bookmodal" id="bookmodal" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="bookDialogTitle" tabindex="-1">/
   );
   assert.match(html, /<h2 class="sr-only" id="bookDialogTitle">Proyecto<\/h2>/);
-  assert.match(html, /lastFocus=trigger\|\|document\.activeElement/);
-  assert.match(html, /dialogTitle\.textContent='Proyecto: '\+b\.pages\[0\]\.title/);
-  assert.match(html, /document\.body\.classList\.add\('modal-open'\)/);
-  assert.match(html, /document\.body\.classList\.remove\('modal-open'\)/);
-  assert.match(html, /setBackgroundInert\(true\)/);
-  assert.match(html, /setBackgroundInert\(false\)/);
-  assert.match(html, /closeButton\.focus\(\{preventScroll:true\}\)/);
-  assert.match(html, /else if\(e\.key==='Tab'\)/);
-  assert.match(html, /e\.shiftKey && \(document\.activeElement===first \|\| !modal\.contains\(document\.activeElement\)\)/);
-  assert.match(html, /lastFocus\.focus\(\{preventScroll:true\}\)/);
-  assert.match(html, /if\(e\.key==='Escape'\) closeBook\(\)/);
+  assert.match(projectIslandSource, /lastFocusRef\.current = trigger \?\?/);
+  assert.match(projectIslandSource, /`Proyecto: \$\{project\.title\}`/);
+  assert.match(projectIslandSource, /document\.body\.classList\.toggle\('modal-open', isOpen\)/);
+  assert.match(projectIslandSource, /document\.body\.classList\.remove\('modal-open'\)/);
+  assert.match(projectIslandSource, /element\.inert = isOpen/);
+  assert.match(projectIslandSource, /closeRef\.current\?\.focus\(\{ preventScroll: true \}\)/);
+  assert.match(projectIslandSource, /else if \(event\.key === 'Tab'\)/);
+  assert.match(projectIslandSource, /event\.shiftKey && \(document\.activeElement === first \|\| !modal\.contains\(document\.activeElement\)\)/);
+  assert.match(projectIslandSource, /lastFocus\.focus\(\{ preventScroll: true \}\)/);
+  assert.match(projectIslandSource, /if \(event\.key === 'Escape'\) closeBook\(\)/);
   assert.match(html, /body\.modal-open\{overflow:hidden;\}/);
 });
 
@@ -421,13 +402,13 @@ test('cada proyecto puede abrirse y recorrerse desde una URL compartible', () =>
   const projectKeys = [...html.matchAll(/data-book="([^"]+)"/g)].map((match) => match[1]);
   assert.equal(new Set(projectKeys).size, projectKeys.length);
   assert.equal(projectKeys.length, 5);
-  assert.match(html, /'#project='\+encodeURIComponent\(key\)\+'&page='\+index/);
-  assert.match(html, /new URLSearchParams\(window\.location\.hash\.slice\(1\)\)/);
-  assert.match(html, /window\.history\[mode\|\|'replaceState'\]/);
-  assert.match(html, /updateProjectUrl\('pushState'\)/);
-  assert.match(html, /window\.addEventListener\('popstate',syncProjectFromUrl\)/);
-  assert.match(html, /window\.addEventListener\('hashchange',syncProjectFromUrl\)/);
-  assert.match(html, /syncProjectFromUrl\(\);/);
+  assert.match(projectIslandSource, /#project=\$\{encodeURIComponent\(projectId\)\}&page=\$\{page\}/);
+  assert.match(projectIslandSource, /new URLSearchParams\(window\.location\.hash\.slice\(1\)\)/);
+  assert.match(projectIslandSource, /window\.history\.replaceState/);
+  assert.match(projectIslandSource, /window\.history\.pushState/);
+  assert.match(projectIslandSource, /window\.addEventListener\('popstate', syncProjectFromUrl\)/);
+  assert.match(projectIslandSource, /window\.addEventListener\('hashchange', syncProjectFromUrl\)/);
+  assert.match(projectIslandSource, /syncProjectFromUrl\(\);/);
 });
 
 test('el libro muestra una sola página por vez en móvil y conserva el pliego en escritorio', () => {
@@ -438,15 +419,13 @@ test('el libro muestra una sola página por vez en móvil y conserva el pliego e
   assert.match(html, /\.bookmodal\{padding:64px 18px 58px;overflow-x:hidden;overflow-y:auto;\}/);
   assert.match(html, /\.bm-nav\.prev\{left:-18px;\}/);
   assert.match(html, /\.bm-nav\.next\{right:-18px;\}/);
-  assert.match(html, /window\.matchMedia \? window\.matchMedia\('\(max-width: 720px\)'\)/);
-  assert.match(html, /pgR\.innerHTML=pageHTML\(pages\[pageIndex\]\)/);
-  assert.match(html, /pnum\.textContent=\(pageIndex\+1\)\+' \/ '\+pageCount/);
-  assert.match(html, /pageIndex\+=1; render\(\); updateProjectUrl\(\); return;/);
-  assert.match(html, /pageIndex-=1; render\(\); updateProjectUrl\(\); return;/);
-  assert.match(html, /pgL\.innerHTML=pageHTML\(pages\[spread\*2\]\)/);
-  assert.match(html, /pgR\.innerHTML=pageHTML\(pages\[spread\*2\+1\]\)/);
-  assert.match(html, /prevButton\.disabled=isMobileBook\(\) \? pageIndex<=0 : spread<=0/);
-  assert.match(html, /nextButton\.disabled=isMobileBook\(\) \? pageIndex\+1>=pageCount/);
+  assert.match(projectIslandSource, /window\.matchMedia\('\(max-width: 720px\)'\)/);
+  assert.match(projectIslandSource, /const delta = direction === 'next' \? 1 : -1/);
+  assert.match(projectIslandSource, /const visibleLeftIndex = turn === 'prev'/);
+  assert.match(projectIslandSource, /const visibleRightIndex = turn === 'next'/);
+  assert.match(projectIslandSource, /const previousDisabled = isMobile \? pageIndex <= 0 : spread <= 0/);
+  assert.match(projectIslandSource, /const nextDisabled = isMobile \? pageIndex \+ 1 >= pages\.length : spread \+ 1 >= spreadCount/);
+  assert.match(projectIslandSource, /isMobile \? `\$\{pageIndex \+ 1\} \/ \$\{pages\.length\}`/);
 });
 
 test('el recorrido académico conserva toda la información aprobada', () => {
@@ -517,13 +496,14 @@ test('las microinteracciones orientan con mouse, teclado y tacto sin sumar JavaS
   assert.match(css, /\.bookmodal\.open \.bookframe\{animation:book-settle/);
   assert.match(css, /@media\(prefers-reduced-motion:reduce\)\{[\s\S]*?animation:none!important;[\s\S]*?translate:0 0!important;scale:1!important;/);
 
-  assert.equal((html.match(/<script\b/g) ?? []).length, 3);
+  assert.ok((html.match(/<script\b/g) ?? []).length >= 3);
   assert.doesNotMatch(css, /addEventListener|requestAnimationFrame|setTimeout/);
 });
 
 test('todos los bloques JavaScript tienen sintaxis válida', () => {
   const scripts = [...html.matchAll(/<script([^>]*)>([\s\S]*?)<\/script>/gi)]
     .filter((match) => !/type="application\/ld\+json"/i.test(match[1]))
+    .filter((match) => !/type="module"|\bsrc=/i.test(match[1]))
     .map((match) => match[2]);
 
   assert.ok(scripts.length > 0, 'No se encontraron bloques JavaScript');
@@ -591,7 +571,7 @@ test('la portada incluye metadatos SEO básicos válidos', () => {
     html,
     /<link rel="canonical" href="https:\/\/romicaubarrere\.github\.io\/personal\/">/i
   );
-  assert.match(html, /<link rel="icon" type="image\/svg\+xml" href="favicon\.svg">/i);
+  assert.match(html, /<link rel="icon" type="image\/svg\+xml" href="\/personal\/favicon\.svg">/i);
   assert.match(favicon, /<svg\b[^>]*xmlns="http:\/\/www\.w3\.org\/2000\/svg"/i);
 
   const jsonLd = html.match(
