@@ -20,7 +20,8 @@ npm run reading:import -- ruta/al/storygraph-export.csv
 El importador busca libros con estado `currently-reading`, elige el más recientemente
 activo si hay más de uno y regenera título, autoría, fecha de actualización y la
 etiqueta breve usada en la portada del libro. El CSV se usa localmente y no se sube
-al repositorio.
+al repositorio. El importador tampoco descarga portadas ni replica contenido editorial
+de StoryGraph.
 
 Para reproducir una fecha concreta:
 
