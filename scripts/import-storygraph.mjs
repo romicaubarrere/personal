@@ -89,6 +89,13 @@ function parseSortableDate(value) {
   return Number.isNaN(parsed) ? 0 : parsed;
 }
 
+function normaliseDate(value) {
+  const raw = String(value ?? '').trim();
+  const match = raw.match(/^(\d{4})[\/-](\d{1,2})[\/-](\d{1,2})$/);
+  if (!match) return raw;
+  return `${match[1]}-${match[2].padStart(2, '0')}-${match[3].padStart(2, '0')}`;
+}
+
 function parseRating(value) {
   if (!String(value ?? '').trim()) return null;
   const parsed = Number.parseFloat(String(value).replace(',', '.'));
@@ -115,7 +122,7 @@ function parseLibrary(csvText) {
     title: row[indexes.title]?.trim() ?? '',
     author: row[indexes.author]?.trim() ?? '',
     status: normalise(row[indexes.status]),
-    lastRead: indexes.lastRead >= 0 ? row[indexes.lastRead]?.trim() ?? '' : '',
+    lastRead: indexes.lastRead >= 0 ? normaliseDate(row[indexes.lastRead]) : '',
     added: indexes.added >= 0 ? row[indexes.added]?.trim() ?? '' : '',
     rating: indexes.rating >= 0 ? parseRating(row[indexes.rating]) : null
   })).filter((book) => book.title && book.author);
