@@ -137,9 +137,12 @@ function formatSpanishDate(isoDate) {
   return formatter.format(new Date(Date.UTC(year, month - 1, day, 12)));
 }
 
+function quoteTs(value) {
+  return `'${String(value).replace(/\\/g, '\\\\').replace(/'/g, "\\'")}'`;
+}
+
 export function renderReadingModule(book, isoDate) {
-  const safe = (value) => JSON.stringify(value);
-  return `// Generado por scripts/import-storygraph.mjs a partir de un export personal de StoryGraph.\n// No editar a mano salvo como fallback; volver a ejecutar npm run reading:import -- <archivo.csv>.\nexport const currentReading = {\n  title: ${safe(book.title)},\n  author: ${safe(book.author)},\n  coverLabel: ${safe(makeCoverLabel(book.title))},\n  updatedAt: ${safe(isoDate)},\n  updatedLabel: ${safe(formatSpanishDate(isoDate))}\n} as const;\n`;
+  return `// Generado por scripts/import-storygraph.mjs a partir de un export personal de StoryGraph.\n// No editar a mano salvo como fallback; volver a ejecutar npm run reading:import -- <archivo.csv>.\nexport const currentReading = {\n  title: ${quoteTs(book.title)},\n  author: ${quoteTs(book.author)},\n  coverLabel: ${quoteTs(makeCoverLabel(book.title))},\n  updatedAt: ${quoteTs(isoDate)},\n  updatedLabel: ${quoteTs(formatSpanishDate(isoDate))}\n} as const;\n`;
 }
 
 function todayInMontevideo() {
