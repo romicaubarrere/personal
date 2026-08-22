@@ -13,5 +13,5 @@
 }
 .sticky-link:focus-visible{translate:0 -3px}
 @media(hover:none){.sticky-link:active,.spine:active,.ltag:active,.hero-link:active,.open-folder:active,.offers-link:active{scale:.985}.patch:active{scale:.98 .95}}
-@media(min-width:721px) and (max-height:560px){.bookmodal{align-items:flex-start;overflow-y:auto;padding-top:72px;padding-bottom:72px}}
+@media(min-width:721px) and (max-height:560px){.bookmodal{align-items:flex-start!important;overflow-y:auto!important;padding-top:72px!important;padding-bottom:72px!important}}
 @media(prefers-reduced-motion:reduce){.strength-card,.about-note,.workflow-step,.offer-card,.nowbook,.sticky,.folder-note,.contact .card,.pin,.potplant,.vine,.hang,.cfern,.patch,.flyer,.sticky-link{translate:none!important;rotate:none!important;scale:none!important;filter:none!important}.about-note::after,.nowbook::after,.sticky::after{display:none!important}}
