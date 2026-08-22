@@ -1,6 +1,7 @@
 ---
 import Footer from '../components/home/Footer.astro';
 import HomeScripts from '../components/home/HomeScripts.astro';
+import LanguageSwitcher from '../components/LanguageSwitcher.astro';
 import Offers from '../components/home/Offers.astro';
 import Strengths from '../components/home/Strengths.astro';
 import Workflow from '../components/home/Workflow.astro';
@@ -37,6 +38,7 @@ const canonical = 'https://romicaubarrere.github.io/personal/como-trabajo.html';
 </style>
 
 <BaseLayout {title} {description} {canonical}>
+  <LanguageSwitcher current="es" page="work" />
   <a class="skip-link" href="#main-content">Saltar al contenido principal</a>
   <button class="nav-toggle" id="navToggle" type="button" aria-controls="primary-nav" aria-expanded="false">
     <span>Men&uacute;</span><span class="menu-icon" aria-hidden="true">&#9776;</span>
