@@ -378,6 +378,28 @@ test('el parallax solo renderiza cuando hay cambios y se pausa fuera de contexto
   assert.doesNotMatch(html, /function frame\(\)/);
 });
 
+test('el parallax conserva las rotaciones y limpia solo su propio desplazamiento', () => {
+  assert.match(
+    html,
+    /\.parallax\{translate:var\(--parallax-x,0px\) var\(--parallax-y,0px\);will-change:translate;\}/
+  );
+  assert.match(html, /el\.style\.setProperty\('--parallax-x',tx\+'px'\)/);
+  assert.match(html, /el\.style\.setProperty\('--parallax-y',ty\+'px'\)/);
+  assert.match(html, /el\.style\.removeProperty\('--parallax-x'\)/);
+  assert.match(html, /el\.style\.removeProperty\('--parallax-y'\)/);
+
+  const parallaxScript = html.match(
+    /\/\/ parallax por scroll y mouse[\s\S]*?function showReveals\(\)/
+  );
+  assert.ok(parallaxScript, 'No se encontró el bloque de parallax');
+  assert.doesNotMatch(parallaxScript[0], /style\.transform|removeProperty\('transform'\)/);
+
+  assert.match(html, /\.photo-tack\{[^}]*transform:rotate\(6deg\)/);
+  assert.match(html, /\.stickynote\{[^}]*transform:rotate\(-3deg\)/);
+  assert.match(html, /refreshParallaxBases\(\);\s*if\(parallaxCanRun\(\)\) scheduleParallax\(\)/);
+  assert.match(html, /scheduleParallax\(\);\s*\n\s*\(function\(\)\{/);
+});
+
 test('la portada incluye metadatos SEO básicos válidos', () => {
   assert.match(html, /<title>Romina Caubarrere \| Project Manager de software<\/title>/i);
   assert.match(html, /<meta name="description" content="[^"]*Project Manager[^"]*">/i);
