@@ -93,7 +93,9 @@ const breadcrumbData = !localizedHomes.has(canonical) && !robots.includes('noind
     <link rel="canonical" href={canonical} />
     {alternates.map((alternate) => <link rel="alternate" hreflang={alternate.lang} href={alternate.href} />)}
     <link rel="me" href="https://www.linkedin.com/in/rominacaubarrere/" />
-    <link rel="alternate" type="application/rss+xml" title="Notas de Romina Caubarrere" href={`${base}feed.xml`} />
+    {lang === 'es' && (
+      <link rel="alternate" type="application/rss+xml" title="Notas de Romina Caubarrere" href={`${base}feed.xml`} />
+    )}
     <link rel="icon" type="image/svg+xml" href={`${base}favicon.svg`} />
     <meta property="og:type" content={ogType} />
     <meta property="og:locale" content={ogLocale} />
