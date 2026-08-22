@@ -41,9 +41,11 @@
   *{box-sizing:border-box;margin:0;padding:0;}
   html{scroll-behavior:smooth;}
   body{font-family:var(--sans);color:var(--ink);background:var(--green-dark);line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden;}
+  body.modal-open{overflow:hidden;}
   ::selection{background:var(--gold);color:var(--ink);}
   a{color:inherit;}
   img{max-width:100%;display:block;}
+  .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0;}
   .skip-link{position:fixed;top:12px;left:12px;z-index:500;transform:translateY(-160%);
     background:var(--cream);color:var(--ink);padding:10px 14px;border:2px solid var(--ink);border-radius:6px;
     font-weight:800;text-decoration:none;transition:transform .15s;}
@@ -715,10 +717,11 @@
   <footer>hecho con m&eacute;todo, plantas y un poco de lana &middot; Romina Caubarrere</footer>
 
   <!-- LIBRO QUE SE ABRE -->
-  <div class="bookmodal" id="bookmodal" aria-hidden="true">
+  <div class="bookmodal" id="bookmodal" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="bookDialogTitle" tabindex="-1">
     <div class="bm-backdrop" data-close></div>
     <div class="bookframe">
-      <button class="bm-close" data-close aria-label="cerrar">&times;</button>
+      <h2 class="sr-only" id="bookDialogTitle">Proyecto</h2>
+      <button class="bm-close" data-close aria-label="Cerrar proyecto">&times;</button>
       <div class="bk">
         <div class="pg pg-left" id="pgL"></div>
         <div class="pg pg-right" id="pgR"></div>
@@ -766,6 +769,9 @@
     var pgL=document.getElementById('pgL'), pgR=document.getElementById('pgR');
     var leaf=document.getElementById('leaf'), lfF=document.getElementById('lfF'), lfB=document.getElementById('lfB');
     var pnum=document.getElementById('pnum');
+    var dialogTitle=document.getElementById('bookDialogTitle');
+    var closeButton=modal.querySelector('.bm-close');
+    var lastFocus=null;
     var pages=[], spread=0, animating=false, curColor='#3f7d4e', curTag='';
 
     function esc(s){return s||'';}
@@ -777,15 +783,38 @@
     function spreads(){return Math.ceil(pages.length/2);}
     function render(){ pgL.innerHTML=pageHTML(pages[spread*2]); pgR.innerHTML=pageHTML(pages[spread*2+1]); pnum.textContent=(spread+1)+' / '+spreads(); }
 
-    function openBook(key){
+    function setBackgroundInert(inactive){
+      Array.prototype.forEach.call(document.body.children,function(element){
+        if(element!==modal && element.tagName!=='SCRIPT') element.inert=inactive;
+      });
+    }
+    function focusableElements(){
+      return Array.prototype.filter.call(
+        modal.querySelectorAll('button:not([disabled]),a[href],[tabindex]:not([tabindex="-1"])'),
+        function(element){return element.offsetParent!==null;}
+      );
+    }
+    function openBook(key,trigger){
       var b=BOOKS[key]; if(!b) return;
+      lastFocus=trigger||document.activeElement;
       curColor=b.color; curTag=b.tag; pages=b.pages.slice();
       if(pages.length%2) pages.push(null);
       spread=0; render();
+      dialogTitle.textContent='Proyecto: '+b.pages[0].title;
       leaf.classList.add('hide');
       modal.classList.add('open'); modal.setAttribute('aria-hidden','false');
+      document.body.classList.add('modal-open');
+      setBackgroundInert(true);
+      closeButton.focus({preventScroll:true});
     }
-    function closeBook(){ modal.classList.remove('open'); modal.setAttribute('aria-hidden','true'); }
+    function closeBook(){
+      if(!modal.classList.contains('open')) return;
+      modal.classList.remove('open'); modal.setAttribute('aria-hidden','true');
+      document.body.classList.remove('modal-open');
+      setBackgroundInert(false);
+      if(lastFocus && lastFocus.isConnected) lastFocus.focus({preventScroll:true});
+      lastFocus=null;
+    }
 
     function next(){
       if(animating || (spread+1)*2>=pages.length) return; animating=true;
@@ -811,7 +840,7 @@
     });
 
     document.querySelectorAll('.spine[data-book]').forEach(function(sp){
-      sp.addEventListener('click', function(){ openBook(sp.dataset.book); });
+      sp.addEventListener('click', function(){ openBook(sp.dataset.book,sp); });
     });
     document.getElementById('bmNext').addEventListener('click', next);
     document.getElementById('bmPrev').addEventListener('click', prev);
@@ -819,6 +848,13 @@
     document.addEventListener('keydown', function(e){
       if(!modal.classList.contains('open')) return;
       if(e.key==='Escape') closeBook();
+      else if(e.key==='Tab'){
+        var focusable=focusableElements();
+        if(!focusable.length){e.preventDefault();modal.focus();return;}
+        var first=focusable[0], last=focusable[focusable.length-1];
+        if(e.shiftKey && (document.activeElement===first || !modal.contains(document.activeElement))){e.preventDefault();last.focus();}
+        else if(!e.shiftKey && document.activeElement===last){e.preventDefault();first.focus();}
+      }
       else if(e.key==='ArrowRight') next();
       else if(e.key==='ArrowLeft') prev();
     });

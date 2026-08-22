@@ -163,6 +163,26 @@ test('los proyectos usan botones semánticos con nombres accesibles', () => {
   assert.doesNotMatch(html, /sp\.addEventListener\('keydown'/);
 });
 
+test('el modal de proyectos gestiona el foco como un diálogo accesible', () => {
+  assert.match(
+    html,
+    /<div class="bookmodal" id="bookmodal" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="bookDialogTitle" tabindex="-1">/
+  );
+  assert.match(html, /<h2 class="sr-only" id="bookDialogTitle">Proyecto<\/h2>/);
+  assert.match(html, /lastFocus=trigger\|\|document\.activeElement/);
+  assert.match(html, /dialogTitle\.textContent='Proyecto: '\+b\.pages\[0\]\.title/);
+  assert.match(html, /document\.body\.classList\.add\('modal-open'\)/);
+  assert.match(html, /document\.body\.classList\.remove\('modal-open'\)/);
+  assert.match(html, /setBackgroundInert\(true\)/);
+  assert.match(html, /setBackgroundInert\(false\)/);
+  assert.match(html, /closeButton\.focus\(\{preventScroll:true\}\)/);
+  assert.match(html, /else if\(e\.key==='Tab'\)/);
+  assert.match(html, /e\.shiftKey && \(document\.activeElement===first \|\| !modal\.contains\(document\.activeElement\)\)/);
+  assert.match(html, /lastFocus\.focus\(\{preventScroll:true\}\)/);
+  assert.match(html, /if\(e\.key==='Escape'\) closeBook\(\)/);
+  assert.match(html, /body\.modal-open\{overflow:hidden;\}/);
+});
+
 test('el recorrido académico conserva toda la información aprobada', () => {
   assert.equal((formationHtml.match(/<details\b/g) ?? []).length, 8);
   assert.equal((formationHtml.match(/<li>/g) ?? []).length, 45);
@@ -258,5 +278,5 @@ test('sobre mí reparte el recorrido en cuatro notas breves', () => {
   assert.match(html, /<h3>Rob&oacute;tica, Ceibal y UKG<\/h3>/);
   assert.match(html, /<h3>UTEC y habITar<\/h3>/);
   assert.match(html, /<h3>Women Techmakers y Chicas en Tecnolog&iacute;a<\/h3>/);
-  assert.doesNotMatch(html, /Ac&aacute; va tu historia|Ac&aacute; va tu historia|La escribimos juntas|en tesis/i);
+  assert.doesNotMatch(html, /Acá va tu historia|Ac&aacute; va tu historia|La escribimos juntas|en tesis/i);
 });
