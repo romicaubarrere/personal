@@ -104,6 +104,17 @@ El pipeline incluye presupuestos explícitos de transferencia. Esto significa qu
 
 Ese episodio consolidó una regla: los límites técnicos forman parte del diseño del producto, no son una validación posterior.
 
+### Agosto de 2026 · entrega reproducible y recuperación operativa
+
+La publicación dejó de depender de un build distinto al que había sido probado: el pipeline valida una sola vez, despliega ese mismo artefacto y comprueba después que producción corresponde al commit esperado. También se agregó un rollback manual que solo acepta revisiones pertenecientes al historial de `main`, las vuelve a validar y conserva exclusión mutua con otros despliegues.
+
+El entorno quedó fijado en Node.js y npm, las instalaciones parten del lockfile sin ejecutar scripts de terceros, las acciones externas usan commits completos y cada job recibe únicamente los permisos que necesita. Un fallo durante este cambio mostró otra regla importante: fijar el entorno propio no autoriza a reescribir metadatos transitivos. La suite ahora protege también ese límite.
+
+Documentación relacionada:
+
+- [Operación de CI/CD](./ci-cd.md)
+- [Entorno y cadena de suministro](./supply-chain.md)
+
 ### Agosto de 2026 · contenido, SEO y multilenguaje
 
 El sitio evolucionó hacia una experiencia en español, inglés y portugués. También se trabajó la jerarquía de contenido, metadatos, enlaces internos, estados activos, sitemap, feed y SEO técnico.
