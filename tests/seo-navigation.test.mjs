@@ -170,15 +170,15 @@ test('robots, sitemap y 404 quedan listos para GitHub Pages', async () => {
   assert.match(robots, /^User-agent: \*/m);
   assert.match(robots, /^Allow: \/personal\/$/m);
   assert.match(robots, /Sitemap: https:\/\/romicaubarrere\.github\.io\/personal\/sitemap\.xml/);
-  for (const canonical of [
-    'https://romicaubarrere.github.io/personal/',
-    'https://romicaubarrere.github.io/personal/formacion.html',
-    'https://romicaubarrere.github.io/personal/comunidad-charlas.html',
-    'https://romicaubarrere.github.io/personal/posts/por-que-hago-tantas-preguntas.html',
-    'https://romicaubarrere.github.io/personal/posts/cuando-puedas.html'
-  ]) {
-    assert.match(sitemap, new RegExp(`<loc>${canonical.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}</loc>`));
-  }
+  const sitemapUrls = [...sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)].map((match) => match[1]);
+  const routeCanonicals = publicRoutes.map((route) => getAttribute(
+    routeDocuments.get(route),
+    /<link\b[^>]*rel="canonical"[^>]*>/i,
+    'href'
+  ));
+  assert.deepEqual([...sitemapUrls].sort(), [...routeCanonicals].sort());
+  assert.equal(new Set(sitemapUrls).size, sitemapUrls.length);
+  assert.doesNotMatch(sitemap, /404\.html/);
   assert.match(notFound, /<title>Página no encontrada \| Romina Caubarrere<\/title>/i);
   assert.match(notFound, /<meta name="robots" content="noindex,follow">/i);
   assert.match(notFound, /href="index\.html"/i);
