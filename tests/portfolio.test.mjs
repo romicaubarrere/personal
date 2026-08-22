@@ -55,6 +55,20 @@ test('la portada enlaza al recorrido académico completo', () => {
   assert.match(formationHtml, /href="index\.html#formacion"/i);
 });
 
+test('el estante de proyectos se desplaza en una sola fila en móvil', () => {
+  assert.match(
+    html,
+    /<div\b[^>]*class="shelf-scroll"[^>]*role="region"[^>]*aria-label="Estante de proyectos desplazable"[^>]*tabindex="0"/i
+  );
+  assert.match(html, /\.shelf-scroll\{overflow-x:auto;overscroll-behavior-inline:contain;scroll-snap-type:x proximity;/);
+  assert.match(html, /-webkit-overflow-scrolling:touch/);
+  assert.match(html, /\.books\{flex-wrap:nowrap;width:max-content;min-width:100%;\}/);
+  assert.match(html, /\.spine\{flex:0 0 70px;scroll-snap-align:start;\}/);
+
+  const projectTriggers = html.match(/class="spine [^"]+"[^>]*role="button"[^>]*tabindex="0"/g) ?? [];
+  assert.equal(projectTriggers.length, 5);
+});
+
 test('el recorrido académico conserva toda la información aprobada', () => {
   assert.equal((formationHtml.match(/<details\b/g) ?? []).length, 8);
   assert.equal((formationHtml.match(/<li>/g) ?? []).length, 45);

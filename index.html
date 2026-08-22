@@ -198,6 +198,8 @@
   .shelfsec .hd h2 em{font-style:italic;color:var(--gold);}
   .shelfsec .hd p{color:rgba(250,243,228,.7);font-family:var(--hand);font-size:22px;}
   .bookshelf{max-width:1120px;margin:40px auto 0;padding:0 40px;position:relative;}
+  .shelf-scroll{position:relative;}
+  .shelf-track{position:relative;}
   .potplant{position:absolute;right:44px;bottom:12px;width:118px;z-index:6;overflow:visible;}
   @media(max-width:760px){.potplant{width:88px;right:16px;}}
   .books{display:flex;align-items:flex-end;gap:10px;flex-wrap:wrap;
@@ -218,6 +220,19 @@
   .spine.s3{background:linear-gradient(90deg,#8a6a1e,var(--gold));height:270px;color:#3a2b08;}
   .spine.s4{background:linear-gradient(90deg,#4a4327,var(--olive));height:240px;}
   .spine.s5{background:linear-gradient(90deg,#7a3450,var(--rose));height:265px;}
+  @media(max-width:760px){
+    .bookshelf{max-width:none;margin-top:34px;padding:0;}
+    .shelf-scroll{overflow-x:auto;overscroll-behavior-inline:contain;scroll-snap-type:x proximity;
+      -webkit-overflow-scrolling:touch;scrollbar-width:thin;scrollbar-color:var(--gold) rgba(250,243,228,.16);
+      padding:0 20px 14px;}
+    .shelf-scroll:focus-visible{outline:3px solid var(--gold);outline-offset:-3px;}
+    .shelf-track{width:max-content;min-width:calc(100vw - 40px);}
+    .books{flex-wrap:nowrap;width:max-content;min-width:100%;}
+    .spine{flex:0 0 70px;scroll-snap-align:start;}
+    .plank{width:100%;max-width:none;}
+    .potplant{right:8px;bottom:26px;pointer-events:none;}
+    .shelfhint{padding:0 20px;text-align:left;}
+  }
   /* tarjeta que aparece */
   .pcard{position:absolute;left:50%;bottom:calc(100% + 14px);transform:translateX(-50%) translateY(8px);
     width:230px;background:var(--cream);color:var(--ink);padding:16px 18px;border-radius:8px;opacity:0;visibility:hidden;
@@ -546,15 +561,19 @@
       <p>toc&aacute; un libro para abrirlo y pasar sus p&aacute;ginas &rarr;</p>
     </div>
     <div class="bookshelf">
-      <div class="plank top"></div>
-      <div class="books">
-        <div class="spine s1" data-book="eagerworks" role="button" tabindex="0"><span class="band"></span><span class="band b"></span><span class="t">eagerworks</span></div>
-        <div class="spine s2" data-book="fisica" role="button" tabindex="0"><span class="band"></span><span class="t">F&iacute;sica Mente Posible</span></div>
-        <div class="spine s3" data-book="pmi" role="button" tabindex="0"><span class="band"></span><span class="band b"></span><span class="t">VP Alianzas PMI</span></div>
-        <div class="spine s4" data-book="p4" role="button" tabindex="0"><span class="band"></span><span class="t">tu proyecto</span></div>
-        <div class="spine s5" data-book="p5" role="button" tabindex="0"><span class="band"></span><span class="band b"></span><span class="t">tu proyecto</span></div>
+      <div class="shelf-scroll" role="region" aria-label="Estante de proyectos desplazable" tabindex="0">
+        <div class="shelf-track">
+          <div class="plank top"></div>
+          <div class="books">
+            <div class="spine s1" data-book="eagerworks" role="button" tabindex="0"><span class="band"></span><span class="band b"></span><span class="t">eagerworks</span></div>
+            <div class="spine s2" data-book="fisica" role="button" tabindex="0"><span class="band"></span><span class="t">F&iacute;sica Mente Posible</span></div>
+            <div class="spine s3" data-book="pmi" role="button" tabindex="0"><span class="band"></span><span class="band b"></span><span class="t">VP Alianzas PMI</span></div>
+            <div class="spine s4" data-book="p4" role="button" tabindex="0"><span class="band"></span><span class="t">tu proyecto</span></div>
+            <div class="spine s5" data-book="p5" role="button" tabindex="0"><span class="band"></span><span class="band b"></span><span class="t">tu proyecto</span></div>
+          </div>
+          <div class="plank"></div>
+        </div>
       </div>
-      <div class="plank"></div>
       <svg class="potplant" viewBox="0 0 120 150"><use href="#pot"/></svg>
     </div>
     <div class="shelfhint hand">todav&iacute;a queda lugar en el estante</div>
