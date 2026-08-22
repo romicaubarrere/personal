@@ -217,7 +217,7 @@ export default function ProjectBookcase() {
       : [];
 
     for (const element of bodyElements) {
-      if (element !== island) element.inert = isOpen;
+      if (element !== island && !(island && element.contains(island))) element.inert = isOpen;
     }
     for (const element of islandElements) element.inert = isOpen;
     modal.inert = !isOpen;

@@ -655,6 +655,7 @@ test('el modal de proyectos gestiona el foco como un diálogo accesible', () => 
   assert.match(projectIslandSource, /document\.body\.classList\.toggle\('modal-open', isOpen\)/);
   assert.match(projectIslandSource, /document\.body\.classList\.remove\('modal-open'\)/);
   assert.match(projectIslandSource, /element\.inert = isOpen/);
+  assert.match(projectIslandSource, /!\(island && element\.contains\(island\)\)/);
   assert.match(projectIslandSource, /modal\.inert = !isOpen/);
   assert.doesNotMatch(projectIslandSource, /inert=\{isOpen \? undefined : true\}/);
   assert.match(projectIslandSource, /closeRef\.current\?\.focus\(\{ preventScroll: true \}\)/);
