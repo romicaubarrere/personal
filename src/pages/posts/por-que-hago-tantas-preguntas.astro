@@ -1,15 +1,11 @@
 ---
 import PostLayout from '../../layouts/PostLayout.astro';
+import { getPublishedPost } from '../../data/posts';
+
+const post = getPublishedPost('por-que-hago-tantas-preguntas');
 ---
 
-<PostLayout
-  title="¿Por qué hago tantas preguntas? | Romina Caubarrere"
-  description="Una nota personal sobre curiosidad, preguntas, rabbit holes y por qué sigo queriendo saber un poco más."
-  canonical="https://romicaubarrere.github.io/personal/posts/por-que-hago-tantas-preguntas.html"
-  summary="Sobre preguntar por qué, caer en rabbit holes y tener una memoria especial para las cosas pelotudas."
-  dateTime="2026-08"
-  dateLabel="agosto 2026"
->
+<PostLayout {...post}>
   <Fragment slot="heading">¿Por qué hago tantas <em>preguntas</em>?</Fragment>
     <p>Cuando era chica, mis padres me regalaban <em>El libro de los porqués</em>.</p>
     <p>Lo cual tiene bastante sentido porque, aparentemente, mi respuesta a absolutamente todo era: ¿por qué?</p>
