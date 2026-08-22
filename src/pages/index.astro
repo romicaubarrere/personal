@@ -5,7 +5,6 @@ import Contact from '../components/home/Contact.astro';
 import Footer from '../components/home/Footer.astro';
 import Hero from '../components/home/Hero.astro';
 import HomeScripts from '../components/home/HomeScripts.astro';
-import NavStateGuard from '../components/home/NavStateGuard.astro';
 import PortfolioCaseStudy from '../components/home/PortfolioCaseStudy.astro';
 import LanguageSwitcher from '../components/LanguageSwitcher.astro';
 import ProjectBookcase from '../components/islands/ProjectBookcase';
@@ -102,6 +101,5 @@ const structuredData = {
   </main>
   <Footer />
   <HomeScripts />
-  <NavStateGuard />
   <script is:inline src={`${base}contextual-scribbles.js`} defer></script>
 </BaseLayout>
