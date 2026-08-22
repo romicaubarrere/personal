@@ -116,7 +116,8 @@ test('la navegación expone la sección activa y el contacto no publica destinos
   assert.match(home, /classList\.toggle\('is-active',active\)/);
   assert.match(homeStyles, /nav a\.is-active/);
   assert.doesNotMatch(home, /<a\b[^>]*href="#"/i);
-  assert.equal((home.match(/class="ltag is-pending" aria-disabled="true"/g) ?? []).length, 4);
+  assert.equal((home.match(/class="ltag is-pending" aria-disabled="true"/g) ?? []).length, 3);
+  assert.match(home, /href="\/personal\/assets\/cv\/romina-caubarrere-cv\.pdf"[^>]*download="Romina-Caubarrere-CV\.pdf"/);
   assert.match(home, /Los enlaces de contacto est&aacute;n pendientes de publicaci&oacute;n\./);
 });
 

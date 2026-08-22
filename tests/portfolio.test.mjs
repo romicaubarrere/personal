@@ -15,6 +15,12 @@ const formationHtml = formationDocument.replace(/<\/head>/i, `<style>${formation
 const favicon = await readFile(join(distRoot, 'favicon.svg'), 'utf8');
 const socialPreview = await readFile(join(distRoot, 'social-preview.png'));
 const socialPreviewSource = await readFile(join(distRoot, 'social-preview.svg'), 'utf8');
+const cvPdf = await readFile(join(distRoot, 'assets', 'cv', 'romina-caubarrere-cv.pdf'));
+const cvGenerator = await readFile(join(repositoryRoot, 'scripts', 'generate_cv.py'), 'utf8');
+const crochetCheckpoint = await readFile(
+  join(repositoryRoot, 'docs/checkpoints/WEB-004-crochet-comparison.html'),
+  'utf8'
+);
 const readme = await readFile(join(repositoryRoot, 'README.md'), 'utf8');
 const architectureDecision = await readFile(
   join(repositoryRoot, 'docs', 'architecture-decision.md'),
@@ -478,6 +484,20 @@ test('el contacto persistente es accesible, táctil y deja preparado su evento d
   assert.match(html, /min-height:48px/);
   assert.match(html, /\.contact-tab:focus-visible\{outline:3px solid var\(--cream\)/);
   assert.match(html, /@media\(max-width:760px\)[\s\S]*?\.contact-tab\{[^}]*min-height:46px/);
+});
+
+test('WEB-092 publica un CV verificable y descargable', () => {
+  assert.equal(cvPdf.subarray(0, 8).toString('ascii'), '%PDF-1.4');
+  assert.ok(cvPdf.length > 70_000, 'El PDF del CV parece vacío o incompleto');
+  assert.match(
+    html,
+    /<a href="\/personal\/assets\/cv\/romina-caubarrere-cv\.pdf" class="ltag" download="Romina-Caubarrere-CV\.pdf" aria-label="Descargar CV de Romina Caubarrere en PDF" data-analytics-event="cv_download">CV<\/a>/
+  );
+  assert.doesNotMatch(html, /<span class="ltag is-pending" aria-disabled="true">CV<\/span>/);
+  assert.match(cvGenerator, /OUTPUT = ROOT \/ "public" \/ "assets" \/ "cv" \/ "romina-caubarrere-cv\.pdf"/);
+  assert.match(cvGenerator, /"Project Manager \| eagerworks"/);
+  assert.match(cvGenerator, /"habITar \| Proyecto final UTEC"/);
+  assert.doesNotMatch(cvGenerator, /Pendiente de completar|por confirmar|placeholder/i);
 });
 
 test('las microinteracciones orientan con mouse, teclado y tacto sin sumar JavaScript', () => {
