@@ -341,6 +341,18 @@ test('la experiencia respeta la preferencia de movimiento reducido', () => {
   );
 });
 
+test('el parallax solo renderiza cuando hay cambios y se pausa fuera de contexto', () => {
+  assert.match(html, /matchMedia\('\(max-width: 760px\)'\)/);
+  assert.match(html, /return !reducedMotion && !mobileParallaxQuery\.matches && !document\.hidden/);
+  assert.match(html, /window\.addEventListener\('scroll',scheduleParallax,\{passive:true\}\)/);
+  assert.match(html, /document\.addEventListener\('visibilitychange'/);
+  assert.match(html, /if\(document\.hidden\) stopParallax\(\); else scheduleParallax\(\);/);
+  assert.match(html, /mobileParallaxQuery\.addEventListener\('change',applyMobileParallax\)/);
+  assert.match(html, /function refreshParallaxBases\(\)/);
+  assert.doesNotMatch(html, /requestAnimationFrame\(frame\)/);
+  assert.doesNotMatch(html, /function frame\(\)/);
+});
+
 test('la portada incluye metadatos SEO básicos válidos', () => {
   assert.match(html, /<title>Romina Caubarrere \| Project Manager de software<\/title>/i);
   assert.match(html, /<meta name="description" content="[^"]*Project Manager[^"]*">/i);
