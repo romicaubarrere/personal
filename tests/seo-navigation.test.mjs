@@ -189,12 +189,17 @@ test('las páginas internas publican breadcrumbs estructurados y 404 queda exclu
       .replace(/\s+\|\s+Romina Caubarrere$/, '');
     assert.equal(breadcrumbs.length, 1, `${route} debe tener un solo breadcrumb`);
     const language = route.startsWith('en/') ? 'en' : route.startsWith('pt/') ? 'pt' : 'es';
+    const localizedHome = language === 'en'
+      ? 'https://romicaubarrere.github.io/personal/en.html'
+      : language === 'pt'
+        ? 'https://romicaubarrere.github.io/personal/pt.html'
+        : 'https://romicaubarrere.github.io/personal/';
     assert.deepEqual(breadcrumbs[0].itemListElement, [
       {
         '@type': 'ListItem',
         position: 1,
         name: language === 'en' ? 'Home' : language === 'pt' ? 'Início' : 'Inicio',
-        item: 'https://romicaubarrere.github.io/personal/'
+        item: localizedHome
       },
       {
         '@type': 'ListItem',
