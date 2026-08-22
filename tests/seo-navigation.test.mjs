@@ -77,6 +77,17 @@ test('Open Graph y X describen cada ruta y reutilizan la tarjeta aprobada', () =
     assert.equal(getAttribute(source, /<meta\b[^>]*name="twitter:description"[^>]*>/i, 'content'), socialDescription);
     assert.equal(getAttribute(source, /<meta\b[^>]*name="twitter:image"[^>]*>/i, 'content'), socialImage);
     assert.equal(getAttribute(source, /<meta\b[^>]*name="twitter:image:alt"[^>]*>/i, 'content'), socialImageAlt);
+    const language = route === 'en.html' || route.startsWith('en/')
+      ? 'en'
+      : route === 'pt.html' || route.startsWith('pt/')
+        ? 'pt'
+        : 'es';
+    const localizedAltPattern = language === 'en'
+      ? /Portfolio card/i
+      : language === 'pt'
+        ? /Cartão do portfólio/i
+        : /Tarjeta del portfolio/i;
+    assert.match(socialImageAlt, localizedAltPattern, `${route}: alt social fuera del idioma del documento`);
     if (route.startsWith('posts/') || route.includes('/posts/')) assert.match(source, /<meta property="og:type" content="article">/i);
     else assert.match(source, /<meta property="og:type" content="website">/i);
   }
