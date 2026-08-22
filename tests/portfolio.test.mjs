@@ -626,17 +626,24 @@ test('el hero comunica el posicionamiento y ofrece las dos acciones principales'
   assert.match(html, /class="hero-link" href="#contacto">Contactarme<\/a>/);
 });
 
-test('las cuatro fortalezas comparten una sola carpeta de trabajo y aparecen después del hero', () => {
+test('las cuatro fortalezas forman una sola muestra de crochet sin numeración', () => {
   assert.match(html, /<\/header>\s*<section class="strengths" id="fortalezas"/);
-  assert.equal((html.match(/<div class="strengths-folder reveal"/g) ?? []).length, 1);
-  assert.match(html, /<ol class="strengths-list">/);
+  assert.equal((html.match(/<div class="strengths-sampler reveal"/g) ?? []).length, 1);
+  assert.match(html, /<ul class="strengths-list">/);
   assert.equal((html.match(/<li class="strength-row">/g) ?? []).length, 4);
+  assert.equal((html.match(/<span class="crochet-loop" aria-hidden="true"><\/span>/g) ?? []).length, 4);
+  assert.match(html, /<button class="yarn-ball" type="button" aria-label="Hacer rodar el ovillo de crochet"><\/button>/);
+  assert.match(html, /<span class="yarn-play-note" aria-hidden="true">toc&aacute; el ovillo/);
   assert.match(html, /Gesti&oacute;n de proyectos de software/);
   assert.match(html, /Comunicaci&oacute;n y alineaci&oacute;n/);
   assert.match(html, /Producto, requerimientos y m&eacute;tricas/);
   assert.match(html, /Criterio t&eacute;cnico y calidad/);
   assert.match(html, /tres proyectos en simult&aacute;neo/);
-  assert.doesNotMatch(html, /strengths-grid|strength-card/);
+  assert.doesNotMatch(html, /strengths-grid|strength-card|counter-reset:strength|counter\(strength\)/);
+  assert.match(html, /\.strength-row:hover \.crochet-loop\{transform:rotate\(15deg\) scale\(1\.1\);\}/);
+  assert.match(html, /\.strengths-sampler:hover \.yarn-ball\{transform:translate\(-4px,3px\) rotate\(16deg\);\}/);
+  assert.match(html, /@keyframes yarn-ball-play/);
+  assert.match(html, /yarnBall\.addEventListener\('click',playYarn\)/);
   assert.doesNotMatch(html, /class="strength[^\"]*(progress|meter|percentage)/i);
 });
 

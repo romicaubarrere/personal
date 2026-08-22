@@ -178,49 +178,98 @@
   .scrollhint span{display:block;font-size:26px;animation:bob 1.8s ease-in-out infinite;}
   @keyframes bob{0%,100%{transform:translateY(0);}50%{transform:translateY(8px);}}
 
-  /* ---------- FORTALEZAS: una carpeta de trabajo ---------- */
+  /* ---------- FORTALEZAS: una muestra de crochet ---------- */
   .strengths{position:relative;overflow:hidden;padding:96px 0 104px;background:var(--paper);}
   .strengths::before{content:"";position:absolute;inset:0;pointer-events:none;opacity:.28;
     background-image:linear-gradient(rgba(63,125,78,.16) 1px,transparent 1px);background-size:100% 30px;}
   .strengths-inner{position:relative;z-index:1;max-width:1040px;margin:0 auto;padding:0 40px;}
-  .strengths-folder{position:relative;padding:28px 28px 30px;background:#c8a66f;border-radius:5px 9px 9px 5px;
-    box-shadow:7px 15px 34px rgba(36,31,24,.28);}
-  .strengths-folder::before{content:"lo que pongo sobre la mesa";position:absolute;left:30px;top:-31px;width:240px;height:38px;
-    padding:8px 18px;background:#c8a66f;border-radius:7px 7px 0 0;font-family:var(--hand);font-size:18px;color:#513b1f;}
-  .strengths-sheet{position:relative;padding:44px 48px 38px 64px;background:var(--cream);box-shadow:3px 8px 20px rgba(36,31,24,.22);
-    transform:rotate(-.35deg);}
-  .strengths-sheet::before{content:"";position:absolute;top:0;bottom:0;left:42px;width:1px;background:rgba(151,70,41,.32);}
-  .strengths-sheet::after{content:"";position:absolute;width:92px;height:28px;top:-13px;right:48px;
-    background:rgba(207,154,63,.56);transform:rotate(3deg);}
+  .strengths-sampler{position:relative;padding:50px 58px 44px;background:
+    radial-gradient(circle at 10px 0,var(--sage) 0 8px,transparent 9px) top/20px 11px repeat-x,
+    radial-gradient(circle at 10px 100%,var(--sage) 0 8px,transparent 9px) bottom/20px 11px repeat-x,
+    radial-gradient(circle at 0 10px,var(--sage) 0 8px,transparent 9px) left/11px 20px repeat-y,
+    radial-gradient(circle at 100% 10px,var(--sage) 0 8px,transparent 9px) right/11px 20px repeat-y,
+    var(--cream);box-shadow:7px 15px 34px rgba(36,31,24,.28);}
+  .strengths-sampler::before{content:"";position:absolute;inset:15px;border:2px dashed rgba(85,96,63,.48);pointer-events:none;}
+  .yarn-ball{position:absolute;right:38px;top:-31px;width:62px;height:62px;border-radius:50%;z-index:2;
+    background:repeating-radial-gradient(ellipse at 30% 34%,transparent 0 5px,rgba(250,243,228,.3) 6px 7px),var(--brick);
+    box-shadow:inset -7px -8px 10px rgba(36,31,24,.23),3px 6px 12px rgba(36,31,24,.2);
+    appearance:none;border:0;padding:0;cursor:pointer;transition:transform .38s cubic-bezier(.2,.8,.2,1);}
+  .yarn-ball::after{content:"";position:absolute;right:44px;top:34px;width:92px;height:42px;border-bottom:4px solid var(--brick);
+    border-radius:0 0 70% 50%;transform:rotate(7deg);transform-origin:right center;transition:transform .38s cubic-bezier(.2,.8,.2,1);}
+  .yarn-ball:focus-visible{outline:3px solid var(--gold);outline-offset:4px;box-shadow:0 0 0 7px var(--green-dark),inset -7px -8px 10px rgba(36,31,24,.23);}
+  .yarn-play-note{position:absolute;right:112px;top:-28px;z-index:3;font-family:var(--hand);font-size:18px;color:var(--warm);
+    transform:rotate(-4deg);pointer-events:none;}
+  .yarn-ball.is-playing{animation:yarn-ball-play .78s cubic-bezier(.2,.75,.25,1);}
+  .yarn-ball.is-playing::after{animation:yarn-tail-play .78s cubic-bezier(.2,.75,.25,1);}
+  @keyframes yarn-ball-play{
+    0%,100%{transform:translate(0,0) rotate(0);}
+    34%{transform:translate(-18px,5px) rotate(-46deg) scale(1.05);}
+    68%{transform:translate(4px,-2px) rotate(20deg) scale(.98);}
+  }
+  @keyframes yarn-tail-play{
+    0%,100%{transform:rotate(7deg) scaleX(1);}
+    40%{transform:rotate(-3deg) scaleX(1.24);}
+    72%{transform:rotate(10deg) scaleX(.94);}
+  }
   .strengths-head{display:grid;grid-template-columns:minmax(0,1fr) minmax(240px,.72fr);gap:42px;align-items:end;padding-bottom:28px;}
   .strengths-kicker{display:block;font-family:var(--hand);font-size:1.35rem;color:var(--warm);transform:rotate(-1deg);}
   .strengths h2{font-family:var(--serif);font-weight:360;font-size:clamp(2.25rem,4.8vw,3.55rem);line-height:1.02;}
   .strengths h2 em{font-style:italic;color:var(--green);}
   .strengths-intro{color:var(--ink-soft);font-size:.94rem;line-height:1.55;}
-  .strengths-list{list-style:none;padding:0;border-top:1px solid #cfc1a7;counter-reset:strength;}
-  .strength-row{display:grid;grid-template-columns:38px minmax(0,1fr) minmax(155px,210px);gap:18px;align-items:start;
-    padding:23px 0;border-bottom:1px solid #cfc1a7;counter-increment:strength;}
-  .strength-row::before{content:"0" counter(strength);font-family:var(--hand);font-size:1.45rem;line-height:1;color:var(--warm);}
+  .strengths-list{list-style:none;padding:0;border-top:1px solid #cfc1a7;}
+  .strength-row{--yarn:var(--green);position:relative;display:grid;grid-template-columns:50px minmax(0,1fr) minmax(155px,210px);
+    gap:20px;align-items:center;padding:25px 0;}
+  .strength-row:nth-child(2){--yarn:var(--brick);}
+  .strength-row:nth-child(3){--yarn:var(--gold);}
+  .strength-row:nth-child(4){--yarn:var(--sage);}
+  .strength-row::after{content:"";position:absolute;left:70px;right:0;bottom:0;height:6px;opacity:.62;
+    background:radial-gradient(circle,var(--yarn) 0 2px,transparent 2.7px) 0 50%/11px 6px repeat-x;
+    transition:background-position .34s ease,opacity .2s ease;}
+  .crochet-loop{position:relative;width:44px;height:44px;border-radius:50%;background:
+    radial-gradient(circle,var(--cream) 0 5px,transparent 6px),
+    repeating-conic-gradient(from 4deg,var(--yarn) 0 9deg,transparent 9deg 22.5deg);
+    filter:drop-shadow(2px 3px 2px rgba(36,31,24,.18));transition:transform .34s cubic-bezier(.2,.8,.2,1);}
+  .crochet-loop::before{content:"";position:absolute;inset:8px;border:3px dashed var(--yarn);border-radius:50%;}
+  .crochet-loop::after{content:"";position:absolute;left:35px;top:24px;width:21px;border-top:3px solid var(--yarn);
+    border-radius:50%;transform:rotate(12deg);transform-origin:left center;transition:transform .34s cubic-bezier(.2,.8,.2,1);}
   .strength-copy h3{font-family:var(--serif);font-size:1.3rem;font-weight:620;line-height:1.15;margin-bottom:7px;}
   .strength-copy p{color:var(--ink-soft);font-size:.93rem;line-height:1.55;}
   .strength-proof{align-self:center;padding-left:17px;border-left:1px dashed #b9ad98;font-family:var(--hand);font-size:1.15rem;
-    line-height:1.18;color:var(--green-deep);transform:rotate(-1deg);}
+    line-height:1.18;color:var(--green-deep);transform:rotate(-1deg);transition:transform .28s ease,color .2s ease;}
   .strength-row:nth-child(even) .strength-proof{color:var(--warm);transform:rotate(1deg);}
+  @media(hover:hover) and (pointer:fine){
+    .strengths-sampler:hover .yarn-ball{transform:translate(-4px,3px) rotate(16deg);}
+    .strengths-sampler:hover .yarn-ball::after{transform:rotate(4deg) scaleX(1.08);}
+    .strength-row:hover .crochet-loop{transform:rotate(15deg) scale(1.1);}
+    .strength-row:hover .crochet-loop::after{transform:rotate(-5deg) scaleX(1.2);}
+    .strength-row:hover::after{background-position:6px 50%;opacity:1;}
+    .strength-row:hover .strength-proof{transform:translateX(5px) rotate(0);color:var(--yarn);}
+  }
+  .strength-row:active .crochet-loop{transform:rotate(8deg) scale(1.06);}
   @media(max-width:760px){
     .strengths{padding:82px 0 88px;}
     .strengths-inner{padding:0 20px;}
-    .strengths-folder{padding:18px 16px 20px;}
-    .strengths-folder::before{left:18px;width:220px;}
-    .strengths-sheet{padding:38px 28px 30px 42px;transform:none;}
-    .strengths-sheet::before{left:25px;}
+    .strengths-sampler{padding:42px 32px 34px;}
+    .yarn-ball{right:24px;width:54px;height:54px;}
+    .yarn-play-note{right:88px;top:-27px;font-size:17px;}
     .strengths-head{grid-template-columns:1fr;gap:14px;padding-bottom:25px;}
-    .strength-row{grid-template-columns:32px minmax(0,1fr);gap:14px;padding:22px 0;}
+    .strength-row{grid-template-columns:44px minmax(0,1fr);gap:14px;padding:24px 0;}
+    .strength-row::after{left:58px;}
+    .crochet-loop{width:39px;height:39px;}
+    .crochet-loop::after{left:31px;top:21px;}
     .strength-proof{grid-column:2;margin-top:2px;padding:0;border:0;}
   }
   @media(max-width:420px){
-    .strengths-folder::before{width:205px;font-size:17px;}
-    .strengths-sheet{padding-right:20px;padding-left:36px;}
-    .strength-row{grid-template-columns:27px minmax(0,1fr);gap:10px;}
+    .strengths-sampler{padding:38px 24px 30px;}
+    .yarn-play-note{right:75px;max-width:90px;line-height:1;}
+    .strength-row{grid-template-columns:38px minmax(0,1fr);gap:10px;}
+    .strength-row::after{left:48px;}
+    .crochet-loop{width:34px;height:34px;}
+    .crochet-loop::before{inset:7px;border-width:2px;}
+    .crochet-loop::after{left:27px;top:18px;width:17px;}
+  }
+  @media(prefers-reduced-motion:reduce){
+    .yarn-ball,.yarn-ball::after,.crochet-loop,.crochet-loop::after,.strength-row::after,.strength-proof{transition:none!important;}
   }
 
   /* ---------- CORCHO (sobre mi) ---------- */
@@ -771,46 +820,50 @@
 
   <section class="strengths" id="fortalezas" aria-labelledby="strengths-title">
     <div class="strengths-inner">
-      <div class="strengths-folder reveal" style="--r:-.35deg">
-        <div class="strengths-sheet">
-          <div class="strengths-head">
-            <div>
-              <span class="strengths-kicker">apuntes de trabajo</span>
-              <h2 id="strengths-title">Mis <em>fortalezas</em></h2>
-            </div>
-            <p class="strengths-intro">No son porcentajes ni una lista de herramientas. Son las cosas que sostengo en el trabajo de todos los d&iacute;as.</p>
+      <div class="strengths-sampler reveal" style="--r:-.35deg">
+        <button class="yarn-ball" type="button" aria-label="Hacer rodar el ovillo de crochet"></button>
+        <span class="yarn-play-note" aria-hidden="true">toc&aacute; el ovillo &nearr;</span>
+        <div class="strengths-head">
+          <div>
+            <span class="strengths-kicker">cuatro puntos del mismo tejido</span>
+            <h2 id="strengths-title">Mis <em>fortalezas</em></h2>
           </div>
-          <ol class="strengths-list">
-            <li class="strength-row">
-              <div class="strength-copy">
-                <h3>Gesti&oacute;n de proyectos de software</h3>
-                <p>Coordino prioridades y cambio de contexto sin perder qu&eacute; necesita cada proyecto ni cu&aacute;l es el pr&oacute;ximo paso.</p>
-              </div>
-              <span class="strength-proof">tres proyectos en simult&aacute;neo</span>
-            </li>
-            <li class="strength-row">
-              <div class="strength-copy">
-                <h3>Comunicaci&oacute;n y alineaci&oacute;n</h3>
-                <p>Bajo expectativas, decisiones y entregas a conversaciones claras para que nadie avance con una idea distinta.</p>
-              </div>
-              <span class="strength-proof">equipos + stakeholders</span>
-            </li>
-            <li class="strength-row">
-              <div class="strength-copy">
-                <h3>Producto, requerimientos y m&eacute;tricas</h3>
-                <p>Entiendo y refino requerimientos, ordeno prioridades y sigo m&eacute;tricas para decidir con algo m&aacute;s que intuici&oacute;n.</p>
-              </div>
-              <span class="strength-proof">de la idea al criterio</span>
-            </li>
-            <li class="strength-row">
-              <div class="strength-copy">
-                <h3>Criterio t&eacute;cnico y calidad</h3>
-                <p>Mi formaci&oacute;n t&eacute;cnica y mi experiencia en testing me permiten conversar con desarrollo, hacer mejores preguntas y cuidar lo que se entrega.</p>
-              </div>
-              <span class="strength-proof">LTI + testing</span>
-            </li>
-          </ol>
+          <p class="strengths-intro">No son porcentajes ni una lista de herramientas. Son cosas que se entrelazan en el trabajo de todos los d&iacute;as.</p>
         </div>
+        <ul class="strengths-list">
+          <li class="strength-row">
+            <span class="crochet-loop" aria-hidden="true"></span>
+            <div class="strength-copy">
+              <h3>Gesti&oacute;n de proyectos de software</h3>
+              <p>Coordino prioridades y cambio de contexto sin perder qu&eacute; necesita cada proyecto ni cu&aacute;l es el pr&oacute;ximo paso.</p>
+            </div>
+            <span class="strength-proof">tres proyectos en simult&aacute;neo</span>
+          </li>
+          <li class="strength-row">
+            <span class="crochet-loop" aria-hidden="true"></span>
+            <div class="strength-copy">
+              <h3>Comunicaci&oacute;n y alineaci&oacute;n</h3>
+              <p>Bajo expectativas, decisiones y entregas a conversaciones claras para que nadie avance con una idea distinta.</p>
+            </div>
+            <span class="strength-proof">equipos + stakeholders</span>
+          </li>
+          <li class="strength-row">
+            <span class="crochet-loop" aria-hidden="true"></span>
+            <div class="strength-copy">
+              <h3>Producto, requerimientos y m&eacute;tricas</h3>
+              <p>Entiendo y refino requerimientos, ordeno prioridades y sigo m&eacute;tricas para decidir con algo m&aacute;s que intuici&oacute;n.</p>
+            </div>
+            <span class="strength-proof">de la idea al criterio</span>
+          </li>
+          <li class="strength-row">
+            <span class="crochet-loop" aria-hidden="true"></span>
+            <div class="strength-copy">
+              <h3>Criterio t&eacute;cnico y calidad</h3>
+              <p>Mi formaci&oacute;n t&eacute;cnica y mi experiencia en testing me permiten conversar con desarrollo, hacer mejores preguntas y cuidar lo que se entrega.</p>
+            </div>
+            <span class="strength-proof">LTI + testing</span>
+          </li>
+        </ul>
       </div>
     </div>
   </section>
@@ -1511,6 +1564,21 @@
   if(reducedMotionQuery.addEventListener) reducedMotionQuery.addEventListener('change',applyMotionPreference);
   else if(reducedMotionQuery.addListener) reducedMotionQuery.addListener(applyMotionPreference);
   scheduleParallax();
+
+  (function(){
+    var yarnBall=document.querySelector('.yarn-ball');
+    if(!yarnBall) return;
+    function playYarn(){
+      yarnBall.classList.remove('is-playing');
+      if(reducedMotion) return;
+      void yarnBall.offsetWidth;
+      yarnBall.classList.add('is-playing');
+    }
+    yarnBall.addEventListener('click',playYarn);
+    yarnBall.addEventListener('animationend',function(e){
+      if(e.animationName==='yarn-ball-play') yarnBall.classList.remove('is-playing');
+    });
+  })();
 
   (function(){
     var els = document.querySelectorAll('.reveal');
