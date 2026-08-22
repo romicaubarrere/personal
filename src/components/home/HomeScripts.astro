@@ -1,0 +1,196 @@
+<script is:inline>
+  (function(){
+    var toggle=document.getElementById('navToggle');
+    var nav=document.getElementById('primary-nav');
+    if(!toggle || !nav) return;
+
+    function setOpen(open){
+      nav.classList.toggle('open',open);
+      toggle.setAttribute('aria-expanded',String(open));
+    }
+
+    toggle.addEventListener('click',function(){
+      setOpen(toggle.getAttribute('aria-expanded')!=='true');
+    });
+    nav.addEventListener('click',function(e){
+      if(e.target.closest('a')) setOpen(false);
+    });
+    document.addEventListener('keydown',function(e){
+      if(e.key==='Escape' && toggle.getAttribute('aria-expanded')==='true'){
+        setOpen(false); toggle.focus();
+      }
+    });
+    document.addEventListener('pointerdown',function(e){
+      if(toggle.getAttribute('aria-expanded')==='true' && !nav.contains(e.target) && !toggle.contains(e.target)) setOpen(false);
+    });
+    window.addEventListener('resize',function(){
+      if(window.innerWidth>760) setOpen(false);
+    });
+  })();
+
+  (function(){
+    var links=Array.prototype.slice.call(document.querySelectorAll('#primary-nav a[href^="#"]'));
+    var sections=links.map(function(link){return document.querySelector(link.getAttribute('href'));}).filter(Boolean);
+    if(!links.length || !sections.length) return;
+
+    function setActive(id){
+      links.forEach(function(link){
+        var active=link.getAttribute('href')==='#'+id;
+        link.classList.toggle('is-active',active);
+        if(active) link.setAttribute('aria-current','location');
+        else link.removeAttribute('aria-current');
+      });
+    }
+
+    if('IntersectionObserver' in window){
+      var sectionObserver=new IntersectionObserver(function(entries){
+        entries.forEach(function(entry){if(entry.isIntersecting) setActive(entry.target.id);});
+      },{rootMargin:'-22% 0px -68%',threshold:0});
+      sections.forEach(function(section){sectionObserver.observe(section);});
+    }
+
+    function applyHash(){
+      var id=window.location.hash.slice(1);
+      if(id && sections.some(function(section){return section.id===id;})) setActive(id);
+    }
+    window.addEventListener('hashchange',applyHash);
+    applyHash();
+  })();
+
+  var reducedMotionQuery = window.matchMedia ? window.matchMedia('(prefers-reduced-motion: reduce)') : {matches:false};
+  var reducedMotion = reducedMotionQuery.matches;
+
+  var hero = document.querySelector('.hero'), spot = document.getElementById('spot');
+  if (hero) hero.addEventListener('pointermove', function(e){
+    if(reducedMotion) return;
+    var r = hero.getBoundingClientRect();
+    spot.style.setProperty('--mx', ((e.clientX-r.left)/r.width*100)+'%');
+    spot.style.setProperty('--my', ((e.clientY-r.top)/r.height*100)+'%');
+  });
+
+  // parallax por scroll y mouse, renderizado solo cuando cambia la escena
+  var pnodes = Array.prototype.slice.call(document.querySelectorAll('.parallax'));
+  var mobileParallaxQuery = window.matchMedia ? window.matchMedia('(max-width: 760px)') : {matches:false};
+  function baseTop(el){var y=0,n=el;while(n){y+=n.offsetTop;n=n.offsetParent;}return y;}
+  function refreshParallaxBases(){
+    pnodes.forEach(function(el){el._base=baseTop(el);});
+  }
+  refreshParallaxBases();
+  var mx=0,my=0;
+  window.addEventListener('pointermove', function(e){
+    if(!parallaxCanRun()) return;
+    var clientX=Number.isFinite(e.clientX)?e.clientX:window.innerWidth/2;
+    var clientY=Number.isFinite(e.clientY)?e.clientY:window.innerHeight/2;
+    mx=(clientX/window.innerWidth-.5); my=(clientY/window.innerHeight-.5);
+    scheduleParallax();
+  },{passive:true});
+  var parallaxFrame = null;
+  var resizeFrame = null;
+  function parallaxCanRun(){
+    return !reducedMotion && !mobileParallaxQuery.matches && !document.hidden;
+  }
+  function resetParallax(){
+    pnodes.forEach(function(el){
+      el.style.removeProperty('--parallax-x');
+      el.style.removeProperty('--parallax-y');
+    });
+  }
+  function renderParallax(){
+    parallaxFrame=null;
+    if(!parallaxCanRun()) return;
+    var sy = window.scrollY, vh = window.innerHeight;
+    pnodes.forEach(function(el){
+      var d = parseFloat(el.dataset.depth)||0;
+      var center = el._base - sy + el.offsetHeight/2;
+      var prog = (center - vh/2)/vh;
+      var ty = prog * d * -1.4 + my*d*1.1;
+      var tx = mx*d*1.5;
+      if(!Number.isFinite(tx)||!Number.isFinite(ty)) return;
+      el.style.setProperty('--parallax-x',tx+'px');
+      el.style.setProperty('--parallax-y',ty+'px');
+    });
+  }
+  function scheduleParallax(){
+    if(parallaxCanRun() && parallaxFrame===null) parallaxFrame=requestAnimationFrame(renderParallax);
+  }
+  function stopParallax(){
+    if(parallaxFrame!==null){cancelAnimationFrame(parallaxFrame);parallaxFrame=null;}
+    resetParallax();
+  }
+  window.addEventListener('scroll',scheduleParallax,{passive:true});
+  window.addEventListener('resize',function(){
+    if(resizeFrame!==null) cancelAnimationFrame(resizeFrame);
+    resizeFrame=requestAnimationFrame(function(){
+      resizeFrame=null;
+      refreshParallaxBases();
+      if(parallaxCanRun()) scheduleParallax(); else stopParallax();
+    });
+  },{passive:true});
+  document.addEventListener('visibilitychange',function(){
+    if(document.hidden) stopParallax(); else scheduleParallax();
+  });
+  function applyMobileParallax(){
+    if(mobileParallaxQuery.matches) stopParallax(); else scheduleParallax();
+  }
+  if(mobileParallaxQuery.addEventListener) mobileParallaxQuery.addEventListener('change',applyMobileParallax);
+  else if(mobileParallaxQuery.addListener) mobileParallaxQuery.addListener(applyMobileParallax);
+  function showReveals(){
+    document.querySelectorAll('.reveal').forEach(function(el){el.classList.add('in');});
+  }
+  function applyMotionPreference(e){
+    reducedMotion=e.matches;
+    if(reducedMotion){stopParallax();showReveals();}
+    else scheduleParallax();
+  }
+  if(reducedMotionQuery.addEventListener) reducedMotionQuery.addEventListener('change',applyMotionPreference);
+  else if(reducedMotionQuery.addListener) reducedMotionQuery.addListener(applyMotionPreference);
+  scheduleParallax();
+
+  (function(){
+    var yarnBall=document.querySelector('.yarn-ball');
+    var crochetStatus=document.querySelector('#crochet-status');
+    if(!yarnBall) return;
+    function playYarn(){
+      yarnBall.classList.remove('is-playing');
+      if(crochetStatus) crochetStatus.textContent=reducedMotion ? 'Ovillo seleccionado sin movimiento.' : 'El ovillo rod&oacute; sobre la muestra.';
+      if(reducedMotion) return;
+      void yarnBall.offsetWidth;
+      yarnBall.classList.add('is-playing');
+    }
+    yarnBall.addEventListener('click',playYarn);
+    yarnBall.addEventListener('animationend',function(e){
+      if(e.animationName==='yarn-ball-play') yarnBall.classList.remove('is-playing');
+    });
+  })();
+
+  (function(){
+    var stitchButtons=Array.from(document.querySelectorAll('.crochet-loop'));
+    var crochetStatus=document.querySelector('#crochet-status');
+    stitchButtons.forEach(function(button){
+      button.addEventListener('click',function(){
+        var row=button.closest('.strength-row');
+        var nextPressed=button.getAttribute('aria-pressed')!=='true';
+        stitchButtons.forEach(function(other){
+          other.setAttribute('aria-pressed','false');
+          other.closest('.strength-row').classList.remove('is-threaded');
+        });
+        if(nextPressed){
+          button.setAttribute('aria-pressed','true');
+          row.classList.add('is-threaded');
+        }
+        if(crochetStatus) crochetStatus.textContent=nextPressed ? 'Punto destacado: '+row.querySelector('h3').textContent+'.' : 'Punto sin destacar.';
+      });
+    });
+  })();
+
+  (function(){
+    var els = document.querySelectorAll('.reveal');
+    if(reducedMotion){showReveals();return;}
+    if(!('IntersectionObserver' in window)){els.forEach(function(e){e.classList.add('in');});return;}
+    var io = new IntersectionObserver(function(en){
+      en.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target);} });
+    },{threshold:.14, rootMargin:'0px 0px -8% 0px'});
+    document.querySelectorAll('.patch').forEach(function(el,i){el.style.transitionDelay=(i*70)+'ms';});
+    els.forEach(function(e){io.observe(e);});
+  })();
+</script>

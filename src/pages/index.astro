@@ -1,0 +1,77 @@
+---
+import About from '../components/home/About.astro';
+import Chrome from '../components/home/Chrome.astro';
+import Communities from '../components/home/Communities.astro';
+import Contact from '../components/home/Contact.astro';
+import Education from '../components/home/Education.astro';
+import Experience from '../components/home/Experience.astro';
+import Footer from '../components/home/Footer.astro';
+import Hero from '../components/home/Hero.astro';
+import HomeScripts from '../components/home/HomeScripts.astro';
+import Offers from '../components/home/Offers.astro';
+import ProjectBookcase from '../components/islands/ProjectBookcase';
+import Reads from '../components/home/Reads.astro';
+import Strengths from '../components/home/Strengths.astro';
+import Talks from '../components/home/Talks.astro';
+import Workflow from '../components/home/Workflow.astro';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import '../styles/home.css';
+
+const title = 'Romina Caubarrere | Project Manager de software';
+const description = 'Portfolio de Romina Caubarrere, Project Manager de software: proyectos, experiencia y una forma de trabajo que conecta personas, producto y tecnología.';
+const socialDescription = 'Conecto personas, producto y tecnología para que proyectos complejos avancen y lleguen a resultados.';
+const canonical = 'https://romicaubarrere.github.io/personal/';
+const socialImage = 'https://romicaubarrere.github.io/personal/social-preview.png';
+const socialImageAlt = 'Tarjeta del portfolio de Romina Caubarrere, Project Manager de software.';
+const base = import.meta.env.BASE_URL.endsWith('/')
+  ? import.meta.env.BASE_URL
+  : `${import.meta.env.BASE_URL}/`;
+const person = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: 'Romina Caubarrere',
+  url: canonical,
+  jobTitle: 'Project Manager de software',
+  description: 'Project Manager de software con experiencia en producto, gestión de proyectos y calidad.',
+  knowsAbout: [
+    'Gestión de proyectos de software',
+    'Producto digital',
+    'Testing y calidad'
+  ]
+};
+---
+
+<BaseLayout
+  {title}
+  {description}
+  {canonical}
+  ogDescription={socialDescription}
+  ogImage={socialImage}
+  ogImageAlt={socialImageAlt}
+  extraStylesheets={[`${base}microinteractions.css`]}
+>
+  <script
+    is:inline
+    slot="head"
+    type="application/ld+json"
+    set:html={JSON.stringify(person, null, 2)}
+  ></script>
+
+  <Chrome />
+  <main id="main-content" tabindex="-1">
+    <Hero />
+    <About />
+    <Experience />
+    <Education />
+    <Strengths />
+    <ProjectBookcase client:load />
+    <Workflow />
+    <Offers />
+    <Talks />
+    <Communities />
+    <Reads />
+    <Contact />
+  </main>
+  <Footer />
+  <HomeScripts />
+</BaseLayout>

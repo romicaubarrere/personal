@@ -15,13 +15,13 @@ No se publican textos de muestra. Cada nota debe estar terminada y aprobada por 
 
 ## Plantilla reutilizable
 
-1. Copiar una nota existente dentro de `posts/` y renombrarla con un slug estable.
-2. Mantener el enlace a `post.css`; el diseño compartido no se copia ni se edita para cada publicación.
-3. Actualizar `title`, description, author, canonical y favicon en `head`.
-4. Actualizar el título visible, el resumen y el elemento `time` con un `datetime` válido.
-5. Reemplazar el contenido de `article` y conservar `main-content`, el enlace de salto y el enlace de regreso.
-6. Agregar una tarjeta al bloque “mis notas” de `index.html` con estado Publicado, fecha, título, resumen y enlace permanente.
-7. Ejecutar `npm test` y revisar la nota en móvil antes de abrir el pull request.
+1. Copiar una nota existente dentro de `src/pages/posts/` y renombrarla con un slug estable.
+2. Mantener `PostLayout.astro`; el diseño y la estructura compartida no se copian ni se editan para cada publicación.
+3. Actualizar las propiedades `title`, `description`, `canonical`, `summary`, `dateTime` y `dateLabel`.
+4. Actualizar el título visible dentro del slot `heading`.
+5. Reemplazar solamente el contenido que se entrega al layout. `PostLayout.astro` conserva `main-content`, el enlace de salto, autora, favicon y navegación de regreso.
+6. Agregar una tarjeta al componente `src/components/home/Reads.astro` con estado Publicado, fecha, título, resumen y enlace permanente.
+7. Ejecutar `npm test` y revisar la nota compilada en móvil antes de abrir el pull request.
 
 ## Campos obligatorios
 
