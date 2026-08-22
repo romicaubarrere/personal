@@ -25,11 +25,13 @@ test('las rutas principales cargan en el idioma esperado', async ({ page }) => {
 
 test('el selector conserva la página al cambiar de idioma', async ({ page }) => {
   await page.goto('/personal/como-trabajo.html');
-  await page.getByRole('link', { name: 'English' }).click();
+  const languages = page.locator('.language-switcher');
+
+  await languages.locator('a[hreflang="en"]').click();
   await expect(page).toHaveURL(/\/personal\/en\/como-trabajo\.html$/);
   await expect(page.locator('html')).toHaveAttribute('lang', 'en');
 
-  await page.getByRole('link', { name: 'Português' }).click();
+  await page.locator('.language-switcher a[hreflang="pt"]').click();
   await expect(page).toHaveURL(/\/personal\/pt\/como-trabajo\.html$/);
   await expect(page.locator('html')).toHaveAttribute('lang', 'pt');
 });
