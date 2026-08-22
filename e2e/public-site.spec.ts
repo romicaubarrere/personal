@@ -75,3 +75,17 @@ test('la navegación móvil abre, navega y vuelve a cerrarse', async ({ page }, 
   await expect(toggle).toHaveAttribute('aria-expanded', 'false');
   await expect(page.locator('#proyectos')).toBeVisible();
 });
+
+test('las notas se despegan antes de navegar con mouse o teclado', async ({ page }) => {
+  await page.goto('/personal/');
+  const note = page.locator('.sticky-link').first();
+  await note.click({ noWaitAfter: true });
+  await expect(note).toHaveClass(/is-lifting/);
+  await page.waitForURL(/\/personal\/posts\/por-que-hago-tantas-preguntas\.html$/);
+
+  await page.goto('/personal/');
+  const keyboardNote = page.locator('.sticky-link').nth(1);
+  await keyboardNote.focus();
+  await page.keyboard.press('Enter');
+  await page.waitForURL(/\/personal\/posts\/cuando-puedas\.html$/);
+});

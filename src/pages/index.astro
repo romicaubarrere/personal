@@ -9,6 +9,7 @@ import PortfolioCaseStudy from '../components/home/PortfolioCaseStudy.astro';
 import LanguageSwitcher from '../components/LanguageSwitcher.astro';
 import ProjectBookcase from '../components/islands/ProjectBookcase';
 import Reads from '../components/home/Reads.astro';
+import StudioTransition from '../components/home/StudioTransition.astro';
 import Talks from '../components/home/Talks.astro';
 import WorkTeaser from '../components/home/WorkTeaser.astro';
 import BaseLayout from '../layouts/BaseLayout.astro';
@@ -93,10 +94,13 @@ const structuredData = {
     <Hero />
     <About />
     <ProjectBookcase client:idle />
+    <StudioTransition />
     <PortfolioCaseStudy />
     <WorkTeaser />
+    <StudioTransition />
     <Talks />
     <Reads />
+    <StudioTransition />
     <Contact />
   </main>
   <Footer />

@@ -819,6 +819,19 @@ test('las microinteracciones orientan con mouse, teclado y tacto sin sumar JavaS
   assert.doesNotMatch(css, /addEventListener|requestAnimationFrame|setTimeout/);
 });
 
+test('la apertura de notas despega el papel sin romper la navegación', () => {
+  assert.match(html, /querySelectorAll\('\.sticky-link\[href\]'\)/);
+  assert.match(html, /event\.button!==0 \|\| event\.metaKey \|\| event\.ctrlKey \|\| event\.shiftKey \|\| event\.altKey/);
+  assert.match(html, /link\.target && link\.target!=='_self'/);
+  assert.match(html, /destination\.origin!==window\.location\.origin/);
+  assert.match(html, /link\.classList\.add\('is-lifting'\)/);
+  assert.match(html, /window\.setTimeout\(function\(\)\{window\.location\.assign\(destination\.href\);\},170\)/);
+  assert.match(html, /\.sticky-link\.is-lifting\{animation:paper-lift \.17s/);
+  assert.match(html, /@media\(prefers-reduced-motion:reduce\)\{\.sticky-link\.is-lifting\{animation:none\}\}/);
+  assert.equal((html.match(/class="sticky sticky-link"/g) ?? []).length, 2);
+  assert.doesNotMatch(html, /loader|loading-spinner/i);
+});
+
 test('todos los bloques JavaScript tienen sintaxis válida', () => {
   const scripts = [...html.matchAll(/<script([^>]*)>([\s\S]*?)<\/script>/gi)]
     .filter((match) => !/type="application\/ld\+json"/i.test(match[1]))
