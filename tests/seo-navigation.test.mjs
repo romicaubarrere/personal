@@ -110,14 +110,18 @@ test('los enlaces internos de las rutas compiladas resuelven a archivos y fragme
   }
 });
 
-test('la navegación expone la sección activa y el contacto no publica destinos falsos', () => {
+test('la navegación expone la sección activa y el contacto publica solo destinos verificados', () => {
   const home = routeDocuments.get('index.html');
   assert.match(home, /setAttribute\('aria-current','location'\)/);
   assert.match(home, /classList\.toggle\('is-active',active\)/);
   assert.match(homeStyles, /nav a\.is-active/);
   assert.doesNotMatch(home, /<a\b[^>]*href="#"/i);
-  assert.equal((home.match(/class="ltag is-pending" aria-disabled="true"/g) ?? []).length, 4);
-  assert.match(home, /Los enlaces de contacto est&aacute;n pendientes de publicaci&oacute;n\./);
+  assert.equal((home.match(/class="ltag is-pending" aria-disabled="true"/g) ?? []).length, 3);
+  assert.match(home, /href="https:\/\/www\.linkedin\.com\/in\/rominacaubarrere\/"/);
+  assert.match(home, /rel="me noopener noreferrer"/);
+  assert.match(home, /aria-label="LinkedIn de Romina Caubarrere \(abre en una nueva pesta&ntilde;a\)"/);
+  assert.match(home, /data-analytics-event="contact_linkedin_click"/);
+  assert.match(home, /Email, Instagram y CV est&aacute;n pendientes de publicaci&oacute;n\./);
 });
 
 test('robots, sitemap y 404 quedan listos para GitHub Pages', async () => {
