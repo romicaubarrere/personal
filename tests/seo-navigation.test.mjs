@@ -122,6 +122,42 @@ test('las notas publican datos estructurados específicos y sin datos no aprobad
   }
 });
 
+test('las páginas internas publican breadcrumbs estructurados y 404 queda excluida', async () => {
+  for (const [route, source] of routeDocuments) {
+    const structuredData = [...source.matchAll(
+      /<script type="application\/ld\+json">([\s\S]*?)<\/script>/gi
+    )].map((match) => JSON.parse(match[1]));
+    const breadcrumbs = structuredData.filter((entry) => entry['@type'] === 'BreadcrumbList');
+
+    if (route === 'index.html') {
+      assert.equal(breadcrumbs.length, 0);
+      continue;
+    }
+
+    const canonical = getAttribute(source, /<link\b[^>]*rel="canonical"[^>]*>/i, 'href');
+    const title = source.match(/<title>([^<]+)<\/title>/i)?.[1]
+      .replace(/\s+\|\s+Romina Caubarrere$/, '');
+    assert.equal(breadcrumbs.length, 1, `${route} debe tener un solo breadcrumb`);
+    assert.deepEqual(breadcrumbs[0].itemListElement, [
+      {
+        '@type': 'ListItem',
+        position: 1,
+        name: 'Inicio',
+        item: 'https://romicaubarrere.github.io/personal/'
+      },
+      {
+        '@type': 'ListItem',
+        position: 2,
+        name: title,
+        item: canonical
+      }
+    ]);
+  }
+
+  const notFound = await readFile(join(dist, '404.html'), 'utf8');
+  assert.doesNotMatch(notFound, /"@type": "BreadcrumbList"/);
+});
+
 test('el feed RSS coincide con las notas publicadas y se anuncia en todas las rutas', async () => {
   const feed = await readFile(join(dist, 'feed.xml'), 'utf8');
   const items = [...feed.matchAll(/<item>([\s\S]*?)<\/item>/g)].map((match) => match[1]);
