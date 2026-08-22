@@ -5,7 +5,12 @@ import { getPublishedPost } from '../../data/posts';
 const post = getPublishedPost('por-que-hago-tantas-preguntas');
 ---
 
-<PostLayout {...post}>
+<PostLayout {...post} page="questions" alternates={[
+  {lang:'es',href:'https://romicaubarrere.github.io/personal/posts/por-que-hago-tantas-preguntas.html'},
+  {lang:'en',href:'https://romicaubarrere.github.io/personal/en/posts/why-do-i-ask-so-many-questions.html'},
+  {lang:'pt',href:'https://romicaubarrere.github.io/personal/pt/posts/por-que-faco-tantas-perguntas.html'},
+  {lang:'x-default',href:'https://romicaubarrere.github.io/personal/posts/por-que-hago-tantas-preguntas.html'}
+]}>
   <Fragment slot="heading">¿Por qué hago tantas <em>preguntas</em>?</Fragment>
     <p>Cuando era chica, mis padres me regalaban <em>El libro de los porqués</em>.</p>
     <p>Lo cual tiene bastante sentido porque, aparentemente, mi respuesta a absolutamente todo era: ¿por qué?</p>

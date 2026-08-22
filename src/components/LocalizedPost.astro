@@ -1,0 +1,153 @@
+---
+import PostLayout from '../layouts/PostLayout.astro';
+
+type Lang = 'en' | 'pt';
+type Page = 'questions' | 'when-you-can';
+type Block = { type?: 'p' | 'why' | 'short' | 'aside' | 'ending'; html: string };
+interface Copy { title: string; description: string; summary: string; dateLabel: string; heading: string; slug: string; blocks: Block[] }
+interface Props { lang: Lang; page: Page }
+const { lang, page } = Astro.props;
+const base = 'https://romicaubarrere.github.io/personal/';
+
+const copies: Record<Page, Record<Lang, Copy>> = {
+  questions: {
+    en: {
+      title:'Why do I ask so many questions? | Romina Caubarrere',
+      description:'A personal note about curiosity, questions, rabbit holes and why I always want to know a little more.',
+      summary:'On asking why, falling down rabbit holes and having a special memory for completely useless facts.',
+      dateLabel:'August 2026', heading:'Why do I ask so many <em>questions</em>?', slug:'en/posts/why-do-i-ask-so-many-questions',
+      blocks:[
+        {html:'When I was a child, my parents used to give me <em>The Book of Whys</em>.'},
+        {html:'Which makes perfect sense because, apparently, my answer to absolutely everything was: why?'},
+        {type:'why',html:'Why are we eating this? Why isn’t Carla coming? Why do earthquakes happen? Why this? Why that?'},
+        {html:'Everything. Everything was why.'},{html:'And they never made me feel like I was asking too much. Quite the opposite.'},
+        {html:'My mother is a teacher and my father is in the military and specializes in geodesy, so I also had two very different sources of information available. I could show up with a question about maths, history, plants, other countries, earthquakes or anything else I could think of, and someone was always willing to explain it.'},
+        {html:'And, obviously, every explanation led to another question.'},
+        {html:'Recently, in an English class, we were looking at techniques for understanding people better and giving feedback, and <em>The Five Whys</em> came up.'},
+        {html:'Basically: ask “why?” several times until you reach the root of a problem.'},{type:'short',html:'And I was like: oh, would you look at that.'},
+        {html:'It turns out that something that felt completely intuitive to me at three, four or five years old not only has a name, but someone studied it and said: yes, this actually works.'},
+        {html:'That was when I realized I still do it all the time.'},{html:'It happens a lot at work.'},{html:'A client says: “We want metrics.”'},
+        {html:'Okay, which metrics?'},{html:'“We want to see how many people come in.”'},{html:'Okay, why?'},
+        {html:'Do you want to know whether people are using the product? Are you trying to make a marketing decision? Who needs that information? What will they use it for? Should everyone be able to see it?'},
+        {html:'And suddenly something that began as “we want metrics” ends up being something completely different.'},
+        {html:'For me, having all that context changes everything. It lets me form my own judgment about what I am being told. Maybe the other person is taking something for granted and I am not. Maybe we discover that what they originally asked for was not even what they needed.'},
+        {html:'Or maybe it was.'},{html:'But now we know why.'},
+        {html:'Still, I do not want to pretend all my whys have a useful, productive goal, because that would be a lie.'},{html:'Most of them do not.'},
+        {type:'aside',html:'I simply like knowing things.'},
+        {html:'I have an amazing memory for stupid little facts. I do not know why, but I do. You can be talking to me about something completely random and there is a very good chance I will eventually say, “Oh, did you know that…?”'},
+        {html:'One day it will help me win a trivia game.'},{html:'I hope.'},{html:'I am also extremely good at falling down rabbit holes.'},
+        {html:'Recently, after seeing earthquakes happening in different places, I wondered what would happen if there were one in Uruguay.'},{html:'Well.'},
+        {html:'Then I wanted to know what would happen specifically in the area where I live.'},{html:'Then I found out it depended on the depth and the epicenter.'},
+        {html:'Then, on the kind of soil.'},{html:'So I needed to know what kind of soil there is where I live.'},{html:'And then what an earthquake would do in THAT kind of soil.'},
+        {html:'Eventually I ended up asking my partner, who knows about construction, what would happen to our house.'},{type:'short',html:'All perfectly normal.'},
+        {html:'Something similar happened because I wanted to remember <em>The Odyssey</em> better. I started reading about Odysseus, Troy, the period and the places, and at some point I was looking up whether one of the islands in it really existed and whether archaeologists had found any remains there.'},
+        {html:'I do not know when to stop.'},{html:'Because very often finding the answer only makes me think: okay, and why is that?'},{html:'And off we go again.'},
+        {html:'It does not even have to be intellectual. If you tell me your cousin broke up with someone, I want to know why.'},{html:'That is not me applying <em>The Five Whys</em>.'},{html:'That is me being nosy.'},
+        {html:'But I think one thing runs through all those situations: I am not particularly embarrassed to ask.'},{html:'Of course, sometimes I think, “Maybe this is a stupid question.”'},{html:'And I ask it anyway.'},
+        {html:'I would rather ask something that might have been obvious than pretend I understood and be left understanding nothing.'},
+        {html:'The reverse happens too. If I was absolutely certain about something and suddenly find out it was not true, my usual reaction is: wait, was it really not true?'},{html:'I look for another source.'},{html:'And another.'},{html:'And if I really was wrong, oh, would you look at that. Better to know now.'},
+        {html:'I also love people who ask good questions.'},{html:'I work with a developer who has an incredible ability to read a ticket and spot an edge case nobody else had thought of. A lot of the time he asks something and I think: wow, what a brain. How did it occur to you to think of that?'},{html:'I love it.'},
+        {html:'And I think it is only now, as an adult, that I realize how much the way I grew up had to do with all this.'},
+        {html:'I was never taught that asking was annoying. Nobody ever made me feel like a nuisance for wanting another explanation. If I did not understand, they explained it. If I asked something else afterwards, they answered that too.'},
+        {html:'Maybe that is why I never grew out of the “why?” stage.'},{html:'And thank goodness.'},
+        {html:'Because if somebody told me something tomorrow and my reaction were simply “oh, okay,” with no desire to know anything else, I think I would feel as though a very large part of me were missing.'},
+        {type:'ending',html:'<p>In the end, the explanation is not terribly sophisticated.</p><p>I ask so much because I like knowing things.</p><p>Even when they are completely useless.</p>'}
+      ]
+    },
+    pt: {
+      title:'Por que faço tantas perguntas? | Romina Caubarrere',
+      description:'Uma nota pessoal sobre curiosidade, perguntas, rabbit holes e por que continuo querendo saber um pouco mais.',
+      summary:'Sobre perguntar por quê, cair em rabbit holes e ter uma memória especial para coisas completamente inúteis.',
+      dateLabel:'agosto de 2026', heading:'Por que faço tantas <em>perguntas</em>?', slug:'pt/posts/por-que-faco-tantas-perguntas',
+      blocks:[
+        {html:'Quando eu era criança, meus pais me davam <em>O livro dos porquês</em>.'},{html:'O que faz bastante sentido porque, aparentemente, minha resposta para absolutamente tudo era: por quê?'},
+        {type:'why',html:'Por que vamos comer isso? Por que a Carla não vem? Por que acontecem terremotos? Por que isso? Por que aquilo?'},{html:'Tudo. Tudo era por quê.'},{html:'E nunca me fizeram sentir que eu perguntava demais. Pelo contrário.'},
+        {html:'Minha mãe é professora e meu pai é militar e especialista em geodésia, então eu também tinha duas fontes de informação bem diferentes à disposição. Podia chegar com uma pergunta de matemática, história, plantas, outros países, terremotos ou qualquer coisa que me ocorresse, e sempre havia alguém disposto a me explicar.'},{html:'E, obviamente, dessa explicação saía outra pergunta.'},
+        {html:'Há pouco tempo, em uma aula de inglês, estávamos vendo técnicas para entender melhor as pessoas e dar feedback, e apareceu <em>The Five Whys</em>.'},{html:'Basicamente: perguntar “por quê?” várias vezes até chegar à raiz de um problema.'},{type:'short',html:'E eu fiquei tipo: ah, olha só.'},
+        {html:'Acontece que algo completamente intuitivo para mim aos três, quatro ou cinco anos não só tem nome, como alguém estudou e disse: sim, isso realmente funciona.'},{html:'E aí percebi que, na verdade, continuo fazendo isso o tempo todo.'},{html:'Acontece muito no trabalho.'},
+        {html:'Um cliente diz: “Queremos métricas.”'},{html:'Certo, quais métricas?'},{html:'“Queremos ver quantas pessoas entram.”'},{html:'Certo, por quê?'},
+        {html:'Você quer saber se as pessoas estão usando o produto? Quer tomar alguma decisão de marketing? Quem precisa ver essa informação? Para que vai usá-la? Todo mundo deveria vê-la?'},{html:'E de repente algo que começou como “queremos métricas” acaba sendo uma coisa completamente diferente.'},
+        {html:'Para mim, ter todo esse contexto muda muito. Permite que eu forme meu próprio critério sobre o que estão me dizendo. Talvez haja algo que a outra pessoa considere óbvio e eu não. Talvez a gente descubra que o pedido inicial nem era o que ela precisava.'},{html:'Ou talvez fosse.'},{html:'Mas agora sabemos por quê.'},
+        {html:'Também não quero fingir que todos os meus porquês têm algum objetivo útil e produtivo, porque seria mentira.'},{html:'A maioria não tem.'},{type:'aside',html:'Eu simplesmente gosto de saber.'},
+        {html:'Tenho uma memória espetacular para coisas idiotas. Não sei por quê, mas tenho. Você pode estar me contando algo completamente aleatório e é bem provável que em algum momento apareça um “ah, você sabia que…?”'},{html:'Algum dia isso vai me ajudar a ganhar um jogo de perguntas.'},{html:'Espero.'},{html:'Também tenho uma facilidade enorme para entrar em rabbit holes.'},
+        {html:'Há pouco tempo, vendo terremotos acontecerem em vários lugares, me perguntei o que aconteceria se houvesse um no Uruguai.'},{html:'Bom.'},{html:'Depois quis saber o que aconteceria especificamente na região onde moro.'},{html:'Depois descobri que dependia da profundidade e do epicentro.'},{html:'Depois, do tipo de solo.'},{html:'Então precisava saber que tipo de solo havia onde moro.'},{html:'E depois o que aconteceria com um terremoto NESSE tipo de solo.'},{html:'E finalmente acabei perguntando ao meu companheiro, que entende de construção, o que aconteceria com a nossa casa.'},{type:'short',html:'Tudo perfeitamente normal.'},
+        {html:'Algo parecido aconteceu porque eu queria me lembrar melhor de <em>A Odisseia</em>. Comecei lendo sobre Ulisses, Troia, a época e os lugares, e em algum momento já estava procurando se uma ilha que aparecia ali realmente existia e se tinham encontrado restos arqueológicos.'},{html:'Não sei em que momento parar.'},{html:'Porque muitas vezes encontrar a resposta só me faz pensar: certo, e isso por quê?'},{html:'E tudo começa de novo.'},
+        {html:'E nem precisa ser algo intelectual. Se você me diz que sua prima terminou um relacionamento, quero saber por que terminou.'},{html:'Aí não estou aplicando <em>The Five Whys</em>.'},{html:'Aí sou fofoqueira.'},
+        {html:'Mas acho que existe algo que atravessa todas essas situações: não tenho muita vergonha de perguntar.'},{html:'Claro que às vezes penso “talvez esta seja uma pergunta idiota”.'},{html:'E faço mesmo assim.'},{html:'Prefiro perguntar algo que talvez fosse óbvio a fingir que entendi e continuar sem entender nada.'},
+        {html:'Também acontece ao contrário. Se eu tinha absoluta certeza de algo e de repente descubro que não era assim, minha reação costuma ser: espera, mas realmente não era?'},{html:'Procuro outra fonte.'},{html:'E outra.'},{html:'E, se eu realmente estava errada, ah, olha só. Melhor saber agora.'},
+        {html:'Também adoro pessoas que fazem boas perguntas.'},{html:'Tenho um colega desenvolvedor com uma facilidade incrível para ler um ticket e encontrar um caso extremo em que ninguém tinha pensado. Muitas vezes ele faz uma pergunta e eu penso: nossa, que cabeça. Como você pensou nisso?'},{html:'Adoro.'},
+        {html:'E acho que só agora, adulta, percebo o quanto minha forma de crescer teve a ver com tudo isso.'},{html:'Nunca me ensinaram que perguntar era incômodo. Nunca me fizeram sentir chata por querer outra explicação. Se eu não entendia, explicavam. Se depois perguntava outra coisa, também respondiam.'},{html:'Talvez por isso eu nunca tenha superado a fase do “por quê?”.'},{html:'Ainda bem.'},
+        {html:'Porque, se amanhã alguém me contasse algo e minha reação fosse simplesmente “ah, tá”, sem querer saber mais nada, acho que sentiria que falta uma parte bem grande de mim.'},
+        {type:'ending',html:'<p>No fim, também não existe uma explicação muito sofisticada.</p><p>Pergunto tanto porque gosto de saber.</p><p>Mesmo quando é uma bobagem.</p>'}
+      ]
+    }
+  },
+  'when-you-can': {
+    en: {
+      title:'When you can (when I actually need it today) | Romina Caubarrere',
+      description:'A personal note about communication, feedback and learning to be direct without making every request feel like a complaint.',
+      summary:'When I actually need it today. On feedback, three-line messages and learning to tolerate a little discomfort.',
+      dateLabel:'August 2026', heading:'When you <em>can</em>', slug:'en/posts/when-you-can',
+      blocks:[
+        {html:'I have a problem with “when you can.”'},{html:'Because a lot of the time I say “when you can” when what I really mean is: I need this today.'},
+        {html:'It happens constantly at work. I have to ask someone for something, I write a three-line message and can spend a completely unnecessary amount of time thinking about how to say it.'},
+        {type:'why',html:'Does it sound like a complaint?<br>Does it look as if I am rushing them?<br>Does it sound too bossy?<br>Should I add “if that works for you”?<br>A “maybe”?<br>An emoji?'},
+        {html:'Is it clear that it matters without making me sound angry?'},{html:'I read it again. Change one word. Read it again.'},{html:'Sometimes I even run it through AI and ask it to soften the message, make it sound less like a complaint, make it kinder.'},{html:'All to end up sending something like:'},
+        {type:'aside',html:'“When you can, could you confirm this for us?”'},{html:'When what my head is actually saying is:'},{type:'short',html:'<strong>We need this before the sprint starts.</strong>'},
+        {html:'And the worst part is that I know perfectly well I could say that.'},{html:'It is not rude. It is not aggressive. It is true.'},{html:'But I have a fairly strong tendency to avoid creating tension.'},
+        {html:'Today we happened to discuss this in an English class about leadership. They asked whether we regularly gave and received feedback and how we did it.'},{html:'And it got me thinking.'},{html:'Because I want feedback.'},{html:'In fact, I ask for it often.'},
+        {html:'I ask my manager and my coworkers about specific things I did. What they thought. What I could improve. And if they say “no, everything was fine,” I will probably keep asking a little longer.'},{html:'Because if there is something I could do better, I want to know.'},{html:'And very often, when they finally tell me something, I had already noticed it and was looking for a way to improve.'},
+        {html:'But going back to feedback, there is something I find a bit contradictory.'},{html:'I want people to tell me things.'},{type:'short',html:'If I am doing something wrong, tell me.'},
+        {html:'If something is affecting my team and everybody knows except me, do not let me carry on doing it for three months when I could have corrected it at the start.'},{html:'I would be like: why did you not tell me sooner?'},
+        {html:'So I know that saying something uncomfortable is not necessarily bad. I know it when I am the person receiving the comment.'},{html:'The problem appears when I am the one who has to say it.'},{html:'Because I try so hard not to make something sound bad that sometimes I soften it too much.'},
+        {html:'It happens, for example, when I need an answer from a client before a sprint starts.'},{html:'I need it.'},{html:'It is not arbitrary. There are things the team cannot define or move forward with until we have that answer.'},{html:'But it is the first message.'},{html:'And in my head, the first message cannot be a complaint because, well, I have not complained yet. I am letting you know.'},{html:'So here come:'},
+        {type:'why',html:'“When you can…”<br>“If that works for you…”<br>“Maybe we could…”'},{html:'And a strategically placed emoji to demonstrate that nobody is angry with anyone.'},
+        {html:'The problem is that maybe the other person reads exactly what I wrote.'},{html:'“When you can.”'},{html:'And they can the day after tomorrow.'},{html:'So the second message arrives.'},{html:'And then, yes.'},
+        {type:'aside',html:'“Hi, just a reminder that we are still waiting for this decision. We need it to move forward with X and Y.”'},{html:'Because now I have already warned you.'},{type:'short',html:'Now I have mentally granted myself permission to chase you.'},
+        {html:'And I think part of the problem is that I read a lot into the tone of messages.'},{html:'Sometimes I see a conversation between two people and think: wow, look at the way they spoke to them.'},{html:'It jars me.'},{html:'Then I have a call with that same person and I am like: oh.'},{html:'They are nice.'},{html:'They were not angry.'},{html:'That is just how they write.'},{html:'It has happened to me several times.'},
+        {html:'And I suppose that is why, when it is my turn to write, I try to control every possible interpretation.'},{html:'So it does not look as if I am angry.'},{html:'So it does not look like a complaint.'},{html:'So it does not sound like an order.'},{html:'So it does not create tension.'},
+        {html:'And I think that is part of what I am learning.'},{html:'I can try to say things well, of course. But I also cannot write every message while considering every possible way someone might interpret it.'},{html:'And this gets mixed up with many other things I am learning too: setting boundaries, saying no, asking for something clearly and, above all, accepting that a conversation might be uncomfortable.'},
+        {html:'And there are two things that look incredibly obvious when I write them down, but that I am clearly still learning to put into practice:'},{type:'short',html:'<strong>Being direct does not mean being rude.</strong>'},{type:'short',html:'<strong>Creating tension does not mean having a bad relationship.</strong>'},
+        {type:'ending',html:'<p>I do not have a grand conclusion about this.</p><p>I am still learning.</p><p>I will probably write another three-line message tomorrow, read it six times, change two words, add an emoji, remove the emoji, put it back and end up writing “when you can.”</p><p>But anyway.</p><p>Maybe next time I will delete “when you can.”</p><p>When I can.</p>'}
+      ]
+    },
+    pt: {
+      title:'Quando puder (quando na verdade preciso que seja hoje) | Romina Caubarrere',
+      description:'Uma nota pessoal sobre comunicação, feedback e aprender a ser direta sem sentir que todo pedido vira uma cobrança.',
+      summary:'Quando na verdade preciso que seja hoje. Sobre feedback, mensagens de três linhas e aprender a suportar um pouco o desconforto.',
+      dateLabel:'agosto de 2026', heading:'Quando <em>puder</em>', slug:'pt/posts/quando-puder',
+      blocks:[
+        {html:'Tenho um problema com “quando puder”.'},{html:'Porque muitas vezes digo “quando puder” quando, na verdade, preciso que seja hoje.'},{html:'Isso acontece muito no trabalho. Preciso pedir algo a alguém, escrevo uma mensagem de três linhas e consigo passar um tempo completamente desnecessário pensando em como dizer.'},
+        {type:'why',html:'Parece uma cobrança?<br>Parece que estou apressando a pessoa?<br>Soa autoritário demais?<br>Coloco um “se estiver tudo bem”?<br>Um “talvez”?<br>Um emoji?'},{html:'Dá para entender que é importante sem parecer que estou brava?'},{html:'Releio. Troco uma palavra. Leio de novo.'},{html:'Às vezes até passo pela IA e peço que suavize, que não pareça uma cobrança, que seja mais gentil.'},{html:'Tudo para acabar mandando algo tipo:'},{type:'aside',html:'“Quando puder, você poderia confirmar isso para a gente?”'},{html:'Quando minha cabeça na verdade está dizendo:'},{type:'short',html:'<strong>Precisamos disso antes de começar o sprint.</strong>'},
+        {html:'E o pior é que sei perfeitamente que poderia dizer isso.'},{html:'Não é falta de educação. Não é agressivo. É verdade.'},{html:'Mas tenho uma tendência bem forte a evitar gerar tensão.'},{html:'Hoje mesmo falamos disso em uma aula de inglês sobre liderança. Perguntaram se costumávamos dar e receber feedback e como fazíamos.'},{html:'E fiquei pensando.'},{html:'Porque eu quero feedback.'},{html:'Na verdade, peço bastante.'},
+        {html:'Pergunto ao meu chefe e aos meus colegas sobre coisas específicas que fiz. O que acharam. O que eu poderia melhorar. E, se dizem “não, tudo certo”, provavelmente continuo perguntando um pouco mais.'},{html:'Porque, se existe algo que posso fazer melhor, quero saber.'},{html:'Muitas vezes, quando finalmente me dizem algo, eu já tinha percebido e estava procurando como melhorar.'},
+        {html:'Mas, voltando ao feedback, há algo que acho meio contraditório.'},{html:'Eu quero que me digam as coisas.'},{type:'short',html:'Se estou fazendo algo errado, me diga.'},{html:'Se há algo afetando minha equipe e todo mundo sabe menos eu, não me deixe continuar fazendo por três meses quando eu poderia ter corrigido desde o começo.'},{html:'Eu ficaria tipo: por que você não me disse antes?'},
+        {html:'Então sei que dizer algo desconfortável não é necessariamente ruim. Sei disso quando sou a pessoa que recebe o comentário.'},{html:'O problema aparece quando sou eu que preciso dizer.'},{html:'Porque tento tanto não fazer algo soar mal que às vezes acabo suavizando demais.'},{html:'Acontece, por exemplo, quando preciso de uma resposta do cliente antes de começar um sprint.'},{html:'Preciso dela.'},{html:'Não é capricho. Há coisas que a equipe não consegue definir nem avançar até ter essa resposta.'},{html:'Mas é a primeira mensagem.'},{html:'E, na minha cabeça, a primeira mensagem não pode ser uma cobrança porque, bom, ainda não cobrei nada. Estou avisando.'},{html:'Então aparece:'},
+        {type:'why',html:'“Quando puder…”<br>“Se estiver tudo bem…”<br>“Talvez pudéssemos…”'},{html:'E algum emoji estrategicamente colocado para mostrar que ninguém está bravo com ninguém.'},{html:'O problema é que talvez a outra pessoa leia exatamente o que escrevi.'},{html:'“Quando puder.”'},{html:'E ela pode depois de amanhã.'},{html:'Então chega a segunda mensagem.'},{html:'E aí sim.'},{type:'aside',html:'“Olá, lembro que ainda estamos esperando esta definição. Precisamos dela para avançar com X e Y.”'},{html:'Porque agora eu já avisei.'},{type:'short',html:'Agora tenho permissão mental para cobrar.'},
+        {html:'E acho que parte do problema é que leio demais o tom das mensagens.'},{html:'Às vezes vejo uma conversa entre duas pessoas e penso: nossa, olha como falou com ela.'},{html:'Me incomoda.'},{html:'Depois tenho uma chamada com essa mesma pessoa e fico tipo: ah.'},{html:'É gente boa.'},{html:'Não estava brava.'},{html:'Só escreve assim.'},{html:'Já aconteceu várias vezes.'},
+        {html:'E suponho que, por isso, quando preciso escrever, tento controlar todas as interpretações possíveis.'},{html:'Que não pareça que estou brava.'},{html:'Que não pareça uma cobrança.'},{html:'Que não pareça uma ordem.'},{html:'Que não gere tensão.'},{html:'E acho que aí está parte do que estou aprendendo.'},{html:'Posso tentar dizer as coisas bem, claro. Mas também não posso escrever cada mensagem pensando em todas as formas possíveis como alguém pode interpretá-la.'},{html:'E isso se mistura com um monte de coisas que também estou aprendendo: colocar limites, dizer não, pedir algo com clareza e, principalmente, aceitar que uma conversa pode ser desconfortável.'},
+        {html:'E há duas coisas que, quando escrevo, parecem muito óbvias, mas que evidentemente ainda estou aprendendo a aplicar:'},{type:'short',html:'<strong>Ser direta não significa ser mal-educada.</strong>'},{type:'short',html:'<strong>Gerar tensão não significa se dar mal.</strong>'},
+        {type:'ending',html:'<p>Não tenho uma grande conclusão sobre isso.</p><p>Ainda estou aprendendo.</p><p>Provavelmente amanhã vou escrever outra mensagem de três linhas, reler seis vezes, trocar duas palavras, colocar um emoji, tirar o emoji, colocar de novo e acabar escrevendo “quando puder”.</p><p>Mas tudo bem.</p><p>Talvez da próxima vez eu apague o “quando puder”.</p><p>Quando puder.</p>'}
+      ]
+    }
+  }
+};
+
+const copy = copies[page][lang];
+const canonical = `${base}${copy.slug}.html`;
+const equivalents = page === 'questions'
+  ? { es:'posts/por-que-hago-tantas-preguntas.html', en:'en/posts/why-do-i-ask-so-many-questions.html', pt:'pt/posts/por-que-faco-tantas-perguntas.html' }
+  : { es:'posts/cuando-puedas.html', en:'en/posts/when-you-can.html', pt:'pt/posts/quando-puder.html' };
+const alternates = [
+  {lang:'es',href:`${base}${equivalents.es}`},{lang:'en',href:`${base}${equivalents.en}`},{lang:'pt',href:`${base}${equivalents.pt}`},{lang:'x-default',href:`${base}${equivalents.es}`}
+];
+---
+
+<PostLayout lang={lang} {page} title={copy.title} description={copy.description} {canonical} summary={copy.summary} dateTime="2026-08" dateLabel={copy.dateLabel} {alternates}>
+  <Fragment slot="heading"><span set:html={copy.heading} /></Fragment>
+  {copy.blocks.map((block) => block.type === 'aside'
+    ? <div class="aside" set:html={block.html} />
+    : block.type === 'ending'
+      ? <div class="ending" set:html={block.html} />
+      : <p class={block.type === 'why' || block.type === 'short' ? block.type : undefined} set:html={block.html} />)}
+</PostLayout>

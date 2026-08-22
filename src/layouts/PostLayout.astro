@@ -1,5 +1,6 @@
 ---
 import BaseLayout from './BaseLayout.astro';
+import LanguageSwitcher from '../components/LanguageSwitcher.astro';
 import '../styles/post.css';
 
 interface Props {
@@ -9,9 +10,18 @@ interface Props {
   summary: string;
   dateTime: string;
   dateLabel: string;
+  lang?: 'es' | 'en' | 'pt';
+  page?: 'questions' | 'when-you-can';
+  alternates?: { lang: string; href: string }[];
 }
 
-const { title, description, canonical, summary, dateTime, dateLabel } = Astro.props;
+const { title, description, canonical, summary, dateTime, dateLabel, lang = 'es', page, alternates = [] } = Astro.props;
+const labels = {
+  es: { skip: 'Saltar al contenido', back: 'volver a lo que leo y escribo', kicker: 'una nota mía', footer: 'hecho con método, plantas y un poco de lana' },
+  en: { skip: 'Skip to content', back: 'back to what I read and write', kicker: 'a note of my own', footer: 'made with method, plants and a little yarn' },
+  pt: { skip: 'Pular para o conteúdo', back: 'voltar ao que leio e escrevo', kicker: 'uma nota minha', footer: 'feito com método, plantas e um pouco de lã' }
+} as const;
+const copy = labels[lang];
 const article = {
   '@context': 'https://schema.org',
   '@type': 'BlogPosting',
@@ -20,7 +30,7 @@ const article = {
   url: canonical,
   mainEntityOfPage: canonical,
   datePublished: dateTime,
-  inLanguage: 'es',
+  inLanguage: lang,
   isPartOf: { '@id': 'https://romicaubarrere.github.io/personal/#website' },
   author: {
     '@id': 'https://romicaubarrere.github.io/personal/#person',
@@ -32,7 +42,7 @@ const article = {
 };
 ---
 
-<BaseLayout {title} {description} {canonical} ogType="article">
+<BaseLayout {lang} ogLocale={lang === 'en' ? 'en_US' : lang === 'pt' ? 'pt_BR' : 'es_UY'} {title} {description} {canonical} {alternates} ogType="article">
   <script
     is:inline
     slot="head"
@@ -40,11 +50,12 @@ const article = {
     set:html={JSON.stringify(article)}
   ></script>
 
-  <a class="skip-link" href="#main-content">Saltar al contenido</a>
+  <a class="skip-link" href="#main-content">{copy.skip}</a>
+  {page && <LanguageSwitcher current={lang} {page} />}
   <header class="top brick">
     <div class="hero">
-      <a class="back" href="../index.html#lecturas">← volver a lo que leo y escribo</a><br />
-      <span class="kicker">una nota mía</span>
+      <a class="back" href={lang === 'es' ? '../index.html#lecturas' : `../../${lang}.html#overview`}>← {copy.back}</a><br />
+      <span class="kicker">{copy.kicker}</span>
       <h1><slot name="heading" /></h1>
       <p class="summary">{summary}</p>
       <div class="meta">Romina Caubarrere · <time datetime={dateTime}>{dateLabel}</time></div>
@@ -56,5 +67,5 @@ const article = {
       <slot />
     </article>
   </main>
-  <footer class="footer">hecho con método, plantas y un poco de lana · <a href="../index.html">Romina Caubarrere</a></footer>
+  <footer class="footer">{copy.footer} · <a href={lang === 'es' ? '../index.html' : `../../${lang}.html`}>Romina Caubarrere</a></footer>
 </BaseLayout>

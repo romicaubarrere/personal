@@ -5,7 +5,12 @@ import { getPublishedPost } from '../../data/posts';
 const post = getPublishedPost('cuando-puedas');
 ---
 
-<PostLayout {...post}>
+<PostLayout {...post} page="when-you-can" alternates={[
+  {lang:'es',href:'https://romicaubarrere.github.io/personal/posts/cuando-puedas.html'},
+  {lang:'en',href:'https://romicaubarrere.github.io/personal/en/posts/when-you-can.html'},
+  {lang:'pt',href:'https://romicaubarrere.github.io/personal/pt/posts/quando-puder.html'},
+  {lang:'x-default',href:'https://romicaubarrere.github.io/personal/posts/cuando-puedas.html'}
+]}>
   <Fragment slot="heading">Cuando <em>puedas</em></Fragment>
     <p>Tengo un problema con “cuando puedas”.</p>
     <p>Porque muchas veces digo “cuando puedas” cuando, en realidad, necesito que sea hoy.</p>

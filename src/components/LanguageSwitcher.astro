@@ -1,7 +1,7 @@
 ---
 interface Props {
   current: 'es' | 'en' | 'pt';
-  page?: 'home' | 'work' | 'community' | 'education';
+  page?: 'home' | 'work' | 'community' | 'education' | 'questions' | 'when-you-can';
 }
 
 const { current, page = 'home' } = Astro.props;
@@ -9,7 +9,9 @@ const paths = {
   home: { es: '/personal/', en: '/personal/en.html', pt: '/personal/pt.html' },
   work: { es: '/personal/como-trabajo.html', en: '/personal/en/como-trabajo.html', pt: '/personal/pt/como-trabajo.html' },
   community: { es: '/personal/comunidad-charlas.html', en: '/personal/en/comunidad-charlas.html', pt: '/personal/pt/comunidad-charlas.html' },
-  education: { es: '/personal/formacion.html', en: '/personal/en/formacion.html', pt: '/personal/pt/formacion.html' }
+  education: { es: '/personal/formacion.html', en: '/personal/en/formacion.html', pt: '/personal/pt/formacion.html' },
+  questions: { es: '/personal/posts/por-que-hago-tantas-preguntas.html', en: '/personal/en/posts/why-do-i-ask-so-many-questions.html', pt: '/personal/pt/posts/por-que-faco-tantas-perguntas.html' },
+  'when-you-can': { es: '/personal/posts/cuando-puedas.html', en: '/personal/en/posts/when-you-can.html', pt: '/personal/pt/posts/quando-puder.html' }
 } as const;
 const links = [
   { code: 'es', label: 'Español', href: paths[page].es },

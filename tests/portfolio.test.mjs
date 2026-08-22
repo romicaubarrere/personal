@@ -155,6 +155,27 @@ test('WEB-054 publica rutas internas equivalentes en inglés y portugués', asyn
   }
 });
 
+test('WEB-054 traduce íntegramente las notas y conecta cada idioma equivalente', async () => {
+  const routes = [
+    ['en/posts/why-do-i-ask-so-many-questions.html', 'en', /Why do I ask so many <em>questions<\/em>/, /I simply like knowing things/],
+    ['pt/posts/por-que-faco-tantas-perguntas.html', 'pt', /Por que faço tantas <em>perguntas<\/em>/, /Eu simplesmente gosto de saber/],
+    ['en/posts/when-you-can.html', 'en', /When you <em>can<\/em>/, /Being direct does not mean being rude/],
+    ['pt/posts/quando-puder.html', 'pt', /Quando <em>puder<\/em>/, /Ser direta não significa ser mal-educada/]
+  ];
+  for (const [route, lang, heading, signature] of routes) {
+    const source = await readFile(join(distRoot, route), 'utf8');
+    assert.match(source, new RegExp(`<html\\s+lang="${lang}">`, 'i'));
+    assert.match(source, heading);
+    assert.match(source, signature);
+    assert.match(source, /hreflang="es"/);
+    assert.match(source, /hreflang="en"/);
+    assert.match(source, /hreflang="pt"/);
+    assert.match(source, /hreflang="x-default"/);
+    const article = JSON.parse(source.match(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/i)[1]);
+    assert.equal(article.inLanguage, lang);
+  }
+});
+
 test('el blog publica una nota real con estructura reutilizable y accesible', () => {
   assert.match(firstPost, /<title>¿Por qué hago tantas preguntas\? \| Romina Caubarrere<\/title>/);
   assert.match(firstPost, /<meta name="description" content="[^"]+">/);
