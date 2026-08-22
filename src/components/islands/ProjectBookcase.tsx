@@ -18,15 +18,20 @@ import {
 
 type TurnDirection = 'next' | 'prev';
 
-function projectFromUrl(): { project: ProjectBook; page: number } | null {
+function projectFromUrl(): { project: ProjectBook; page: number; rawPage: string | null } | null {
   if (!window.location.hash.startsWith('#project=')) return null;
 
   const params = new URLSearchParams(window.location.hash.slice(1));
   const project = projectById(params.get('project'));
   if (!project) return null;
 
-  const parsedPage = Number.parseInt(params.get('page') ?? '0', 10);
-  return { project, page: Number.isFinite(parsedPage) ? parsedPage : 0 };
+  const rawPage = params.get('page');
+  const parsedPage = Number.parseInt(rawPage ?? '0', 10);
+  return {
+    project,
+    page: Number.isFinite(parsedPage) ? parsedPage : 0,
+    rawPage
+  };
 }
 
 function projectUrl(projectId: string, page: number): string {
@@ -150,7 +155,11 @@ export default function ProjectBookcase() {
     setTurn(null);
     setCurrentId(target.project.id);
     setPageIndex(nextPage);
-  }, [closeBook]);
+
+    if (target.rawPage !== String(nextPage)) {
+      replaceProjectUrl(target.project.id, nextPage);
+    }
+  }, [closeBook, replaceProjectUrl]);
 
   const finishTurn = useCallback(() => {
     if (!turn || !project) return;
