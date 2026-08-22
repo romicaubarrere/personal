@@ -61,16 +61,22 @@ test('Open Graph y X describen cada ruta y reutilizan la tarjeta aprobada', () =
   for (const [route, source] of routeDocuments) {
     const title = source.match(/<title>([^<]+)<\/title>/i)?.[1];
     const canonical = getAttribute(source, /<link\b[^>]*rel="canonical"[^>]*>/i, 'href');
+    const socialImage = getAttribute(source, /<meta\b[^>]*property="og:image"[^>]*>/i, 'content');
+    const socialImageAlt = getAttribute(source, /<meta\b[^>]*property="og:image:alt"[^>]*>/i, 'content');
+    const socialDescription = getAttribute(source, /<meta\b[^>]*property="og:description"[^>]*>/i, 'content');
     assert.equal(getAttribute(source, /<meta\b[^>]*property="og:title"[^>]*>/i, 'content'), title);
+    assert.ok(socialDescription.length >= 60 && socialDescription.length <= 200, `${route}: descripción social fuera de rango`);
     assert.equal(getAttribute(source, /<meta\b[^>]*property="og:url"[^>]*>/i, 'content'), canonical);
-    assert.equal(
-      getAttribute(source, /<meta\b[^>]*property="og:image"[^>]*>/i, 'content'),
-      'https://romicaubarrere.github.io/personal/social-preview.png'
-    );
+    assert.equal(socialImage, 'https://romicaubarrere.github.io/personal/social-preview.png');
+    assert.equal(getAttribute(source, /<meta\b[^>]*property="og:image:secure_url"[^>]*>/i, 'content'), socialImage);
+    assert.equal(getAttribute(source, /<meta\b[^>]*property="og:image:type"[^>]*>/i, 'content'), 'image/png');
+    assert.equal(getAttribute(source, /<meta\b[^>]*property="og:image:width"[^>]*>/i, 'content'), '1200');
+    assert.equal(getAttribute(source, /<meta\b[^>]*property="og:image:height"[^>]*>/i, 'content'), '630');
     assert.match(source, /<meta name="twitter:card" content="summary_large_image">/i);
-    assert.match(source, /<meta name="twitter:image:alt" content="[^"<>]+">/i);
-    assert.match(source, /<meta property="og:description" content="[^"<>]+">/i);
-    assert.match(source, /<meta name="twitter:description" content="[^"<>]+">/i);
+    assert.equal(getAttribute(source, /<meta\b[^>]*name="twitter:title"[^>]*>/i, 'content'), title);
+    assert.equal(getAttribute(source, /<meta\b[^>]*name="twitter:description"[^>]*>/i, 'content'), socialDescription);
+    assert.equal(getAttribute(source, /<meta\b[^>]*name="twitter:image"[^>]*>/i, 'content'), socialImage);
+    assert.equal(getAttribute(source, /<meta\b[^>]*name="twitter:image:alt"[^>]*>/i, 'content'), socialImageAlt);
     if (route.startsWith('posts/')) assert.match(source, /<meta property="og:type" content="article">/i);
     else assert.match(source, /<meta property="og:type" content="website">/i);
   }
