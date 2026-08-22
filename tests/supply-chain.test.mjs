@@ -17,14 +17,14 @@ const workflows = [
 const documentation = await read('docs/supply-chain.md');
 
 test('WEB-130 fija Node y npm en desarrollo y entrega', () => {
-  assert.equal(nvmrc, '22.12.0');
-  assert.equal(packageJson.engines.node, '22.12.0');
+  assert.equal(nvmrc, '22.19.0');
+  assert.equal(packageJson.engines.node, '22.19.0');
   assert.equal(packageJson.engines.npm, '11.9.0');
   assert.equal(packageJson.packageManager, 'npm@11.9.0');
   assert.match(npmrc, /^engine-strict=true$/m);
   assert.match(npmrc, /^ignore-scripts=true$/m);
   for (const workflow of workflows) {
-    assert.match(workflow, /node-version: 22\.12\.0/);
+    assert.match(workflow, /node-version: 22\.19\.0/);
     assert.match(workflow, /npm@11\.9\.0/);
     assert.match(workflow, /npm ci --ignore-scripts/);
   }
