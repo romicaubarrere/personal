@@ -116,6 +116,25 @@ test('las notas publican datos estructurados específicos y sin datos no aprobad
   }
 });
 
+test('el feed RSS coincide con las notas publicadas y se anuncia en todas las rutas', async () => {
+  const feed = await readFile(join(dist, 'feed.xml'), 'utf8');
+  const items = [...feed.matchAll(/<item>([\s\S]*?)<\/item>/g)].map((match) => match[1]);
+  const postRoutes = publicRoutes.filter((route) => route.startsWith('posts/'));
+
+  assert.equal(items.length, postRoutes.length);
+  assert.match(feed, /<language>es-uy<\/language>/);
+  for (const route of postRoutes) {
+    const source = routeDocuments.get(route);
+    const canonical = getAttribute(source, /<link\b[^>]*rel="canonical"[^>]*>/i, 'href');
+    const description = getAttribute(source, /<meta\b[^>]*name="description"[^>]*>/i, 'content');
+    assert.equal(items.filter((item) => item.includes(`<link>${canonical}</link>`)).length, 1);
+    assert.ok(feed.includes(description.replaceAll('&', '&amp;')));
+  }
+  for (const source of routeDocuments.values()) {
+    assert.match(source, /<link rel="alternate" type="application\/rss\+xml" title="Notas de Romina Caubarrere" href="\/personal\/feed\.xml">/i);
+  }
+});
+
 test('los enlaces internos de las rutas compiladas resuelven a archivos y fragmentos existentes', async () => {
   const routesToCheck = [...publicRoutes, '404.html'];
   const sources = new Map(
