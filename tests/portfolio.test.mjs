@@ -427,6 +427,18 @@ test('los enlaces de navegación no dependen de hover', () => {
   assert.match(html, /nav a\{top:0;width:100%/);
 });
 
+test('el contacto persistente es accesible, táctil y deja preparado su evento de analítica', () => {
+  assert.match(
+    html,
+    /<a class="contact-tab" href="#contacto" aria-label="Ir a las opciones de contacto" data-analytics-event="persistent_contact_click">Hablemos<\/a>/
+  );
+  assert.match(html, /\.contact-tab\{position:fixed;/);
+  assert.match(html, /bottom:max\(16px,env\(safe-area-inset-bottom\)\)/);
+  assert.match(html, /min-height:48px/);
+  assert.match(html, /\.contact-tab:focus-visible\{outline:3px solid var\(--cream\)/);
+  assert.match(html, /@media\(max-width:760px\)[\s\S]*?\.contact-tab\{[^}]*min-height:46px/);
+});
+
 test('todos los bloques JavaScript tienen sintaxis válida', () => {
   const scripts = [...html.matchAll(/<script([^>]*)>([\s\S]*?)<\/script>/gi)]
     .filter((match) => !/type="application\/ld\+json"/i.test(match[1]))
