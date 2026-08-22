@@ -337,6 +337,8 @@ test('el estante de proyectos se desplaza en una sola fila en móvil', () => {
   assert.match(html, /-webkit-overflow-scrolling:touch/);
   assert.match(html, /\.books\{flex-wrap:nowrap;width:max-content;min-width:100%;\}/);
   assert.match(html, /\.spine\{flex:0 0 76px;scroll-snap-align:start;\}/);
+  assert.match(projectIslandSource, /const \[isMobile, setIsMobile\] = useState\(true\)/);
+  assert.match(projectIslandSource, /tabIndex=\{isMobile \? 0 : -1\}/);
 
   const projectTriggers = html.match(/<button\b[^>]*class="spine [^"]+"[^>]*type="button"/g) ?? [];
   assert.equal(projectTriggers.length, 3);
