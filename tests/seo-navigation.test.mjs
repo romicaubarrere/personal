@@ -105,6 +105,20 @@ test('cada documento publica una única instancia de sus metadatos críticos', a
   }
 });
 
+test('idioma, locale e indexación son coherentes en toda la salida', async () => {
+  for (const [route, source] of routeDocuments) {
+    assert.match(source, /<html\b[^>]*lang="es"[^>]*>/i, `${route}: debe declarar español`);
+    assert.equal(getAttribute(source, /<meta\b[^>]*property="og:locale"[^>]*>/i, 'content'), 'es_UY');
+    assert.equal(getAttribute(source, /<meta\b[^>]*name="robots"[^>]*>/i, 'content'), 'index,follow');
+    assert.match(source, /<meta\b[^>]*charset="UTF-8"[^>]*>/i, `${route}: debe declarar UTF-8`);
+  }
+
+  const notFound = await readFile(join(dist, '404.html'), 'utf8');
+  assert.match(notFound, /<html\b[^>]*lang="es"[^>]*>/i);
+  assert.equal(getAttribute(notFound, /<meta\b[^>]*property="og:locale"[^>]*>/i, 'content'), 'es_UY');
+  assert.equal(getAttribute(notFound, /<meta\b[^>]*name="robots"[^>]*>/i, 'content'), 'noindex,follow');
+});
+
 test('todas las rutas declaran una única identidad profesional verificada', () => {
   for (const [route, source] of routeDocuments) {
     const identityLinks = [...source.matchAll(/<link\b[^>]*rel="me"[^>]*href="([^"]+)"[^>]*>/gi)];
