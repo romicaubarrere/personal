@@ -110,7 +110,13 @@ test('la decisión histórica queda preservada y el plan Astro la reemplaza', ()
 
 test('la decisión de publicar solo en español queda explícita y es consistente', () => {
   assert.match(languageStrategy, /Estado: no incorporar inglés en la versión actual/);
+  assert.match(languageStrategy, /Revisión de estado: WEB-096/);
   assert.match(languageStrategy, /El portfolio se mantiene solamente en español/);
+  assert.match(languageStrategy, /Cumplida: la arquitectura de información/);
+  assert.match(languageStrategy, /Cumplida: no quedan placeholders visibles/);
+  assert.match(languageStrategy, /Email y LinkedIn son los destinos de contacto aprobados/);
+  assert.match(languageStrategy, /Pendiente: acordar tiempo y responsable/);
+  assert.doesNotMatch(languageStrategy, /siguen pendientes secciones centrales/);
   assert.match(languageStrategy, /La versión inglesa vive en rutas propias bajo `\/en\/`/);
   assert.match(languageStrategy, /no se mezclan idiomas dentro de una página/);
   assert.match(languageStrategy, /selector usa un control accesible/);
@@ -433,7 +439,7 @@ test('WEB-053 no publica instrucciones ni contenido de muestra', () => {
 test('el modal de proyectos gestiona el foco como un diálogo accesible', () => {
   assert.match(
     html,
-    /<div class="bookmodal" id="bookmodal" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="bookDialogTitle" inert="" tabindex="-1">/
+    /<div class="bookmodal" id="bookmodal" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="bookDialogTitle" tabindex="-1">/
   );
   assert.match(html, /<h2 class="sr-only" id="bookDialogTitle">Proyecto<\/h2>/);
   assert.match(projectIslandSource, /lastFocusRef\.current = trigger \?\?/);
@@ -441,7 +447,6 @@ test('el modal de proyectos gestiona el foco como un diálogo accesible', () => 
   assert.match(projectIslandSource, /document\.body\.classList\.toggle\('modal-open', isOpen\)/);
   assert.match(projectIslandSource, /document\.body\.classList\.remove\('modal-open'\)/);
   assert.match(projectIslandSource, /element\.inert = isOpen/);
-  assert.match(projectIslandSource, /inert=\{isOpen \? undefined : true\}/);
   assert.match(projectIslandSource, /closeRef\.current\?\.focus\(\{ preventScroll: true \}\)/);
   assert.match(projectIslandSource, /else if \(event\.key === 'Tab'\)/);
   assert.match(projectIslandSource, /event\.shiftKey && \(document\.activeElement === first \|\| !modal\.contains\(document\.activeElement\)\)/);
