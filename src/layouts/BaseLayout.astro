@@ -39,6 +39,7 @@ const base = import.meta.env.BASE_URL.endsWith('/')
 const siteUrl = Astro.site ?? new URL(canonical);
 const resolvedOgImage = ogImage ?? new URL(`${base}social-preview.png`, siteUrl).href;
 const resolvedOgImageAlt = ogImageAlt ?? 'Tarjeta del portfolio de Romina Caubarrere, Project Manager de software.';
+const buildCommit = import.meta.env.PUBLIC_BUILD_SHA ?? 'local';
 const homeCanonical = 'https://romicaubarrere.github.io/personal/';
 const localizedHomes = new Set([homeCanonical, `${homeCanonical}en.html`, `${homeCanonical}pt.html`]);
 const breadcrumbData = !localizedHomes.has(canonical) && !robots.includes('noindex')
@@ -73,6 +74,7 @@ const breadcrumbData = !localizedHomes.has(canonical) && !robots.includes('noind
     <meta name="author" content="Romina Caubarrere" />
     <meta name="robots" content={robots} />
     <meta name="theme-color" content={themeColor} />
+    <meta name="build-commit" content={buildCommit} />
     <link rel="canonical" href={canonical} />
     {alternates.map((alternate) => <link rel="alternate" hreflang={alternate.lang} href={alternate.href} />)}
     <link rel="me" href="https://www.linkedin.com/in/rominacaubarrere/" />

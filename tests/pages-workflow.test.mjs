@@ -9,6 +9,10 @@ const workflow = await readFile(
   join(repositoryRoot, '.github', 'workflows', 'deploy-pages.yml'),
   'utf8'
 );
+const productionVerifier = await readFile(
+  join(repositoryRoot, 'scripts', 'verify-production.mjs'),
+  'utf8'
+);
 
 test('Pages compila y publica Astro desde main con permisos mínimos', () => {
   assert.match(workflow, /push:\n\s+branches: \[main\]/);
@@ -39,8 +43,15 @@ test('el repositorio usa un único pipeline y no conserva un workflow de tests c
 test('Pages verifica la publicación real después del deploy', () => {
   assert.match(workflow, /verify:[\s\S]*?needs: deploy/);
   assert.match(workflow, /PAGE_URL: \$\{\{ needs\.deploy\.outputs\.page_url \}\}/);
-  assert.match(workflow, /curl --fail --location --retry 6 --retry-delay 10 --retry-all-errors/);
-  assert.match(workflow, /<html lang="es">/);
-  assert.match(workflow, /https:\/\/romicaubarrere\.github\.io\/personal\//);
-  assert.match(workflow, /\/personal\/_astro\//);
+  assert.match(workflow, /PUBLIC_BUILD_SHA: \$\{\{ github\.sha \}\}/);
+  assert.match(workflow, /EXPECTED_SHA: \$\{\{ github\.sha \}\}/);
+  assert.match(workflow, /run: node scripts\/verify-production\.mjs/);
+  for (const route of ['en.html', 'pt.html', 'como-trabajo.html', 'formacion.html', 'comunidad-charlas.html', 'sitemap.xml', 'feed.xml', '404.html']) {
+    assert.match(productionVerifier, new RegExp(route.replace('.', '\\.')));
+  }
+  assert.match(productionVerifier, /posts\/por-que-hago-tantas-preguntas\.html/);
+  assert.match(productionVerifier, /hreflang/);
+  assert.match(productionVerifier, /build-commit/);
+  assert.match(productionVerifier, /_astro/);
+  assert.match(productionVerifier, /attempts/);
 });

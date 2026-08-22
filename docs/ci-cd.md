@@ -41,8 +41,11 @@ npm run test:e2e
 ```
 
 En GitHub, el check estable que debe proteger `main` es `Validate build`. La
-verificación posterior al deploy comprueba que la portada responde, conserva la
-URL canónica y referencia assets compilados de Astro.
+verificación posterior al deploy recorre las portadas en los tres idiomas, las
+páginas principales y las notas; comprueba canonical, `hreflang`, sitemap,
+feed, 404 y assets compilados. El build publica el SHA esperado en un metadato y
+el smoke test lo compara con el commit del workflow. Los reintentos cubren la
+propagación de Pages, pero la ejecución termina con error si el contrato sigue
+sin cumplirse.
 
-La ampliación del smoke test y el rollback seleccionable se implementan en
-WEB-128 y WEB-129 respectivamente.
+El rollback seleccionable se implementa en WEB-129.
