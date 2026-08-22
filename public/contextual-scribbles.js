@@ -32,9 +32,9 @@
     const left = Math.max(14, Math.min(preferredLeft, window.innerWidth - width - 14));
     const top = Math.max(68, Math.min(preferredTop, window.innerHeight - 70));
 
-    note.style.setProperty('--scribble-left', `${left}px`);
-    note.style.setProperty('--scribble-top', `${top}px`);
-    note.style.setProperty('--scribble-width', `${width}px`);
+    note.style.left = `${left}px`;
+    note.style.top = `${top}px`;
+    note.style.width = `${width}px`;
   }
 
   function showNote(anchor, text, inModal = false) {
@@ -45,9 +45,32 @@
     note.className = 'context-scribble';
     note.setAttribute('aria-hidden', 'true');
     note.textContent = text;
+    note.style.cssText = [
+      'position:fixed',
+      'z-index:210',
+      'pointer-events:none',
+      'padding:5px 10px 6px',
+      'background:rgba(250,243,228,.94)',
+      'color:#974629',
+      'font-family:Caveat,cursive',
+      'font-size:19px',
+      'line-height:1.05',
+      'text-align:center',
+      'box-shadow:2px 4px 0 rgba(36,31,24,.18)',
+      'transform:rotate(-2deg)'
+    ].join(';');
     document.body.append(note);
     activeNote = note;
     placeNote(note, anchor, inModal);
+    note.animate(
+      [
+        { opacity: 0, translate: '0 5px', scale: .96 },
+        { opacity: 1, translate: '0 0', scale: 1, offset: .12 },
+        { opacity: 1, translate: '0 0', scale: 1, offset: .72 },
+        { opacity: 0, translate: '0 -3px', scale: .98 }
+      ],
+      { duration: 1100, easing: 'ease', fill: 'both' }
+    );
 
     hideTimer = window.setTimeout(removeNote, 1100);
   }
