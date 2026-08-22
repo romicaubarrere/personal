@@ -627,7 +627,7 @@ test('el hero comunica el posicionamiento y ofrece las dos acciones principales'
 });
 
 test('las cuatro fortalezas forman una sola muestra de crochet sin numeración', () => {
-  assert.match(html, /<\/header>\s*<section class="strengths" id="fortalezas"/);
+  assert.match(html, /<section class="education" id="formacion"[\s\S]*?<\/section>\s*<section class="strengths" id="fortalezas"/);
   assert.equal((html.match(/<div class="strengths-sampler reveal"/g) ?? []).length, 1);
   assert.match(html, /<ul class="strengths-list">/);
   assert.equal((html.match(/<li class="strength-row">/g) ?? []).length, 4);
