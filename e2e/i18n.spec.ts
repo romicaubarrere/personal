@@ -96,7 +96,7 @@ test('TC-I18N-004 · canonical y metadatos sociales pertenecen a la ruta actual'
 
       const ogUrl = await page.locator('meta[property="og:url"]').getAttribute('content');
       expect(ogUrl).toBe(canonical);
-      await expect(page.locator('head title')).not.toHaveText('');
+      expect((await page.title()).trim()).not.toBe('');
       await expect(page.locator('meta[name="description"]')).toHaveAttribute('content', /\S+/);
     }
   }
