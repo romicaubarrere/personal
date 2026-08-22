@@ -231,12 +231,11 @@ test('la navegación principal refleja el recorrido aprobado de la portada', () 
 
   const links = [...nav[1].matchAll(/href="(#[^"]+)"/g)].map((match) => match[1]);
   assert.deepEqual(links, [
-    '#experiencia',
-    '#formacion',
+    '#sobre',
     '#proyectos',
     '#forma-de-trabajo',
     '#charlas',
-    '#sobre',
+    '#lecturas',
     '#contacto'
   ]);
 
@@ -249,12 +248,10 @@ test('la navegación principal refleja el recorrido aprobado de la portada', () 
 test('las secciones de la portada siguen el orden aprobado', () => {
   const sectionOrder = [
     'top',
-    'experiencia',
-    'formacion',
+    'sobre',
     'proyectos',
     'forma-de-trabajo',
     'charlas',
-    'sobre',
     'lecturas',
     'contacto'
   ];
@@ -267,13 +264,14 @@ test('las secciones de la portada siguen el orden aprobado', () => {
 });
 
 test('la portada enlaza al recorrido académico completo', () => {
-  assert.match(html, /<section\b[^>]*id="formacion"/i);
-  assert.match(html, /href="formacion\.html"/i);
-  assert.match(formationHtml, /href="index\.html#formacion"/i);
+  assert.match(html, /<section\b[^>]*id="sobre"/i);
+  assert.match(html, /href="formacion\.html#experiencia"/i);
+  assert.match(formationHtml, /href="index\.html#sobre"/i);
+  assert.doesNotMatch(html, /id="experiencia"|id="formacion"/i);
 });
 
 test('la experiencia profesional es cronológica, verificable y separa la mentoría', () => {
-  const section = html.match(/<section\b[^>]*class="experience"[^>]*id="experiencia"[^>]*>([\s\S]*?)<\/section>/i);
+  const section = formationHtml.match(/<section\b[^>]*class="experience"[^>]*id="experiencia"[^>]*>([\s\S]*?)<\/section>/i);
   assert.ok(section, 'No se encontró la sección Experiencia');
   assert.match(section[1], /<ol class="experience-list" aria-label="Experiencia laboral en orden cronol&oacute;gico inverso">/);
 
@@ -300,9 +298,8 @@ test('la experiencia profesional es cronológica, verificable y separa la mentor
   assert.equal((section[1].match(/class="stitch-marker" aria-hidden="true"/g) ?? []).length, 4);
   assert.doesNotMatch(section[1], /\d+\s*%/);
 
-  const experienceIndex = html.indexOf('id="experiencia"');
-  assert.ok(experienceIndex < html.indexOf('id="formacion"'));
-  assert.ok(experienceIndex < html.indexOf('id="charlas"'));
+  const experienceIndex = formationHtml.indexOf('id="experiencia"');
+  assert.ok(experienceIndex < formationHtml.indexOf('id="utec"'));
   assert.match(html, /@media\(max-width:760px\)\{[\s\S]*?\.job-card\{display:block;/);
 });
 
@@ -919,14 +916,14 @@ test('las celebraciones mantienen el lenguaje visual del estudio y son responsiv
   assert.match(html, /role="status" aria-live="polite" hidden/);
 });
 
-test('sobre mí reparte el recorrido en cuatro notas breves', () => {
+test('T6 deja una bio breve y deriva el recorrido completo a su página', () => {
   const notes = [...html.matchAll(/<article class="about-note reveal"/g)];
 
-  assert.equal(notes.length, 4);
+  assert.equal(notes.length, 2);
   assert.match(html, /<h3>Project Manager de software<\/h3>/);
-  assert.match(html, /<h3>Rob&oacute;tica, Ceibal y UKG<\/h3>/);
-  assert.match(html, /<h3>UTEC y habITar<\/h3>/);
-  assert.match(html, /<h3>Women Techmakers y Chicas en Tecnolog&iacute;a<\/h3>/);
+  assert.match(html, /<h3>De la rob&oacute;tica a producto<\/h3>/);
+  assert.match(html, /Abrir mi recorrido completo/);
+  assert.doesNotMatch(html, /<ol class="experience-list"|id="formacion"/);
   assert.doesNotMatch(html, /Acá va tu historia|Ac&aacute; va tu historia|La escribimos juntas|en tesis/i);
 });
 

@@ -1,5 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import Experience from '../components/home/Experience.astro';
+import '../styles/home.css';
 import '../styles/formation.css';
 
 const title = 'Formación · Romina Caubarrere';
@@ -11,8 +13,9 @@ const canonical = 'https://romicaubarrere.github.io/personal/formacion.html';
   <a class="skip-link" href="#main-content">Saltar al contenido principal</a>
 
   <div class="topbar">
-    <a href="index.html#formacion" aria-label="Volver a la secci&oacute;n Formaci&oacute;n del estudio"><span class="back-copy">&larr; Volver al estudio</span><span class="back-short" aria-hidden="true">&larr; Estudio</span></a>
-    <nav aria-label="Secciones de formaci&oacute;n">
+    <a href="index.html#sobre" aria-label="Volver a Un vistazo a mi mundo"><span class="back-copy">&larr; Volver al estudio</span><span class="back-short" aria-hidden="true">&larr; Estudio</span></a>
+    <nav aria-label="Secciones del recorrido">
+      <a href="#experiencia">Experiencia</a>
       <a href="#utec">UTEC</a>
       <a href="#proyectos-academicos">Proyectos</a>
       <a href="#complementaria">Complementaria</a>
@@ -61,6 +64,7 @@ const canonical = 'https://romicaubarrere.github.io/personal/formacion.html';
   </header>
 
   <main id="main-content" tabindex="-1">
+    <Experience />
     <section class="route" id="utec">
       <div class="route-inner">
         <div class="section-title">
