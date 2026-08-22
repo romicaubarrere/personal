@@ -2,13 +2,14 @@
 
 - Estado: no incorporar inglés en la versión actual
 - Fecha: 22 de agosto de 2026
-- Ticket: WEB-054
+- Ticket original: WEB-054
+- Revisión de estado: WEB-098
 
 ## Decisión
 
 El portfolio se mantiene solamente en español durante la etapa actual. No se agrega una versión en inglés, un selector de idioma ni metadatos `hreflang` todavía.
 
-El público definido en WEB-001 incluye oportunidades internacionales y remotas, por lo que una versión en inglés puede aportar valor. Sin embargo, hoy siguen pendientes secciones centrales, casos de proyecto, enlaces de contacto y la eliminación de placeholders. Traducir ahora duplicaría contenido que todavía cambia y aumentaría el riesgo de publicar versiones desalineadas.
+El público definido en WEB-001 incluye oportunidades internacionales y remotas, por lo que una versión en inglés puede aportar valor. Desde la decisión original se completaron las secciones centrales, los casos publicados, la experiencia profesional, los enlaces de contacto aprobados y la eliminación de placeholders visibles. La versión inglesa sigue diferida porque todavía no existe un ciclo acordado para traducir y revisar el sitio completo con la misma calidad editorial que la versión en español.
 
 ## Costos evitados por ahora
 
@@ -19,12 +20,14 @@ El público definido en WEB-001 incluye oportunidades internacionales y remotas,
 
 ## Condiciones para reevaluar
 
-La decisión se revisa cuando se cumplan estas condiciones:
+Estado de las condiciones definidas en WEB-054:
 
-1. La arquitectura de información y las secciones principales están terminadas.
-2. Los casos de proyecto y la experiencia profesional tienen contenido aprobado.
-3. No quedan placeholders visibles y los enlaces de contacto son definitivos.
-4. Existe tiempo para traducir y revisar todas las páginas, no solamente la portada.
+1. Cumplida: la arquitectura de información y las secciones principales están terminadas.
+2. Cumplida: los casos publicados y la experiencia profesional tienen contenido aprobado.
+3. Cumplida: no quedan placeholders visibles; Email y LinkedIn son los destinos de contacto aprobados. Instagram fue retirado y el CV permanece deshabilitado hasta contar con una versión aprobada.
+4. Pendiente: acordar tiempo y responsable para traducir y revisar todas las páginas, no solamente la portada.
+
+La decisión debe reevaluarse cuando la cuarta condición tenga responsable y alcance definidos. Cumplir los prerrequisitos de contenido no activa por sí solo una versión parcial en inglés.
 
 ## Reglas si se incorpora más adelante
 
