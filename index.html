@@ -178,6 +178,35 @@
   .scrollhint span{display:block;font-size:26px;animation:bob 1.8s ease-in-out infinite;}
   @keyframes bob{0%,100%{transform:translateY(0);}50%{transform:translateY(8px);}}
 
+  /* ---------- FORTALEZAS: fichas sobre la mesa ---------- */
+  .strengths{position:relative;overflow:hidden;padding:88px 0 96px;background:var(--paper);}
+  .strengths::before{content:"";position:absolute;inset:0;pointer-events:none;opacity:.34;
+    background-image:linear-gradient(rgba(63,125,78,.18) 1px,transparent 1px);background-size:100% 30px;}
+  .strengths-inner{position:relative;z-index:1;max-width:1120px;margin:0 auto;padding:0 40px;}
+  .strengths-head{display:grid;grid-template-columns:minmax(0,1fr) minmax(250px,.58fr);gap:38px;align-items:end;margin-bottom:38px;}
+  .strengths-kicker{display:block;font-family:var(--hand);font-size:1.45rem;color:var(--warm);transform:rotate(-1deg);}
+  .strengths h2{font-family:var(--serif);font-weight:360;font-size:clamp(2.25rem,4.8vw,3.55rem);line-height:1.02;}
+  .strengths h2 em{font-style:italic;color:var(--green);}
+  .strengths-intro{padding:17px 19px;background:#eef3df;color:var(--ink-soft);box-shadow:2px 5px 14px rgba(36,31,24,.16);transform:rotate(1deg);font-size:.95rem;}
+  .strengths-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:22px;}
+  .strength-card{position:relative;min-height:220px;padding:30px 30px 27px;background:var(--cream);border:1px solid rgba(36,31,24,.1);
+    box-shadow:3px 8px 20px rgba(36,31,24,.18);}
+  .strength-card:nth-child(2){background:#eef3df;}
+  .strength-card:nth-child(3){background:#f4e8bc;}
+  .strength-card:nth-child(4){background:#f1d3c8;}
+  .strength-card::before{content:"";position:absolute;top:-12px;left:50%;width:76px;height:25px;transform:translateX(-50%) rotate(-2deg);background:rgba(207,154,63,.5);}
+  .strength-card:nth-child(even)::before{transform:translateX(-50%) rotate(2deg);background:rgba(111,122,84,.45);}
+  .strength-proof{display:inline-block;margin-bottom:11px;font-family:var(--hand);font-size:1.15rem;color:var(--warm);}
+  .strength-card h3{font-family:var(--serif);font-size:1.42rem;font-weight:620;line-height:1.12;margin-bottom:11px;}
+  .strength-card p{color:var(--ink-soft);font-size:.96rem;line-height:1.6;}
+  @media(max-width:760px){
+    .strengths{padding:76px 0 82px;}
+    .strengths-inner{padding:0 20px;}
+    .strengths-head{grid-template-columns:1fr;gap:20px;margin-bottom:32px;}
+    .strengths-grid{grid-template-columns:1fr;gap:20px;}
+    .strength-card{min-height:0;padding:28px 25px 25px;}
+  }
+
   /* ---------- CORCHO (sobre mi) ---------- */
   .cork{position:relative;padding:90px 0 100px;
     background-color:var(--cork);
@@ -686,6 +715,40 @@
 
     <div class="scrollhint">baj&aacute; a mi estudio<span>&darr;</span></div>
   </header>
+
+  <section class="strengths" id="fortalezas" aria-labelledby="strengths-title">
+    <div class="strengths-inner">
+      <div class="strengths-head reveal">
+        <div>
+          <span class="strengths-kicker">lo que pongo sobre la mesa</span>
+          <h2 id="strengths-title">Mis <em>fortalezas</em></h2>
+        </div>
+        <p class="strengths-intro">Sin barras de habilidades ni porcentajes inventados. Estas son las cosas que sostengo en el trabajo de todos los d&iacute;as.</p>
+      </div>
+      <div class="strengths-grid">
+        <article class="strength-card reveal" style="--r:-.6deg">
+          <span class="strength-proof">tres proyectos en simult&aacute;neo</span>
+          <h3>Gesti&oacute;n de proyectos de software</h3>
+          <p>Coordino prioridades y cambio de contexto sin perder qu&eacute; necesita cada proyecto ni cu&aacute;l es el pr&oacute;ximo paso.</p>
+        </article>
+        <article class="strength-card reveal" style="--r:.6deg">
+          <span class="strength-proof">equipos + stakeholders</span>
+          <h3>Comunicaci&oacute;n y alineaci&oacute;n</h3>
+          <p>Bajo expectativas, decisiones y entregas a conversaciones claras para que nadie avance con una idea distinta.</p>
+        </article>
+        <article class="strength-card reveal" style="--r:.5deg">
+          <span class="strength-proof">de la idea al criterio</span>
+          <h3>Producto, requerimientos y m&eacute;tricas</h3>
+          <p>Entiendo y refino requerimientos, ordeno prioridades y sigo m&eacute;tricas para decidir con algo m&aacute;s que intuici&oacute;n.</p>
+        </article>
+        <article class="strength-card reveal" style="--r:-.5deg">
+          <span class="strength-proof">LTI + testing</span>
+          <h3>Criterio t&eacute;cnico y calidad</h3>
+          <p>Mi formaci&oacute;n t&eacute;cnica y mi experiencia en testing me permiten conversar con desarrollo, hacer mejores preguntas y cuidar lo que se entrega.</p>
+        </article>
+      </div>
+    </div>
+  </section>
 
   <section class="cork" id="sobre">
     <div class="wood-frame"></div>
