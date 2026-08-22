@@ -297,7 +297,7 @@ test('la forma de trabajo presenta cinco etapas concretas y responsivas', () => 
     assert.match(section[1], new RegExp(`<h3>${heading}<\\/h3>`));
   }
 
-  assert.match(section[1], /Refino los requerimientos/);
+  assert.match(section[1], /Refino los requisitos/);
   assert.match(section[1], /Gestiono tres proyectos en simult&aacute;neo/);
   assert.match(section[1], /queremos m&eacute;tricas/);
   assert.equal((section[1].match(/class="workflow-signal"/g) ?? []).length, 5);
@@ -696,7 +696,7 @@ test('las cuatro fortalezas forman una sola muestra de crochet sin numeración',
   assert.match(html, /<span class="yarn-play-note" aria-hidden="true">toc&aacute; el ovillo/);
   assert.match(html, /Gesti&oacute;n de proyectos de software/);
   assert.match(html, /Comunicaci&oacute;n y alineaci&oacute;n/);
-  assert.match(html, /Producto, requerimientos y m&eacute;tricas/);
+  assert.match(html, /Producto, requisitos y m&eacute;tricas/);
   assert.match(html, /Criterio t&eacute;cnico y calidad/);
   assert.match(html, /tres proyectos en simult&aacute;neo/);
   assert.doesNotMatch(html, /strengths-grid|strength-card|counter-reset:strength|counter\(strength\)/);
@@ -834,4 +834,15 @@ test('sobre mí reparte el recorrido en cuatro notas breves', () => {
   assert.match(html, /<h3>UTEC y habITar<\/h3>/);
   assert.match(html, /<h3>Women Techmakers y Chicas en Tecnolog&iacute;a<\/h3>/);
   assert.doesNotMatch(html, /Acá va tu historia|Ac&aacute; va tu historia|La escribimos juntas|en tesis/i);
+});
+
+test('WEB-100 mantiene nombres, cifras y términos editoriales consistentes', () => {
+  assert.match(html, /<a href="#sobre">Mi mundo<\/a>/);
+  assert.match(html, /Un vistazo a <em>mi mundo<\/em>/);
+  assert.doesNotMatch(html, /requerimientos/i);
+  assert.match(formationHtml, /63 requisitos must have/);
+  assert.match(formationHtml, /m&aacute;s de 2\.700 pruebas automatizadas/);
+  assert.doesNotMatch(formationHtml, /m&aacute;s de 2700 pruebas automatizadas/);
+  assert.doesNotMatch(formationHtml, /<span class="state">en curso<\/span><h3>OPI 2\.0<\/h3>/);
+  assert.match(formationHtml, /An&aacute;lisis de Requerimientos y Modelado/);
 });
