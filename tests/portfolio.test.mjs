@@ -626,14 +626,17 @@ test('el hero comunica el posicionamiento y ofrece las dos acciones principales'
   assert.match(html, /class="hero-link" href="#contacto">Contactarme<\/a>/);
 });
 
-test('las cuatro fortalezas usan evidencia concreta y aparecen después del hero', () => {
+test('las cuatro fortalezas comparten una sola carpeta de trabajo y aparecen después del hero', () => {
   assert.match(html, /<\/header>\s*<section class="strengths" id="fortalezas"/);
-  assert.equal((html.match(/<article class="strength-card reveal"/g) ?? []).length, 4);
+  assert.equal((html.match(/<div class="strengths-folder reveal"/g) ?? []).length, 1);
+  assert.match(html, /<ol class="strengths-list">/);
+  assert.equal((html.match(/<li class="strength-row">/g) ?? []).length, 4);
   assert.match(html, /Gesti&oacute;n de proyectos de software/);
   assert.match(html, /Comunicaci&oacute;n y alineaci&oacute;n/);
   assert.match(html, /Producto, requerimientos y m&eacute;tricas/);
   assert.match(html, /Criterio t&eacute;cnico y calidad/);
   assert.match(html, /tres proyectos en simult&aacute;neo/);
+  assert.doesNotMatch(html, /strengths-grid|strength-card/);
   assert.doesNotMatch(html, /class="strength[^\"]*(progress|meter|percentage)/i);
 });
 
@@ -652,4 +655,3 @@ test('sobre mí reparte el recorrido en cuatro notas breves', () => {
   assert.match(html, /<h3>Women Techmakers y Chicas en Tecnolog&iacute;a<\/h3>/);
   assert.doesNotMatch(html, /Acá va tu historia|Ac&aacute; va tu historia|La escribimos juntas|en tesis/i);
 });
-
