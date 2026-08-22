@@ -85,3 +85,4 @@ Los casos del estante comparten el orden y las reglas editoriales de [`docs/proj
 - `docs/project-case-template.md`: estructura, evidencia y reglas de privacidad de los casos.
 - `docs/branching-strategy.md`: estrategia de ramas y flujo de integración.
 - `docs/special-dates.md`: calendario y URLs de simulación para revisar celebraciones fuera de fecha.
+- `docs/analytics-events.md`: contrato neutral de eventos y límites de privacidad para una integración futura.
