@@ -5,6 +5,9 @@ import '../styles/post.css';
 const title = 'Página no encontrada | Romina Caubarrere';
 const description = 'La página que buscabas no existe o cambió de lugar dentro del portfolio de Romina Caubarrere.';
 const canonical = 'https://romicaubarrere.github.io/personal/404.html';
+const base = import.meta.env.BASE_URL.endsWith('/')
+  ? import.meta.env.BASE_URL
+  : `${import.meta.env.BASE_URL}/`;
 ---
 
 <BaseLayout {title} {description} {canonical} robots="noindex,follow">
@@ -20,7 +23,7 @@ const canonical = 'https://romicaubarrere.github.io/personal/404.html';
     <article class="paper">
       <span class="tape" aria-hidden="true"></span>
       <p class="short"><strong>Volvamos al estudio.</strong></p>
-      <p><a href="index.html">Ir al portfolio de Romina Caubarrere</a></p>
+      <p><a href={base}>Ir al portfolio de Romina Caubarrere</a></p>
     </article>
   </main>
   <footer class="footer">hecho con m&eacute;todo, plantas y un poco de lana &middot; Romina Caubarrere</footer>

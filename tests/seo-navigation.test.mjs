@@ -475,7 +475,8 @@ test('robots, sitemap y 404 quedan listos para GitHub Pages', async () => {
   assert.doesNotMatch(sitemap, /404\.html/);
   assert.match(notFound, /<title>Página no encontrada \| Romina Caubarrere<\/title>/i);
   assert.match(notFound, /<meta name="robots" content="noindex,follow">/i);
-  assert.match(notFound, /href="index\.html"/i);
+  assert.match(notFound, /href="\/personal\/"/i);
+  assert.doesNotMatch(notFound, /href="index\.html"/i);
 });
 
 test('ninguna ruta genera referencias pegadas o duplicadas a /personal', () => {
