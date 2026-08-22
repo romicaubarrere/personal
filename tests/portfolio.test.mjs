@@ -699,6 +699,13 @@ test('el libro muestra una sola página por vez en móvil y conserva el pliego e
   assert.match(html, /class="bm-close-mobile"[^>]*>Cerrar proyecto<\/button>/);
 });
 
+test('WEB-124 mantiene el cierre del proyecto dentro del área segura móvil', () => {
+  assert.match(html, /\.bm-close-mobile\{display:block;position:fixed;[^}]*bottom:max\(12px,env\(safe-area-inset-bottom\)\);[^}]*min-height:44px;/);
+  assert.doesNotMatch(html, /\.bm-close-mobile\{[^}]*bottom:-72px/);
+  assert.match(html, /@media\(max-width:720px\) and \(max-height:470px\)\{[\s\S]*?\.pg\{height:280px;\}/);
+  assert.match(projectIslandSource, /className="bm-backdrop" data-close onClick=\{\(\) => closeBook\(\)\}/);
+});
+
 test('el recorrido académico conserva toda la información aprobada', () => {
   assert.equal((formationHtml.match(/<details\b/g) ?? []).length, 8);
   assert.equal((formationHtml.match(/<li>/g) ?? []).length, 45);
