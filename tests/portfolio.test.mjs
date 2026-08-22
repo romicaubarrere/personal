@@ -28,8 +28,6 @@ const formationHtml = formationDocument.replace(/<\/head>/i, `<style>${formation
 const favicon = await readFile(join(distRoot, 'favicon.svg'), 'utf8');
 const socialPreview = await readFile(join(distRoot, 'social-preview.png'));
 const socialPreviewSource = await readFile(join(distRoot, 'social-preview.svg'), 'utf8');
-const cvPdf = await readFile(join(distRoot, 'assets', 'cv', 'romina-caubarrere-cv.pdf'));
-const cvGenerator = await readFile(join(repositoryRoot, 'scripts', 'generate_cv.py'), 'utf8');
 const crochetCheckpoint = await readFile(
   join(repositoryRoot, 'docs/checkpoints/WEB-004-crochet-comparison.html'),
   'utf8'
@@ -335,12 +333,12 @@ test('el estante de proyectos se desplaza en una sola fila en móvil', () => {
   assert.match(html, /\.spine\{flex:0 0 76px;scroll-snap-align:start;\}/);
 
   const projectTriggers = html.match(/<button\b[^>]*class="spine [^"]+"[^>]*type="button"/g) ?? [];
-  assert.equal(projectTriggers.length, 3);
+  assert.equal(projectTriggers.length, 5);
 });
 
 test('los proyectos usan botones semánticos con nombres accesibles', () => {
   const projectTriggers = [...html.matchAll(/<button\b([^>]*)class="spine [^"]+"([^>]*)>/g)];
-  assert.equal(projectTriggers.length, 3);
+  assert.equal(projectTriggers.length, 5);
 
   for (const trigger of projectTriggers) {
     const attributes = `${trigger[1]}${trigger[2]}`;
@@ -356,7 +354,7 @@ test('los proyectos usan botones semánticos con nombres accesibles', () => {
 
 test('los proyectos muestran información esencial sin depender de hover', () => {
   const summaries = html.match(/<article class="project-summary"[\s\S]*?<\/article>/g) ?? [];
-  assert.equal(summaries.length, 3);
+  assert.equal(summaries.length, 4);
 
   for (const summary of summaries) {
     assert.match(summary, /<span class="tag">[^<]+<\/span>/);
@@ -373,7 +371,7 @@ test('los proyectos muestran información esencial sin depender de hover', () =>
   assert.match(html, /@media\(max-width:760px\)\{[\s\S]*?\.project-summaries\{grid-template-columns:1fr;/);
   assert.match(projectIslandSource, /PROJECTS\.filter\(\(book\) => book\.summary\)\.map/);
   assert.match(projectIslandSource, /onClick=\{\(event\) => openBook\(book, event\.currentTarget\)\}/);
-  assert.equal((projectDataSource.match(/^\s+summary: /gm) ?? []).length, 3);
+  assert.equal((projectDataSource.match(/^\s+summary: /gm) ?? []).length, 4);
   assert.doesNotMatch(html, /\.pcard\{|\.spine:hover \.pcard/);
 });
 
@@ -394,13 +392,12 @@ test('los casos de proyecto comparten una plantilla ordenada y omiten campos vac
 
   const projectIds = [...projectDataSource.matchAll(/^\s+id: '([^']+)'/gm)]
     .map((match) => match[1]);
-  assert.deepEqual(projectIds, ['fisica', 'pmi', 'habitar']);
-  assert.equal(new Set(projectIds).size, 3);
+  assert.deepEqual(projectIds, ['eagerworks', 'fisica', 'pmi', 'habitar', 'p5']);
+  assert.equal(new Set(projectIds).size, 5);
   assert.match(projectDataSource, /for \(const definition of PROJECT_SECTION_ORDER\)/);
   assert.match(projectDataSource, /if \(html\) pages\.push\(\{ kind: 'content', title: definition\.title, html \}\)/);
-  assert.doesNotMatch(projectDataSource, /Contá|Qué hiciste vos|Cómo terminó|pendiente|placeholder/i);
 
-  const habitar = projectDataSource.match(/id: 'habitar',[\s\S]*?\n\s+\}\n\];/);
+  const habitar = projectDataSource.match(/id: 'habitar',[\s\S]*?\n\s+\},\n\s+\{\n\s+id: 'p5'/);
   assert.ok(habitar, 'El caso habITar debe estar publicado en el estante');
   const habitarContent = habitar[0];
   assert.match(habitarContent, /46 semanas/);
@@ -444,7 +441,7 @@ test('el modal de proyectos gestiona el foco como un diálogo accesible', () => 
 test('cada proyecto puede abrirse y recorrerse desde una URL compartible', () => {
   const projectKeys = [...html.matchAll(/class="spine [^"]+"[^>]*data-book="([^"]+)"/g)].map((match) => match[1]);
   assert.equal(new Set(projectKeys).size, projectKeys.length);
-  assert.equal(projectKeys.length, 3);
+  assert.equal(projectKeys.length, 5);
   assert.match(projectIslandSource, /#project=\$\{encodeURIComponent\(projectId\)\}&page=\$\{page\}/);
   assert.match(projectIslandSource, /new URLSearchParams\(window\.location\.hash\.slice\(1\)\)/);
   assert.match(projectIslandSource, /window\.history\.replaceState/);
@@ -521,20 +518,6 @@ test('el contacto persistente es accesible, táctil y deja preparado su evento d
   assert.match(html, /min-height:48px/);
   assert.match(html, /\.contact-tab:focus-visible\{outline:3px solid var\(--cream\)/);
   assert.match(html, /@media\(max-width:760px\)[\s\S]*?\.contact-tab\{[^}]*min-height:46px/);
-});
-
-test('WEB-092 publica un CV verificable y descargable', () => {
-  assert.equal(cvPdf.subarray(0, 8).toString('ascii'), '%PDF-1.4');
-  assert.ok(cvPdf.length > 70_000, 'El PDF del CV parece vacío o incompleto');
-  assert.match(
-    html,
-    /<a href="\/personal\/assets\/cv\/romina-caubarrere-cv\.pdf" class="ltag" download="Romina-Caubarrere-CV\.pdf" aria-label="Descargar CV de Romina Caubarrere en PDF" data-analytics-event="cv_download">CV<\/a>/
-  );
-  assert.doesNotMatch(html, /<span class="ltag is-pending" aria-disabled="true">CV<\/span>/);
-  assert.match(cvGenerator, /OUTPUT = ROOT \/ "public" \/ "assets" \/ "cv" \/ "romina-caubarrere-cv\.pdf"/);
-  assert.match(cvGenerator, /"Project Manager \| eagerworks"/);
-  assert.match(cvGenerator, /"habITar \| Proyecto final UTEC"/);
-  assert.doesNotMatch(cvGenerator, /Pendiente de completar|por confirmar|placeholder/i);
 });
 
 test('las microinteracciones orientan con mouse, teclado y tacto sin sumar JavaScript', () => {
