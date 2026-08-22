@@ -270,6 +270,21 @@ test('la portada enlaza al recorrido académico completo', () => {
   assert.doesNotMatch(html, /id="experiencia"|id="formacion"/i);
 });
 
+test('WEB-050 concentra los intereses personales cerca del final', () => {
+  const personalBlock = html.match(/<section class="reads" id="lecturas">([\s\S]*?)<\/section>/i);
+  assert.ok(personalBlock, 'No se encontr\u00f3 el bloque personal de lecturas');
+
+  for (const interest of [/Fantasy \+ romantasy/i, /planta/i, /crochet/i, /cocin/i]) {
+    assert.match(personalBlock[1], interest);
+  }
+
+  const beforePersonalBlock = html.slice(0, html.indexOf('<section class="reads" id="lecturas">'));
+  assert.doesNotMatch(beforePersonalBlock, /plantas, crochet, cocina|hablar de plantas y libros/i);
+  assert.ok(html.indexOf('id="lecturas"') > html.indexOf('id="proyectos"'));
+  assert.ok(html.indexOf('id="lecturas"') > html.indexOf('id="sobre"'));
+  assert.doesNotMatch(personalBlock[1], /borrador|tu romantasy|lo cambi\u00e1s cuando quieras/i);
+});
+
 test('la experiencia profesional es cronológica, verificable y separa la mentoría', () => {
   const section = formationHtml.match(/<section\b[^>]*class="experience"[^>]*id="experiencia"[^>]*>([\s\S]*?)<\/section>/i);
   assert.ok(section, 'No se encontró la sección Experiencia');
