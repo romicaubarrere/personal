@@ -511,6 +511,8 @@ test('el menú móvil expone estado y controles accesibles', () => {
   );
   assert.match(html, /<nav\b[^>]*id="primary-nav"[^>]*aria-label=/i);
   assert.match(html, /toggle\.setAttribute\('aria-expanded',String\(open\)\)/);
+  assert.match(html, /nav\.inert=mobileMenuQuery\.matches && !open/);
+  assert.match(html, /mobileMenuQuery\.addEventListener\('change',syncMenu\)/);
   assert.match(html, /e\.key==='Escape'/);
   assert.doesNotMatch(html, /nav a:nth-child\(n\+4\)/);
 });
