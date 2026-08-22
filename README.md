@@ -1,0 +1,41 @@
+# Portfolio de Romina Caubarrere
+
+Portfolio personal de Romina Caubarrere, Project Manager en Uruguay.
+
+## Estado
+
+El sitio está en desarrollo. La identidad visual y las interacciones principales están implementadas, pero todavía existen textos y recursos placeholder que serán reemplazados antes de la publicación.
+
+## Ejecutar localmente
+
+El sitio es un HTML estático y no necesita instalación de dependencias.
+
+```bash
+npm run serve
+```
+
+Luego se puede abrir `http://localhost:4173`.
+
+## Tests
+
+```bash
+npm test
+```
+
+Los tests comprueban:
+
+- Estructura básica del documento HTML.
+- IDs únicos.
+- Navegación interna y destinos existentes.
+- Accesibilidad básica del menú móvil.
+- Disponibilidad de las seis secciones en móvil.
+- Sintaxis de los bloques JavaScript.
+
+GitHub Actions ejecuta los tests automáticamente en cada push y pull request.
+
+## Estructura
+
+- `index.html`: sitio principal.
+- `tests/portfolio.test.mjs`: validaciones automáticas sin dependencias externas.
+- `.github/workflows/test.yml`: integración continua.
+- `docs/branching-strategy.md`: estrategia de ramas y flujo de integración.
