@@ -46,6 +46,10 @@ test('el repositorio usa un único pipeline y no conserva un workflow de tests c
 
 test('Pages verifica la publicación real después del deploy', () => {
   assert.match(workflow, /verify:[\s\S]*?needs: deploy/);
+  assert.match(
+    workflow,
+    /verify:[\s\S]*?uses: actions\/checkout@v7[\s\S]*?run: node scripts\/verify-production\.mjs/
+  );
   assert.match(workflow, /PAGE_URL: \$\{\{ needs\.deploy\.outputs\.page_url \}\}/);
   assert.match(workflow, /PUBLIC_BUILD_SHA: \$\{\{ github\.sha \}\}/);
   assert.match(workflow, /EXPECTED_SHA: \$\{\{ github\.sha \}\}/);

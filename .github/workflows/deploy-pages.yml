@@ -90,6 +90,9 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
+      - name: Checkout production verifier
+        uses: actions/checkout@v7
+
       - name: Verify published Astro site
         env:
           PAGE_URL: ${{ needs.deploy.outputs.page_url }}
