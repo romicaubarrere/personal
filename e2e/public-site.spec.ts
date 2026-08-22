@@ -9,9 +9,13 @@ const localizedPages = [
   { path: '/personal/pt/formacion.html', lang: 'pt' }
 ];
 
+test.beforeEach(async ({ page }) => {
+  await page.route(/https:\/\/fonts\.(googleapis|gstatic)\.com\/.*/, (route) => route.abort());
+});
+
 test('las rutas principales cargan en el idioma esperado', async ({ page }) => {
   for (const route of localizedPages) {
-    const response = await page.goto(route.path);
+    const response = await page.goto(route.path, { waitUntil: 'domcontentloaded' });
     expect(response?.ok(), route.path).toBeTruthy();
     await expect(page.locator('html')).toHaveAttribute('lang', route.lang);
     await expect(page.locator('main')).toBeVisible();
