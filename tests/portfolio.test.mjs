@@ -20,6 +20,7 @@ const repositoryRoot = join(dirname(fileURLToPath(import.meta.url)), '..');
 const distRoot = join(repositoryRoot, 'dist');
 const htmlDocument = await readFile(join(distRoot, 'index.html'), 'utf8');
 const formationDocument = await readFile(join(distRoot, 'formacion.html'), 'utf8');
+const workDocument = await readFile(join(distRoot, 'como-trabajo.html'), 'utf8');
 const communityDocument = await readFile(join(distRoot, 'comunidad-charlas.html'), 'utf8');
 const homeStyles = await readFile(join(repositoryRoot, 'src', 'styles', 'home.css'), 'utf8');
 const homeScripts = await readFile(
@@ -29,6 +30,7 @@ const homeScripts = await readFile(
 const formationStyles = await readFile(join(repositoryRoot, 'src', 'styles', 'formation.css'), 'utf8');
 const html = htmlDocument.replace(/<\/head>/i, `<style>${homeStyles}</style></head>`);
 const formationHtml = formationDocument.replace(/<\/head>/i, `<style>${formationStyles}</style></head>`);
+const workHtml = workDocument.replace(/<\/head>/i, `<style>${homeStyles}</style></head>`);
 const communityHtml = communityDocument.replace(/<\/head>/i, `<style>${formationStyles}</style></head>`);
 const favicon = await readFile(join(distRoot, 'favicon.svg'), 'utf8');
 const socialPreview = await readFile(join(distRoot, 'social-preview.png'));
@@ -85,7 +87,7 @@ function contrastRatio(foreground, background) {
 }
 
 test('los documentos HTML están completos y en español', () => {
-  for (const source of [html, formationHtml]) {
+  for (const source of [html, formationHtml, workHtml]) {
     assert.match(source, /<!doctype html>/i);
     assert.match(source, /<html\s+lang="es">/i);
     assert.match(source, /<title>[^<]*Romina Caubarrere[^<]*<\/title>/i);
@@ -157,14 +159,14 @@ test('el blog publica una nota real con estructura reutilizable y accesible', ()
 });
 
 test('todos los identificadores HTML son únicos', () => {
-  for (const [filename, source] of [['index.html', html], ['formacion.html', formationHtml], ['comunidad-charlas.html', communityHtml]]) {
+  for (const [filename, source] of [['index.html', html], ['formacion.html', formationHtml], ['como-trabajo.html', workHtml], ['comunidad-charlas.html', communityHtml]]) {
     const ids = extractIds(source);
     assert.equal(new Set(ids).size, ids.length, `Hay IDs duplicados en ${filename}`);
   }
 });
 
 test('las páginas permiten saltar al contenido principal', () => {
-  for (const source of [html, formationHtml, communityHtml]) {
+  for (const source of [html, formationHtml, workHtml, communityHtml]) {
     assert.match(source, /<a\b[^>]*class="skip-link"[^>]*href="#main-content"/i);
     assert.match(source, /<main\b[^>]*id="main-content"[^>]*tabindex="-1"/i);
     assert.match(source, /:where\(a,button,summary,\[tabindex\]:not\(\[tabindex="-1"\]\)\):focus-visible/);
@@ -172,7 +174,7 @@ test('las páginas permiten saltar al contenido principal', () => {
 });
 
 test('el orden de encabezados no salta niveles', () => {
-  for (const [filename, source] of [['index.html', html], ['formacion.html', formationHtml], ['comunidad-charlas.html', communityHtml]]) {
+  for (const [filename, source] of [['index.html', html], ['formacion.html', formationHtml], ['como-trabajo.html', workHtml], ['comunidad-charlas.html', communityHtml]]) {
     const levels = headingLevels(source);
     assert.equal(levels[0], 1, `${filename} debe comenzar con un h1`);
     for (let index = 1; index < levels.length; index += 1) {
@@ -229,7 +231,6 @@ test('la navegación principal refleja el recorrido aprobado de la portada', () 
 
   const links = [...nav[1].matchAll(/href="(#[^"]+)"/g)].map((match) => match[1]);
   assert.deepEqual(links, [
-    '#fortalezas',
     '#experiencia',
     '#formacion',
     '#proyectos',
@@ -248,12 +249,10 @@ test('la navegación principal refleja el recorrido aprobado de la portada', () 
 test('las secciones de la portada siguen el orden aprobado', () => {
   const sectionOrder = [
     'top',
-    'fortalezas',
     'experiencia',
     'formacion',
     'proyectos',
     'forma-de-trabajo',
-    'lo-que-hago',
     'charlas',
     'sobre',
     'lecturas',
@@ -296,12 +295,15 @@ test('la experiencia profesional es cronológica, verificable y separa la mentor
   assert.match(section[1], /class="experience-mentoring reveal" aria-label="Desarrollo profesional separado de la experiencia laboral"/);
   assert.match(section[1], /Programa de Mentoring PMI 2026/);
   assert.match(section[1], /no un cargo laboral/);
+  assert.match(section[1], /class="experience-ledger"/);
+  assert.match(section[1], /class="experience-thread" aria-hidden="true"/);
+  assert.equal((section[1].match(/class="stitch-marker" aria-hidden="true"/g) ?? []).length, 4);
   assert.doesNotMatch(section[1], /\d+\s*%/);
 
   const experienceIndex = html.indexOf('id="experiencia"');
   assert.ok(experienceIndex < html.indexOf('id="formacion"'));
   assert.ok(experienceIndex < html.indexOf('id="charlas"'));
-  assert.match(html, /@media\(max-width:760px\)\{[\s\S]*?\.experience-list\{grid-template-columns:1fr;\}/);
+  assert.match(html, /@media\(max-width:760px\)\{[\s\S]*?\.job-card\{display:block;/);
 });
 
 test('T8 publica comunidad y el registro completo de charlas sin inventar campos', () => {
@@ -329,8 +331,8 @@ test('T8 publica comunidad y el registro completo de charlas sin inventar campos
   assert.doesNotMatch(communityHtml, /organizado por m&iacute;/i);
 });
 
-test('la forma de trabajo presenta cuatro momentos concretos después de proyectos', () => {
-  const section = html.match(/<section\b[^>]*class="workflow"[^>]*id="forma-de-trabajo"[^>]*>([\s\S]*?)<\/section>/i);
+test('la forma de trabajo presenta cuatro momentos concretos', () => {
+  const section = workHtml.match(/<section\b[^>]*class="workflow"[^>]*id="forma-de-trabajo"[^>]*>([\s\S]*?)<\/section>/i);
   assert.ok(section, 'No se encontró la sección Forma de trabajo');
   assert.match(section[1], /<ol class="workflow-grid">/);
 
@@ -349,15 +351,14 @@ test('la forma de trabajo presenta cuatro momentos concretos después de proyect
   assert.match(section[1], /Gestiono tres proyectos en simult&aacute;neo/);
   assert.match(section[1], /Queremos m&eacute;tricas/);
   assert.doesNotMatch(section[1], /Se&ntilde;al concreta|workflow-signal/);
-  assert.ok(html.indexOf('id="proyectos"') < html.indexOf('id="forma-de-trabajo"'));
-  assert.match(html, /\.workflow-grid\{list-style:none;display:grid;grid-template-columns:repeat\(4,minmax\(0,1fr\)\)/);
+  assert.match(workHtml, /\.workflow-grid\{list-style:none;display:grid;grid-template-columns:repeat\(4,minmax\(0,1fr\)\)/);
   assert.doesNotMatch(section[1], /Trello|Jira|Slack|Scrum|Kanban/i);
-  assert.match(html, /@media\(max-width:1000px\)\{\.workflow-grid\{grid-template-columns:repeat\(2,minmax\(0,1fr\)\);/);
-  assert.match(html, /@media\(max-width:620px\)\{[\s\S]*?\.workflow-grid\{grid-template-columns:1fr;/);
+  assert.match(workHtml, /@media\(max-width:1000px\)\{\.workflow-grid\{grid-template-columns:repeat\(2,minmax\(0,1fr\)\);/);
+  assert.match(workHtml, /@media\(max-width:620px\)\{[\s\S]*?\.workflow-grid\{grid-template-columns:1fr;/);
 });
 
 test('lo que hago presenta cinco encargos como problema y resultado sin rótulos repetidos', () => {
-  const section = html.match(/<section\b[^>]*class="offers"[^>]*id="lo-que-hago"[^>]*>([\s\S]*?)<\/section>/i);
+  const section = workHtml.match(/<section\b[^>]*class="offers"[^>]*id="lo-que-hago"[^>]*>([\s\S]*?)<\/section>/i);
   assert.ok(section, 'No se encontró la sección Lo que hago');
   assert.match(section[1], /<h2>Lo que <em>hago<\/em><\/h2>/);
 
@@ -381,15 +382,15 @@ test('lo que hago presenta cinco encargos como problema y resultado sin rótulos
   assert.equal(cardBodies.filter((card) => /<p>Si\s/i.test(card)).length, 0);
   assert.match(section[1], /Hay un proyecto de software abierto en demasiados frentes/);
   assert.match(section[1], /La necesidad es real, pero llega como una idea suelta/);
-  assert.match(section[1], /<a class="offers-link" href="#contacto">Hablemos de tu idea/);
+  assert.match(section[1], /<a class="offers-link" href="index\.html#contacto">Hablemos de tu idea/);
   assert.doesNotMatch(section[1], /fractional|freelance/i);
-  assert.match(html, /@media\(max-width:900px\)\{\.offers-grid\{grid-template-columns:repeat\(2,minmax\(0,1fr\)\);/);
-  assert.match(html, /@media\(max-width:620px\)\{[\s\S]*?\.offers-grid\{grid-template-columns:1fr;/);
+  assert.match(workHtml, /@media\(max-width:900px\)\{\.offers-grid\{grid-template-columns:repeat\(2,minmax\(0,1fr\)\);/);
+  assert.match(workHtml, /@media\(max-width:620px\)\{[\s\S]*?\.offers-grid\{grid-template-columns:1fr;/);
 });
 
 test('T4 aplica la pasada anti-IA a workflow y lo que hago', () => {
-  const workflow = html.match(/<section\b[^>]*class="workflow"[^>]*>([\s\S]*?)<\/section>/i)?.[1] ?? '';
-  const offers = html.match(/<section\b[^>]*class="offers"[^>]*>([\s\S]*?)<\/section>/i)?.[1] ?? '';
+  const workflow = workHtml.match(/<section\b[^>]*class="workflow"[^>]*>([\s\S]*?)<\/section>/i)?.[1] ?? '';
+  const offers = workHtml.match(/<section\b[^>]*class="offers"[^>]*>([\s\S]*?)<\/section>/i)?.[1] ?? '';
 
   assert.doesNotMatch(`${workflow}${offers}`, /&mdash;|—/);
   assert.doesNotMatch(workflow, /Se&ntilde;al concreta|responde[^.]+, habilita[^.]+, (?:y )?muestra/i);
@@ -772,30 +773,28 @@ test('el hero comunica el posicionamiento y ofrece las dos acciones principales'
 });
 
 test('las cuatro fortalezas forman una sola muestra de crochet sin numeración', () => {
-  assert.ok(html.indexOf('id="top"') < html.indexOf('id="fortalezas"'));
-  assert.ok(html.indexOf('id="fortalezas"') < html.indexOf('id="experiencia"'));
-  assert.equal((html.match(/<div class="strengths-sampler reveal"/g) ?? []).length, 1);
-  assert.match(html, /<ul class="strengths-list">/);
-  assert.equal((html.match(/<li class="strength-row">/g) ?? []).length, 4);
-  assert.equal((html.match(/<button class="crochet-loop" type="button" aria-label="Destacar [^"]+" aria-pressed="false"><\/button>/g) ?? []).length, 4);
-  assert.match(html, /<button class="yarn-ball" type="button" aria-label="Hacer rodar el ovillo de crochet" aria-describedby="crochet-status"><\/button>/);
-  assert.match(html, /id="crochet-status" aria-live="polite"/);
-  assert.match(html, /<span class="yarn-play-note" aria-hidden="true">toc&aacute; el ovillo/);
-  assert.match(html, /Gesti&oacute;n de proyectos de software/);
-  assert.match(html, /Comunicaci&oacute;n y alineaci&oacute;n/);
-  assert.match(html, /Producto, requisitos y m&eacute;tricas/);
-  assert.match(html, /Criterio t&eacute;cnico y calidad/);
-  assert.match(html, /tres proyectos en simult&aacute;neo/);
-  assert.doesNotMatch(html, /strengths-grid|strength-card|counter-reset:strength|counter\(strength\)/);
-  assert.match(html, /\.strength-row\.is-threaded \.crochet-loop\{transform:rotate\(15deg\) scale\(1\.1\);/);
-  assert.match(html, /\.strengths-sampler:hover \.yarn-ball\{transform:translate\(-4px,3px\) rotate\(16deg\);\}/);
-  assert.match(html, /@keyframes yarn-ball-play/);
-  assert.match(html, /yarnBall\.addEventListener\('click',playYarn\)/);
-  assert.match(html, /button\.setAttribute\('aria-pressed','true'\)/);
-  assert.match(html, /row\.classList\.add\('is-threaded'\)/);
-  assert.match(html, /\.crochet-loop:focus-visible\{outline:3px solid var\(--gold\)/);
-  assert.match(html, /@media\(prefers-reduced-motion:reduce\)\{[\s\S]*?\.strength-row\.is-threaded \.crochet-loop,[\s\S]*?transform:none;/);
-  assert.doesNotMatch(html, /class="strength[^\"]*(progress|meter|percentage)/i);
+  assert.equal((workHtml.match(/<div class="strengths-sampler reveal"/g) ?? []).length, 1);
+  assert.match(workHtml, /<ul class="strengths-list">/);
+  assert.equal((workHtml.match(/<li class="strength-row">/g) ?? []).length, 4);
+  assert.equal((workHtml.match(/<button class="crochet-loop" type="button" aria-label="Destacar [^"]+" aria-pressed="false"><\/button>/g) ?? []).length, 4);
+  assert.match(workHtml, /<button class="yarn-ball" type="button" aria-label="Hacer rodar el ovillo de crochet" aria-describedby="crochet-status"><\/button>/);
+  assert.match(workHtml, /id="crochet-status" aria-live="polite"/);
+  assert.match(workHtml, /<span class="yarn-play-note" aria-hidden="true">toc&aacute; el ovillo/);
+  assert.match(workHtml, /Orden en la complejidad/);
+  assert.match(workHtml, /Conversaciones que destraban/);
+  assert.match(workHtml, /Criterio de producto/);
+  assert.match(workHtml, /Base t&eacute;cnica y calidad/);
+  assert.doesNotMatch(workHtml, /strength-proof/);
+  assert.doesNotMatch(workHtml, /strengths-grid|strength-card|counter-reset:strength|counter\(strength\)/);
+  assert.match(workHtml, /\.strength-row\.is-threaded \.crochet-loop\{transform:rotate\(15deg\) scale\(1\.1\);/);
+  assert.match(workHtml, /\.strengths-sampler:hover \.yarn-ball\{transform:translate\(-4px,3px\) rotate\(16deg\);\}/);
+  assert.match(workHtml, /@keyframes yarn-ball-play/);
+  assert.match(workHtml, /yarnBall\.addEventListener\('click',playYarn\)/);
+  assert.match(workHtml, /button\.setAttribute\('aria-pressed','true'\)/);
+  assert.match(workHtml, /row\.classList\.add\('is-threaded'\)/);
+  assert.match(workHtml, /\.crochet-loop:focus-visible\{outline:3px solid var\(--gold\)/);
+  assert.match(workHtml, /@media\(prefers-reduced-motion:reduce\)\{[\s\S]*?\.strength-row\.is-threaded \.crochet-loop,[\s\S]*?transform:none;/);
+  assert.doesNotMatch(workHtml, /class="strength[^\"]*(progress|meter|percentage)/i);
 });
 
 test('el post-it del hero participa del layout y no usa posicionamiento parallax', () => {

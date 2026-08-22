@@ -1,0 +1,43 @@
+---
+import Footer from '../components/home/Footer.astro';
+import HomeScripts from '../components/home/HomeScripts.astro';
+import Offers from '../components/home/Offers.astro';
+import Strengths from '../components/home/Strengths.astro';
+import Workflow from '../components/home/Workflow.astro';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import '../styles/home.css';
+
+const title = 'Cómo trabajo | Romina Caubarrere';
+const description = 'Conocé las capacidades, el proceso de trabajo y los problemas que Romina Caubarrere puede ayudarte a ordenar en proyectos de software y producto.';
+const canonical = 'https://romicaubarrere.github.io/personal/como-trabajo.html';
+---
+
+<BaseLayout {title} {description} {canonical}>
+  <a class="skip-link" href="#main-content">Saltar al contenido principal</a>
+  <button class="nav-toggle" id="navToggle" type="button" aria-controls="primary-nav" aria-expanded="false">
+    <span>Men&uacute;</span><span class="menu-icon" aria-hidden="true">&#9776;</span>
+  </button>
+  <nav id="primary-nav" aria-label="Secciones de C&oacute;mo trabajo">
+    <a href="#fortalezas">Lo que aporto</a>
+    <a href="#forma-de-trabajo">Mi proceso</a>
+    <a href="#lo-que-hago">Lo que hago</a>
+    <a href="index.html">Volver al estudio</a>
+  </nav>
+  <a class="contact-tab" href="index.html#contacto" aria-label="Ir a las opciones de contacto">Hablemos</a>
+
+  <main id="main-content" tabindex="-1">
+    <header class="work-page-hero" id="inicio">
+      <div class="work-page-hero-inner reveal in">
+        <span class="strengths-kicker">mi forma de trabajar</span>
+        <h1>Del problema suelto a un trabajo que <em>se puede sostener</em></h1>
+        <p>Esta p&aacute;gina junta tres cosas distintas: lo que aporto, c&oacute;mo ordeno el camino y qu&eacute; puede quedar resuelto despu&eacute;s.</p>
+        <a class="offers-link" href="#fortalezas">Empezar por mis capacidades <span aria-hidden="true">&darr;</span></a>
+      </div>
+    </header>
+    <Strengths />
+    <Workflow />
+    <Offers contactHref="index.html#contacto" />
+  </main>
+  <Footer />
+  <HomeScripts />
+</BaseLayout>
