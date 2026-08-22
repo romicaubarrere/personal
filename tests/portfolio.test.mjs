@@ -241,6 +241,27 @@ test('el hero comunica el posicionamiento y ofrece las dos acciones principales'
   assert.match(html, /class="hero-link" href="#contacto">Contactarme<\/a>/);
 });
 
+test('la edad se calcula desde el 13 de mayo de 2003 y el cumpleaños puede previsualizarse', () => {
+  assert.match(html, /birthDate=\{year:2003,month:4,day:13\}/);
+  assert.match(html, /timeZone:'America\/Montevideo'/);
+  assert.match(html, /params\.get\('preview'\)==='birthday'/);
+  assert.match(html, /window\.location\.hash==='#birthday-preview'/);
+  assert.match(html, /document\.querySelectorAll\('\[data-age\]'\)/);
+  assert.match(html, /parts\.month===birthDate\.month && parts\.day===birthDate\.day/);
+  assert.match(html, /body\.classList\.add\('is-birthday'\)/);
+  assert.match(html, /class="birthday-badge"[^>]*>Hoy cumplo <span data-age>23<\/span>/);
+  assert.match(html, /Tengo <span data-age>23<\/span> a&ntilde;os y trabajo en eagerworks/);
+
+  function ageOn(year, month, day) {
+    let age = year - 2003;
+    if (month < 5 || (month === 5 && day < 13)) age--;
+    return age;
+  }
+  assert.equal(ageOn(2027, 5, 12), 23);
+  assert.equal(ageOn(2027, 5, 13), 24);
+  assert.equal(ageOn(2027, 5, 14), 24);
+});
+
 test('el post-it del hero participa del layout y no usa posicionamiento parallax', () => {
   assert.match(html, /@media\(min-width:901px\)[\s\S]*?\.stickynote\{position:relative;/);
   assert.doesNotMatch(html, /class="stickynote parallax"/);
