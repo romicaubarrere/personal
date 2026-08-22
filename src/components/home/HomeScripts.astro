@@ -8,6 +8,7 @@
     function setOpen(open){
       nav.classList.toggle('open',open);
       toggle.setAttribute('aria-expanded',String(open));
+      nav.toggleAttribute('inert',mobileMenuQuery.matches && !open);
       nav.inert=mobileMenuQuery.matches && !open;
     }
 
@@ -56,7 +57,12 @@
       var id=window.location.hash.slice(1);
       if(id && sections.some(function(section){return section.id===id;})) setActive(id);
     }
-    window.addEventListener('hashchange',applyHash);
+    function syncHistoryActive(){
+      applyHash();
+      requestAnimationFrame(applyHash);
+    }
+    window.addEventListener('hashchange',syncHistoryActive);
+    window.addEventListener('popstate',syncHistoryActive);
     applyHash();
   })();
 
