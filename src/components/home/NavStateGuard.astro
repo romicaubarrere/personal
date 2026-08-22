@@ -19,19 +19,22 @@
       nav.inert=shouldBeInert;
     }
 
-    var syncingMenu=false;
-    var menuObserver=new MutationObserver(function(){
-      if(syncingMenu) return;
-      syncingMenu=true;
-      syncMenuInert();
-      syncingMenu=false;
+    function scheduleMenuSync(){
+      requestAnimationFrame(syncMenuInert);
+      window.setTimeout(syncMenuInert,50);
+      window.setTimeout(syncMenuInert,250);
+      window.setTimeout(syncMenuInert,1000);
+    }
+
+    var bodyObserver=new MutationObserver(function(){
+      if(!modalOpen()) scheduleMenuSync();
     });
-    menuObserver.observe(nav,{attributes:true,attributeFilter:['inert','class']});
-    menuObserver.observe(toggle,{attributes:true,attributeFilter:['aria-expanded']});
-    menuObserver.observe(document.body,{attributes:true,attributeFilter:['class']});
+    bodyObserver.observe(document.body,{attributes:true,attributeFilter:['class']});
+    toggle.addEventListener('click',function(){requestAnimationFrame(syncMenuInert);});
     window.addEventListener('resize',syncMenuInert,{passive:true});
-    window.addEventListener('pageshow',syncMenuInert);
-    requestAnimationFrame(syncMenuInert);
+    window.addEventListener('pageshow',scheduleMenuSync);
+    window.addEventListener('load',scheduleMenuSync);
+    scheduleMenuSync();
 
     var links=Array.prototype.slice.call(document.querySelectorAll('#primary-nav a[href^="#"]'));
     var validIds=new Set(links.map(function(link){return link.getAttribute('href').slice(1);}));
@@ -47,23 +50,11 @@
       });
     }
 
-    var syncingActive=false;
-    var activeObserver=new MutationObserver(function(){
-      if(syncingActive || !validIds.has(window.location.hash.slice(1))) return;
-      syncingActive=true;
-      syncHashActive();
-      syncingActive=false;
-    });
-    links.forEach(function(link){
-      activeObserver.observe(link,{attributes:true,attributeFilter:['class','aria-current']});
-    });
-
     function syncHistory(){
       syncHashActive();
-      requestAnimationFrame(function(){
-        syncHashActive();
-        requestAnimationFrame(syncHashActive);
-      });
+      requestAnimationFrame(syncHashActive);
+      window.setTimeout(syncHashActive,50);
+      window.setTimeout(syncHashActive,250);
     }
     window.addEventListener('hashchange',syncHistory);
     window.addEventListener('popstate',syncHistory);
