@@ -18,16 +18,22 @@ import {
 
 type TurnDirection = 'next' | 'prev';
 
-function projectFromUrl(): { project: ProjectBook; page: number; rawPage: string | null } | null {
-  if (!window.location.hash.startsWith('#project=')) return null;
+type ProjectUrlState =
+  | { kind: 'none' }
+  | { kind: 'invalid' }
+  | { kind: 'valid'; project: ProjectBook; page: number; rawPage: string | null };
+
+function projectFromUrl(): ProjectUrlState {
+  if (!window.location.hash.startsWith('#project=')) return { kind: 'none' };
 
   const params = new URLSearchParams(window.location.hash.slice(1));
   const project = projectById(params.get('project'));
-  if (!project) return null;
+  if (!project) return { kind: 'invalid' };
 
   const rawPage = params.get('page');
   const parsedPage = Number.parseInt(rawPage ?? '0', 10);
   return {
+    kind: 'valid',
     project,
     page: Number.isFinite(parsedPage) ? parsedPage : 0,
     rawPage
@@ -144,8 +150,11 @@ export default function ProjectBookcase() {
 
   const syncProjectFromUrl = useCallback(() => {
     const target = projectFromUrl();
-    if (!target) {
+    if (target.kind !== 'valid') {
       closeBook({ history: false });
+      if (target.kind === 'invalid') {
+        window.history.replaceState(null, '', `${window.location.pathname}${window.location.search}`);
+      }
       return;
     }
 

@@ -136,3 +136,20 @@ test('TC-MOD-010 · URL directa normaliza page válida, inválida y fuera de ran
   await expect(page.locator('#bookmodal')).toHaveAttribute('aria-hidden', 'true');
   await expect(page.locator('body')).not.toHaveClass(/modal-open/);
 });
+
+test('WEB-136 · un project inválido limpia el hash sin sumar otra entrada al historial', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto('/personal/');
+
+  for (const invalidHash of ['#project=', '#project=no-existe', '#project=%E2%9C%93&page=2']) {
+    const historyBefore = await page.evaluate(() => window.history.length);
+    await page.evaluate((hash) => {
+      window.location.hash = hash;
+    }, invalidHash);
+
+    await expect(page).toHaveURL(/\/personal\/$/);
+    await expect(page.locator('#bookmodal')).toHaveAttribute('aria-hidden', 'true');
+    await expect(page.locator('body')).not.toHaveClass(/modal-open/);
+    await expect.poll(() => page.evaluate(() => window.history.length)).toBe(historyBefore + 1);
+  }
+});
