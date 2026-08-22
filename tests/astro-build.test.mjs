@@ -55,8 +55,6 @@ test('la portada compilada conserva estructura, contenido e interacciones', asyn
 
   for (const id of [
     'sobre',
-    'experiencia',
-    'formacion',
     'proyectos',
     'forma-de-trabajo',
     'charlas',
@@ -65,6 +63,7 @@ test('la portada compilada conserva estructura, contenido e interacciones', asyn
   ]) {
     assert.match(source, new RegExp(`id="${id}"`));
   }
+  assert.doesNotMatch(source, /id="experiencia"|id="formacion"/);
 
   assert.equal((source.match(/class="spine [^"]+"[^>]*data-book="/g) ?? []).length, 3);
   assert.match(clientJavaScript, /#project=/);
