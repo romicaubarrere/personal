@@ -87,6 +87,22 @@ test('Open Graph y X describen cada ruta y reutilizan la tarjeta aprobada', () =
       : language === 'pt'
         ? /Cartão do portfólio/i
         : /Tarjeta del portfolio/i;
+    const expectedSiteName = language === 'en'
+      ? "Romi's studio"
+      : language === 'pt'
+        ? 'O estúdio da Romi'
+        : 'El estudio de Romi';
+    const expectedLocale = language === 'en' ? 'en_US' : language === 'pt' ? 'pt_BR' : 'es_UY';
+    assert.equal(
+      getAttribute(source, /<meta\\b[^>]*property="og:site_name"[^>]*>/i, 'content'),
+      expectedSiteName,
+      `${route}: nombre del sitio fuera del idioma del documento`
+    );
+    assert.equal(
+      getAttribute(source, /<meta\\b[^>]*property="og:locale"[^>]*>/i, 'content'),
+      expectedLocale,
+      `${route}: locale social fuera del idioma del documento`
+    );
     assert.match(socialImageAlt, localizedAltPattern, `${route}: alt social fuera del idioma del documento`);
     if (route.startsWith('posts/') || route.includes('/posts/')) assert.match(source, /<meta property="og:type" content="article">/i);
     else assert.match(source, /<meta property="og:type" content="website">/i);
