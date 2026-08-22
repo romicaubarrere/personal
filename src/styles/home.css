@@ -462,7 +462,7 @@
   .workflow .hd h2{font-family:var(--serif);font-weight:340;font-size:clamp(2rem,4.5vw,3.4rem);line-height:1.04;}
   .workflow .hd h2 em{font-style:italic;color:var(--green);}
   .workflow .hd p{max-width:700px;margin-top:12px;color:var(--ink-soft);font-size:1.05rem;}
-  .workflow-grid{list-style:none;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:18px;padding:0;counter-reset:workflow;}
+  .workflow-grid{list-style:none;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:18px;padding:0;counter-reset:workflow;}
   .workflow-step{position:relative;min-height:330px;padding:30px 22px 24px;background:var(--cream);
     border-top:5px solid var(--green);box-shadow:3px 9px 22px rgba(36,31,24,.2);counter-increment:workflow;}
   .workflow-step:nth-child(even){transform:rotate(1deg);border-top-color:var(--warm);}

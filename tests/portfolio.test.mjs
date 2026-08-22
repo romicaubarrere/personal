@@ -280,27 +280,28 @@ test('la experiencia profesional es cronológica, verificable y separa la mentor
   assert.match(html, /@media\(max-width:760px\)\{[\s\S]*?\.experience-list\{grid-template-columns:1fr;\}/);
 });
 
-test('la forma de trabajo presenta cinco etapas concretas y responsivas', () => {
+test('la forma de trabajo presenta cuatro momentos concretos antes de proyectos', () => {
   const section = html.match(/<section\b[^>]*class="workflow"[^>]*id="forma-de-trabajo"[^>]*>([\s\S]*?)<\/section>/i);
   assert.ok(section, 'No se encontró la sección Forma de trabajo');
   assert.match(section[1], /<ol class="workflow-grid">/);
 
   const steps = section[1].match(/<li class="workflow-step reveal"/g) ?? [];
-  assert.equal(steps.length, 5);
+  assert.equal(steps.length, 4);
   for (const heading of [
-    'Entender el problema',
-    'Definir alcance, prioridades y plan',
-    'Coordinar personas y decisiones',
-    'Cuidar calidad, cambios y riesgos',
-    'Medir, decidir y aprender'
+    'Entender antes de ordenar',
+    'Convertirlo en un plan',
+    'Sostener el trabajo',
+    'Mirar qu&eacute; pas&oacute; y ajustar'
   ]) {
     assert.match(section[1], new RegExp(`<h3>${heading}<\\/h3>`));
   }
 
   assert.match(section[1], /Refino los requisitos/);
   assert.match(section[1], /Gestiono tres proyectos en simult&aacute;neo/);
-  assert.match(section[1], /queremos m&eacute;tricas/);
-  assert.equal((section[1].match(/class="workflow-signal"/g) ?? []).length, 5);
+  assert.match(section[1], /Queremos m&eacute;tricas/);
+  assert.doesNotMatch(section[1], /Se&ntilde;al concreta|workflow-signal/);
+  assert.ok(html.indexOf('id="forma-de-trabajo"') < html.indexOf('id="proyectos"'));
+  assert.match(html, /\.workflow-grid\{list-style:none;display:grid;grid-template-columns:repeat\(4,minmax\(0,1fr\)\)/);
   assert.doesNotMatch(section[1], /Trello|Jira|Slack|Scrum|Kanban/i);
   assert.match(html, /@media\(max-width:1000px\)\{\.workflow-grid\{grid-template-columns:repeat\(2,minmax\(0,1fr\)\);/);
   assert.match(html, /@media\(max-width:620px\)\{[\s\S]*?\.workflow-grid\{grid-template-columns:1fr;/);
