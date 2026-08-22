@@ -202,6 +202,37 @@
   .about-note h3{font-family:var(--serif);font-size:1.35rem;font-weight:600;line-height:1.15;margin-bottom:10px;}
   .about-note p{color:var(--ink-soft);font-size:15px;line-height:1.55;}
 
+  /* ---------- EXPERIENCIA: recorrido laboral ---------- */
+  .experience{position:relative;overflow:hidden;padding:96px 0 104px;background:var(--green-dark);color:var(--cream);}
+  .experience::before{content:"";position:absolute;inset:0;pointer-events:none;opacity:.1;
+    background-image:linear-gradient(90deg,rgba(250,243,228,.5) 1px,transparent 1px);background-size:34px 100%;}
+  .experience-inner{position:relative;z-index:1;max-width:1120px;margin:0 auto;padding:0 40px;}
+  .experience .hd{max-width:760px;margin-bottom:40px;}
+  .experience .hd h2{font-family:var(--serif);font-weight:340;font-size:clamp(2rem,4.5vw,3.4rem);line-height:1.04;}
+  .experience .hd h2 em{font-style:italic;color:var(--gold);}
+  .experience .hd p{max-width:650px;margin-top:10px;color:rgba(250,243,228,.76);font-size:1.05rem;}
+  .experience-list{list-style:none;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px;padding:0;}
+  .job-card{position:relative;min-height:285px;padding:30px 28px 27px;background:var(--cream);color:var(--ink);
+    border-left:7px solid var(--green);box-shadow:4px 10px 24px rgba(0,0,0,.3);}
+  .job-card:nth-child(2){border-left-color:var(--warm);}
+  .job-card:nth-child(3){border-left-color:var(--gold);}
+  .job-card:nth-child(4){border-left-color:var(--rose);}
+  .job-period{display:block;font-family:var(--hand);font-size:1.25rem;color:var(--warm);}
+  .job-card h3{font-family:var(--serif);font-size:1.45rem;font-weight:600;line-height:1.12;margin:5px 0 4px;}
+  .job-org{display:block;font-size:.78rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--green-deep);}
+  .job-type{display:inline-block;margin:16px 0 9px;padding:4px 9px;background:#e4ead8;color:var(--green-deep);font-size:.72rem;font-weight:800;border-radius:20px;}
+  .job-card p{color:var(--ink-soft);font-size:.94rem;line-height:1.58;}
+  .experience-mentoring{position:relative;margin-top:24px;padding:24px 28px 23px 116px;border:1px dashed rgba(250,243,228,.45);background:rgba(250,243,228,.09);}
+  .experience-mentoring::before{content:"aparte";position:absolute;left:24px;top:25px;padding:5px 11px;background:var(--gold);color:#3a2b08;
+    font-family:var(--hand);font-size:1.1rem;transform:rotate(-2deg);}
+  .experience-mentoring h3{font-family:var(--serif);font-size:1.25rem;font-weight:600;margin-bottom:4px;}
+  .experience-mentoring p{max-width:780px;color:rgba(250,243,228,.82);font-size:.93rem;line-height:1.55;}
+  @media(max-width:760px){
+    .experience{padding:80px 0 86px;}.experience-inner{padding:0 20px;}.experience-list{grid-template-columns:1fr;}
+    .job-card{min-height:0;padding:27px 23px 25px;}.experience-mentoring{padding:72px 23px 23px;}
+    .experience-mentoring::before{left:23px;top:20px;}
+  }
+
   /* ---------- FORMACION: una carpeta dentro del estudio ---------- */
   .education{background:var(--paper);padding:88px 0 96px;position:relative;overflow:hidden;}
   .education::before{content:"";position:absolute;inset:0;pointer-events:none;opacity:.24;
@@ -671,6 +702,57 @@
           <p>Soy Women Techmakers Ambassador y embajadora de Chicas en Tecnolog&iacute;a. Tambi&eacute;n organizo eventos y doy charlas.</p>
         </article>
       </div>
+    </div>
+  </section>
+
+  <section class="experience" id="experiencia">
+    <div class="experience-inner">
+      <div class="hd reveal">
+        <h2>Experiencia, de hoy <em>hacia atr&aacute;s</em></h2>
+        <p>Distintos roles, el mismo hilo: entender qu&eacute; hace falta, ordenar el trabajo y ayudar a que otras personas puedan avanzar.</p>
+      </div>
+      <ol class="experience-list" aria-label="Experiencia laboral en orden cronol&oacute;gico inverso">
+        <li>
+          <article class="job-card reveal" style="--r:-.6deg">
+            <time class="job-period" datetime="2025-12">diciembre 2025 &middot; actualidad</time>
+            <h3>Project Manager</h3>
+            <span class="job-org">eagerworks</span>
+            <span class="job-type">Proyectos de software</span>
+            <p>Coordino equipos y stakeholders, facilito la planificaci&oacute;n y sigo de cerca el progreso y las entregas. Mi foco est&aacute; en que prioridades, decisiones y pr&oacute;ximos pasos queden claros.</p>
+          </article>
+        </li>
+        <li>
+          <article class="job-card reveal" style="--r:.6deg">
+            <span class="job-period">octubre 2024 &middot; noviembre 2025</span>
+            <h3>Associate Product Manager</h3>
+            <span class="job-org">UKG</span>
+            <span class="job-type">Producto digital y experiencia del empleado</span>
+            <p>Trabaj&eacute; con equipos multifuncionales para convertir insights y feedback en requerimientos y prioridades de producto. Tambi&eacute;n particip&eacute; en el CAB, donde evalu&aacute;bamos cambios estrat&eacute;gicos.</p>
+          </article>
+        </li>
+        <li>
+          <article class="job-card reveal" style="--r:-.5deg">
+            <span class="job-period">junio 2023 &middot; febrero 2024</span>
+            <h3>Project Manager Trainee</h3>
+            <span class="job-org">Plan Ceibal</span>
+            <span class="job-type">Iniciativas tecnol&oacute;gicas</span>
+            <p>Planifiqu&eacute; proyectos y recursos, trabaj&eacute; sobre alcance y riesgos y segu&iacute; varias iniciativas en simult&aacute;neo, siempre alineadas con los objetivos del programa.</p>
+          </article>
+        </li>
+        <li>
+          <article class="job-card reveal" style="--r:.5deg">
+            <span class="job-period">octubre 2022 &middot; junio 2023</span>
+            <h3>Docente de rob&oacute;tica y programaci&oacute;n</h3>
+            <span class="job-org">Elemental Ciencias de la Computaci&oacute;n</span>
+            <span class="job-type">Educaci&oacute;n tecnol&oacute;gica</span>
+            <p>Di clases con aprendizaje basado en proyectos para acercar la rob&oacute;tica y la programaci&oacute;n en un entorno colaborativo. Ah&iacute; empez&oacute; buena parte de mi experiencia explicando temas t&eacute;cnicos con claridad.</p>
+          </article>
+        </li>
+      </ol>
+      <aside class="experience-mentoring reveal" aria-label="Desarrollo profesional separado de la experiencia laboral">
+        <h3>Programa de Mentoring PMI 2026</h3>
+        <p>Participo como mentee. Lo muestro por separado porque es una experiencia de desarrollo profesional y acompa&ntilde;amiento, no un cargo laboral.</p>
+      </aside>
     </div>
   </section>
 
