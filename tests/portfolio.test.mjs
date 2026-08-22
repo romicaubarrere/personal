@@ -5,10 +5,13 @@ import test from 'node:test';
 import { fileURLToPath } from 'node:url';
 import {
   BIRTH_DATE,
+  EASTER_EVENT,
   SPECIAL_DATES,
   calculateAge,
   findSpecialDate,
+  findSpecialDates,
   formatSpecialDateLabel,
+  getEasterSunday,
   parseSimulatedDate,
   resolveSpecialDate
 } from '../src/scripts/special-dates.js';
@@ -720,13 +723,16 @@ test('cumpleaños, Halloween y las cinco fechas patrias están definidas sin sus
   assert.deepEqual(
     SPECIAL_DATES.map(({ id, month, day }) => [id, month, day]),
     [
+      ['new-year', 1, 1],
       ['birthday', 5, 13],
       ['halloween', 10, 31],
       ['patriotic-04-19', 4, 19],
       ['patriotic-05-18', 5, 18],
       ['patriotic-06-19', 6, 19],
       ['patriotic-07-18', 7, 18],
-      ['patriotic-08-25', 8, 25]
+      ['patriotic-08-25', 8, 25],
+      ['hearts-december', 12, 1],
+      ['christmas', 12, 25]
     ]
   );
   assert.equal(findSpecialDate({ year: 2026, month: 5, day: 13 })?.kind, 'birthday');
@@ -756,7 +762,50 @@ test('la simulación revisa cada celebración sin cambiar la fecha del dispositi
   assert.equal(resolveSpecialDate({ actualDate, search: '?date=2027-05-13' }).event?.id, 'birthday');
   assert.equal(resolveSpecialDate({ actualDate, search: '?preview=birthday' }).event?.id, 'birthday');
   assert.equal(resolveSpecialDate({ actualDate, hash: '#birthday-preview' }).event?.id, 'birthday');
+  assert.equal(resolveSpecialDate({ actualDate, search: '?special=christmas' }).event?.id, 'christmas');
   assert.equal(resolveSpecialDate({ actualDate, search: '?celebration=unknown' }).event, null);
+});
+
+test('Pascuas se calcula para cada año y dura únicamente el domingo correspondiente', () => {
+  assert.equal(EASTER_EVENT.id, 'easter');
+  assert.deepEqual(getEasterSunday(2026), { year: 2026, month: 4, day: 5 });
+  assert.deepEqual(getEasterSunday(2027), { year: 2027, month: 3, day: 28 });
+  assert.equal(findSpecialDate({ year: 2026, month: 4, day: 5 })?.id, 'easter');
+  assert.equal(findSpecialDate({ year: 2026, month: 4, day: 4 }), null);
+  assert.equal(findSpecialDate({ year: 2026, month: 4, day: 6 }), null);
+  assert.equal(
+    resolveSpecialDate({ actualDate: { year: 2026, month: 1, day: 1 }, search: '?celebration=easter' }).event?.day,
+    5
+  );
+});
+
+test('si Pascuas coincide con una fecha patria se conservan ambas celebraciones', () => {
+  assert.deepEqual(getEasterSunday(2071), { year: 2071, month: 4, day: 19 });
+  assert.deepEqual(
+    findSpecialDates({ year: 2071, month: 4, day: 19 }).map(({ id }) => id),
+    ['patriotic-04-19', 'easter']
+  );
+  assert.deepEqual(
+    resolveSpecialDate({ actualDate: { year: 2071, month: 4, day: 19 } }).events.map(({ id }) => id),
+    ['patriotic-04-19', 'easter']
+  );
+});
+
+test('WEB-083 incorpora las cuatro celebraciones aprobadas y su simulación', () => {
+  const expected = [
+    ['new-year', 1, 1],
+    ['hearts-december', 12, 1],
+    ['christmas', 12, 25]
+  ];
+  for (const [id, month, day] of expected) {
+    const event = SPECIAL_DATES.find((candidate) => candidate.id === id);
+    assert.deepEqual([event?.id, event?.month, event?.day], [id, month, day]);
+  }
+
+  const actualDate = { year: 2026, month: 8, day: 22 };
+  for (const id of ['new-year', 'easter', 'hearts-december', 'christmas']) {
+    assert.equal(resolveSpecialDate({ actualDate, search: `?celebration=${id}` }).event?.id, id);
+  }
 });
 
 test('las celebraciones mantienen el lenguaje visual del estudio y son responsivas', () => {
@@ -764,6 +813,7 @@ test('las celebraciones mantienen el lenguaje visual del estudio y son responsiv
   assert.match(html, /class="crochet-web"/);
   assert.match(html, /class="crochet-pumpkin"/);
   assert.match(html, /class="patriotic-ribbon"/);
+  assert.match(html, /celebration--seasonal \.birthday-decor/);
   assert.match(html, /@media\(max-width:760px\)\{[\s\S]*?\.birthday-garland/);
   assert.match(html, /@media\(prefers-reduced-motion:reduce\)\{html\{scroll-behavior:auto;\}\*\{animation:none!important;/);
   assert.match(html, /role="status" aria-live="polite" hidden/);

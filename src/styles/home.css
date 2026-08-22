@@ -142,6 +142,7 @@
   body.celebration--birthday .birthday-decor,
   body.celebration--halloween .halloween-decor,
   body.celebration--patriotic .patriotic-decor{display:block;}
+  body.celebration--seasonal .birthday-decor{display:block;}
   .special-date-badge{align-items:center;width:max-content;max-width:100%;margin-top:17px;padding:8px 14px 8px 12px;border:1px solid rgba(255,255,255,.35);border-radius:999px;background:rgba(22,19,16,.82);color:var(--cream);font-family:var(--hand);font-size:20px;line-height:1;box-shadow:0 5px 14px rgba(0,0,0,.25);transform:rotate(-1deg);}
   .special-date-badge:not([hidden]){display:inline-flex;}
   .special-date-badge::before{content:"✦";margin-right:8px;color:var(--gold);font-family:var(--serif);font-size:18px;}
