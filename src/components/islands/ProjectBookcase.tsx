@@ -159,6 +159,7 @@ export default function ProjectBookcase() {
     if (target.rawPage !== String(nextPage)) {
       replaceProjectUrl(target.project.id, nextPage);
     }
+    window.requestAnimationFrame(() => closeRef.current?.focus({ preventScroll: true }));
   }, [closeBook, replaceProjectUrl]);
 
   const finishTurn = useCallback(() => {
