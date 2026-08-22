@@ -160,6 +160,27 @@
   .scrollhint span{display:block;font-size:26px;animation:bob 1.8s ease-in-out infinite;}
   @keyframes bob{0%,100%{transform:translateY(0);}50%{transform:translateY(8px);}}
 
+  /* ---------- CUMPLEAÑOS: 13 DE MAYO ---------- */
+  .birthday-layer{position:absolute;inset:0;z-index:7;pointer-events:none;overflow:hidden;display:none;}
+  body.is-birthday .birthday-layer{display:block;}
+  .birthday-garland{position:absolute;top:56px;left:50%;width:min(760px,88vw);height:68px;transform:translateX(-50%);}
+  .birthday-garland::before{content:"";position:absolute;top:4px;left:0;right:0;height:42px;border-bottom:3px solid rgba(250,243,228,.82);border-radius:0 0 50% 50%;}
+  .birthday-flag{position:absolute;top:31px;width:0;height:0;border-left:18px solid transparent;border-right:18px solid transparent;border-top:34px solid var(--gold);filter:drop-shadow(0 3px 2px rgba(0,0,0,.28));transform-origin:top center;animation:flag-sway 2.8s ease-in-out infinite alternate;}
+  .birthday-flag:nth-child(2n){border-top-color:#93d694;animation-delay:-.9s;}
+  .birthday-flag:nth-child(3n){border-top-color:var(--rose);animation-delay:-1.7s;}
+  .birthday-badge{display:none;align-items:center;gap:8px;width:max-content;max-width:100%;margin-top:18px;padding:7px 13px 7px 11px;border:1px solid rgba(255,255,255,.35);border-radius:999px;background:rgba(22,19,16,.76);color:var(--cream);font-family:var(--hand);font-size:20px;line-height:1;box-shadow:0 5px 14px rgba(0,0,0,.25);transform:rotate(-1deg);}
+  .birthday-badge::before{content:"✦";color:var(--gold);font-family:var(--serif);font-size:18px;}
+  body.is-birthday .birthday-badge{display:inline-flex;}
+  .birthday-spark{position:absolute;top:-24px;width:9px;height:15px;border-radius:2px;background:var(--gold);opacity:.9;animation:birthday-fall var(--fall-time,7s) linear var(--fall-delay,0s) infinite;}
+  .birthday-spark:nth-child(3n){background:#93d694;border-radius:50%;}
+  .birthday-spark:nth-child(4n){background:var(--rose);width:12px;height:7px;}
+  @keyframes birthday-fall{0%{transform:translate3d(0,-8vh,0) rotate(0);opacity:0;}8%{opacity:.95;}100%{transform:translate3d(var(--drift,20px),108vh,0) rotate(620deg);opacity:.2;}}
+  @keyframes flag-sway{from{transform:rotate(-2deg);}to{transform:rotate(3deg);}}
+  @media(max-width:760px){
+    .birthday-garland{top:66px;width:92vw;}
+    .birthday-flag{top:27px;border-left-width:13px;border-right-width:13px;border-top-width:27px;}
+  }
+
   /* ---------- CORCHO (sobre mi) ---------- */
   .cork{position:relative;padding:90px 0 100px;
     background-color:var(--cork);
@@ -511,6 +532,15 @@
   <!-- ============ HERO / EL ESTUDIO ============ -->
   <main id="main-content" tabindex="-1">
   <header class="hero brick" id="top">
+    <div class="birthday-layer" aria-hidden="true">
+      <div class="birthday-garland">
+        <i class="birthday-flag" style="left:8%"></i><i class="birthday-flag" style="left:20%"></i>
+        <i class="birthday-flag" style="left:32%"></i><i class="birthday-flag" style="left:44%"></i>
+        <i class="birthday-flag" style="left:56%"></i><i class="birthday-flag" style="left:68%"></i>
+        <i class="birthday-flag" style="left:80%"></i>
+      </div>
+      <div id="birthdaySparkles"></div>
+    </div>
     <div class="ironshelf"></div>
     <svg class="hang l parallax" data-depth="26" viewBox="0 0 240 240" style="overflow:visible" aria-hidden="true" focusable="false"><use href="#fern"/></svg>
     <svg class="hang lb parallax" data-depth="34" viewBox="0 0 240 240" style="overflow:visible" aria-hidden="true" focusable="false"><use href="#fern"/></svg>
@@ -527,6 +557,7 @@
         <h1 class="bigname">Romina<span class="l2">Caubarrere</span></h1>
         <div class="rolebar">Project Manager de software</div>
         <p class="hero-copy">Conecto personas, producto y tecnolog&iacute;a para que proyectos complejos avancen y lleguen a resultados.</p>
+        <div class="birthday-badge" id="birthdayBadge" role="status">Hoy cumplo <span data-age>23</span> a&ntilde;os</div>
         <div class="hero-actions" aria-label="Acciones principales">
           <a class="hero-link primary" href="#proyectos">Ver proyectos</a>
           <a class="hero-link" href="#contacto">Contactarme</a>
@@ -562,7 +593,7 @@
           <span class="pin" style="top:-9px;left:30px;"></span>
           <span class="about-kicker">hoy</span>
           <h3>Project Manager de software</h3>
-          <p>Trabajo en eagerworks. Ordeno el trabajo, coordino al equipo y sigo de cerca lo que hace falta para que cada proyecto avance.</p>
+          <p>Tengo <span data-age>23</span> a&ntilde;os y trabajo en eagerworks. Ordeno el trabajo, coordino al equipo y sigo de cerca lo que hace falta para que cada proyecto avance.</p>
         </article>
         <article class="about-note reveal" style="--r:1.2deg">
           <span class="pin green" style="top:-9px;right:34px;"></span>
@@ -731,6 +762,39 @@
   </div>
 
 <script>
+  // edad dinámica y celebración anual del 13 de mayo
+  (function(){
+    var birthDate={year:2003,month:4,day:13};
+    var params=new URLSearchParams(window.location.search);
+    var preview=params.get('preview')==='birthday' || window.location.hash==='#birthday-preview';
+    var parts=new Intl.DateTimeFormat('en-CA',{timeZone:'America/Montevideo',year:'numeric',month:'numeric',day:'numeric'})
+      .formatToParts(new Date()).reduce(function(date,part){
+        if(part.type!=='literal') date[part.type]=Number(part.value);
+        return date;
+      },{});
+    var age=parts.year-birthDate.year;
+    if(parts.month<birthDate.month || (parts.month===birthDate.month && parts.day<birthDate.day)) age--;
+    document.querySelectorAll('[data-age]').forEach(function(el){el.textContent=String(age);});
+
+    var isBirthday=parts.month===birthDate.month && parts.day===birthDate.day;
+    if(!isBirthday && !preview) return;
+    document.body.classList.add('is-birthday');
+    var badge=document.getElementById('birthdayBadge');
+    if(preview && !isBirthday && badge) badge.firstChild.nodeValue='Preview de cumple · hoy cumpliría ';
+
+    var holder=document.getElementById('birthdaySparkles');
+    if(!holder) return;
+    for(var i=0;i<34;i++){
+      var spark=document.createElement('i');
+      spark.className='birthday-spark';
+      spark.style.left=((i*37)%101)+'%';
+      spark.style.setProperty('--fall-time',(5+(i%6)*.7)+'s');
+      spark.style.setProperty('--fall-delay',(-i*.31)+'s');
+      spark.style.setProperty('--drift',((i%2 ? 1 : -1)*(12+(i%5)*7))+'px');
+      holder.appendChild(spark);
+    }
+  })();
+
   // ====== LIBRO / FLIPBOOK ======
   var BOOKS = {
     eagerworks:{tag:'Gestión · software', color:'#3f7d4e', pages:[
