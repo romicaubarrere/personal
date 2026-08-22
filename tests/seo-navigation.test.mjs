@@ -385,6 +385,22 @@ test('los identificadores y las referencias ARIA resuelven sin ambigüedad', asy
   }
 });
 
+test('el menú adaptable conserva estado, cierre y foco accesibles', async () => {
+  for (const route of [...publicRoutes, '404.html']) {
+    const source = await readFile(join(dist, route), 'utf8');
+    if (!/<button\b[^>]*class="nav-toggle"/i.test(source)) continue;
+
+    assert.match(source, /nav\.classList\.toggle\('open',open\)/, `${route}: el menú no sincroniza su estado visual`);
+    assert.match(source, /setAttribute\('aria-expanded',String\(open\)\)/, `${route}: el menú no anuncia su estado`);
+    assert.match(source, /nav\.inert=mobileMenuQuery\.matches && !open/, `${route}: el menú móvil cerrado sigue siendo interactivo`);
+    assert.match(source, /if\(e\.target\.closest\('a'\)\) setOpen\(false\)/, `${route}: el menú no cierra al navegar`);
+    assert.match(source, /e\.key==='Escape'/, `${route}: el menú no responde a Escape`);
+    assert.match(source, /setOpen\(false\); toggle\.focus\(\)/, `${route}: Escape no devuelve el foco`);
+    assert.match(source, /document\.addEventListener\('pointerdown'/, `${route}: el menú no cierra al pulsar fuera`);
+    assert.match(source, /mobileMenuQuery\.addEventListener\('change',syncMenu\)/, `${route}: el menú no se reinicia al cambiar de viewport`);
+  }
+});
+
 test('la navegación expone la sección activa y el contacto publica solo destinos verificados', () => {
   const home = routeDocuments.get('index.html');
   assert.match(home, /setAttribute\('aria-current','location'\)/);
