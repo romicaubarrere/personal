@@ -841,9 +841,11 @@ test('Cómo trabajo suma una capa de cocina coherente y microinteracciones acces
   assert.equal((workHtml.match(/class="kitchen-utensil kitchen-(?:spoon|whisk)"/g) ?? []).length, 2);
   assert.match(workHtml, /<span class="kitchen-recipe-label">mise en place del proyecto<\/span>/);
   assert.match(workHtml, /class="offers-link kitchen-start" href="#fortalezas"/);
+  assert.match(workHtml, /\.work-page-kitchen \.strengths-kicker\{color:var\(--gold\)\}/);
+  assert.match(workHtml, /\.kitchen-start span\{display:inline-block;margin-left:\.45rem;/);
   assert.match(workHtml, /\.work-page-nav a:is\(:hover,:focus-visible,:active\)::after\{transform:scaleX\(1\);?\}/);
   assert.match(workHtml, /\.work-page-hero:has\(\.kitchen-start:is\(:hover,:focus-visible,:active\)\) \.kitchen-spoon/);
-  assert.match(workHtml, /@media\(prefers-reduced-motion:reduce\)\{[\s\S]*?\.kitchen-start:is\(:hover,:focus-visible,:active\),\.work-page-kitchen \.workflow-step:hover\{transform:none;?\}/);
+  assert.match(workHtml, /@media\(prefers-reduced-motion:reduce\)\{[\s\S]*?\.kitchen-start:is\(:hover,:focus-visible,:active\)[\s\S]*?\.work-page-kitchen \.workflow-step:hover\{transform:none;?\}/);
 });
 
 test('el post-it del hero participa del layout y no usa posicionamiento parallax', () => {
