@@ -1,0 +1,32 @@
+:root {
+  --paper:#efe4cd;
+  --paper2:#e5d6ba;
+  --paper-light:#f7edd9;
+  --cream:#faf3e4;
+  --ink:#241f18;
+  --ink-soft:#5f5749;
+  --green:#3c7549;
+  --green-deep:#2b5a38;
+  --green-dark:#22432c;
+  --sage:#657249;
+  --olive:#55603f;
+  --brick:#8f4230;
+  --brick2:#7a3626;
+  --mortar:#d8c4a4;
+  --iron:#161310;
+  --gold:#cf9a3f;
+  --warm:#974629;
+  --rose:#cf7f6a;
+  --cork:#c8a678;
+  --folder:#c8a66f;
+  --folder-dark:#9d7745;
+  --wood:#5d3b22;
+  --serif:'Fraunces',Georgia,serif;
+  --sans:'DM Sans',system-ui,sans-serif;
+  --hand:'Caveat',cursive;
+  --radius-paper:3px;
+  --radius-control:9px;
+  --shadow-paper:4px 9px 20px rgba(0,0,0,.28);
+  --motion-fast:.18s;
+  --focus-ring:3px solid var(--gold);
+}
