@@ -1,10 +1,3 @@
-  :root{
-    --paper:#efe4cd;--paper2:#e5d6ba;--cream:#faf3e4;--ink:#241f18;--ink-soft:#5f5749;
-    --green:#3c7549;--green-deep:#2b5a38;--green-dark:#22432c;--sage:#657249;--olive:#55603f;
-    --brick:#8f4230;--brick2:#7a3626;--mortar:#d8c4a4;--iron:#161310;--gold:#cf9a3f;--warm:#974629;--rose:#cf7f6a;--cork:#c8a678;
-    --folder:#c8a66f;--folder-dark:#9d7745;--wood:#5d3b22;
-    --serif:'Fraunces',Georgia,serif;--sans:'DM Sans',system-ui,sans-serif;--hand:'Caveat',cursive;
-  }
   *{box-sizing:border-box;margin:0;padding:0;}
   html{scroll-behavior:smooth;}
   body{font-family:var(--sans);color:var(--ink);background:var(--green-dark);line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden;}
@@ -25,7 +18,7 @@
   .back-short{display:none;}
   .contact-tab{position:fixed;right:0;top:45%;z-index:45;background:var(--gold);color:#342509;text-decoration:none;font-weight:800;font-size:12px;padding:12px 13px 12px 16px;border-radius:10px 0 0 10px;box-shadow:-3px 5px 16px rgba(0,0,0,.28);writing-mode:vertical-rl;transform:rotate(180deg);transition:padding .18s,background .18s;}
   .contact-tab:hover{padding-top:18px;background:#e1b55f;}
-  .topbar a:focus-visible,.contact-tab:focus-visible{outline:3px solid var(--gold);outline-offset:3px;}
+  .topbar a:focus-visible,.contact-tab:focus-visible{outline:var(--focus-ring);outline-offset:3px;}
 
   /* portada: la carpeta de la home, ahora abierta */
   .academic-hero{min-height:100vh;padding:112px 38px 118px;position:relative;overflow:hidden;color:var(--cream);isolation:isolate;}
@@ -93,7 +86,7 @@
   .semester[open] summary::after{content:"−";transform:translateY(-50%) rotate(180deg);background:#eef3df;}
   .semester .when{font-weight:800;font-size:13px;}
   .semester .note{display:block;font-family:var(--hand);font-size:17px;font-weight:500;color:var(--ink-soft);line-height:1.1;}
-  .semester ul{padding:0 28px 23px 78px;color:var(--ink-soft);font-size:13.5px;}
+  .semester ul{padding:0 28px 23px 34px;color:var(--ink-soft);font-size:13.5px;}
   .semester li+li{margin-top:7px;}
   .source-note{position:relative;max-width:850px;margin:30px 0 0 36px;padding:17px 22px;background:#eef3df;box-shadow:2px 6px 15px rgba(0,0,0,.18);font-size:11.5px;color:#4c412f;transform:rotate(-.6deg);}
   .source-note::before{content:"";position:absolute;left:32px;top:-11px;width:82px;height:23px;background:rgba(207,154,63,.5);transform:rotate(-3deg);}
@@ -175,9 +168,9 @@
     .transversal{margin:0 8px -10px 22px;transform:rotate(.5deg);}
     .study-binder{padding:13px 11px 15px;transform:none;}.study-binder::before{left:18px;top:-27px;width:156px;height:32px;padding:5px 13px 0;font-size:17px;}
     .semester-page,.semester-page:first-child,.semester-page:last-child{padding:35px 24px 28px;}
-    .semester-page+ .semester-page{padding-top:0;}.semester summary{grid-template-columns:41px 1fr;padding:17px 40px 16px 14px;}
+    .semester-page+ .semester-page{padding-top:0;}.semester summary{padding:17px 40px 16px 14px;}
     .semester summary::before{left:-19px;width:23px;}.semester summary:hover{transform:none;}.semester summary:hover::before{left:-19px;width:23px;}
-    .semester ul{padding:0 20px 22px 62px;}.source-note{margin:27px 8px 0;}
+    .semester ul{padding:0 20px 22px 28px;}.source-note{margin:27px 8px 0;}
     .academic-projects{padding:90px 0 105px;}.project-stack{display:flex;flex-direction:column;gap:27px;margin-top:42px;padding:0 5px 12px;}
     .project-sheet,.project-sheet:nth-child(n){display:grid;grid-template-columns:65px 1fr;margin:0;padding:28px 24px;transform:rotate(var(--sheet-rotate));}
     .project-sheet:hover{transform:rotate(0) translateY(-4px);}.project-sheet .code{padding-right:13px;}
