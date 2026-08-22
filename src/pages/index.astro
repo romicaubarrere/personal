@@ -27,45 +27,19 @@ const alternates = [
   { lang: 'pt', href: 'https://romicaubarrere.github.io/personal/pt.html' },
   { lang: 'x-default', href: canonical }
 ];
-const base = import.meta.env.BASE_URL.endsWith('/')
-  ? import.meta.env.BASE_URL
-  : `${import.meta.env.BASE_URL}/`;
+const base = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL : `${import.meta.env.BASE_URL}/`;
 const person = {
-  '@id': `${canonical}#person`,
-  '@type': 'Person',
-  name: 'Romina Caubarrere',
-  url: canonical,
+  '@id': `${canonical}#person`, '@type': 'Person', name: 'Romina Caubarrere', url: canonical,
   jobTitle: 'Project Manager de software',
   description: 'Project Manager de software con experiencia en producto, gestión de proyectos y calidad.',
-  sameAs: [
-    'https://www.linkedin.com/in/rominacaubarrere/'
-  ],
-  knowsAbout: [
-    'Gestión de proyectos de software',
-    'Producto digital',
-    'Testing y calidad'
-  ]
+  sameAs: ['https://www.linkedin.com/in/rominacaubarrere/'],
+  knowsAbout: ['Gestión de proyectos de software', 'Producto digital', 'Testing y calidad']
 };
 const structuredData = {
   '@context': 'https://schema.org',
   '@graph': [
-    {
-      '@id': `${canonical}#website`,
-      '@type': 'WebSite',
-      name: 'El estudio de Romi',
-      url: canonical,
-      inLanguage: 'es'
-    },
-    {
-      '@id': `${canonical}#profile`,
-      '@type': 'ProfilePage',
-      name: title,
-      description,
-      url: canonical,
-      inLanguage: 'es',
-      isPartOf: { '@id': `${canonical}#website` },
-      mainEntity: { '@id': `${canonical}#person` }
-    },
+    { '@id': `${canonical}#website`, '@type': 'WebSite', name: 'El estudio de Romi', url: canonical, inLanguage: 'es' },
+    { '@id': `${canonical}#profile`, '@type': 'ProfilePage', name: title, description, url: canonical, inLanguage: 'es', isPartOf: { '@id': `${canonical}#website` }, mainEntity: { '@id': `${canonical}#person` } },
     person
   ]
 };
@@ -81,12 +55,19 @@ const structuredData = {
   {alternates}
   extraStylesheets={[`${base}microinteractions.css`]}
 >
-  <script
-    is:inline
-    slot="head"
-    type="application/ld+json"
-    set:html={JSON.stringify(structuredData, null, 2)}
-  ></script>
+  <script is:inline slot="head" type="application/ld+json" set:html={JSON.stringify(structuredData, null, 2)}></script>
+  <style is:inline>
+    .bookmodal .bookframe{--book-page-width:320px;--book-page-height:452px;padding:18px 20px 22px;border-radius:18px;background:linear-gradient(90deg,#314a37 0 3%,#203527 3% 49%,#182a20 49% 51%,#203527 51% 97%,#314a37 97%);box-shadow:0 28px 70px rgba(0,0,0,.58),inset 0 0 0 2px rgba(250,243,228,.08),inset 0 -9px 18px rgba(0,0,0,.36)}
+    .bookmodal .bookframe::before{content:"";position:absolute;left:50%;top:18px;bottom:22px;width:22px;translate:-50% 0;z-index:5;pointer-events:none;background:radial-gradient(ellipse at center,rgba(55,35,19,.55),rgba(55,35,19,.18) 35%,transparent 72%);filter:blur(2px)}
+    .bookmodal .bk{border-radius:10px 10px 5px 5px;filter:drop-shadow(0 18px 24px rgba(0,0,0,.42))}
+    .bookmodal .pg,.bookmodal .lf{background-color:#f5ead4;background-image:radial-gradient(circle at 20% 30%,rgba(112,79,45,.08) 0 1px,transparent 1.4px),radial-gradient(circle at 68% 66%,rgba(112,79,45,.055) 0 1px,transparent 1.35px),linear-gradient(160deg,#fbf3e5 0%,#f2e4ca 72%,#ead7b8 100%);background-size:17px 19px,23px 27px,100% 100%;border-top:1px solid rgba(255,255,255,.72);border-bottom:1px solid rgba(92,61,31,.25)}
+    .bookmodal .pg-left{border-radius:12px 2px 4px 10px;box-shadow:inset -34px 0 40px -31px rgba(51,32,17,.7),inset 8px 0 0 rgba(255,255,255,.18),-7px 7px 0 -3px #d8c29f,-11px 11px 0 -6px #cbb18a;clip-path:polygon(1.5% 1%,98.7% 0,100% 99%,2% 98.2%,0 50%)}
+    .bookmodal .pg-right{border-radius:2px 12px 10px 4px;box-shadow:inset 34px 0 40px -31px rgba(51,32,17,.7),inset -8px 0 0 rgba(255,255,255,.16),7px 7px 0 -3px #d8c29f,11px 11px 0 -6px #cbb18a;clip-path:polygon(1.3% 0,98.5% 1%,100% 50%,98% 98.2%,0 99%)}
+    .bookmodal .pgc{position:relative;z-index:1;padding:38px 34px 32px}.bookmodal .pgc .kbig{font-size:27px;color:var(--warm);transform:rotate(-1.2deg);transform-origin:left center}.bookmodal .pgc .pbody{color:#51483c;font-size:.97rem;line-height:1.68}.bookmodal .pgc .pbody em{padding:0 .12em;color:var(--ink);font-style:normal;background:linear-gradient(transparent 55%,rgba(111,122,84,.31) 55% 92%,transparent 92%)}
+    .bookmodal .leaf{left:var(--book-page-width);width:var(--book-page-width);height:var(--book-page-height);filter:drop-shadow(-7px 5px 6px rgba(46,28,14,.24))}.bookmodal .bm-nav{border:1px solid rgba(65,44,25,.18);background:#fbf3e5;box-shadow:0 7px 18px rgba(0,0,0,.34),inset 0 0 0 3px rgba(255,255,255,.26)}.bookmodal .bm-nav.prev{left:-45px}.bookmodal .bm-nav.next{right:-45px}.bookmodal .bm-close{top:-60px;right:-8px}.bookmodal .bm-foot{bottom:-50px;text-shadow:0 2px 9px rgba(0,0,0,.55)}.bookmodal .bm-close-mobile{display:none!important}
+    @media(max-width:720px){.bookmodal{padding:calc(76px + env(safe-area-inset-top)) 10px calc(66px + env(safe-area-inset-bottom));overflow:hidden}.bookmodal .bookframe{--book-page-width:44vw;--book-page-height:min(61dvh,430px);width:92vw;max-width:690px;padding:12px 10px 17px;border-radius:14px}.bookmodal .bookframe::before{top:12px;bottom:17px;width:16px}.bookmodal .bk{width:88vw;max-width:660px;margin:auto;touch-action:pan-y}.bookmodal .pg{display:block;width:44vw;max-width:330px;height:var(--book-page-height);min-height:0}.bookmodal .pg-left{display:block}.bookmodal .pgc{padding:28px clamp(13px,3.4vw,24px) 22px;overflow-y:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch}.bookmodal .pgc::-webkit-scrollbar{display:none}.bookmodal .pgc .kbig{font-size:clamp(18px,5vw,24px)}.bookmodal .pgc .pbody{font-size:clamp(11.5px,3.1vw,15px);line-height:1.58}.bookmodal .pgc.cover .emblem{width:42px;height:42px;font-size:19px;margin-bottom:11px}.bookmodal .pgc.cover .ctag{font-size:8px;letter-spacing:.08em}.bookmodal .pgc.cover h3{font-size:clamp(1.15rem,5.2vw,1.7rem)}.bookmodal .pgc.cover .kbig{font-size:clamp(16px,4.5vw,22px)}.bookmodal .leaf{display:block!important;left:44vw;width:44vw;max-width:330px;height:var(--book-page-height)}.bookmodal .bm-nav{width:44px;height:44px;font-size:24px}.bookmodal .bm-nav.prev{left:-13px}.bookmodal .bm-nav.next{right:-13px}.bookmodal .bm-close{display:none}.bookmodal .bm-close-mobile{display:block!important;position:absolute;top:-56px;right:0;bottom:auto;left:auto;width:46px;height:46px;min-width:46px;padding:0;border:0;border-radius:50%;background:#fbf3e5;color:transparent;font-size:0;box-shadow:0 7px 18px rgba(0,0,0,.38);z-index:9;cursor:pointer}.bookmodal .bm-close-mobile::before{content:"×";display:grid;place-items:center;position:absolute;inset:0;color:var(--ink);font-family:var(--sans);font-size:25px;font-weight:500;line-height:1}.bookmodal .bm-foot{bottom:-43px;font-size:15px}}
+    @media(max-width:430px){.bookmodal .bookframe{width:95vw;padding-inline:7px}.bookmodal .bk{width:90vw}.bookmodal .pg{width:45vw}.bookmodal .leaf{left:45vw;width:45vw}.bookmodal .pgc{padding-inline:12px}.bookmodal .pgc .pbody{font-size:11.5px;line-height:1.52}.bookmodal .bm-nav.prev{left:-10px}.bookmodal .bm-nav.next{right:-10px}}
+  </style>
 
   <Chrome />
   <LanguageSwitcher current="es" />
