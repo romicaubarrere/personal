@@ -25,19 +25,12 @@ type ProjectUrlState =
 
 function projectFromUrl(): ProjectUrlState {
   if (!window.location.hash.startsWith('#project=')) return { kind: 'none' };
-
   const params = new URLSearchParams(window.location.hash.slice(1));
   const project = projectById(params.get('project'));
   if (!project) return { kind: 'invalid' };
-
   const rawPage = params.get('page');
   const parsedPage = Number.parseInt(rawPage ?? '0', 10);
-  return {
-    kind: 'valid',
-    project,
-    page: Number.isFinite(parsedPage) ? parsedPage : 0,
-    rawPage
-  };
+  return { kind: 'valid', project, page: Number.isFinite(parsedPage) ? parsedPage : 0, rawPage };
 }
 
 function projectUrl(projectId: string, page: number): string {
@@ -45,9 +38,7 @@ function projectUrl(projectId: string, page: number): string {
 }
 
 function Page({ page, project }: { page: ProjectPage | null; project: ProjectBook }) {
-  if (!page) {
-    return <div className="pgc"><div className="pfoot">❦</div></div>;
-  }
+  if (!page) return <div className="pgc"><div className="pfoot">❦</div></div>;
 
   if (page.kind === 'cover') {
     return (
@@ -72,13 +63,12 @@ function Page({ page, project }: { page: ProjectPage | null; project: ProjectBoo
 export default function ProjectBookcase() {
   const [currentId, setCurrentId] = useState<string | null>(null);
   const [pageIndex, setPageIndex] = useState(0);
-  // El HTML inicial conserva el estante desplazable en el orden de foco para móvil.
-  // Al hidratar, desktop retira ese tab stop redundante sin ocultar sus botones.
   const [isMobile, setIsMobile] = useState(true);
   const [reducedMotion, setReducedMotion] = useState(false);
   const [turn, setTurn] = useState<TurnDirection | null>(null);
   const modalRef = useRef<HTMLDivElement>(null);
   const closeRef = useRef<HTMLButtonElement>(null);
+  const mobileCloseRef = useRef<HTMLButtonElement>(null);
   const lastFocusRef = useRef<HTMLElement | null>(null);
   const openedFromPageRef = useRef(false);
   const touchStartRef = useRef<number | null>(null);
@@ -90,13 +80,18 @@ export default function ProjectBookcase() {
   const spreadCount = Math.ceil(paddedPages.length / 2);
   const isOpen = project !== null;
 
-  const replaceProjectUrl = useCallback((id: string, page: number) => {
-    window.history.replaceState(
-      { portfolioProject: true },
-      '',
-      projectUrl(id, page)
-    );
+  const normalizedPage = useCallback((page: number, pageCount: number) => {
+    return Math.max(0, Math.min(page, Math.max(0, pageCount - 1)));
   }, []);
+
+  const replaceProjectUrl = useCallback((id: string, page: number) => {
+    window.history.replaceState({ portfolioProject: true }, '', projectUrl(id, page));
+  }, []);
+
+  const focusCloseControl = useCallback(() => {
+    const target = isMobile ? mobileCloseRef.current : closeRef.current;
+    target?.focus({ preventScroll: true });
+  }, [isMobile]);
 
   const openBook = useCallback((
     nextProject: ProjectBook,
@@ -104,8 +99,7 @@ export default function ProjectBookcase() {
     options: { page?: number; history?: boolean; focus?: boolean } = {}
   ) => {
     const pageCount = pagesFor(nextProject).length;
-    const nextPage = Math.max(0, Math.min(options.page ?? 0, pageCount - 1));
-
+    const nextPage = normalizedPage(options.page ?? 0, pageCount);
     lastFocusRef.current = trigger ?? (document.activeElement as HTMLElement | null);
     openedFromPageRef.current = options.history !== false;
     setTurn(null);
@@ -113,38 +107,25 @@ export default function ProjectBookcase() {
     setPageIndex(nextPage);
 
     if (options.history !== false) {
-      window.history.pushState(
-        { portfolioProject: true },
-        '',
-        projectUrl(nextProject.id, nextPage)
-      );
+      window.history.pushState({ portfolioProject: true }, '', projectUrl(nextProject.id, nextPage));
     }
-
-    if (options.focus !== false) {
-      window.requestAnimationFrame(() => closeRef.current?.focus({ preventScroll: true }));
-    }
-  }, []);
+    if (options.focus !== false) window.requestAnimationFrame(focusCloseControl);
+  }, [focusCloseControl, normalizedPage]);
 
   const closeBook = useCallback((options: { history?: boolean } = {}) => {
     const shouldConsumeProjectEntry = options.history !== false && openedFromPageRef.current;
-
     setTurn(null);
     setCurrentId(null);
     document.body.classList.remove('modal-open');
 
     const lastFocus = lastFocusRef.current;
-    if (lastFocus?.isConnected) {
-      window.requestAnimationFrame(() => lastFocus.focus({ preventScroll: true }));
-    }
+    if (lastFocus?.isConnected) window.requestAnimationFrame(() => lastFocus.focus({ preventScroll: true }));
     lastFocusRef.current = null;
     openedFromPageRef.current = false;
 
     if (options.history !== false) {
-      if (shouldConsumeProjectEntry) {
-        window.history.back();
-      } else {
-        window.history.replaceState(null, '', `${window.location.pathname}${window.location.search}`);
-      }
+      if (shouldConsumeProjectEntry) window.history.back();
+      else window.history.replaceState(null, '', `${window.location.pathname}${window.location.search}`);
     }
   }, []);
 
@@ -159,49 +140,52 @@ export default function ProjectBookcase() {
     }
 
     const targetPages = pagesFor(target.project);
-    const nextPage = Math.max(0, Math.min(target.page, targetPages.length - 1));
+    const nextPage = normalizedPage(target.page, targetPages.length);
     openedFromPageRef.current = window.history.state?.portfolioProject === true;
     setTurn(null);
     setCurrentId(target.project.id);
     setPageIndex(nextPage);
-
     if (target.rawPage !== String(nextPage)) {
       replaceProjectUrl(target.project.id, nextPage);
     }
     window.requestAnimationFrame(() => closeRef.current?.focus({ preventScroll: true }));
-  }, [closeBook, replaceProjectUrl]);
+    window.requestAnimationFrame(focusCloseControl);
+  }, [closeBook, focusCloseControl, normalizedPage, replaceProjectUrl]);
 
   const finishTurn = useCallback(() => {
     if (!turn || !project) return;
-    const nextPage = turn === 'next' ? pageIndex + 2 : pageIndex - 2;
-    const boundedPage = Math.max(0, Math.min(nextPage, pages.length - 1));
+    const step = isMobile ? 1 : 2;
+    const nextPage = turn === 'next' ? pageIndex + step : pageIndex - step;
+    const boundedPage = normalizedPage(nextPage, pages.length);
     setTurn(null);
     setPageIndex(boundedPage);
     replaceProjectUrl(project.id, boundedPage);
-  }, [pageIndex, pages.length, project, replaceProjectUrl, turn]);
+  }, [isMobile, normalizedPage, pageIndex, pages.length, project, replaceProjectUrl, turn]);
 
   const changePage = useCallback((direction: TurnDirection) => {
     if (!project || turn) return;
+    const delta = direction === 'next' ? 1 : -1;
 
     if (isMobile) {
-      const delta = direction === 'next' ? 1 : -1;
-      const nextPage = Math.max(0, Math.min(pageIndex + delta, pages.length - 1));
-      if (nextPage === pageIndex) return;
-      setPageIndex(nextPage);
-      replaceProjectUrl(project.id, nextPage);
+      const nextPage = pageIndex + delta;
+      if (nextPage < 0 || nextPage >= pages.length) return;
+      if (reducedMotion) {
+        setPageIndex(nextPage);
+        replaceProjectUrl(project.id, nextPage);
+        return;
+      }
+      setTurn(direction);
       return;
     }
 
-    const nextSpread = spread + (direction === 'next' ? 1 : -1);
+    const nextSpread = spread + delta;
     if (nextSpread < 0 || nextSpread >= spreadCount) return;
-
     if (reducedMotion) {
-      const nextPage = Math.min(nextSpread * 2, pages.length - 1);
+      const nextPage = Math.min(nextSpread * 2, Math.max(0, pages.length - 1));
       setPageIndex(nextPage);
       replaceProjectUrl(project.id, nextPage);
       return;
     }
-
     setTurn(direction);
   }, [isMobile, pageIndex, pages.length, project, reducedMotion, replaceProjectUrl, spread, spreadCount, turn]);
 
@@ -210,7 +194,6 @@ export default function ProjectBookcase() {
     const motionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
     const updateMobile = () => setIsMobile(mobileQuery.matches);
     const updateMotion = () => setReducedMotion(motionQuery.matches);
-
     updateMobile();
     updateMotion();
     mobileQuery.addEventListener?.('change', updateMobile);
@@ -230,7 +213,6 @@ export default function ProjectBookcase() {
   useEffect(() => {
     const modal = modalRef.current;
     if (!modal) return;
-
     const island = modal.closest('astro-island');
     const bodyElements = Array.from(document.body.children).filter(
       (element): element is HTMLElement => element instanceof HTMLElement && element.tagName !== 'SCRIPT'
@@ -258,7 +240,6 @@ export default function ProjectBookcase() {
 
   useEffect(() => {
     if (!isOpen) return;
-
     const onKeyDown = (event: KeyboardEvent) => {
       if (event.key === 'Escape') closeBook();
       else if (event.key === 'ArrowRight') changePage('next');
@@ -274,7 +255,6 @@ export default function ProjectBookcase() {
           modal.focus();
           return;
         }
-
         const first = focusable[0];
         const last = focusable[focusable.length - 1];
         if (event.shiftKey && (document.activeElement === first || !modal.contains(document.activeElement))) {
@@ -286,7 +266,6 @@ export default function ProjectBookcase() {
         }
       }
     };
-
     document.addEventListener('keydown', onKeyDown);
     return () => document.removeEventListener('keydown', onKeyDown);
   }, [changePage, closeBook, isOpen]);
@@ -309,20 +288,37 @@ export default function ProjectBookcase() {
 
   const previousDisabled = isMobile ? pageIndex <= 0 : spread <= 0;
   const nextDisabled = isMobile ? pageIndex + 1 >= pages.length : spread + 1 >= spreadCount;
-  const visibleLeftIndex = turn === 'prev' ? (spread - 1) * 2 : spread * 2;
-  const visibleRightIndex = turn === 'next' ? (spread + 1) * 2 + 1 : spread * 2 + 1;
-  const leftPage = project ? paddedPages[visibleLeftIndex] ?? null : null;
-  const rightPage = project ? paddedPages[visibleRightIndex] ?? null : null;
-  const turnFront = project && turn === 'next'
-    ? paddedPages[spread * 2 + 1] ?? null
-    : project && turn === 'prev'
-      ? paddedPages[(spread - 1) * 2 + 1] ?? null
-      : null;
-  const turnBack = project && turn === 'next'
-    ? paddedPages[spread * 2 + 2] ?? null
-    : project && turn === 'prev'
-      ? paddedPages[spread * 2] ?? null
-      : null;
+
+  const mobileBaseIndex = turn === 'next'
+    ? pageIndex + 1
+    : turn === 'prev'
+      ? pageIndex - 1
+      : pageIndex;
+  const visibleLeftIndex = turn === 'prev'
+    ? (spread - 1) * 2
+    : spread * 2;
+  const visibleRightIndex = turn === 'next'
+    ? (spread + 1) * 2 + 1
+    : spread * 2 + 1;
+  const renderedLeftIndex = isMobile ? mobileBaseIndex : visibleLeftIndex;
+  const renderedRightIndex = isMobile ? mobileBaseIndex + 1 : visibleRightIndex;
+
+  const leftPage = project ? paddedPages[renderedLeftIndex] ?? null : null;
+  const rightPage = project ? paddedPages[renderedRightIndex] ?? null : null;
+  const turnFront = project && isMobile && turn
+    ? paddedPages[turn === 'next' ? pageIndex + 1 : pageIndex] ?? null
+    : project && turn === 'next'
+      ? paddedPages[spread * 2 + 1] ?? null
+      : project && turn === 'prev'
+        ? paddedPages[(spread - 1) * 2 + 1] ?? null
+        : null;
+  const turnBack = project && isMobile && turn
+    ? paddedPages[turn === 'next' ? pageIndex + 1 : pageIndex] ?? null
+    : project && turn === 'next'
+      ? paddedPages[spread * 2 + 2] ?? null
+      : project && turn === 'prev'
+        ? paddedPages[spread * 2] ?? null
+        : null;
 
   return (
     <>
@@ -355,17 +351,12 @@ export default function ProjectBookcase() {
               <div className="plank" />
             </div>
           </div>
-          <svg className="potplant" viewBox="0 0 120 150" aria-hidden="true" focusable="false">
-            <use href="#pot" />
-          </svg>
+          <svg className="potplant" viewBox="0 0 120 150" aria-hidden="true" focusable="false"><use href="#pot" /></svg>
         </div>
         <ul className="project-summaries" aria-label="Resumen de proyectos">
           {PROJECTS.filter((book) => book.summary).map((book) => (
             <li key={book.id}>
-              <article
-                className="project-summary"
-                style={{ '--summary-color': book.color } as CSSProperties}
-              >
+              <article className="project-summary" style={{ '--summary-color': book.color } as CSSProperties}>
                 <span className="tag">{book.tag}</span>
                 <h3>{book.title}</h3>
                 <p>{book.summary}</p>
@@ -418,10 +409,8 @@ export default function ProjectBookcase() {
           </div>
           <button className="bm-nav prev" type="button" aria-label="anterior" disabled={previousDisabled || Boolean(turn)} onClick={() => changePage('prev')}>‹</button>
           <button className="bm-nav next" type="button" aria-label="siguiente" disabled={nextDisabled || Boolean(turn)} onClick={() => changePage('next')}>›</button>
-          <div className="bm-foot">
-            <span>{isMobile ? `${pageIndex + 1} / ${pages.length}` : `${spread + 1} / ${spreadCount}`}</span> · tocá las flechas o ← →
-          </div>
-          <button className="bm-close-mobile" type="button" onClick={() => closeBook()}>Cerrar proyecto</button>
+          <div className="bm-foot"><span>{isMobile ? `${pageIndex + 1} / ${pages.length}` : `${spread + 1} / ${spreadCount}`}</span> · tocá las flechas o ← →</div>
+          <button className="bm-close-mobile" type="button" aria-label="Cerrar proyecto" ref={mobileCloseRef} onClick={() => closeBook()}>Cerrar proyecto</button>
         </div>
       </div>
     </>
