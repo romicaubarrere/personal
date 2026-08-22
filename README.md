@@ -22,7 +22,7 @@ Para comprobar la salida estática de producción:
 npm run build
 ```
 
-Astro genera las cuatro rutas públicas dentro de `dist/` y conserva el formato
+Astro genera las rutas públicas dentro de `dist/` y conserva el formato
 `.html` usado por GitHub Pages.
 
 Para revisar exactamente la salida de producción:
@@ -62,9 +62,11 @@ reemplaza está en
 React se reserva para la isla interactiva del libro de proyectos. El contenido
 estático y las interacciones pequeñas siguen usando Astro y APIs del navegador.
 
-El sitio se publica solamente en español por ahora. La evaluación y las condiciones para reconsiderar una versión completa en inglés están en [`docs/language-strategy.md`](docs/language-strategy.md).
+El sitio se publica en español, inglés y portugués. La estrategia y las reglas para no exagerar niveles están en [`docs/language-strategy.md`](docs/language-strategy.md).
 
 Los casos del estante comparten el orden y las reglas editoriales de [`docs/project-case-template.md`](docs/project-case-template.md). Los campos sin contenido se omiten y nunca se completan con métricas inventadas.
+
+La separación entre comunidades, eventos organizados y participaciones como oradora está documentada en [`docs/community-events.md`](docs/community-events.md).
 
 ## Estructura
 
@@ -83,6 +85,7 @@ Los casos del estante comparten el orden y las reglas editoriales de [`docs/proj
 - `docs/astro-migration-plan.md`: arquitectura Astro objetivo, contratos de paridad y rollback.
 - `docs/language-strategy.md`: decisión de idioma y condiciones de reevaluación.
 - `docs/project-case-template.md`: estructura, evidencia y reglas de privacidad de los casos.
+- `docs/community-events.md`: formato visual y reglas de evidencia para comunidades, eventos y charlas.
 - `docs/branching-strategy.md`: estrategia de ramas y flujo de integración.
 - `docs/special-dates.md`: calendario y URLs de simulación para revisar celebraciones fuera de fecha.
 - `docs/analytics-events.md`: contrato neutral de eventos y límites de privacidad para una integración futura.

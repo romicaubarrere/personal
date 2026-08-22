@@ -42,6 +42,8 @@ const organizedEvents = [
     format: 'Sesión con speakers · presencial · media jornada',
     place: 'Lugar no consignado en el registro',
     attendance: '50 asistentes · cifra de Advocu',
+    responsibilities: 'Organizaci&oacute;n del encuentro. La evidencia disponible no desglosa responsabilidades individuales.',
+    result: 'Encuentro realizado con 50 asistentes registrados en Advocu.',
     detail: 'Encuentro sobre inversión en Uruguay y tecnología aplicada a la gestión de finanzas personales, con Janeth Der y Aldana Paglialunga, creadora de Próspera.',
     source: 'https://www.linkedin.com/posts/women-techmakers-uruguay_foto-de-cierre-del-evento-innovaci%C3%B3n-financiera-activity-7232016858361561089-25u3?utm_source=share&utm_medium=member_desktop'
   },
@@ -53,6 +55,8 @@ const organizedEvents = [
     format: 'Charlas y networking · presencial · media jornada',
     place: 'Espacio Colabora, Montevideo · dato de Advocu',
     attendance: '55 asistentes · cifra de Advocu',
+    responsibilities: 'Organizaci&oacute;n del encuentro. La evidencia disponible no desglosa responsabilidades individuales.',
+    result: 'Cuatro charlas realizadas y 55 asistentes registrados en Advocu.',
     detail: 'El encuentro reunió cuatro charlas sobre trayectorias tech, sesgos en IA, equipos multiculturales y marca personal. LinkedIn confirma que se realizó el 8 de marzo bajo el lema Redefine Possible.'
   },
   {
@@ -63,6 +67,8 @@ const organizedEvents = [
     format: 'Conferencia · presencial · 9:00 a 11:30',
     place: 'Espacio Colabora · Sala E · Montevideo',
     attendance: '25 asistentes · cifra de Advocu',
+    responsibilities: 'Organizaci&oacute;n del encuentro. La evidencia disponible no desglosa responsabilidades individuales.',
+    result: 'Conferencia realizada con 25 asistentes registrados en Advocu.',
     detail: 'Encuentro centrado en experiencia de cliente y en volver a poner a las personas en el centro.',
     source: 'https://www.eventbrite.com/e/cx-poniendo-a-las-personas-en-el-centro-tickets-1976743835023?utm-campaign=social&utm-content=attendeeshare&utm-medium=discovery&utm-term=listing&utm-source=cp&aff=ebdsshcopyurl'
   },
@@ -74,6 +80,8 @@ const organizedEvents = [
     format: 'After office · presencial · 18:30 a 21:00',
     place: 'Auditorio San José · Universidad Católica del Uruguay',
     attendance: '65 asistentes · cifra de Advocu',
+    responsibilities: 'Organizaci&oacute;n del encuentro y participaci&oacute;n en el panel. El registro no desglosa otras responsabilidades individuales.',
+    result: 'Cuarta edici&oacute;n realizada con 65 asistentes registrados en Advocu y participaci&oacute;n de Romina en el panel.',
     detail: 'Cuarta edición del encuentro anual por el Día Internacional de la Mujer. Además de organizarlo, participé del panel sobre estereotipos en el liderazgo en TI.',
     source: 'https://www.linkedin.com/feed/update/urn:li:activity:7440530870891073536/'
   },
@@ -85,6 +93,8 @@ const organizedEvents = [
     format: 'Taller · virtual',
     place: 'CET en Vivo',
     attendance: '25 asistentes · cifra de Advocu',
+    responsibilities: 'Organizaci&oacute;n del taller. La evidencia disponible no desglosa responsabilidades individuales.',
+    result: 'Taller virtual realizado con 25 asistentes registrados en Advocu.',
     detail: 'Actividad registrada en Advocu junto a Marlen Delgado, fundadora de Efatá AI, sobre datos, automatizaciones e inteligencia artificial aplicada a tareas cotidianas. No encontré una publicación coincidente en mi actividad de LinkedIn.'
   }
 ];
@@ -182,6 +192,8 @@ const talks = [
                 <p><strong>{event.community}</strong> · {event.place}</p>
                 <p>{event.format} · {event.attendance}</p>
                 <p>{event.detail}</p>
+                <p><strong>Responsabilidades:</strong> <span set:html={event.responsibilities}></span></p>
+                <p><strong>Resultado:</strong> <span set:html={event.result}></span></p>
                 {event.source && <p><a href={event.source} target="_blank" rel="noopener noreferrer">Ver evidencia del evento <span aria-hidden="true">&nearr;</span></a></p>}
               </div>
             </article>
@@ -200,7 +212,7 @@ const talks = [
         <div class="project-stack">
           {talks.map((talk, index) => (
             <article class="project-sheet" style={`grid-column:span 6;--sheet-rotate:${index % 2 ? '.7deg' : '-.7deg'};${index % 2 ? 'background:#eef3df' : ''}`}>
-              <div class="code">{String(index + 1).padStart(2, '0')}</div>
+              <div class="code">{talk.role === 'Panelista' ? 'PAN' : talk.role === 'Ponente' ? 'PON' : 'ORA'}</div>
               <div>
                 <span class="state">{talk.date} · {talk.role}</span>
                 <h3>{talk.event}</h3>

@@ -423,6 +423,13 @@ test('T8 publica comunidad y el registro completo de charlas sin inventar campos
   assert.match(communityHtml, /Organización y panelista/);
   assert.match(communityHtml, /Próspera/);
   assert.equal((communityHtml.match(/cifra de Advocu/g) ?? []).length, 5);
+  assert.equal((communityHtml.match(/<strong>Responsabilidades:<\/strong>/g) ?? []).length, 5);
+  assert.equal((communityHtml.match(/<strong>Resultado:<\/strong>/g) ?? []).length, 5);
+  assert.equal((communityHtml.match(/La evidencia disponible no desglosa responsabilidades individuales/g) ?? []).length, 4);
+  assert.doesNotMatch(communityHtml, /<div class="code">0\d<\/div>/);
+  assert.match(communityHtml, /<div class="code">PAN<\/div>/);
+  assert.match(communityHtml, /<div class="code">ORA<\/div>/);
+  assert.match(communityHtml, /<div class="code">PON<\/div>/);
 });
 
 test('la forma de trabajo presenta cuatro momentos concretos', () => {
