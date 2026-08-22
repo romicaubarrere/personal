@@ -228,6 +228,25 @@ test('el modal de proyectos gestiona el foco como un diálogo accesible', () => 
   assert.match(html, /body\.modal-open\{overflow:hidden;\}/);
 });
 
+test('el libro muestra una sola página por vez en móvil y conserva el pliego en escritorio', () => {
+  assert.match(
+    html,
+    /@media\(max-width:720px\)\{[\s\S]*?\.bookframe\{width:min\(82vw,360px\);\}[\s\S]*?\.pg-left\{display:none;\}[\s\S]*?\.leaf\{display:none!important;\}/
+  );
+  assert.match(html, /\.bookmodal\{padding:64px 18px 58px;overflow-x:hidden;overflow-y:auto;\}/);
+  assert.match(html, /\.bm-nav\.prev\{left:-18px;\}/);
+  assert.match(html, /\.bm-nav\.next\{right:-18px;\}/);
+  assert.match(html, /window\.matchMedia \? window\.matchMedia\('\(max-width: 720px\)'\)/);
+  assert.match(html, /pgR\.innerHTML=pageHTML\(pages\[pageIndex\]\)/);
+  assert.match(html, /pnum\.textContent=\(pageIndex\+1\)\+' \/ '\+pageCount/);
+  assert.match(html, /pageIndex\+=1; render\(\); return;/);
+  assert.match(html, /pageIndex-=1; render\(\); return;/);
+  assert.match(html, /pgL\.innerHTML=pageHTML\(pages\[spread\*2\]\)/);
+  assert.match(html, /pgR\.innerHTML=pageHTML\(pages\[spread\*2\+1\]\)/);
+  assert.match(html, /prevButton\.disabled=isMobileBook\(\) \? pageIndex<=0 : spread<=0/);
+  assert.match(html, /nextButton\.disabled=isMobileBook\(\) \? pageIndex\+1>=pageCount/);
+});
+
 test('el recorrido académico conserva toda la información aprobada', () => {
   assert.equal((formationHtml.match(/<details\b/g) ?? []).length, 8);
   assert.equal((formationHtml.match(/<li>/g) ?? []).length, 45);
