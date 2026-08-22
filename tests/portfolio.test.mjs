@@ -67,6 +67,8 @@ const projectCaseTemplate = await readFile(
   'utf8'
 );
 const qaStrategy = await readFile(join(repositoryRoot, 'docs', 'qa-strategy.md'), 'utf8');
+const readingData = await readFile(join(repositoryRoot, 'src', 'data', 'reading.ts'), 'utf8');
+const readingDocs = await readFile(join(repositoryRoot, 'docs', 'reading-now.md'), 'utf8');
 
 function extractIds(source) {
   return [...source.matchAll(/\sid="([^"]+)"/g)].map((match) => match[1]);
@@ -373,6 +375,19 @@ test('WEB-050 concentra los intereses personales cerca del final', () => {
   assert.ok(html.indexOf('id="lecturas"') > html.indexOf('id="proyectos"'));
   assert.ok(html.indexOf('id="lecturas"') > html.indexOf('id="sobre"'));
   assert.doesNotMatch(personalBlock[1], /borrador|tu romantasy|lo cambi\u00e1s cuando quieras/i);
+});
+
+test('WEB-080 publica Leyendo ahora desde una fuente manual estable', () => {
+  const personalBlock = html.match(/<section class="reads" id="lecturas">([\s\S]*?)<\/section>/i);
+  assert.ok(personalBlock, 'No se encontró el bloque personal de lecturas');
+  assert.match(personalBlock[1], /leyendo ahora/i);
+  assert.match(personalBlock[1], /Reina de Sombras/);
+  assert.match(personalBlock[1], /Sarah J\. Maas/);
+  assert.match(personalBlock[1], /<time class="ba" datetime="2026-08-22">/);
+  assert.match(readingData, /updatedAt: '2026-08-22'/);
+  assert.match(readingDocs, /Fuente vigente: manual/);
+  assert.match(readingDocs, /No se usa scraping/);
+  assert.doesNotMatch(personalBlock[1], /fetch\(|StoryGraph|iframe/i);
 });
 
 test('la experiencia profesional es cronológica, verificable y separa la mentoría', () => {
