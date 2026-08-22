@@ -1,0 +1,79 @@
+---
+import LanguageSwitcher from './LanguageSwitcher.astro';
+
+interface Props { lang: 'en' | 'pt' }
+const { lang } = Astro.props;
+const copy = lang === 'en' ? {
+  skip: 'Skip to main content',
+  hello: 'Hi, I am',
+  role: 'Software Project Manager',
+  lede: 'I connect people, product and technology so complex projects can move forward and reach real outcomes.',
+  projects: 'See how I work',
+  contact: 'Contact me',
+  title: 'A look into my world',
+  notes: [
+    ['Today', 'Software Project Manager', 'I work at eagerworks, organizing the work, coordinating teams and keeping close track of what each project needs to move forward.'],
+    ['My path', 'Robotics, Ceibal and UKG', 'I started by teaching robotics and programming. I later worked at Plan Ceibal and moved into product at UKG.'],
+    ['UTEC + habITar', 'Technology, product and quality', 'I hold a degree in Information Technology. For my final project, a platform for housing cooperatives, I led project management, product and testing.'],
+    ['Languages', 'Curious in more than one language', 'I speak Spanish and English, and quite a bit of Portuguese. I also studied Italian and Russian because I genuinely enjoy languages.']
+  ],
+  contactTitle: 'Let’s talk',
+  contactText: 'About a software project, a collaboration, a talk or an idea that needs structure.',
+  footer: 'made with method, plants and a little yarn · Romina Caubarrere'
+} : {
+  skip: 'Pular para o conteúdo principal',
+  hello: 'Oi, eu sou',
+  role: 'Project Manager de software',
+  lede: 'Conecto pessoas, produto e tecnologia para que projetos complexos avancem e cheguem a resultados concretos.',
+  projects: 'Ver como eu trabalho',
+  contact: 'Falar comigo',
+  title: 'Um pouco do meu mundo',
+  notes: [
+    ['Hoje', 'Project Manager de software', 'Trabalho na eagerworks, organizando o trabalho, coordenando equipes e acompanhando de perto o que cada projeto precisa para avançar.'],
+    ['Meu caminho', 'Robótica, Ceibal e UKG', 'Comecei dando aulas de robótica e programação. Depois trabalhei no Plan Ceibal e passei pela área de produto na UKG.'],
+    ['UTEC + habITar', 'Tecnologia, produto e qualidade', 'Sou formada em Tecnologias da Informação. No meu projeto final, uma plataforma para cooperativas habitacionais, fui responsável pela gestão, pelo produto e pelos testes.'],
+    ['Idiomas', 'Curiosa em mais de um idioma', 'Falo espanhol e inglês, e bastante português. Também estudei italiano e russo porque gosto muito de idiomas.']
+  ],
+  contactTitle: 'Vamos conversar',
+  contactText: 'Sobre um projeto de software, uma colaboração, uma palestra ou uma ideia que precisa de organização.',
+  footer: 'feito com método, plantas e um pouco de lã · Romina Caubarrere'
+};
+---
+
+<a class="skip-link" href="#main-content">{copy.skip}</a>
+<LanguageSwitcher current={lang} />
+<main class="localized-main" id="main-content" tabindex="-1">
+  <header class="localized-hero">
+    <div class="localized-hero-inner">
+      <span class="localized-kicker">{copy.hello}</span>
+      <h1>Romina <em>Caubarrere</em></h1>
+      <span class="localized-role">{copy.role}</span>
+      <p class="localized-lede">{copy.lede}</p>
+      <div class="localized-actions">
+        <a href="#overview">{copy.projects}</a>
+        <a href="mailto:rominacaubarrere@gmail.com">{copy.contact}</a>
+      </div>
+    </div>
+  </header>
+  <section class="localized-board" id="overview">
+    <div class="localized-board-inner">
+      <h2>{copy.title}</h2>
+      <div class="localized-grid">
+        {copy.notes.map(([label, title, body]) => (
+          <article class="localized-note">
+            <span class="localized-pin" aria-hidden="true"></span>
+            <span class="localized-note-label">{label}</span>
+            <h3>{title}</h3>
+            <p>{body}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+  <section class="localized-contact">
+    <h2>{copy.contactTitle}</h2>
+    <p>{copy.contactText}</p>
+    <a href="mailto:rominacaubarrere@gmail.com">rominacaubarrere@gmail.com</a>
+  </section>
+</main>
+<footer class="localized-footer">{copy.footer}</footer>

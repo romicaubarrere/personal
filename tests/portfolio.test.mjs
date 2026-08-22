@@ -115,24 +115,27 @@ test('la decisión histórica queda preservada y el plan Astro la reemplaza', ()
   assert.match(readme, /docs\/astro-migration-plan\.md/);
 });
 
-test('la decisión de publicar solo en español queda explícita y es consistente', () => {
-  assert.match(languageStrategy, /Estado: no incorporar inglés en la versión actual/);
-  assert.match(languageStrategy, /Revisión de estado: WEB-098/);
-  assert.match(languageStrategy, /El portfolio se mantiene solamente en español/);
-  assert.match(languageStrategy, /Cumplida: la arquitectura de información/);
-  assert.match(languageStrategy, /Cumplida: no quedan placeholders visibles/);
-  assert.match(languageStrategy, /Email y LinkedIn son los destinos de contacto aprobados/);
-  assert.match(languageStrategy, /Pendiente: acordar tiempo y responsable/);
-  assert.doesNotMatch(languageStrategy, /siguen pendientes secciones centrales/);
-  assert.match(languageStrategy, /La versión inglesa vive en rutas propias bajo `\/en\/`/);
-  assert.match(languageStrategy, /no se mezclan idiomas dentro de una página/);
-  assert.match(languageStrategy, /selector usa un control accesible/);
-  assert.match(languageStrategy, /todas las páginas, no solamente la portada/);
-  assert.match(readme, /docs\/language-strategy\.md/);
+test('WEB-054 publica una estrategia multilingüe sin exagerar niveles', async () => {
+  const english = await readFile(join(distRoot, 'en.html'), 'utf8');
+  const portuguese = await readFile(join(distRoot, 'pt.html'), 'utf8');
 
-  for (const source of [html, formationHtml, firstPost]) {
-    assert.match(source, /<html\s+lang="es">/i);
-    assert.doesNotMatch(source, /hreflang=|language-selector|id="language-selector"/i);
+  assert.match(languageStrategy, /Estado: español, inglés y portugués habilitados/);
+  assert.match(languageStrategy, /habla español e inglés/);
+  assert.match(languageStrategy, /Habla bastante portugués/);
+  assert.match(languageStrategy, /Estudió italiano y ruso/);
+  assert.match(languageStrategy, /No se publican niveles CEFR/);
+  assert.match(readme, /docs\/language-strategy\.md/);
+  assert.match(html, /<html\s+lang="es">/i);
+  assert.match(english, /<html\s+lang="en">/i);
+  assert.match(portuguese, /<html\s+lang="pt">/i);
+  assert.match(html, /Hablo espa&ntilde;ol e ingl&eacute;s, bastante portugu&eacute;s/);
+  assert.match(english, /I speak Spanish and English, and quite a bit of Portuguese/);
+  assert.match(portuguese, /Falo espanhol e inglês, e bastante português/);
+  for (const source of [html, english, portuguese]) {
+    assert.match(source, /hreflang="es"/);
+    assert.match(source, /hreflang="en"/);
+    assert.match(source, /hreflang="pt"/);
+    assert.match(source, /hreflang="x-default"/);
   }
 });
 

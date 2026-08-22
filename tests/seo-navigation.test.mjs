@@ -113,8 +113,10 @@ test('cada documento publica una única instancia de sus metadatos críticos', a
 
 test('idioma, locale e indexación son coherentes en toda la salida', async () => {
   for (const [route, source] of routeDocuments) {
-    assert.match(source, /<html\b[^>]*lang="es"[^>]*>/i, `${route}: debe declarar español`);
-    assert.equal(getAttribute(source, /<meta\b[^>]*property="og:locale"[^>]*>/i, 'content'), 'es_UY');
+    const expectedLanguage = route === 'en.html' ? 'en' : route === 'pt.html' ? 'pt' : 'es';
+    const expectedLocale = route === 'en.html' ? 'en_US' : route === 'pt.html' ? 'pt_BR' : 'es_UY';
+    assert.match(source, new RegExp(`<html\\b[^>]*lang="${expectedLanguage}"[^>]*>`, 'i'), `${route}: idioma incorrecto`);
+    assert.equal(getAttribute(source, /<meta\b[^>]*property="og:locale"[^>]*>/i, 'content'), expectedLocale);
     assert.equal(getAttribute(source, /<meta\b[^>]*name="robots"[^>]*>/i, 'content'), 'index,follow');
     assert.match(source, /<meta\b[^>]*charset="UTF-8"[^>]*>/i, `${route}: debe declarar UTF-8`);
   }
@@ -177,7 +179,7 @@ test('las páginas internas publican breadcrumbs estructurados y 404 queda exclu
     )].map((match) => JSON.parse(match[1]));
     const breadcrumbs = structuredData.filter((entry) => entry['@type'] === 'BreadcrumbList');
 
-    if (route === 'index.html') {
+    if (['index.html', 'en.html', 'pt.html'].includes(route)) {
       assert.equal(breadcrumbs.length, 0);
       continue;
     }

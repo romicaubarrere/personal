@@ -6,7 +6,8 @@ export default defineConfig({
   base: '/personal',
   output: 'static',
   build: {
-    format: 'file'
+    format: 'file',
+    inlineStylesheets: 'never'
   },
   integrations: [react()]
 });

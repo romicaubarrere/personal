@@ -1,0 +1,29 @@
+---
+interface Props {
+  current: 'es' | 'en' | 'pt';
+}
+
+const { current } = Astro.props;
+const links = [
+  { code: 'es', label: 'Español', href: '/personal/' },
+  { code: 'en', label: 'English', href: '/personal/en.html' },
+  { code: 'pt', label: 'Português', href: '/personal/pt.html' }
+] as const;
+---
+
+<nav class="language-switcher" aria-label={current === 'es' ? 'Elegir idioma' : current === 'en' ? 'Choose language' : 'Escolher idioma'}>
+  {links.map((link) => (
+    <a href={link.href} lang={link.code} hreflang={link.code} aria-current={link.code === current ? 'page' : undefined}>
+      <span aria-hidden="true">{link.code.toUpperCase()}</span>
+      <span class="sr-only">{link.label}</span>
+    </a>
+  ))}
+</nav>
+
+<style>
+  .language-switcher{position:absolute;z-index:130;top:14px;right:18px;display:flex;gap:6px;padding:6px;background:#faf3e4;border:2px solid #241f18;box-shadow:4px 4px 0 rgba(22,19,16,.28);transform:rotate(.4deg)}
+  .language-switcher a{display:grid;place-items:center;min-width:44px;min-height:44px;padding:0 8px;color:#241f18;font:700 13px/1 "DM Sans",sans-serif;text-decoration:none;border:2px solid transparent}
+  .language-switcher a:hover,.language-switcher a:focus-visible{border-color:#8f4230;outline:none}
+  .language-switcher a[aria-current="page"]{color:#faf3e4;background:#22432c;border-color:#22432c}
+  @media(max-width:760px){.language-switcher{position:relative;top:auto;right:auto;width:max-content;margin:10px 12px 0 auto}}
+</style>

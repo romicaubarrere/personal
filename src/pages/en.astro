@@ -1,0 +1,17 @@
+---
+import LocalizedOverview from '../components/LocalizedOverview.astro';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import '../styles/localized.css';
+
+const canonical = 'https://romicaubarrere.github.io/personal/en.html';
+const alternates = [
+  { lang: 'es', href: 'https://romicaubarrere.github.io/personal/' },
+  { lang: 'en', href: canonical },
+  { lang: 'pt', href: 'https://romicaubarrere.github.io/personal/pt.html' },
+  { lang: 'x-default', href: 'https://romicaubarrere.github.io/personal/' }
+];
+---
+
+<BaseLayout lang="en" ogLocale="en_US" title="Romina Caubarrere | Software Project Manager" description="Portfolio of Romina Caubarrere, a Software Project Manager connecting people, product and technology to move complex projects forward." {canonical} {alternates} ogDescription="I connect people, product and technology so complex projects can move forward and reach real outcomes." ogImageAlt="Portfolio card for Romina Caubarrere, Software Project Manager.">
+  <LocalizedOverview lang="en" />
+</BaseLayout>
