@@ -223,6 +223,31 @@ test('la forma de trabajo presenta cinco etapas concretas y responsivas', () => 
   assert.match(html, /@media\(max-width:620px\)\{[\s\S]*?\.workflow-grid\{grid-template-columns:1fr;/);
 });
 
+test('lo que hago explica cinco formas de colaboración y conduce a contacto', () => {
+  const section = html.match(/<section\b[^>]*class="offers"[^>]*id="lo-que-hago"[^>]*>([\s\S]*?)<\/section>/i);
+  assert.ok(section, 'No se encontró la sección Lo que hago');
+  assert.match(section[1], /<h2>Lo que <em>hago<\/em><\/h2>/);
+
+  const cards = section[1].match(/<article class="offer-card reveal"/g) ?? [];
+  assert.equal(cards.length, 5);
+  for (const heading of [
+    'Gesti&oacute;n de proyectos de software',
+    'Definici&oacute;n y refinamiento de producto',
+    'Charlas, talleres y moderaci&oacute;n',
+    'Planificaci&oacute;n de eventos',
+    'Contenido para redes'
+  ]) {
+    assert.match(section[1], new RegExp(`<h3>${heading}<\\/h3>`));
+  }
+
+  assert.equal((section[1].match(/Qu&eacute; resuelvo/g) ?? []).length, 5);
+  assert.equal((section[1].match(/C&oacute;mo colaboro/g) ?? []).length, 5);
+  assert.match(section[1], /<a class="offers-link" href="#contacto">Hablemos de tu idea/);
+  assert.doesNotMatch(section[1], /fractional|freelance/i);
+  assert.match(html, /@media\(max-width:900px\)\{\.offers-grid\{grid-template-columns:repeat\(2,minmax\(0,1fr\)\);/);
+  assert.match(html, /@media\(max-width:620px\)\{[\s\S]*?\.offers-grid\{grid-template-columns:1fr;/);
+});
+
 test('el estante de proyectos se desplaza en una sola fila en móvil', () => {
   assert.match(
     html,
