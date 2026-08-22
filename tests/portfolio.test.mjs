@@ -110,7 +110,13 @@ test('la decisión histórica queda preservada y el plan Astro la reemplaza', ()
 
 test('la decisión de publicar solo en español queda explícita y es consistente', () => {
   assert.match(languageStrategy, /Estado: no incorporar inglés en la versión actual/);
+  assert.match(languageStrategy, /Revisión de estado: WEB-098/);
   assert.match(languageStrategy, /El portfolio se mantiene solamente en español/);
+  assert.match(languageStrategy, /Cumplida: la arquitectura de información/);
+  assert.match(languageStrategy, /Cumplida: no quedan placeholders visibles/);
+  assert.match(languageStrategy, /Email y LinkedIn son los destinos de contacto aprobados/);
+  assert.match(languageStrategy, /Pendiente: acordar tiempo y responsable/);
+  assert.doesNotMatch(languageStrategy, /siguen pendientes secciones centrales/);
   assert.match(languageStrategy, /La versión inglesa vive en rutas propias bajo `\/en\/`/);
   assert.match(languageStrategy, /no se mezclan idiomas dentro de una página/);
   assert.match(languageStrategy, /selector usa un control accesible/);
