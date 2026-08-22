@@ -269,7 +269,7 @@ test('las páginas internas publican breadcrumbs estructurados y 404 queda exclu
   assert.doesNotMatch(notFound, /"@type": "BreadcrumbList"/);
 });
 
-test('el feed RSS coincide con las notas publicadas y se anuncia en todas las rutas', async () => {
+test('el feed RSS coincide con las notas publicadas y sólo se anuncia en rutas españolas', async () => {
   const feed = await readFile(join(dist, 'feed.xml'), 'utf8');
   const items = [...feed.matchAll(/<item>([\s\S]*?)<\/item>/g)].map((match) => match[1]);
   const postRoutes = publicRoutes.filter((route) => route.startsWith('posts/'));
@@ -283,8 +283,11 @@ test('el feed RSS coincide con las notas publicadas y se anuncia en todas las ru
     assert.equal(items.filter((item) => item.includes(`<link>${canonical}</link>`)).length, 1);
     assert.ok(feed.includes(description.replaceAll('&', '&amp;')));
   }
-  for (const source of routeDocuments.values()) {
-    assert.match(source, /<link rel="alternate" type="application\/rss\+xml" title="Notas de Romina Caubarrere" href="\/personal\/feed\.xml">/i);
+  for (const [route, source] of routeDocuments) {
+    const language = getAttribute(source, /<html\b[^>]*>/i, 'lang');
+    const rssLink = /<link rel="alternate" type="application\/rss\+xml" title="Notas de Romina Caubarrere" href="\/personal\/feed\.xml">/i;
+    if (language === 'es') assert.match(source, rssLink, `${route} debe anunciar el feed español`);
+    else assert.doesNotMatch(source, rssLink, `${route} no debe anunciar un feed sólo en español`);
   }
 });
 
