@@ -150,6 +150,7 @@ export default function ProjectBookcase() {
     setTurn(null);
     setCurrentId(target.project.id);
     setPageIndex(nextPage);
+    window.requestAnimationFrame(() => closeRef.current?.focus({ preventScroll: true }));
   }, [closeBook]);
 
   const finishTurn = useCallback(() => {

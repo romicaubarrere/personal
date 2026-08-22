@@ -51,6 +51,7 @@ test('cerrar un proyecto consume su entrada de historial sin duplicar la home', 
   await page.goForward();
   await expect(page).toHaveURL(/#project=fisica&page=0$/);
   await expect(page.locator('#bookmodal')).toHaveAttribute('aria-hidden', 'false');
+  await expect(page.getByRole('button', { name: 'Cerrar proyecto', exact: true }).first()).toBeFocused();
 
   await page.goBack();
   await expect(page).toHaveURL(/\/personal\/$/);

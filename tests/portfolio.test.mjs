@@ -712,6 +712,10 @@ test('cada proyecto puede abrirse y recorrerse desde una URL compartible', () =>
   assert.match(projectIslandSource, /window\.addEventListener\('popstate', syncProjectFromUrl\)/);
   assert.match(projectIslandSource, /window\.addEventListener\('hashchange', syncProjectFromUrl\)/);
   assert.match(projectIslandSource, /syncProjectFromUrl\(\);/);
+  assert.match(
+    projectIslandSource,
+    /setPageIndex\(nextPage\);\s*window\.requestAnimationFrame\(\(\) => closeRef\.current\?\.focus\(\{ preventScroll: true \}\)\);/
+  );
 });
 
 test('el libro muestra una sola página por vez en móvil y conserva el pliego en escritorio', () => {
