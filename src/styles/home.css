@@ -131,6 +131,62 @@
   .scrollhint span{display:block;font-size:26px;animation:bob 1.8s ease-in-out infinite;}
   @keyframes bob{0%,100%{transform:translateY(0);}50%{transform:translateY(8px);}}
 
+  /* ---------- FECHAS ESPECIALES ---------- */
+  .special-date-layer{position:absolute;inset:0;z-index:4;pointer-events:none;overflow:hidden;}
+  .special-date-layer[hidden],.special-date-badge[hidden]{display:none;}
+  .birthday-decor,.halloween-decor,.patriotic-decor{display:none;position:absolute;inset:0;}
+  body.celebration--birthday .birthday-decor,
+  body.celebration--halloween .halloween-decor,
+  body.celebration--patriotic .patriotic-decor{display:block;}
+  .special-date-badge{align-items:center;width:max-content;max-width:100%;margin-top:17px;padding:8px 14px 8px 12px;border:1px solid rgba(255,255,255,.35);border-radius:999px;background:rgba(22,19,16,.82);color:var(--cream);font-family:var(--hand);font-size:20px;line-height:1;box-shadow:0 5px 14px rgba(0,0,0,.25);transform:rotate(-1deg);}
+  .special-date-badge:not([hidden]){display:inline-flex;}
+  .special-date-badge::before{content:"✦";margin-right:8px;color:var(--gold);font-family:var(--serif);font-size:18px;}
+  body.celebration--halloween .special-date-badge{background:rgba(32,21,39,.9);border-color:rgba(230,171,95,.55);}
+  body.celebration--halloween .special-date-badge::before{content:"☾";color:#e6ab5f;}
+  body.celebration--patriotic .special-date-badge{background:rgba(34,67,96,.9);border-color:rgba(255,255,255,.58);}
+  body.celebration--patriotic .special-date-badge::before{content:"✺";color:#f3d18c;}
+
+  .birthday-garland{position:absolute;top:52px;left:50%;width:min(760px,88vw);height:72px;transform:translateX(-50%);}
+  .birthday-garland::before{content:"";position:absolute;top:4px;left:0;right:0;height:42px;border-bottom:3px solid rgba(250,243,228,.82);border-radius:0 0 50% 50%;}
+  .birthday-flag{position:absolute;top:31px;width:0;height:0;border-left:18px solid transparent;border-right:18px solid transparent;border-top:34px solid var(--gold);filter:drop-shadow(0 3px 2px rgba(0,0,0,.28));transform-origin:top center;animation:flag-sway 2.8s ease-in-out infinite alternate;}
+  .birthday-flag:nth-child(2n){border-top-color:#93d694;animation-delay:-.9s;}
+  .birthday-flag:nth-child(3n){border-top-color:var(--rose);animation-delay:-1.7s;}
+  .birthday-confetti{position:absolute;top:-24px;width:9px;height:15px;border-radius:2px;background:var(--gold);opacity:.9;animation:birthday-fall var(--fall-time,7s) linear var(--fall-delay,0s) infinite;}
+  .birthday-confetti:nth-child(3n){background:#93d694;border-radius:50%;}
+  .birthday-confetti:nth-child(4n){background:var(--rose);width:12px;height:7px;}
+  @keyframes birthday-fall{0%{transform:translate3d(0,-8vh,0) rotate(0);opacity:0;}8%{opacity:.95;}100%{transform:translate3d(var(--drift,20px),108vh,0) rotate(620deg);opacity:.2;}}
+  @keyframes flag-sway{from{transform:rotate(-2deg);}to{transform:rotate(3deg);}}
+
+  .halloween-moon{position:absolute;top:82px;right:8%;width:116px;height:116px;border-radius:50%;background:radial-gradient(circle at 70% 34%,transparent 0 55%,#e6ab5f 57%);filter:drop-shadow(0 0 18px rgba(230,171,95,.38));opacity:.82;}
+  .crochet-web{position:absolute;top:38px;left:-78px;width:240px;height:240px;border-radius:50%;opacity:.72;background:repeating-radial-gradient(circle at 50% 50%,transparent 0 24px,rgba(250,243,228,.78) 25px 27px),repeating-conic-gradient(from 8deg,rgba(250,243,228,.78) 0 1deg,transparent 1deg 30deg);clip-path:polygon(50% 50%,100% 0,100% 100%,0 100%,0 0);}
+  .paper-bat{position:absolute;width:52px;height:27px;background:#211826;clip-path:polygon(0 32%,18% 42%,29% 8%,50% 42%,71% 8%,82% 42%,100% 32%,88% 100%,66% 72%,50% 100%,34% 72%,12% 100%);filter:drop-shadow(0 4px 3px rgba(0,0,0,.35));animation:bat-float 3.2s ease-in-out infinite alternate;}
+  .paper-bat.one{top:18%;right:25%;transform:rotate(-8deg);}
+  .paper-bat.two{top:31%;right:9%;width:38px;height:20px;animation-delay:-1.4s;}
+  .paper-bat.three{top:12%;left:28%;width:34px;height:18px;animation-delay:-2.2s;}
+  .crochet-pumpkin{position:absolute;right:150px;bottom:28px;width:92px;height:72px;border-radius:46% 46% 42% 42%;background:repeating-radial-gradient(ellipse at center,#cb713d 0 13px,#a94f2f 14px 17px);box-shadow:inset 0 -8px 12px rgba(61,25,14,.28),0 8px 16px rgba(0,0,0,.3);}
+  .crochet-pumpkin::before{content:"";position:absolute;top:-16px;left:43px;width:12px;height:22px;border-radius:8px 8px 2px 2px;background:var(--sage);transform:rotate(8deg);}
+  .crochet-pumpkin::after{content:"";position:absolute;inset:11px;border:2px dashed rgba(255,218,157,.48);border-radius:50%;}
+  @keyframes bat-float{from{translate:0 -3px;}to{translate:9px 6px;}}
+
+  .patriotic-ribbon{position:absolute;top:66px;left:50%;width:min(820px,92vw);height:74px;transform:translateX(-50%);border-top:4px solid rgba(245,248,251,.9);}
+  .patriotic-ribbon::after{content:"";position:absolute;left:0;right:0;top:8px;height:7px;background:#76acd2;box-shadow:0 11px 0 rgba(245,248,251,.95),0 22px 0 #76acd2;transform:rotate(-1deg);}
+  .patriotic-rosette{position:absolute;right:7%;top:122px;width:72px;height:72px;border-radius:50%;background:repeating-conic-gradient(#76acd2 0 12deg,#f5f8fb 12deg 24deg);box-shadow:0 6px 15px rgba(0,0,0,.28);}
+  .patriotic-rosette::after{content:"✺";position:absolute;inset:15px;display:grid;place-items:center;border-radius:50%;background:#f5f8fb;color:#cf9a3f;font-size:24px;}
+
+  @media(max-width:760px){
+    .birthday-garland{top:60px;width:94vw;}
+    .birthday-flag{top:27px;border-left-width:13px;border-right-width:13px;border-top-width:27px;}
+    .special-date-badge{font-size:18px;}
+    .halloween-moon{top:92px;right:-18px;width:86px;height:86px;}
+    .crochet-web{top:34px;left:-95px;width:190px;height:190px;}
+    .paper-bat.one{top:20%;right:16%;}
+    .paper-bat.two{top:35%;right:3%;}
+    .paper-bat.three{display:none;}
+    .crochet-pumpkin{right:auto;left:8px;bottom:70px;width:70px;height:56px;}
+    .crochet-pumpkin::before{left:32px;}
+    .patriotic-rosette{right:3%;top:115px;width:58px;height:58px;}
+  }
+
   /* ---------- FORTALEZAS: una muestra de crochet ---------- */
   .strengths{position:relative;overflow:hidden;padding:96px 0 104px;background:var(--paper);}
   .strengths::before{content:"";position:absolute;inset:0;pointer-events:none;opacity:.28;

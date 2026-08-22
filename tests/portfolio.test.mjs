@@ -3,12 +3,25 @@ import { readFile } from 'node:fs/promises';
 import { dirname, join } from 'node:path';
 import test from 'node:test';
 import { fileURLToPath } from 'node:url';
+import {
+  BIRTH_DATE,
+  SPECIAL_DATES,
+  calculateAge,
+  findSpecialDate,
+  formatSpecialDateLabel,
+  parseSimulatedDate,
+  resolveSpecialDate
+} from '../src/scripts/special-dates.js';
 
 const repositoryRoot = join(dirname(fileURLToPath(import.meta.url)), '..');
 const distRoot = join(repositoryRoot, 'dist');
 const htmlDocument = await readFile(join(distRoot, 'index.html'), 'utf8');
 const formationDocument = await readFile(join(distRoot, 'formacion.html'), 'utf8');
 const homeStyles = await readFile(join(repositoryRoot, 'src', 'styles', 'home.css'), 'utf8');
+const homeScripts = await readFile(
+  join(repositoryRoot, 'src', 'components', 'home', 'HomeScripts.astro'),
+  'utf8'
+);
 const formationStyles = await readFile(join(repositoryRoot, 'src', 'styles', 'formation.css'), 'utf8');
 const html = htmlDocument.replace(/<\/head>/i, `<style>${homeStyles}</style></head>`);
 const formationHtml = formationDocument.replace(/<\/head>/i, `<style>${formationStyles}</style></head>`);
@@ -692,6 +705,68 @@ test('las cuatro fortalezas forman una sola muestra de crochet sin numeración',
 test('el post-it del hero participa del layout y no usa posicionamiento parallax', () => {
   assert.match(html, /@media\(min-width:901px\)[\s\S]*?\.stickynote\{position:relative;/);
   assert.doesNotMatch(html, /class="stickynote parallax"/);
+});
+
+test('la edad se calcula desde el 13 de mayo de 2003 en hora de Montevideo', () => {
+  assert.deepEqual(BIRTH_DATE, { year: 2003, month: 5, day: 13 });
+  assert.equal(calculateAge({ year: 2027, month: 5, day: 12 }), 23);
+  assert.equal(calculateAge({ year: 2027, month: 5, day: 13 }), 24);
+  assert.equal(calculateAge({ year: 2027, month: 5, day: 14 }), 24);
+  assert.match(html, /Tengo <span data-age>23<\/span> a&ntilde;os/);
+  assert.match(homeScripts, /import '\.\.\/\.\.\/scripts\/special-dates\.js'/);
+});
+
+test('cumpleaños, Halloween y las cinco fechas patrias están definidas sin sustituciones', () => {
+  assert.deepEqual(
+    SPECIAL_DATES.map(({ id, month, day }) => [id, month, day]),
+    [
+      ['birthday', 5, 13],
+      ['halloween', 10, 31],
+      ['patriotic-04-19', 4, 19],
+      ['patriotic-05-18', 5, 18],
+      ['patriotic-06-19', 6, 19],
+      ['patriotic-07-18', 7, 18],
+      ['patriotic-08-25', 8, 25]
+    ]
+  );
+  assert.equal(findSpecialDate({ year: 2026, month: 5, day: 13 })?.kind, 'birthday');
+  assert.equal(findSpecialDate({ year: 2026, month: 10, day: 31 })?.kind, 'halloween');
+  assert.equal(findSpecialDate({ year: 2026, month: 10, day: 30 }), null);
+});
+
+test('la simulación revisa cada celebración sin cambiar la fecha del dispositivo', () => {
+  const actualDate = { year: 2026, month: 8, day: 22 };
+  for (const specialDate of SPECIAL_DATES) {
+    const resolution = resolveSpecialDate({
+      actualDate,
+      search: `?celebration=${specialDate.id}`
+    });
+    assert.equal(resolution.event?.id, specialDate.id);
+    assert.equal(resolution.date, actualDate);
+    assert.equal(resolution.isPreview, true);
+  }
+
+  assert.equal(
+    formatSpecialDateLabel(SPECIAL_DATES.find(({ id }) => id === 'patriotic-04-19'), 23, true),
+    'Vista previa · Fecha patria · 19/04'
+  );
+
+  assert.deepEqual(parseSimulatedDate('2027-05-13'), { year: 2027, month: 5, day: 13 });
+  assert.equal(parseSimulatedDate('2027-02-30'), null);
+  assert.equal(resolveSpecialDate({ actualDate, search: '?date=2027-05-13' }).event?.id, 'birthday');
+  assert.equal(resolveSpecialDate({ actualDate, search: '?preview=birthday' }).event?.id, 'birthday');
+  assert.equal(resolveSpecialDate({ actualDate, hash: '#birthday-preview' }).event?.id, 'birthday');
+  assert.equal(resolveSpecialDate({ actualDate, search: '?celebration=unknown' }).event, null);
+});
+
+test('las celebraciones mantienen el lenguaje visual del estudio y son responsivas', () => {
+  assert.match(html, /class="birthday-garland"/);
+  assert.match(html, /class="crochet-web"/);
+  assert.match(html, /class="crochet-pumpkin"/);
+  assert.match(html, /class="patriotic-ribbon"/);
+  assert.match(html, /@media\(max-width:760px\)\{[\s\S]*?\.birthday-garland/);
+  assert.match(html, /@media\(prefers-reduced-motion:reduce\)\{html\{scroll-behavior:auto;\}\*\{animation:none!important;/);
+  assert.match(html, /role="status" aria-live="polite" hidden/);
 });
 
 test('sobre mí reparte el recorrido en cuatro notas breves', () => {
