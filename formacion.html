@@ -121,11 +121,131 @@
     .route-inner,.projects-inner,.extra-inner{padding:0 22px;}.semesters{grid-template-columns:1fr;}.project-sheet,.project-sheet:nth-child(even){grid-template-columns:1fr;margin-left:0;transform:none;}
     .project-sheet .code{border-right:0;border-bottom:1px dashed var(--paper2);padding:0 0 8px;}.contact-tab{top:auto;bottom:18px;writing-mode:horizontal-tb;transform:none;border-radius:10px 0 0 10px;}
   }
-  @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto;}}
+
+  /* La carpeta académica dentro del estudio */
+  :root{--folder:#c9a66f;--folder-dark:#9d7548;--folder-edge:#7a5634;--desk:#4b321f;--page-shadow:0 18px 42px rgba(30,20,12,.28);}
+  body{background:var(--green-dark);}
+  .academic-hero,.route,.academic-projects,.extra{overflow:hidden;}
+
+  .academic-hero{
+    min-height:auto;padding:132px 24px 118px;background-color:var(--desk);
+    background-image:radial-gradient(circle at 18% 24%,rgba(255,255,255,.07),transparent 24%),linear-gradient(90deg,rgba(255,255,255,.035) 1px,transparent 1px),repeating-linear-gradient(2deg,transparent 0 42px,rgba(20,10,4,.14) 43px 45px,transparent 46px 92px);
+    background-size:auto,92px 100%,auto;isolation:isolate;
+  }
+  .academic-hero::before{content:"";position:absolute;width:190px;height:190px;border:12px solid rgba(79,43,23,.2);border-radius:50%;right:8%;top:14%;filter:blur(.2px);transform:rotate(-12deg);}
+  .academic-hero::after{z-index:0;background:radial-gradient(ellipse at center,transparent 38%,rgba(20,12,7,.46) 100%);}
+  .hero-inner{
+    max-width:1160px;gap:0;align-items:stretch;padding:48px 48px 50px;background:var(--folder);border:1px solid var(--folder-edge);border-radius:7px 15px 15px 7px;box-shadow:0 30px 70px rgba(15,8,3,.48),inset 0 1px rgba(255,255,255,.25);transform:rotate(-.35deg);isolation:isolate;
+  }
+  .hero-inner::before{content:"";position:absolute;inset:13px -12px -14px 16px;background:#b88e5d;border:1px solid #74502f;border-radius:8px 15px 15px 8px;transform:rotate(1.1deg);z-index:-2;box-shadow:8px 12px 22px rgba(0,0,0,.22);}
+  .hero-inner::after{content:"";position:absolute;top:-31px;left:34px;width:230px;height:48px;background:var(--folder);border:1px solid var(--folder-edge);border-bottom:0;border-radius:11px 28px 0 0;z-index:-1;}
+  .hero-copy{position:relative;z-index:2;background-color:var(--cream);background-image:linear-gradient(rgba(63,125,78,.1) 1px,transparent 1px);background-size:100% 30px;padding:42px 40px 48px;box-shadow:var(--page-shadow);transform:rotate(-1.1deg);}
+  .hero-copy::before{content:"";position:absolute;width:98px;height:28px;top:-12px;left:18%;background:rgba(207,154,63,.54);transform:rotate(-3deg);}
+  .hero-copy .kick{color:var(--warm);}
+  .hero-copy h1{color:var(--ink);font-size:clamp(2.7rem,6.3vw,5.5rem);}
+  .hero-copy h1 em{color:var(--green-deep);}
+  .hero-copy p{color:var(--ink-soft);background:rgba(250,243,228,.78);padding:4px 6px;}
+  .file-card{z-index:3;margin:34px 0 23px -13px;padding:42px 36px 36px;background:#f0dfbd;border:1px solid #9d7548;transform:rotate(1.8deg);box-shadow:9px 18px 34px rgba(35,20,10,.32);}
+  .file-card::after{content:"";position:absolute;right:22px;bottom:20px;width:74px;height:74px;border:3px double rgba(143,66,48,.42);border-radius:50%;transform:rotate(-17deg);}
+  .desk-vine{position:absolute;z-index:1;left:-4px;top:35px;width:120px;height:310px;opacity:.84;transform:rotate(8deg);}
+  .desk-plant{position:absolute;z-index:1;right:-20px;bottom:-4px;width:190px;height:220px;filter:drop-shadow(4px 9px 8px rgba(0,0,0,.35));transform:rotate(-4deg);}
+
+  .route{padding:126px 24px 132px;background-color:var(--cork);}
+  .route-inner{
+    position:relative;max-width:1120px;padding:78px 74px 74px;background:var(--folder);border:1px solid var(--folder-edge);border-radius:8px 18px 18px 8px;box-shadow:0 30px 65px rgba(46,27,12,.34),inset 0 1px rgba(255,255,255,.28);isolation:isolate;
+  }
+  .route-inner::before{content:"";position:absolute;top:-35px;left:38px;width:260px;height:52px;background:var(--folder);border:1px solid var(--folder-edge);border-bottom:0;border-radius:12px 30px 0 0;z-index:-1;}
+  .route-inner::after{content:"";position:absolute;inset:23px 22px 20px 30px;background:#b98f5c;border:1px solid rgba(90,55,30,.48);transform:rotate(.55deg);z-index:-1;}
+  .route .section-title{position:relative;max-width:790px;margin:-18px 0 34px;background:var(--cream);padding:34px 38px 31px;box-shadow:var(--page-shadow);transform:rotate(-.65deg);}
+  .route .section-title::before{content:"";position:absolute;width:92px;height:26px;top:-12px;left:54%;background:rgba(207,154,63,.52);transform:rotate(2deg);}
+  .transversal{z-index:3;margin:-12px -24px 25px auto;transform:rotate(1.3deg);}
+  .semesters{
+    position:relative;display:block;padding:18px 28px 18px 68px;background-color:var(--cream);background-image:linear-gradient(90deg,transparent 0 46px,rgba(143,66,48,.24) 47px 49px,transparent 50px),linear-gradient(rgba(63,125,78,.09) 1px,transparent 1px);background-size:100% 100%,100% 32px;border:1px solid rgba(99,71,41,.3);box-shadow:var(--page-shadow);transform:rotate(.22deg);
+  }
+  .semesters::before{content:"";position:absolute;left:18px;top:28px;bottom:28px;width:24px;background:repeating-radial-gradient(circle at center,#6b4a2a 0 4px,#d9c7a6 5px 7px,transparent 8px 56px);}
+  .semester,.semester:nth-child(n),.semester[open]{background:transparent;box-shadow:none;transform:none;transition:background-color .18s ease;}
+  .semester+ .semester{border-top:1px dashed rgba(92,70,42,.28);}
+  .semester[open]{background:rgba(238,243,223,.74);}
+  .semester summary{padding:17px 10px 17px 0;grid-template-columns:58px 1fr auto;gap:16px;}
+  .semester .num{width:58px;padding:4px 6px;background:var(--gold);color:#3d2b0a;text-align:center;box-shadow:2px 4px 0 rgba(92,55,26,.25);transform:rotate(-2deg);transition:translate .16s ease,transform .16s ease;}
+  .semester:nth-child(even) .num{background:#cbd8ad;transform:rotate(1.5deg);}
+  .semester summary::after{width:36px;height:36px;display:grid;place-items:center;border:1px solid rgba(43,90,56,.38);border-radius:50%;line-height:1;}
+  .semester ul{padding:0 44px 23px 75px;color:#50473b;}
+  .source-note{position:relative;margin:24px 8px 0 auto;padding:17px 19px;max-width:780px;background:#f1d3c8;color:#5d321f;box-shadow:2px 6px 14px rgba(70,37,18,.2);transform:rotate(-.6deg);}
+
+  .academic-projects{padding:128px 24px 136px;background-color:var(--green-dark);background-image:radial-gradient(circle at 12% 18%,rgba(250,243,228,.08),transparent 24%),linear-gradient(120deg,rgba(255,255,255,.02),transparent 55%);}
+  .projects-inner{position:relative;max-width:1120px;padding:78px 76px 92px;background-color:#b98d5b;background-image:radial-gradient(rgba(45,28,15,.18) 1px,transparent 1.2px);background-size:10px 10px;border:11px solid #654326;box-shadow:0 26px 60px rgba(0,0,0,.4),inset 0 0 55px rgba(55,28,10,.24);}
+  .projects-inner::before{content:"";position:absolute;top:-30px;left:8%;width:130px;height:44px;background:rgba(239,223,189,.74);transform:rotate(-3deg);box-shadow:0 2px 6px rgba(0,0,0,.15);}
+  .academic-projects .section-title{position:relative;z-index:3;background:var(--cream);color:var(--ink);padding:32px 36px;margin:0 0 50px;box-shadow:var(--page-shadow);transform:rotate(-1deg);}
+  .academic-projects .section-title .small{color:var(--warm);}
+  .academic-projects .section-title h2 em{color:var(--green-deep);}
+  .academic-projects .section-title p{color:var(--ink-soft);}
+  .project-stack{gap:0;margin-top:0;isolation:isolate;}
+  .project-sheet{width:88%;padding:30px 34px;background-color:var(--cream);background-image:linear-gradient(rgba(63,125,78,.08) 1px,transparent 1px);background-size:100% 29px;border:1px solid rgba(91,64,35,.28);transition:translate .18s ease;}
+  .project-sheet::before{content:"";position:absolute;width:82px;height:24px;top:-11px;left:46%;background:rgba(207,154,63,.48);transform:rotate(2deg);}
+  .project-sheet:nth-child(2){width:92%;margin:-10px 0 0 7%;transform:rotate(.8deg);z-index:2;}
+  .project-sheet:nth-child(3){width:86%;margin:-8px 0 0 3%;transform:rotate(-.35deg);z-index:3;}
+  .project-sheet:nth-child(4){width:96%;margin:-7px 0 0 1%;transform:rotate(.55deg);z-index:4;}
+  .project-sheet .code{font-size:31px;color:var(--warm);}
+
+  .extra{padding:132px 24px 142px;background-color:#d8c5a2;background-image:repeating-linear-gradient(4deg,rgba(83,53,30,.08) 0 1px,transparent 1px 46px);}
+  .extra::before{opacity:.18;}
+  .extra-inner{max-width:1120px;padding:76px 70px 92px;background:var(--folder);border:1px solid var(--folder-edge);border-radius:8px 17px 17px 8px;box-shadow:0 28px 62px rgba(43,25,12,.35);}
+  .extra-inner::before{content:"";inset:auto auto auto auto;position:absolute;top:-35px;left:36px;width:255px;height:52px;background:var(--folder);border:1px solid var(--folder-edge);border-bottom:0;border-radius:12px 30px 0 0;}
+  .extra .section-title{position:relative;z-index:3;background:var(--cream);padding:32px 36px;box-shadow:var(--page-shadow);transform:rotate(.55deg);}
+  .extra-row{position:relative;grid-template-columns:repeat(3,1fr);gap:0;margin:54px 0 0;padding:0 18px;isolation:isolate;}
+  .extra-row::before{content:"";position:absolute;z-index:-1;left:-20px;right:-20px;bottom:-42px;height:66%;background:#a87c4d;border:1px solid #76522f;clip-path:polygon(0 18%,50% 0,100% 18%,100% 100%,0 100%);box-shadow:0 13px 24px rgba(55,31,15,.27);}
+  .extra-note{min-height:235px;margin:0 -7px;padding:31px 28px 34px;border:1px solid rgba(91,64,35,.25);transition:translate .18s ease;}
+  .extra-note:nth-child(2){margin:22px -7px 0;}
+  .extra-note:nth-child(3){margin:5px -7px 0;}
+
+  @media(hover:hover){
+    .semester summary:hover .num{translate:0 -2px;transform:rotate(0);}
+    .project-sheet:hover,.extra-note:hover{translate:0 -5px;}
+  }
+  @media(max-width:900px){
+    .academic-hero{padding:120px 28px 100px;}.hero-inner{grid-template-columns:1fr;padding:42px 38px 45px;}.file-card{max-width:none;margin:18px 22px 4px;}.desk-plant{width:150px;opacity:.75;}
+    .route-inner,.projects-inner,.extra-inner{padding:68px 48px 72px;}.extra-row{grid-template-columns:1fr;max-width:650px;margin-left:auto;margin-right:auto;padding:0 22px 25px;}.extra-note,.extra-note:nth-child(2),.extra-note:nth-child(3){margin:-7px 0 0;min-height:0;}
+  }
+  @media(max-width:700px){
+    .topbar{padding:0 6px;gap:4px;}.topbar nav{gap:3px;min-width:0;overflow-x:auto;scrollbar-width:none;}.topbar nav::-webkit-scrollbar{display:none;}.topbar a{display:block!important;white-space:nowrap;padding:9px 8px;font-size:10px;}
+    .academic-hero{padding:108px 17px 82px;}.hero-inner{padding:25px 16px 29px;border-radius:5px 10px 10px 5px;transform:none;}.hero-inner::after{left:12px;width:170px;height:38px;top:-27px;}.hero-copy{padding:30px 23px 34px;transform:rotate(-.45deg);}.hero-copy h1{font-size:clamp(2.45rem,14vw,4rem);}.hero-copy p{font-size:15px;}.file-card{margin:15px 2px 0;padding:34px 24px 28px;}.desk-vine{width:82px;height:240px;left:-30px;opacity:.55;}.desk-plant{width:115px;height:150px;right:-35px;opacity:.65;}
+    .route,.academic-projects,.extra{padding:92px 14px 98px;}.route-inner,.projects-inner,.extra-inner{padding:45px 16px 50px;border-radius:6px;}.route-inner::before,.extra-inner::before{left:12px;width:170px;height:40px;top:-28px;}.route .section-title,.academic-projects .section-title,.extra .section-title{padding:28px 22px;margin-bottom:28px;transform:none;}.section-title h2{font-size:clamp(2.1rem,10vw,3rem);}.transversal{margin:0 -6px 22px 12px;padding:15px 17px;}.semesters{padding:12px 14px 12px 48px;transform:none;}.semesters::before{left:10px;width:22px;}.semester summary{grid-template-columns:48px 1fr 32px;gap:10px;padding:15px 0;}.semester .num{width:48px;font-size:1.45rem;}.semester .when{font-size:12px;}.semester .note{font-size:16px;}.semester ul{padding:0 4px 21px 58px;font-size:13px;}.source-note{margin-top:20px;}
+    .projects-inner{border-width:7px;}.project-stack{padding:0 2px;}.project-sheet,.project-sheet:nth-child(n){width:100%;grid-template-columns:1fr;margin:-5px 0 0;padding:27px 22px;}.project-sheet .code{border-right:0;border-bottom:1px dashed var(--paper2);padding:0 0 8px;}.extra-row{padding:0 5px 28px;margin-top:42px;}.extra-row::before{left:-8px;right:-8px;bottom:-25px;}.contact-tab{right:0;bottom:14px;min-height:44px;display:flex;align-items:center;}
+  }
+  @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto;}.semester,.semester .num,.project-sheet,.extra-note{transition:none!important;}.project-sheet,.extra-note,.semester .num{translate:none!important;}}
 </style>
 </head>
 <body>
   <a class="skip-link" href="#main-content">Saltar al contenido principal</a>
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+    <defs>
+      <g id="academic-vine">
+        <path d="M50 0 C42 50 58 90 46 140 C38 180 56 210 50 258" fill="none" stroke="#4f5a37" stroke-width="2.5"/>
+        <g stroke="#3f5233" stroke-width="0.8">
+          <ellipse cx="42" cy="30" rx="7.5" ry="10.5" transform="rotate(-34 42 30)" fill="#6f7a54"/>
+          <ellipse cx="58" cy="58" rx="7.5" ry="10.5" transform="rotate(30 58 58)" fill="#5c6b3f"/>
+          <ellipse cx="41" cy="90" rx="7.5" ry="10.5" transform="rotate(-32 41 90)" fill="#6f7a54"/>
+          <ellipse cx="57" cy="120" rx="7" ry="10" transform="rotate(28 57 120)" fill="#55603f"/>
+          <ellipse cx="42" cy="150" rx="7" ry="10" transform="rotate(-30 42 150)" fill="#6f7a54"/>
+          <ellipse cx="56" cy="182" rx="6.5" ry="9" transform="rotate(30 56 182)" fill="#5c6b3f"/>
+          <ellipse cx="45" cy="212" rx="6" ry="8" transform="rotate(-28 45 212)" fill="#55603f"/>
+          <ellipse cx="51" cy="240" rx="5.5" ry="7.5" transform="rotate(20 51 240)" fill="#6f7a54"/>
+        </g>
+      </g>
+      <g id="academic-pot">
+        <path d="M40 118 h44 l-7 30 h-30 z" fill="#b5643f" stroke="#7a3f24" stroke-width="2"/>
+        <path d="M36 118 h52 l-3 10 h-46 z" fill="#c47a52" stroke="#7a3f24" stroke-width="2"/>
+        <g stroke="#3f5233" stroke-width="2" fill="#5c6b3f">
+          <path d="M62 120 C60 96 46 84 38 70" fill="none"/><ellipse cx="34" cy="64" rx="15" ry="9" transform="rotate(-38 34 64)"/>
+          <path d="M62 120 C64 92 80 82 90 66" fill="none"/><ellipse cx="94" cy="60" rx="15" ry="9" transform="rotate(34 94 60)" fill="#6f7a54"/>
+          <path d="M62 120 C60 88 58 60 58 40" fill="none"/><ellipse cx="58" cy="34" rx="11" ry="16" fill="#6f7a54"/>
+          <path d="M62 120 C66 96 74 78 82 58" fill="none"/><ellipse cx="84" cy="52" rx="11" ry="15" transform="rotate(24 84 52)" fill="#55603f"/>
+          <path d="M62 120 C58 96 48 80 42 60" fill="none"/><ellipse cx="40" cy="54" rx="11" ry="15" transform="rotate(-22 40 54)" fill="#55603f"/>
+        </g>
+      </g>
+    </defs>
+  </svg>
   <div class="topbar">
     <a href="index.html#formacion">&larr; Volver al estudio</a>
     <nav aria-label="Secciones de formaci&oacute;n">
@@ -137,6 +257,8 @@
   <a class="contact-tab" href="index.html#contacto">Contacto</a>
 
   <header class="academic-hero brick">
+    <svg class="desk-vine" viewBox="0 0 100 260" aria-hidden="true" focusable="false"><use href="#academic-vine"/></svg>
+    <svg class="desk-plant" viewBox="0 0 120 150" aria-hidden="true" focusable="false"><use href="#academic-pot"/></svg>
     <div class="hero-inner">
       <div class="hero-copy">
         <span class="kick">mi carpeta acad&eacute;mica</span>
