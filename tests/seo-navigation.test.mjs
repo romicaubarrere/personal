@@ -76,6 +76,35 @@ test('Open Graph y X describen cada ruta y reutilizan la tarjeta aprobada', () =
   }
 });
 
+test('cada documento publica una única instancia de sus metadatos críticos', async () => {
+  const fields = [
+    ['title', /<title\b/gi],
+    ['description', /<meta\b[^>]*name="description"/gi],
+    ['canonical', /<link\b[^>]*rel="canonical"/gi],
+    ['robots', /<meta\b[^>]*name="robots"/gi],
+    ['viewport', /<meta\b[^>]*name="viewport"/gi],
+    ['og:title', /<meta\b[^>]*property="og:title"/gi],
+    ['og:description', /<meta\b[^>]*property="og:description"/gi],
+    ['og:url', /<meta\b[^>]*property="og:url"/gi],
+    ['og:image', /<meta\b[^>]*property="og:image"\s/gi],
+    ['twitter:card', /<meta\b[^>]*name="twitter:card"/gi],
+    ['twitter:title', /<meta\b[^>]*name="twitter:title"/gi],
+    ['twitter:description', /<meta\b[^>]*name="twitter:description"/gi],
+    ['twitter:image', /<meta\b[^>]*name="twitter:image"\s/gi]
+  ];
+
+  for (const route of [...publicRoutes, '404.html']) {
+    const source = await readFile(join(dist, route), 'utf8');
+    for (const [field, pattern] of fields) {
+      assert.equal(
+        (source.match(pattern) ?? []).length,
+        1,
+        `${route}: ${field} debe aparecer una sola vez`
+      );
+    }
+  }
+});
+
 test('todas las rutas declaran una única identidad profesional verificada', () => {
   for (const [route, source] of routeDocuments) {
     const identityLinks = [...source.matchAll(/<link\b[^>]*rel="me"[^>]*href="([^"]+)"[^>]*>/gi)];
