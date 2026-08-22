@@ -322,6 +322,47 @@ test('todas las páginas conservan landmarks, controles e imágenes semánticas'
   }
 });
 
+test('los landmarks de navegación y sus estados activos son inequívocos', async () => {
+  const validCurrentValues = new Set(['page', 'step', 'location', 'date', 'time', 'true']);
+
+  for (const route of [...publicRoutes, '404.html']) {
+    const source = await readFile(join(dist, route), 'utf8');
+    const navigationLabels = new Set();
+
+    for (const nav of source.match(/<nav\b[\s\S]*?<\/nav>/gi) ?? []) {
+      const openingTag = nav.match(/<nav\b[^>]*>/i)?.[0] ?? '';
+      const ariaLabel = openingTag.match(/\baria-label="([^"]+)"/i)?.[1];
+      const ariaLabelledBy = openingTag.match(/\baria-labelledby="([^"]+)"/i)?.[1];
+      const accessibleName = ariaLabel ?? ariaLabelledBy;
+
+      assert.ok(accessibleName?.trim(), `${route}: nav sin nombre accesible`);
+      assert.ok(!navigationLabels.has(accessibleName), `${route}: nav repite el nombre ${accessibleName}`);
+      navigationLabels.add(accessibleName);
+
+      if (ariaLabelledBy) {
+        assert.ok(ids(source).has(ariaLabelledBy), `${route}: falta #${ariaLabelledBy} para nombrar la navegación`);
+      }
+
+      const currentValues = [...nav.matchAll(/\baria-current="([^"]+)"/gi)].map((match) => match[1]);
+      assert.ok(currentValues.length <= 1, `${route}: una navegación expone más de un destino activo`);
+      for (const value of currentValues) {
+        assert.ok(validCurrentValues.has(value), `${route}: aria-current="${value}" no es válido`);
+      }
+
+      if (/<a\b[^>]*href="#[^"]+"/i.test(nav)) {
+        assert.match(source, /setAttribute\('aria-current','location'\)/, `${route}: falta anunciar la sección activa`);
+        assert.match(source, /removeAttribute\('aria-current'\)/, `${route}: falta limpiar la sección anterior`);
+      }
+    }
+
+    for (const button of source.match(/<button\b[^>]*\baria-controls="[^"]+"[^>]*>/gi) ?? []) {
+      const target = button.match(/\baria-controls="([^"]+)"/i)?.[1];
+      assert.ok(target && ids(source).has(target), `${route}: aria-controls apunta a un destino inexistente`);
+      assert.match(button, /\baria-expanded="(?:true|false)"/i, `${route}: control desplegable sin estado inicial`);
+    }
+  }
+});
+
 test('la navegación expone la sección activa y el contacto publica solo destinos verificados', () => {
   const home = routeDocuments.get('index.html');
   assert.match(home, /setAttribute\('aria-current','location'\)/);
