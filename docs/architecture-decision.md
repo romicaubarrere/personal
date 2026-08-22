@@ -69,3 +69,9 @@ Si se alcanza uno de esos umbrales, Astro debe evaluarse primero como generador 
 ## Verificación
 
 La decisión conserva los comandos y el workflow existentes. Los tests automatizados comprueban tanto el sitio como la presencia y coherencia de este ADR, para que un cambio de arquitectura futuro actualice también la documentación y el flujo operativo.
+
+## Restricciones de identidad que sobreviven a la arquitectura
+
+Aunque este ADR fue reemplazado por la migración a Astro, una decisión de producto sigue vigente: cambiar de arquitectura no habilita a perder la identidad visual del portfolio. Los componentes nuevos deben respetar el [sistema visual](./visual-system.md) y los [guardrails contra patrones visuales genéricos](./anti-ai-visual-guardrails.md).
+
+WEB-095 convierte parte de ese criterio en pruebas automatizadas. La arquitectura puede evolucionar; la exigencia de que cada pieza pertenezca al lenguaje de “El estudio de Romi” no cambia por usar HTML, Astro o una isla de React.
