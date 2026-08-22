@@ -18,6 +18,23 @@ async function fetchText(path) {
   return response.text();
 }
 
+async function verifyRootRobots() {
+  const url = new URL('/robots.txt', base);
+  const response = await fetch(url, { redirect: 'follow' });
+
+  if (response.status === 404) {
+    console.warn(`robots raíz no administrado desde este proyecto: ${url.href} devuelve HTTP 404`);
+    return;
+  }
+
+  if (!response.ok) throw new Error(`${url.href}: HTTP ${response.status}`);
+
+  const body = await response.text();
+  if (!body.includes('https://romicaubarrere.github.io/personal/sitemap.xml')) {
+    console.warn(`robots raíz existente sin referencia al sitemap del portfolio: ${url.href}`);
+  }
+}
+
 async function verify() {
   const pages = [
     ['', 'lang="es"', 'https://romicaubarrere.github.io/personal/'],
@@ -43,9 +60,15 @@ async function verify() {
   }
   assertIncludes(home, `<meta name="build-commit" content="${expectedSha}">`, 'commit publicado');
 
+  const sitemapUrl = 'https://romicaubarrere.github.io/personal/sitemap.xml';
   const sitemap = await fetchText('sitemap.xml');
   assertIncludes(sitemap, '<urlset', 'sitemap');
   assertIncludes(sitemap, 'como-trabajo.html', 'sitemap');
+
+  const projectRobots = await fetchText('robots.txt');
+  assertIncludes(projectRobots, 'Allow: /personal/', 'robots del proyecto');
+  assertIncludes(projectRobots, `Sitemap: ${sitemapUrl}`, 'robots del proyecto');
+  await verifyRootRobots();
 
   const feed = await fetchText('feed.xml');
   assertIncludes(feed, '<rss', 'feed');
