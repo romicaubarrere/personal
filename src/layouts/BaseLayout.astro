@@ -1,0 +1,71 @@
+---
+interface Props {
+  title: string;
+  description: string;
+  canonical: string;
+  robots?: string;
+  themeColor?: string;
+  ogDescription?: string;
+  ogImage?: string;
+  ogImageAlt?: string;
+  extraStylesheets?: string[];
+}
+
+const {
+  title,
+  description,
+  canonical,
+  robots = 'index,follow',
+  themeColor = '#22432c',
+  ogDescription = description,
+  ogImage,
+  ogImageAlt,
+  extraStylesheets = []
+} = Astro.props;
+
+const base = import.meta.env.BASE_URL.endsWith('/')
+  ? import.meta.env.BASE_URL
+  : `${import.meta.env.BASE_URL}/`;
+---
+
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="robots" content={robots} />
+    <meta name="theme-color" content={themeColor} />
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" type="image/svg+xml" href={`${base}favicon.svg`} />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="es_UY" />
+    <meta property="og:site_name" content="El estudio de Romi" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={ogDescription} />
+    <meta property="og:url" content={canonical} />
+    {ogImage && <meta property="og:image" content={ogImage} />}
+    {ogImage && <meta property="og:image:secure_url" content={ogImage} />}
+    {ogImage && <meta property="og:image:type" content="image/png" />}
+    {ogImage && <meta property="og:image:width" content="1200" />}
+    {ogImage && <meta property="og:image:height" content="630" />}
+    {ogImage && ogImageAlt && <meta property="og:image:alt" content={ogImageAlt} />}
+    {ogImage && <meta name="twitter:card" content="summary_large_image" />}
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={ogDescription} />
+    {ogImage && <meta name="twitter:image" content={ogImage} />}
+    {ogImage && ogImageAlt && <meta name="twitter:image:alt" content={ogImageAlt} />}
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,400..700&family=DM+Sans:opsz,wght@9..40,400..700&family=Caveat:wght@500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    {extraStylesheets.map((href) => <link rel="stylesheet" href={href} />)}
+    <slot name="head" />
+  </head>
+  <body>
+    <slot />
+  </body>
+</html>

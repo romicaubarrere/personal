@@ -56,6 +56,19 @@ test('la portada compilada conserva estructura, contenido e interacciones', asyn
   assert.match(source, /#project=/);
   assert.match(source, /prefers-reduced-motion/);
   assert.match(source, /Romina Caubarrere \| Project Manager de software/);
+  assert.match(source, /href="\/personal\/favicon\.svg"/);
+  assert.match(source, /href="\/personal\/microinteractions\.css"/);
+  assert.doesNotMatch(source, /\/personalfavicon\.svg/);
+  assert.doesNotMatch(source, /\/personalmicrointeractions\.css/);
+});
+
+test('la portada se compone desde módulos Astro y ya no desde el HTML legado', async () => {
+  const page = await readFile(join(repositoryRoot, 'src', 'pages', 'index.astro'), 'utf8');
+
+  assert.match(page, /components\/home\/Hero\.astro/);
+  assert.match(page, /components\/home\/ProjectsShelf\.astro/);
+  assert.match(page, /layouts\/BaseLayout\.astro/);
+  assert.doesNotMatch(page, /LegacyDocument/);
 });
 
 test('la salida conserva assets públicos y cantidades académicas', async () => {
