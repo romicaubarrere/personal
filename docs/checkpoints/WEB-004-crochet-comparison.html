@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>WEB-004 · checkpoint comparativo de crochet</title>
+  <style>
+    :root{color-scheme:light;--ink:#27231f;--paper:#efe8d9;--cream:#faf3e4;--green:#3f7d4e;--brick:#b85c3e;}
+    *{box-sizing:border-box;}
+    body{margin:0;background:var(--paper);color:var(--ink);font:16px/1.5 system-ui,sans-serif;}
+    header{padding:32px clamp(20px,5vw,64px);background:#183b2b;color:var(--cream);}
+    h1{margin:0 0 8px;font:600 clamp(1.7rem,4vw,2.8rem)/1.05 Georgia,serif;}
+    header p{max-width:72ch;margin:0;opacity:.86;}
+    main{padding:32px clamp(16px,4vw,52px) 56px;}
+    h2{margin:34px 0 14px;font:600 1.35rem Georgia,serif;color:#183b2b;}
+    .pair{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:22px;align-items:start;}
+    .panel{overflow:hidden;border:1px solid #c6baa2;background:var(--cream);box-shadow:4px 8px 20px rgba(39,35,31,.16);}
+    .panel-head{display:flex;justify-content:space-between;gap:12px;padding:10px 14px;background:#fffaf0;border-bottom:1px solid #d8ccb6;font-weight:700;}
+    .panel-head span{font-weight:500;color:#6d6255;}
+    .viewport{position:relative;overflow:hidden;margin:auto;background:white;}
+    .viewport.desktop{--source-width:1280px;--source-height:1000px;--scale:.48;width:calc(var(--source-width) * var(--scale));height:calc(var(--source-height) * var(--scale));}
+    .viewport.mobile{--source-width:390px;--source-height:844px;--scale:1;width:390px;max-width:100%;height:844px;}
+    iframe{display:block;width:var(--source-width);height:var(--source-height);border:0;transform:scale(var(--scale));transform-origin:top left;background:white;}
+    .legend{display:flex;flex-wrap:wrap;gap:8px 18px;margin:0;padding:14px 18px;background:#fffaf0;border:1px dashed #b5a88f;}
+    .legend strong{color:var(--green);}
+    .legend span::before{content:"";display:inline-block;width:9px;height:9px;margin-right:7px;border-radius:50%;background:var(--brick);}
+    a{color:inherit;}
+    @media(max-width:1040px){.pair{grid-template-columns:1fr;}.viewport.desktop{--scale:.62;}}
+    @media(max-width:820px){.viewport.desktop{--scale:.45;}}
+    @media(max-width:560px){main{padding-inline:10px}.viewport.desktop{--scale:.28}.viewport.mobile{--scale:.86;width:335px;height:726px;}}
+    :focus-visible{outline:3px solid #d9a521;outline-offset:3px;}
+  </style>
+</head>
+<body>
+  <header>
+    <h1>WEB-004 · crochet integrado al estudio</h1>
+    <p>Checkpoint comparativo de la sección Fortalezas. La referencia izquierda queda fijada al commit 84a7d9a; la derecha muestra la rama en revisión.</p>
+  </header>
+  <main>
+    <div class="legend" aria-label="Cambios revisados">
+      <span><strong>Métricas:</strong> anotaciones hilvanadas, sin columna KPI</span>
+      <span><strong>Interacción:</strong> ovillo + puntos seleccionables</span>
+      <span><strong>Acceso:</strong> teclado, tacto y movimiento reducido</span>
+    </div>
+
+    <h2>Desktop · viewport 1280 × 1000</h2>
+    <div class="pair">
+      <article class="panel">
+        <div class="panel-head">Antes <span>main · 84a7d9a</span></div>
+        <div class="viewport desktop"><iframe title="Versión anterior en desktop" loading="lazy" src="https://raw.githack.com/romicaubarrere/personal/84a7d9a/index.html#fortalezas"></iframe></div>
+      </article>
+      <article class="panel">
+        <div class="panel-head">Después <span>rama WEB-004</span></div>
+        <div class="viewport desktop"><iframe title="Versión revisada en desktop" loading="lazy" src="../../index.html#fortalezas"></iframe></div>
+      </article>
+    </div>
+
+    <h2>Móvil · viewport 390 × 844</h2>
+    <div class="pair">
+      <article class="panel">
+        <div class="panel-head">Antes <span>main · 84a7d9a</span></div>
+        <div class="viewport mobile"><iframe title="Versión anterior en móvil" loading="lazy" src="https://raw.githack.com/romicaubarrere/personal/84a7d9a/index.html#fortalezas"></iframe></div>
+      </article>
+      <article class="panel">
+        <div class="panel-head">Después <span>rama WEB-004</span></div>
+        <div class="viewport mobile"><iframe title="Versión revisada en móvil" loading="lazy" src="../../index.html#fortalezas"></iframe></div>
+      </article>
+    </div>
+  </main>
+</body>
+</html>

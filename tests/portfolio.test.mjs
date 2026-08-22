@@ -11,6 +11,10 @@ const formationHtml = await readFile(join(repositoryRoot, 'formacion.html'), 'ut
 const favicon = await readFile(join(repositoryRoot, 'favicon.svg'), 'utf8');
 const socialPreview = await readFile(join(repositoryRoot, 'social-preview.png'));
 const socialPreviewSource = await readFile(join(repositoryRoot, 'social-preview.svg'), 'utf8');
+const crochetCheckpoint = await readFile(
+  join(repositoryRoot, 'docs/checkpoints/WEB-004-crochet-comparison.html'),
+  'utf8'
+);
 const readme = await readFile(join(repositoryRoot, 'README.md'), 'utf8');
 const architectureDecision = await readFile(
   join(repositoryRoot, 'docs', 'architecture-decision.md'),
@@ -631,8 +635,9 @@ test('las cuatro fortalezas forman una sola muestra de crochet sin numeración',
   assert.equal((html.match(/<div class="strengths-sampler reveal"/g) ?? []).length, 1);
   assert.match(html, /<ul class="strengths-list">/);
   assert.equal((html.match(/<li class="strength-row">/g) ?? []).length, 4);
-  assert.equal((html.match(/<span class="crochet-loop" aria-hidden="true"><\/span>/g) ?? []).length, 4);
-  assert.match(html, /<button class="yarn-ball" type="button" aria-label="Hacer rodar el ovillo de crochet"><\/button>/);
+  assert.equal((html.match(/<button class="crochet-loop" type="button" aria-label="Destacar [^"]+" aria-pressed="false"><\/button>/g) ?? []).length, 4);
+  assert.match(html, /<button class="yarn-ball" type="button" aria-label="Hacer rodar el ovillo de crochet" aria-describedby="crochet-status"><\/button>/);
+  assert.match(html, /id="crochet-status" aria-live="polite"/);
   assert.match(html, /<span class="yarn-play-note" aria-hidden="true">toc&aacute; el ovillo/);
   assert.match(html, /Gesti&oacute;n de proyectos de software/);
   assert.match(html, /Comunicaci&oacute;n y alineaci&oacute;n/);
@@ -640,11 +645,24 @@ test('las cuatro fortalezas forman una sola muestra de crochet sin numeración',
   assert.match(html, /Criterio t&eacute;cnico y calidad/);
   assert.match(html, /tres proyectos en simult&aacute;neo/);
   assert.doesNotMatch(html, /strengths-grid|strength-card|counter-reset:strength|counter\(strength\)/);
-  assert.match(html, /\.strength-row:hover \.crochet-loop\{transform:rotate\(15deg\) scale\(1\.1\);\}/);
+  assert.match(html, /\.strength-row\.is-threaded \.crochet-loop\{transform:rotate\(15deg\) scale\(1\.1\);/);
   assert.match(html, /\.strengths-sampler:hover \.yarn-ball\{transform:translate\(-4px,3px\) rotate\(16deg\);\}/);
   assert.match(html, /@keyframes yarn-ball-play/);
   assert.match(html, /yarnBall\.addEventListener\('click',playYarn\)/);
+  assert.match(html, /button\.setAttribute\('aria-pressed','true'\)/);
+  assert.match(html, /row\.classList\.add\('is-threaded'\)/);
+  assert.match(html, /\.crochet-loop:focus-visible\{outline:3px solid var\(--gold\)/);
+  assert.match(html, /@media\(prefers-reduced-motion:reduce\)\{[\s\S]*?\.strength-row\.is-threaded \.crochet-loop,[\s\S]*?transform:none;/);
   assert.doesNotMatch(html, /class="strength[^\"]*(progress|meter|percentage)/i);
+});
+
+test('el checkpoint de WEB-004 compara la muestra en desktop y móvil', () => {
+  assert.match(crochetCheckpoint, /main · 84a7d9a/);
+  assert.equal((crochetCheckpoint.match(/class="viewport desktop"/g) ?? []).length, 2);
+  assert.equal((crochetCheckpoint.match(/class="viewport mobile"/g) ?? []).length, 2);
+  assert.match(crochetCheckpoint, /--source-width:1280px;--source-height:1000px/);
+  assert.match(crochetCheckpoint, /--source-width:390px;--source-height:844px/);
+  assert.match(crochetCheckpoint, /src="\.\.\/\.\.\/index\.html#fortalezas"/);
 });
 
 test('el post-it del hero participa del layout y no usa posicionamiento parallax', () => {
