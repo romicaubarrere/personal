@@ -11,13 +11,21 @@ se completa WEB-086 a WEB-090, `main` continúa siendo la versión HTML estable.
 
 ## Ejecutar localmente
 
-El sitio usa HTML, CSS y JavaScript nativos. No necesita instalación de dependencias ni un proceso de build.
+El sitio se genera con Astro y requiere Node.js 22.12 o posterior.
 
 ```bash
-npm run serve
+npm ci
+npm run dev
 ```
 
-Luego se puede abrir `http://localhost:4173`.
+Para comprobar la salida estática de producción:
+
+```bash
+npm run build
+```
+
+Astro genera las cuatro rutas públicas dentro de `dist/` y conserva el formato
+`.html` usado por GitHub Pages.
 
 ## Tests
 
@@ -40,13 +48,14 @@ GitHub Actions ejecuta los tests automáticamente en cada push y pull request.
 
 ## Arquitectura y publicación
 
-`main` contiene por ahora los archivos que publica GitHub Pages. La decisión
-histórica de WEB-071 está en
+Astro genera un sitio completamente estático con base pública `/personal`. La
+decisión histórica de WEB-071 está en
 [`docs/architecture-decision.md`](docs/architecture-decision.md) y el plan que la
 reemplaza está en
 [`docs/astro-migration-plan.md`](docs/astro-migration-plan.md).
 
-No se incorpora React para contenido estático. Las interacciones se resuelven primero con APIs del navegador y deben conservar navegación, accesibilidad y responsive.
+React se reserva para la isla interactiva del libro de proyectos. El contenido
+estático y las interacciones pequeñas siguen usando Astro y APIs del navegador.
 
 El sitio se publica solamente en español por ahora. La evaluación y las condiciones para reconsiderar una versión completa en inglés están en [`docs/language-strategy.md`](docs/language-strategy.md).
 
@@ -54,9 +63,14 @@ Los casos del estante comparten el orden y las reglas editoriales de [`docs/proj
 
 ## Estructura
 
-- `index.html`: portada y secciones principales del portfolio.
-- `formacion.html`: recorrido UTEC, proyectos académicos y formación complementaria.
+- `src/pages/`: rutas públicas generadas por Astro.
+- `src/layouts/`: estructura compartida de los documentos.
+- `src/lib/`: utilidades de build y datos compartidos.
+- `public/`: assets servidos sin transformación.
+- `index.html`, `formacion.html` y `posts/*.html`: fuentes legacy temporales durante la migración incremental.
+- `astro.config.mjs`: salida estática, base `/personal` y rutas con formato `.html`.
 - `tests/portfolio.test.mjs`: validaciones automáticas sin dependencias externas.
+- `tests/astro-build.test.mjs`: paridad y rutas sobre la salida compilada.
 - `.github/workflows/test.yml`: integración continua.
 - `docs/architecture-decision.md`: decisión de arquitectura y flujo operativo.
 - `docs/astro-migration-plan.md`: arquitectura Astro objetivo, contratos de paridad y rollback.
