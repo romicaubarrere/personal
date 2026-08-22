@@ -620,7 +620,7 @@
      border:none;background:var(--cream);color:var(--ink);font-size:26px;cursor:pointer;box-shadow:0 6px 18px rgba(0,0,0,.4);transition:transform .15s, background .15s;}
   .bm-nav:disabled{opacity:.48;cursor:default;}
   .bm-nav.prev{left:-26px;} .bm-nav.next{right:-26px;}
-  .bm-close{position:absolute;top:-46px;right:0;z-index:7;width:40px;height:40px;border-radius:50%;border:none;
+  .bm-close{position:absolute;top:-52px;right:0;z-index:7;width:46px;height:46px;border-radius:50%;border:none;
      background:var(--cream);color:var(--ink);font-size:22px;cursor:pointer;box-shadow:0 4px 12px rgba(0,0,0,.4);}
   .bm-foot{position:absolute;bottom:-40px;left:0;right:0;text-align:center;color:var(--cream);font-family:var(--hand);font-size:19px;}
   @media(max-width:720px){
