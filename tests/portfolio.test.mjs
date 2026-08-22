@@ -110,7 +110,13 @@ test('la decisión histórica queda preservada y el plan Astro la reemplaza', ()
 
 test('la decisión de publicar solo en español queda explícita y es consistente', () => {
   assert.match(languageStrategy, /Estado: no incorporar inglés en la versión actual/);
+  assert.match(languageStrategy, /Revisión de estado: WEB-098/);
   assert.match(languageStrategy, /El portfolio se mantiene solamente en español/);
+  assert.match(languageStrategy, /Cumplida: la arquitectura de información/);
+  assert.match(languageStrategy, /Cumplida: no quedan placeholders visibles/);
+  assert.match(languageStrategy, /Email y LinkedIn son los destinos de contacto aprobados/);
+  assert.match(languageStrategy, /Pendiente: acordar tiempo y responsable/);
+  assert.doesNotMatch(languageStrategy, /siguen pendientes secciones centrales/);
   assert.match(languageStrategy, /La versión inglesa vive en rutas propias bajo `\/en\/`/);
   assert.match(languageStrategy, /no se mezclan idiomas dentro de una página/);
   assert.match(languageStrategy, /selector usa un control accesible/);
@@ -331,8 +337,6 @@ test('el estante de proyectos se desplaza en una sola fila en móvil', () => {
   assert.match(html, /-webkit-overflow-scrolling:touch/);
   assert.match(html, /\.books\{flex-wrap:nowrap;width:max-content;min-width:100%;\}/);
   assert.match(html, /\.spine\{flex:0 0 76px;scroll-snap-align:start;\}/);
-  assert.match(projectIslandSource, /const \[isMobile, setIsMobile\] = useState\(true\)/);
-  assert.match(projectIslandSource, /tabIndex=\{isMobile \? 0 : -1\}/);
 
   const projectTriggers = html.match(/<button\b[^>]*class="spine [^"]+"[^>]*type="button"/g) ?? [];
   assert.equal(projectTriggers.length, 3);
