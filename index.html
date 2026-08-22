@@ -1046,21 +1046,31 @@
     spot.style.setProperty('--my', ((e.clientY-r.top)/r.height*100)+'%');
   });
 
+  // parallax por scroll y mouse, renderizado solo cuando cambia la escena
   var pnodes = Array.prototype.slice.call(document.querySelectorAll('.parallax'));
+  var mobileParallaxQuery = window.matchMedia ? window.matchMedia('(max-width: 760px)') : {matches:false};
   function baseTop(el){var y=0,n=el;while(n){y+=n.offsetTop;n=n.offsetParent;}return y;}
-  pnodes.forEach(function(el){el._base=baseTop(el);});
-  window.addEventListener('resize', function(){pnodes.forEach(function(el){el._base=baseTop(el);});});
+  function refreshParallaxBases(){
+    pnodes.forEach(function(el){el._base=baseTop(el);});
+  }
+  refreshParallaxBases();
   var mx=0,my=0;
   window.addEventListener('pointermove', function(e){
-    if(reducedMotion) return;
+    if(!parallaxCanRun()) return;
     mx=(e.clientX/window.innerWidth-.5); my=(e.clientY/window.innerHeight-.5);
-  });
+    scheduleParallax();
+  },{passive:true});
   var parallaxFrame = null;
+  var resizeFrame = null;
+  function parallaxCanRun(){
+    return !reducedMotion && !mobileParallaxQuery.matches && !document.hidden;
+  }
   function resetParallax(){
     pnodes.forEach(function(el){el.style.removeProperty('transform');});
   }
-  function frame(){
-    if(reducedMotion){parallaxFrame=null;return;}
+  function renderParallax(){
+    parallaxFrame=null;
+    if(!parallaxCanRun()) return;
     var sy = window.scrollY, vh = window.innerHeight;
     pnodes.forEach(function(el){
       var d = parseFloat(el.dataset.depth)||0;
@@ -1070,26 +1080,42 @@
       var tx = mx*d*1.5;
       el.style.transform = 'translate3d('+tx+'px,'+ty+'px,0)';
     });
-    parallaxFrame=requestAnimationFrame(frame);
   }
-  function startParallax(){
-    if(!reducedMotion && parallaxFrame===null) parallaxFrame=requestAnimationFrame(frame);
+  function scheduleParallax(){
+    if(parallaxCanRun() && parallaxFrame===null) parallaxFrame=requestAnimationFrame(renderParallax);
   }
   function stopParallax(){
     if(parallaxFrame!==null){cancelAnimationFrame(parallaxFrame);parallaxFrame=null;}
     resetParallax();
   }
+  window.addEventListener('scroll',scheduleParallax,{passive:true});
+  window.addEventListener('resize',function(){
+    if(resizeFrame!==null) cancelAnimationFrame(resizeFrame);
+    resizeFrame=requestAnimationFrame(function(){
+      resizeFrame=null;
+      refreshParallaxBases();
+      if(parallaxCanRun()) scheduleParallax(); else stopParallax();
+    });
+  },{passive:true});
+  document.addEventListener('visibilitychange',function(){
+    if(document.hidden) stopParallax(); else scheduleParallax();
+  });
+  function applyMobileParallax(){
+    if(mobileParallaxQuery.matches) stopParallax(); else scheduleParallax();
+  }
+  if(mobileParallaxQuery.addEventListener) mobileParallaxQuery.addEventListener('change',applyMobileParallax);
+  else if(mobileParallaxQuery.addListener) mobileParallaxQuery.addListener(applyMobileParallax);
   function showReveals(){
     document.querySelectorAll('.reveal').forEach(function(el){el.classList.add('in');});
   }
   function applyMotionPreference(e){
     reducedMotion=e.matches;
     if(reducedMotion){stopParallax();showReveals();}
-    else startParallax();
+    else scheduleParallax();
   }
   if(reducedMotionQuery.addEventListener) reducedMotionQuery.addEventListener('change',applyMotionPreference);
   else if(reducedMotionQuery.addListener) reducedMotionQuery.addListener(applyMotionPreference);
-  startParallax();
+  scheduleParallax();
 
   (function(){
     var els = document.querySelectorAll('.reveal');
