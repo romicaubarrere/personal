@@ -1083,7 +1083,24 @@
     var closeButton=modal.querySelector('.bm-close');
     var mobileBookQuery=window.matchMedia ? window.matchMedia('(max-width: 720px)') : {matches:false};
     var lastFocus=null;
+    var currentBookKey=null, openedFromPage=false;
     var pages=[], pageCount=0, pageIndex=0, spread=0, animating=false, curColor='#3f7d4e', curTag='';
+
+    function projectUrl(key,index){
+      return window.location.pathname+window.location.search+'#project='+encodeURIComponent(key)+'&page='+index;
+    }
+    function projectFromUrl(){
+      if(window.location.hash.indexOf('#project=')!==0) return null;
+      var params=new URLSearchParams(window.location.hash.slice(1));
+      var key=params.get('project');
+      if(!BOOKS[key]) return null;
+      var index=parseInt(params.get('page'),10);
+      return {key:key,index:Number.isFinite(index) ? index : 0};
+    }
+    function updateProjectUrl(mode){
+      if(!currentBookKey) return;
+      window.history[mode||'replaceState']({portfolioProject:true},'',projectUrl(currentBookKey,pageIndex));
+    }
 
     function esc(s){return s||'';}
     function pageHTML(pg){
@@ -1121,34 +1138,47 @@
         function(element){return element.offsetParent!==null;}
       );
     }
-    function openBook(key,trigger){
+    function openBook(key,trigger,options){
       var b=BOOKS[key]; if(!b) return;
+      options=options||{};
       lastFocus=trigger||document.activeElement;
+      currentBookKey=key;
       curColor=b.color; curTag=b.tag; pages=b.pages.slice();
-      pageCount=pages.length; pageIndex=0;
+      pageCount=pages.length;
+      pageIndex=Math.max(0,Math.min(Number(options.page)||0,pageCount-1));
       if(pages.length%2) pages.push(null);
-      spread=0; render();
+      spread=Math.floor(pageIndex/2); render();
       dialogTitle.textContent='Proyecto: '+b.pages[0].title;
       leaf.classList.add('hide');
       modal.classList.add('open'); modal.setAttribute('aria-hidden','false');
       document.body.classList.add('modal-open');
       setBackgroundInert(true);
-      closeButton.focus({preventScroll:true});
+      if(options.history!==false){
+        openedFromPage=true;
+        updateProjectUrl('pushState');
+      }
+      if(options.focus!==false) closeButton.focus({preventScroll:true});
     }
-    function closeBook(){
+    function closeBook(options){
       if(!modal.classList.contains('open')) return;
+      options=options||{};
       modal.classList.remove('open'); modal.setAttribute('aria-hidden','true');
       document.body.classList.remove('modal-open');
       setBackgroundInert(false);
       if(lastFocus && lastFocus.isConnected) lastFocus.focus({preventScroll:true});
-      lastFocus=null;
+      lastFocus=null; currentBookKey=null;
+      if(options.history!==false){
+        if(openedFromPage) window.history.back();
+        else window.history.replaceState(null,'',window.location.pathname+window.location.search);
+      }
+      openedFromPage=false;
     }
 
     function next(){
       if(animating) return;
       if(isMobileBook()){
         if(pageIndex+1>=pageCount) return;
-        pageIndex+=1; render(); return;
+        pageIndex+=1; render(); updateProjectUrl(); return;
       }
       if((spread+1)*2>=pages.length) return; animating=true;
       lfF.innerHTML=pageHTML(pages[spread*2+1]);
@@ -1161,7 +1191,7 @@
       if(animating) return;
       if(isMobileBook()){
         if(pageIndex<=0) return;
-        pageIndex-=1; render(); return;
+        pageIndex-=1; render(); updateProjectUrl(); return;
       }
       if(spread<=0) return; animating=true;
       lfB.innerHTML=pageHTML(pages[spread*2]);
@@ -1175,7 +1205,7 @@
       var goingNext = leaf.style.transform.indexOf('-180')>-1;
       spread += goingNext ? 1 : -1;
       pageIndex=spread*2;
-      render(); leaf.classList.add('hide'); leaf.style.transform=''; animating=false;
+      render(); updateProjectUrl(); leaf.classList.add('hide'); leaf.style.transform=''; animating=false;
     });
 
     function syncBookLayout(){
@@ -1193,7 +1223,20 @@
     });
     nextButton.addEventListener('click', next);
     prevButton.addEventListener('click', prev);
-    modal.querySelectorAll('[data-close]').forEach(function(el){ el.addEventListener('click', closeBook); });
+    modal.querySelectorAll('[data-close]').forEach(function(el){ el.addEventListener('click', function(){closeBook();}); });
+    function syncProjectFromUrl(){
+      var target=projectFromUrl();
+      if(!target){closeBook({history:false});return;}
+      if(currentBookKey!==target.key || !modal.classList.contains('open')){
+        openBook(target.key,null,{history:false,focus:false,page:target.index});
+      }else{
+        pageIndex=Math.max(0,Math.min(target.index,pageCount-1));
+        spread=Math.floor(pageIndex/2); render();
+      }
+    }
+    window.addEventListener('popstate',syncProjectFromUrl);
+    window.addEventListener('hashchange',syncProjectFromUrl);
+    syncProjectFromUrl();
     document.addEventListener('keydown', function(e){
       if(!modal.classList.contains('open')) return;
       if(e.key==='Escape') closeBook();
