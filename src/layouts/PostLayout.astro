@@ -12,9 +12,31 @@ interface Props {
 }
 
 const { title, description, canonical, summary, dateTime, dateLabel } = Astro.props;
+const article = {
+  '@context': 'https://schema.org',
+  '@type': 'BlogPosting',
+  headline: title.replace(/\s+\|\s+Romina Caubarrere$/, ''),
+  description,
+  url: canonical,
+  mainEntityOfPage: canonical,
+  datePublished: dateTime,
+  inLanguage: 'es',
+  author: {
+    '@type': 'Person',
+    name: 'Romina Caubarrere',
+    url: 'https://romicaubarrere.github.io/personal/',
+    sameAs: ['https://www.linkedin.com/in/rominacaubarrere/']
+  }
+};
 ---
 
 <BaseLayout {title} {description} {canonical} ogType="article">
+  <script
+    is:inline
+    slot="head"
+    type="application/ld+json"
+    set:html={JSON.stringify(article, null, 2)}
+  ></script>
 
   <a class="skip-link" href="#main-content">Saltar al contenido</a>
   <header class="top brick">

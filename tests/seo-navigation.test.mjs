@@ -84,6 +84,38 @@ test('Open Graph y X describen cada ruta y reutilizan la tarjeta aprobada', () =
   }
 });
 
+test('las notas publican datos estructurados específicos y sin datos no aprobados', () => {
+  for (const route of [
+    'posts/por-que-hago-tantas-preguntas.html',
+    'posts/cuando-puedas.html'
+  ]) {
+    const source = routeDocuments.get(route);
+    const jsonLd = source.match(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/i);
+    assert.ok(jsonLd, `${route} no contiene JSON-LD`);
+
+    const article = JSON.parse(jsonLd[1]);
+    const canonical = getAttribute(source, /<link\b[^>]*rel="canonical"[^>]*>/i, 'href');
+    const description = getAttribute(source, /<meta\b[^>]*name="description"[^>]*>/i, 'content');
+    const published = getAttribute(source, /<time\b[^>]*>/i, 'datetime');
+
+    assert.equal(article['@context'], 'https://schema.org');
+    assert.equal(article['@type'], 'BlogPosting');
+    assert.equal(article.url, canonical);
+    assert.equal(article.mainEntityOfPage, canonical);
+    assert.equal(article.description, description);
+    assert.equal(article.datePublished, published);
+    assert.equal(article.inLanguage, 'es');
+    assert.deepEqual(article.author, {
+      '@type': 'Person',
+      name: 'Romina Caubarrere',
+      url: 'https://romicaubarrere.github.io/personal/',
+      sameAs: ['https://www.linkedin.com/in/rominacaubarrere/']
+    });
+    assert.equal('email' in article.author, false);
+    assert.doesNotMatch(JSON.stringify(article), /instagram|placeholder/i);
+  }
+});
+
 test('los enlaces internos de las rutas compiladas resuelven a archivos y fragmentos existentes', async () => {
   const routesToCheck = [...publicRoutes, '404.html'];
   const sources = new Map(
