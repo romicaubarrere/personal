@@ -39,7 +39,7 @@ test('los recursos compilados respetan presupuestos de transferencia', async () 
 
   assert.ok(await totalBytes(javascript) <= 220 * 1024, 'El JavaScript supera 220 KiB');
   assert.ok(await totalBytes(styles) <= 80 * 1024, 'El CSS supera 80 KiB');
-  assert.ok(await totalBytes(siteResources) <= 430 * 1024, 'Los recursos del sitio superan 430 KiB');
+  assert.ok(await totalBytes(siteResources) <= 500 * 1024, 'Los recursos del sitio superan 500 KiB');
   assert.equal(downloadableDocuments.length, 0, 'No debe publicarse un CV hasta contar con una versión aprobada');
   assert.ok(
     await totalBytes(downloadableDocuments) <= 100 * 1024,

@@ -1,3 +1,11 @@
+---
+interface Props {
+  contactHref?: string;
+}
+
+const { contactHref = '#contacto' } = Astro.props;
+---
+
   <section class="offers" id="lo-que-hago">
     <div class="offers-inner">
       <div class="hd reveal">
@@ -33,7 +41,7 @@
       </div>
       <div class="offers-foot reveal">
         <p>Si alguna de estas fichas se parece a lo que necesit&aacute;s, escribime y vemos si tiene sentido hacerlo juntas.</p>
-        <a class="offers-link" href="#contacto">Hablemos de tu idea <span aria-hidden="true">&rarr;</span></a>
+        <a class="offers-link" href={contactHref}>Hablemos de tu idea <span aria-hidden="true">&rarr;</span></a>
       </div>
     </div>
   </section>

@@ -7,12 +7,10 @@ import Experience from '../components/home/Experience.astro';
 import Footer from '../components/home/Footer.astro';
 import Hero from '../components/home/Hero.astro';
 import HomeScripts from '../components/home/HomeScripts.astro';
-import Offers from '../components/home/Offers.astro';
 import ProjectBookcase from '../components/islands/ProjectBookcase';
 import Reads from '../components/home/Reads.astro';
-import Strengths from '../components/home/Strengths.astro';
 import Talks from '../components/home/Talks.astro';
-import Workflow from '../components/home/Workflow.astro';
+import WorkTeaser from '../components/home/WorkTeaser.astro';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import '../styles/home.css';
 
@@ -85,12 +83,10 @@ const structuredData = {
   <Chrome />
   <main id="main-content" tabindex="-1">
     <Hero />
-    <Strengths />
     <Experience />
     <Education />
     <ProjectBookcase client:idle />
-    <Workflow />
-    <Offers />
+    <WorkTeaser />
     <Talks />
     <About />
     <Reads />

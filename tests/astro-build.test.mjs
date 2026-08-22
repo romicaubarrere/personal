@@ -15,6 +15,7 @@ const deployWorkflow = await readFile(
 const routes = [
   'index.html',
   'formacion.html',
+  'como-trabajo.html',
   'comunidad-charlas.html',
   'posts/por-que-hago-tantas-preguntas.html',
   'posts/cuando-puedas.html'
@@ -53,13 +54,11 @@ test('la portada compilada conserva estructura, contenido e interacciones', asyn
   const clientJavaScript = scripts.join('\n');
 
   for (const id of [
-    'fortalezas',
     'sobre',
     'experiencia',
     'formacion',
     'proyectos',
     'forma-de-trabajo',
-    'lo-que-hago',
     'charlas',
     'lecturas',
     'contacto'
@@ -73,8 +72,25 @@ test('la portada compilada conserva estructura, contenido e interacciones', asyn
   assert.match(source, /Romina Caubarrere \| Project Manager de software/);
   assert.match(source, /href="\/personal\/favicon\.svg"/);
   assert.match(source, /href="\/personal\/microinteractions\.css"/);
+  assert.match(source, /href="como-trabajo\.html"/);
+  assert.doesNotMatch(source, /id="fortalezas"/);
+  assert.doesNotMatch(source, /id="lo-que-hago"/);
   assert.doesNotMatch(source, /\/personalfavicon\.svg/);
   assert.doesNotMatch(source, /\/personalmicrointeractions\.css/);
+});
+
+test('Cómo trabajo reúne las tres partes y la portada conserva solo el anticipo', async () => {
+  const home = await readFile(join(dist, 'index.html'), 'utf8');
+  const work = await readFile(join(dist, 'como-trabajo.html'), 'utf8');
+
+  assert.match(home, /id="forma-de-trabajo"/);
+  assert.match(home, /href="como-trabajo\.html"/);
+  assert.doesNotMatch(home, /id="fortalezas"|id="lo-que-hago"/);
+  for (const id of ['fortalezas', 'forma-de-trabajo', 'lo-que-hago']) {
+    assert.match(work, new RegExp(`id="${id}"`));
+  }
+  assert.equal((work.match(/class="workflow-step reveal"/g) ?? []).length, 4);
+  assert.equal((work.match(/class="offer-card reveal"/g) ?? []).length, 5);
 });
 
 test('la portada se compone desde módulos Astro con una única isla React', async () => {
@@ -110,6 +126,7 @@ test('todas las rutas son Astro nativo y el adaptador legado ya no participa', a
   const sourcePages = [
     join(repositoryRoot, 'src', 'pages', 'index.astro'),
     join(repositoryRoot, 'src', 'pages', 'formacion.astro'),
+    join(repositoryRoot, 'src', 'pages', 'como-trabajo.astro'),
     join(repositoryRoot, 'src', 'pages', 'comunidad-charlas.astro'),
     join(repositoryRoot, 'src', 'pages', 'posts', 'por-que-hago-tantas-preguntas.astro'),
     join(repositoryRoot, 'src', 'pages', 'posts', 'cuando-puedas.astro')
