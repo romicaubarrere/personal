@@ -712,6 +712,11 @@ test('cada proyecto puede abrirse y recorrerse desde una URL compartible', () =>
   assert.match(projectIslandSource, /window\.addEventListener\('popstate', syncProjectFromUrl\)/);
   assert.match(projectIslandSource, /window\.addEventListener\('hashchange', syncProjectFromUrl\)/);
   assert.match(projectIslandSource, /syncProjectFromUrl\(\);/);
+  assert.match(projectIslandSource, /target\.kind === 'invalid'/);
+  assert.match(
+    projectIslandSource,
+    /window\.history\.replaceState\(null, '', `\$\{window\.location\.pathname\}\$\{window\.location\.search\}`\)/
+  );
   assert.match(
     projectIslandSource,
     /if \(target\.rawPage !== String\(nextPage\)\) \{[\s\S]*?replaceProjectUrl\(target\.project\.id, nextPage\);[\s\S]*?window\.requestAnimationFrame\(\(\) => closeRef\.current\?\.focus\(\{ preventScroll: true \}\)\);/
