@@ -204,6 +204,36 @@ test('los enlaces internos de las rutas compiladas resuelven a archivos y fragme
   }
 });
 
+test('todos los recursos locales referenciados existen en la salida compilada', async () => {
+  const routesToCheck = [...publicRoutes, '404.html'];
+  for (const route of routesToCheck) {
+    const source = await readFile(join(dist, route), 'utf8');
+    const directResources = [
+      ...source.matchAll(/<(?:img|script|source|video|audio|iframe)\b[^>]*\bsrc="([^"]+)"/gi),
+      ...source.matchAll(/<link\b[^>]*\bhref="([^"]+)"/gi)
+    ].map((match) => match[1]);
+    const responsiveResources = [...source.matchAll(/\bsrcset="([^"]+)"/gi)]
+      .flatMap((match) => match[1].split(','))
+      .map((candidate) => candidate.trim().split(/\s+/)[0]);
+
+    for (const reference of [...directResources, ...responsiveResources]) {
+      if (/^(?:https?:|data:|blob:|\/\/)/i.test(reference)) continue;
+      const rawPath = reference.split(/[?#]/)[0];
+      if (!rawPath) continue;
+
+      let target;
+      if (rawPath.startsWith('/personal/')) target = rawPath.slice('/personal/'.length);
+      else if (rawPath.startsWith('/')) target = rawPath.slice(1);
+      else target = normalize(join(dirname(route), rawPath));
+
+      await assert.doesNotReject(
+        access(join(dist, target)),
+        `${route}: falta el recurso local ${reference}`
+      );
+    }
+  }
+});
+
 test('la navegación expone la sección activa y el contacto publica solo destinos verificados', () => {
   const home = routeDocuments.get('index.html');
   assert.match(home, /setAttribute\('aria-current','location'\)/);
