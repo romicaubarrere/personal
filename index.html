@@ -178,6 +178,64 @@
   .scrollhint span{display:block;font-size:26px;animation:bob 1.8s ease-in-out infinite;}
   @keyframes bob{0%,100%{transform:translateY(0);}50%{transform:translateY(8px);}}
 
+  /* ---------- FECHAS ESPECIALES ---------- */
+  .celebration-layer{position:absolute;inset:0;z-index:4;display:none;overflow:hidden;pointer-events:none;}
+  body:is(.is-birthday,.is-halloween,.is-patriotic) .celebration-layer{display:block;}
+  .special-date-badge{position:relative;z-index:8;display:inline-flex;align-items:center;gap:8px;width:max-content;max-width:100%;
+    margin-top:18px;padding:7px 13px 7px 11px;border:1px solid rgba(255,255,255,.38);border-radius:999px;
+    background:rgba(22,19,16,.82);color:var(--cream);font-family:var(--hand);font-size:20px;line-height:1;
+    box-shadow:0 5px 14px rgba(0,0,0,.25);transform:rotate(-1deg);}
+  .special-date-badge[hidden]{display:none;}
+  .special-date-badge::before{content:"✦";color:var(--gold);font-family:var(--serif);font-size:18px;}
+
+  .birthday-garland{display:none;position:absolute;top:56px;left:50%;width:min(760px,88vw);height:68px;transform:translateX(-50%);}
+  body.is-birthday .birthday-garland{display:block;}
+  .birthday-garland::before{content:"";position:absolute;top:4px;left:0;right:0;height:42px;border-bottom:3px dashed rgba(250,243,228,.88);border-radius:0 0 50% 50%;}
+  .birthday-flag{position:absolute;top:31px;width:0;height:0;border-left:18px solid transparent;border-right:18px solid transparent;
+    border-top:34px solid var(--gold);filter:drop-shadow(0 3px 2px rgba(0,0,0,.28));transform-origin:top center;animation:flag-sway 2.8s ease-in-out infinite alternate;}
+  .birthday-flag::after{content:"";position:absolute;left:-13px;top:-31px;width:26px;height:22px;
+    background:repeating-linear-gradient(35deg,rgba(255,255,255,.24) 0 2px,transparent 2px 6px);clip-path:polygon(0 0,100% 0,50% 100%);}
+  .birthday-flag:nth-child(2n){border-top-color:#93d694;animation-delay:-.9s;}
+  .birthday-flag:nth-child(3n){border-top-color:var(--rose);animation-delay:-1.7s;}
+  .celebration-particle{position:absolute;top:-24px;display:none;width:9px;height:15px;border-radius:2px;opacity:.9;
+    animation:celebration-fall var(--fall-time,7s) linear var(--fall-delay,0s) infinite;}
+  body.is-birthday .celebration-particle-birthday{display:block;background:var(--gold);}
+  body.is-birthday .celebration-particle-birthday:nth-child(3n){background:#93d694;border-radius:50%;}
+  body.is-birthday .celebration-particle-birthday:nth-child(4n){width:12px;height:7px;background:var(--rose);}
+  @keyframes celebration-fall{0%{transform:translate3d(0,-8vh,0) rotate(0);opacity:0;}8%{opacity:.95;}100%{transform:translate3d(var(--drift,20px),108vh,0) rotate(620deg);opacity:.18;}}
+  @keyframes flag-sway{from{transform:rotate(-2deg);}to{transform:rotate(3deg);}}
+
+  .halloween-web{display:none;position:absolute;right:-48px;top:18px;width:280px;height:280px;border-radius:50%;opacity:.9;
+    background:repeating-radial-gradient(circle at 100% 0,transparent 0 26px,rgba(239,228,205,.6) 27px 29px,transparent 30px 48px);}
+  body.is-halloween .halloween-web{display:block;}
+  .halloween-web::before,.halloween-web::after{content:"";position:absolute;right:42px;top:0;width:2px;height:260px;background:rgba(239,228,205,.58);transform-origin:top;}
+  .halloween-web::before{transform:rotate(42deg);}.halloween-web::after{transform:rotate(70deg);}
+  .halloween-yarn{display:none;position:absolute;left:7%;bottom:10%;width:72px;height:72px;border-radius:50%;
+    background:repeating-radial-gradient(ellipse at 30% 34%,transparent 0 5px,rgba(250,243,228,.18) 6px 7px),#d06d32;
+    box-shadow:inset -8px -9px 12px rgba(36,31,24,.32),3px 7px 14px rgba(0,0,0,.3);animation:halloween-bob 3.2s ease-in-out infinite;}
+  body.is-halloween .halloween-yarn{display:block;}
+  .halloween-yarn::before{content:"";position:absolute;left:27px;top:-18px;width:18px;height:22px;border:4px solid var(--green-dark);border-width:4px 4px 0 0;transform:rotate(-20deg);}
+  .halloween-yarn::after{content:"";position:absolute;left:61px;top:47px;width:116px;height:48px;border-bottom:4px solid #d06d32;border-radius:0 0 70% 50%;transform:rotate(8deg);}
+  body.is-halloween .hero::before{content:"";position:absolute;inset:0;z-index:1;pointer-events:none;background:linear-gradient(120deg,rgba(35,22,38,.5),transparent 58%,rgba(14,33,24,.36));}
+  body.is-halloween .special-date-badge::before{content:"☾";color:#ef9d55;}
+  @keyframes halloween-bob{0%,100%{transform:rotate(-5deg) translateY(0);}50%{transform:rotate(4deg) translateY(-8px);}}
+
+  .patriotic-ribbon{display:none;position:absolute;top:68px;left:-28px;width:230px;height:44px;transform:rotate(-7deg);
+    background:linear-gradient(#fff 0 33%,#5ba5dc 33% 66%,#fff 66%);box-shadow:2px 5px 12px rgba(0,0,0,.23);opacity:.92;}
+  body.is-patriotic .patriotic-ribbon{display:block;}
+  body.is-patriotic .special-date-badge{background:#f7f4e9;color:#174f78;border-color:#73acd4;}
+  body.is-patriotic .special-date-badge::before{color:#e2ad36;}
+
+  @media(max-width:760px){
+    .birthday-garland{top:62px;width:94vw;}
+    .birthday-flag{top:27px;border-left-width:13px;border-right-width:13px;border-top-width:27px;}
+    .special-date-badge{font-size:18px;line-height:1.15;}
+    .halloween-web{right:-92px;top:48px;width:230px;height:230px;opacity:.65;}
+    .halloween-yarn{left:5%;bottom:5%;width:58px;height:58px;}
+    .halloween-yarn::after{left:48px;top:38px;width:78px;}
+    .patriotic-ribbon{top:76px;width:170px;height:34px;}
+  }
+
   /* ---------- FORTALEZAS: una muestra de crochet ---------- */
   .strengths{position:relative;overflow:hidden;padding:96px 0 104px;background:var(--paper);}
   .strengths::before{content:"";position:absolute;inset:0;pointer-events:none;opacity:.28;
@@ -779,6 +837,18 @@
 
   <main id="main-content" tabindex="-1">
   <header class="hero brick" id="top">
+    <div class="celebration-layer" aria-hidden="true">
+      <div class="birthday-garland">
+        <i class="birthday-flag" style="left:8%"></i><i class="birthday-flag" style="left:20%"></i>
+        <i class="birthday-flag" style="left:32%"></i><i class="birthday-flag" style="left:44%"></i>
+        <i class="birthday-flag" style="left:56%"></i><i class="birthday-flag" style="left:68%"></i>
+        <i class="birthday-flag" style="left:80%"></i>
+      </div>
+      <div class="halloween-web"></div>
+      <div class="halloween-yarn"></div>
+      <div class="patriotic-ribbon"></div>
+      <div id="celebrationParticles"></div>
+    </div>
     <div class="ironshelf"></div>
     <svg class="hang l parallax" data-depth="26" viewBox="0 0 240 240" style="overflow:visible" aria-hidden="true" focusable="false"><use href="#fern"/></svg>
     <svg class="hang lb parallax" data-depth="34" viewBox="0 0 240 240" style="overflow:visible" aria-hidden="true" focusable="false"><use href="#fern"/></svg>
@@ -795,6 +865,7 @@
         <h1 class="bigname">Romina<span class="l2">Caubarrere</span></h1>
         <div class="rolebar">Project Manager de software</div>
         <p class="hero-copy">Conecto personas, producto y tecnolog&iacute;a para que proyectos complejos avancen y lleguen a resultados.</p>
+        <div class="special-date-badge" id="specialDateBadge" role="status" hidden></div>
         <div class="hero-actions" aria-label="Acciones principales">
           <a class="hero-link primary" href="#proyectos">Ver proyectos</a>
           <a class="hero-link" href="#contacto">Contactarme</a>
@@ -829,7 +900,7 @@
           <span class="pin" style="top:-9px;left:30px;"></span>
           <span class="about-kicker">hoy</span>
           <h3>Project Manager de software</h3>
-          <p>Trabajo en eagerworks. Ordeno el trabajo, coordino al equipo y sigo de cerca lo que hace falta para que cada proyecto avance.</p>
+          <p>Tengo <span data-age>23</span> a&ntilde;os y trabajo en eagerworks. Ordeno el trabajo, coordino al equipo y sigo de cerca lo que hace falta para que cada proyecto avance.</p>
         </article>
         <article class="about-note reveal" style="--r:1.2deg">
           <span class="pin green" style="top:-9px;right:34px;"></span>
@@ -1591,5 +1662,6 @@
     els.forEach(function(e){io.observe(e);});
   })();
 </script>
+<script type="module" src="special-dates.js"></script>
 </body>
 </html>

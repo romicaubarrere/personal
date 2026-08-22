@@ -3,6 +3,13 @@ import { readFile } from 'node:fs/promises';
 import { dirname, join } from 'node:path';
 import test from 'node:test';
 import { fileURLToPath } from 'node:url';
+import {
+  BIRTH_DATE,
+  SPECIAL_DATES,
+  calculateAge,
+  getSimulationId,
+  resolveSpecialDate
+} from '../special-dates.js';
 import { runInNewContext } from 'node:vm';
 
 const repositoryRoot = join(dirname(fileURLToPath(import.meta.url)), '..');
@@ -503,7 +510,7 @@ test('las microinteracciones orientan con mouse, teclado y tacto sin sumar JavaS
   assert.match(css, /\.bookmodal\.open \.bookframe\{animation:book-settle/);
   assert.match(css, /@media\(prefers-reduced-motion:reduce\)\{[\s\S]*?animation:none!important;[\s\S]*?translate:0 0!important;scale:1!important;/);
 
-  assert.equal((html.match(/<script\b/g) ?? []).length, 3);
+  assert.equal((html.match(/<script\b/g) ?? []).length, 4);
   assert.doesNotMatch(css, /addEventListener|requestAnimationFrame|setTimeout/);
 });
 
@@ -624,6 +631,53 @@ test('el hero comunica el posicionamiento y ofrece las dos acciones principales'
   );
   assert.match(html, /class="hero-link primary" href="#proyectos">Ver proyectos<\/a>/);
   assert.match(html, /class="hero-link" href="#contacto">Contactarme<\/a>/);
+});
+
+test('la edad se calcula desde el 13 de mayo de 2003 en los límites correctos', () => {
+  assert.deepEqual(BIRTH_DATE, { year: 2003, month: 5, day: 13 });
+  assert.equal(calculateAge({ year: 2027, month: 5, day: 12 }), 23);
+  assert.equal(calculateAge({ year: 2027, month: 5, day: 13 }), 24);
+  assert.equal(calculateAge({ year: 2027, month: 5, day: 14 }), 24);
+  assert.match(html, /Tengo <span data-age>23<\/span> a&ntilde;os y trabajo en eagerworks/);
+  assert.match(html, /<script type="module" src="special-dates\.js"><\/script>/);
+});
+
+test('cumpleaños, Halloween y las cinco fechas patrias usan las fechas aprobadas', () => {
+  assert.deepEqual(
+    SPECIAL_DATES.map(({ id, month, day }) => [id, month, day]),
+    [
+      ['birthday', 5, 13],
+      ['patria-19-abril', 4, 19],
+      ['patria-18-mayo', 5, 18],
+      ['patria-19-junio', 6, 19],
+      ['patria-18-julio', 7, 18],
+      ['patria-25-agosto', 8, 25],
+      ['halloween', 10, 31]
+    ]
+  );
+
+  for (const event of SPECIAL_DATES) {
+    assert.equal(resolveSpecialDate({ month: event.month, day: event.day })?.id, event.id);
+  }
+  assert.equal(resolveSpecialDate({ month: 10, day: 30 }), null);
+  assert.equal(resolveSpecialDate({ month: 11, day: 1 }), null);
+});
+
+test('cada celebración puede simularse sin persistir estado', () => {
+  for (const event of SPECIAL_DATES) {
+    const locationLike = { search: `?special=${event.id}`, hash: '' };
+    assert.equal(getSimulationId(locationLike), event.id);
+    assert.equal(resolveSpecialDate({ month: 1, day: 1 }, getSimulationId(locationLike))?.id, event.id);
+  }
+
+  assert.equal(getSimulationId({ search: '?preview=birthday', hash: '' }), 'birthday');
+  assert.equal(getSimulationId({ search: '', hash: '#birthday-preview' }), 'birthday');
+  assert.equal(getSimulationId({ search: '?special=no-existe', hash: '' }), 'no-existe');
+  assert.equal(resolveSpecialDate({ month: 1, day: 1 }, 'no-existe'), null);
+  assert.match(html, /id="specialDateBadge" role="status" hidden/);
+  assert.match(html, /class="halloween-web"/);
+  assert.match(html, /class="birthday-garland"/);
+  assert.match(html, /class="patriotic-ribbon"/);
 });
 
 test('las cuatro fortalezas forman una sola muestra de crochet sin numeración', () => {

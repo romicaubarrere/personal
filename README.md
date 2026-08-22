@@ -50,6 +50,8 @@ Los casos del estante comparten el orden y las reglas editoriales de [`docs/proj
 - `index.html`: portada y secciones principales del portfolio.
 - `formacion.html`: recorrido UTEC, proyectos académicos y formación complementaria.
 - `tests/portfolio.test.mjs`: validaciones automáticas sin dependencias externas.
+- `special-dates.js`: edad automática, calendario y simulación de celebraciones.
+- `docs/special-dates.md`: fechas exactas y URLs de revisión de cada ambientación.
 - `.github/workflows/test.yml`: integración continua.
 - `docs/architecture-decision.md`: decisión de arquitectura y flujo operativo.
 - `docs/language-strategy.md`: decisión de idioma y condiciones de reevaluación.
