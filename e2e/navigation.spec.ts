@@ -27,6 +27,18 @@ async function internalHttpLinks(page: Page) {
   });
 }
 
+async function primaryNavInert(page: Page) {
+  return page.locator('#primary-nav').evaluate((nav) => (nav as HTMLElement).inert);
+}
+
+async function clickPrimaryNav(page: Page, href: string) {
+  const toggle = page.locator('#navToggle');
+  if (await toggle.isVisible()) {
+    if ((await toggle.getAttribute('aria-expanded')) !== 'true') await toggle.click();
+  }
+  await page.locator(`#primary-nav a[href="${href}"]`).click();
+}
+
 test.beforeEach(async ({ page }) => {
   await page.route(/https:\/\/fonts\.(googleapis|gstatic)\.com\/.*/, (route) => route.abort());
 });
@@ -36,16 +48,17 @@ test('TC-NAV-001 · menú desktop y móvil exponen el contrato correcto', async 
   await page.goto('/personal/');
   await expect(page.locator('#primary-nav')).toBeVisible();
   await expect(page.locator('#navToggle')).toBeHidden();
-  await expect(page.locator('#primary-nav')).not.toHaveAttribute('inert', '');
+  expect(await primaryNavInert(page)).toBe(false);
 
   await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto('/personal/');
   await expect(page.locator('#navToggle')).toBeVisible();
   await expect(page.locator('#navToggle')).toHaveAttribute('aria-expanded', 'false');
-  await expect(page.locator('#primary-nav')).toHaveAttribute('inert', '');
+  expect(await primaryNavInert(page)).toBe(true);
 
   await page.locator('#navToggle').click();
   await expect(page.locator('#navToggle')).toHaveAttribute('aria-expanded', 'true');
-  await expect(page.locator('#primary-nav')).not.toHaveAttribute('inert', '');
+  expect(await primaryNavInert(page)).toBe(false);
   await expect(page.getByRole('link', { name: 'Proyectos', exact: true })).toBeVisible();
 });
 
@@ -78,9 +91,9 @@ test('TC-NAV-003 · el estado activo sigue la sección indicada por la URL', asy
 
 test('TC-NAV-004 · Back y Forward restauran hash y estado activo', async ({ page }) => {
   await page.goto('/personal/');
-  await page.locator('#primary-nav a[href="#proyectos"]').click();
+  await clickPrimaryNav(page, '#proyectos');
   await expect(page).toHaveURL(/#proyectos$/);
-  await page.locator('#primary-nav a[href="#contacto"]').click();
+  await clickPrimaryNav(page, '#contacto');
   await expect(page).toHaveURL(/#contacto$/);
 
   await page.goBack();
