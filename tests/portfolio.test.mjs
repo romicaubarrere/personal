@@ -442,6 +442,9 @@ test('el parallax conserva las rotaciones y limpia solo su propio desplazamiento
   assert.match(html, /el\.style\.setProperty\('--parallax-y',ty\+'px'\)/);
   assert.match(html, /el\.style\.removeProperty\('--parallax-x'\)/);
   assert.match(html, /el\.style\.removeProperty\('--parallax-y'\)/);
+  assert.match(html, /Number\.isFinite\(e\.clientX\)\?e\.clientX:window\.innerWidth\/2/);
+  assert.match(html, /Number\.isFinite\(e\.clientY\)\?e\.clientY:window\.innerHeight\/2/);
+  assert.match(html, /if\(!Number\.isFinite\(tx\)\|\|!Number\.isFinite\(ty\)\) return/);
 
   const parallaxScript = html.match(
     /\/\/ parallax por scroll y mouse[\s\S]*?function showReveals\(\)/

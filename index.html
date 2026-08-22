@@ -1163,7 +1163,9 @@
   var mx=0,my=0;
   window.addEventListener('pointermove', function(e){
     if(!parallaxCanRun()) return;
-    mx=(e.clientX/window.innerWidth-.5); my=(e.clientY/window.innerHeight-.5);
+    var clientX=Number.isFinite(e.clientX)?e.clientX:window.innerWidth/2;
+    var clientY=Number.isFinite(e.clientY)?e.clientY:window.innerHeight/2;
+    mx=(clientX/window.innerWidth-.5); my=(clientY/window.innerHeight-.5);
     scheduleParallax();
   },{passive:true});
   var parallaxFrame = null;
@@ -1187,6 +1189,7 @@
       var prog = (center - vh/2)/vh;
       var ty = prog * d * -1.4 + my*d*1.1;
       var tx = mx*d*1.5;
+      if(!Number.isFinite(tx)||!Number.isFinite(ty)) return;
       el.style.setProperty('--parallax-x',tx+'px');
       el.style.setProperty('--parallax-y',ty+'px');
     });
