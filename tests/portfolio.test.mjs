@@ -344,7 +344,7 @@ test('las secciones de la portada siguen el orden aprobado', () => {
 test('la portada enlaza al recorrido académico completo', () => {
   assert.match(html, /<section\b[^>]*id="sobre"/i);
   assert.match(html, /href="formacion\.html#experiencia"/i);
-  assert.match(formationHtml, /href="index\.html#sobre"/i);
+  assert.match(formationHtml, /href=\"\/personal\/#sobre\"/i);
   assert.doesNotMatch(html, /id="experiencia"|id="formacion"/i);
 });
 
