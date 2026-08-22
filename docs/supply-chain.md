@@ -5,7 +5,7 @@
 
 ## Entorno reproducible
 
-El proyecto fija Node.js `22.12.0` y npm `11.9.0` en `package.json`, `.nvmrc` y
+El proyecto fija Node.js `22.19.0` y npm `11.9.0` en `package.json`, `.nvmrc` y
 los workflows de entrega. CI activa explícitamente esa versión de npm antes de
 instalar dependencias.
 
