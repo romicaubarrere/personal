@@ -15,6 +15,11 @@ test('la portada enlaza la página completa de lecturas', () => {
   assert.match(home, /href="lecturas\.html">Abrir mi historial y estad(?:&iacute;|í)sticas/);
 });
 
+test('la página vuelve a la portada canónica sin index.html', () => {
+  assert.match(readingPage, /class="reading-back" href="\/personal\/#lecturas"/);
+  assert.doesNotMatch(readingPage, /href="(?:\/personal\/)?index\.html#/);
+});
+
 test('la página publica únicamente el historial y las estadísticas del export real', () => {
   assert.match(readingPage, /La Guerra del Arte/);
   assert.match(readingPage, /Steven Pressfield, David Alpuche, Shawn Coyne/);
