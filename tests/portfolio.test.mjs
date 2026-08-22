@@ -28,10 +28,14 @@ const homeScripts = await readFile(
   'utf8'
 );
 const formationStyles = await readFile(join(repositoryRoot, 'src', 'styles', 'formation.css'), 'utf8');
-const html = htmlDocument.replace(/<\/head>/i, `<style>${homeStyles}</style></head>`);
-const formationHtml = formationDocument.replace(/<\/head>/i, `<style>${formationStyles}</style></head>`);
-const workHtml = workDocument.replace(/<\/head>/i, `<style>${homeStyles}</style></head>`);
-const communityHtml = communityDocument.replace(/<\/head>/i, `<style>${formationStyles}</style></head>`);
+const visualTokens = await readFile(join(repositoryRoot, 'src', 'styles', 'tokens.css'), 'utf8');
+const baseLayoutSource = await readFile(join(repositoryRoot, 'src', 'layouts', 'BaseLayout.astro'), 'utf8');
+const localizedPageSource = await readFile(join(repositoryRoot, 'src', 'components', 'LocalizedInternalPage.astro'), 'utf8');
+const visualSystemGuide = await readFile(join(repositoryRoot, 'docs', 'visual-system.md'), 'utf8');
+const html = htmlDocument.replace(/<\/head>/i, `<style>${visualTokens}${homeStyles}</style></head>`);
+const formationHtml = formationDocument.replace(/<\/head>/i, `<style>${visualTokens}${formationStyles}</style></head>`);
+const workHtml = workDocument.replace(/<\/head>/i, `<style>${visualTokens}${homeStyles}</style></head>`);
+const communityHtml = communityDocument.replace(/<\/head>/i, `<style>${visualTokens}${formationStyles}</style></head>`);
 const favicon = await readFile(join(distRoot, 'favicon.svg'), 'utf8');
 const socialPreview = await readFile(join(distRoot, 'social-preview.png'));
 const socialPreviewSource = await readFile(join(distRoot, 'social-preview.svg'), 'utf8');
@@ -1075,4 +1079,23 @@ test('WEB-100 mantiene nombres, cifras y términos editoriales consistentes', ()
   assert.doesNotMatch(formationHtml, /m&aacute;s de 2700 pruebas automatizadas/);
   assert.doesNotMatch(formationHtml, /<span class="state">en curso<\/span><h3>OPI 2\.0<\/h3>/);
   assert.match(formationHtml, /An&aacute;lisis de Requerimientos y Modelado/);
+});
+
+test('WEB-064 consolida la identidad visual sin numeración decorativa', () => {
+  assert.match(baseLayoutSource, /import '\.\.\/styles\/tokens\.css'/);
+  for (const token of ['--paper-light', '--radius-paper', '--shadow-paper', '--motion-fast', '--focus-ring']) {
+    assert.match(visualTokens, new RegExp(token));
+  }
+  assert.match(visualSystemGuide, /No se usan secuencias decorativas como 01, 02 o 03/);
+  assert.match(visualSystemGuide, /fechas, años, métricas, nombres de semestres/);
+
+  const pageIndex = workHtml.match(/<ol class="work-page-index"[\s\S]*?<\/ol>/)?.[0] ?? '';
+  assert.doesNotMatch(pageIndex, />0[1-9]</);
+  assert.match(homeStyles, /\.work-page-index a::before\{content:"";/);
+  assert.doesNotMatch(homeStyles, /counter-reset:workflow|counter\(workflow\)|workflow-number/);
+  assert.doesNotMatch(formationHtml, /class="num">0[1-8]</);
+  assert.match(formationHtml, /Semestre 1/);
+  assert.doesNotMatch(localizedPageSource, /padStart\(2,'0'\)|meta:'0[1-4]'/);
+  assert.match(localizedPageSource, /meta:'listen'/);
+  assert.doesNotMatch(communityHtml, /<div class="code">0[1-9]<\/div>/);
 });
