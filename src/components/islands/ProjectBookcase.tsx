@@ -150,7 +150,11 @@ export default function ProjectBookcase() {
     setTurn(null);
     setCurrentId(target.project.id);
     setPageIndex(nextPage);
-  }, [closeBook]);
+
+    if (target.page !== nextPage) {
+      replaceProjectUrl(target.project.id, nextPage);
+    }
+  }, [closeBook, replaceProjectUrl]);
 
   const finishTurn = useCallback(() => {
     if (!turn || !project) return;
