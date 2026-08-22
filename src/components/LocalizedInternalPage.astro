@@ -27,10 +27,10 @@ const work: Record<Lang, Copy> = {
         {title:'Technical and quality foundation',body:'My technical background helps me discuss feasibility, risks, testing and delivery with the people building the product.'}
       ]},
       { id:'process', eyebrow:'my process', title:'How I take an idea into something buildable', intro:'Four moments that repeat, without pretending every project is identical.', items:[
-        {meta:'01',title:'Understand before organizing',body:'I gather context, ask why and identify the people, constraints and decisions involved.'},
-        {meta:'02',title:'Turn it into a plan',body:'I define scope, priorities, dependencies, owners and a sequence the team can discuss.'},
-        {meta:'03',title:'Sustain the work',body:'I follow progress, surface risks and keep decisions and next steps visible while the project moves.'},
-        {meta:'04',title:'Look at what happened and adjust',body:'I compare outcomes with the original need, learn from the delivery and update the plan.'}
+        {meta:'listen',title:'Understand before organizing',body:'I gather context, ask why and identify the people, constraints and decisions involved.'},
+        {meta:'shape',title:'Turn it into a plan',body:'I define scope, priorities, dependencies, owners and a sequence the team can discuss.'},
+        {meta:'support',title:'Sustain the work',body:'I follow progress, surface risks and keep decisions and next steps visible while the project moves.'},
+        {meta:'adjust',title:'Look at what happened and adjust',body:'I compare outcomes with the original need, learn from the delivery and update the plan.'}
       ]},
       { id:'services', eyebrow:'what I do', title:'Problems I can help organize', intro:'Each card starts with a real kind of problem and ends with a concrete result.', items:[
         {title:'Software project management',body:'From competing priorities and open fronts to a shared plan, visible dependencies and sustainable delivery.'},
@@ -52,10 +52,10 @@ const work: Record<Lang, Copy> = {
         {title:'Base técnica e de qualidade',body:'Minha formação técnica me ajuda a conversar sobre viabilidade, riscos, testes e entrega com quem constrói o produto.'}
       ]},
       {id:'process',eyebrow:'meu processo',title:'Como levo uma ideia até algo construível',intro:'Quatro momentos que se repetem, sem fingir que todo projeto é igual.',items:[
-        {meta:'01',title:'Entender antes de organizar',body:'Reúno contexto, pergunto por quê e identifico pessoas, restrições e decisões envolvidas.'},
-        {meta:'02',title:'Transformar em um plano',body:'Defino escopo, prioridades, dependências, responsáveis e uma sequência que a equipe pode discutir.'},
-        {meta:'03',title:'Sustentar o trabalho',body:'Acompanho o avanço, torno os riscos visíveis e mantenho decisões e próximos passos claros.'},
-        {meta:'04',title:'Olhar o resultado e ajustar',body:'Comparo o resultado com a necessidade inicial, aprendo com a entrega e atualizo o plano.'}
+        {meta:'entender',title:'Entender antes de organizar',body:'Reúno contexto, pergunto por quê e identifico pessoas, restrições e decisões envolvidas.'},
+        {meta:'planejar',title:'Transformar em um plano',body:'Defino escopo, prioridades, dependências, responsáveis e uma sequência que a equipe pode discutir.'},
+        {meta:'sustentar',title:'Sustentar o trabalho',body:'Acompanho o avanço, torno os riscos visíveis e mantenho decisões e próximos passos claros.'},
+        {meta:'ajustar',title:'Olhar o resultado e ajustar',body:'Comparo o resultado com a necessidade inicial, aprendo com a entrega e atualizo o plano.'}
       ]},
       {id:'services',eyebrow:'o que eu faço',title:'Problemas que posso ajudar a organizar',intro:'Cada ficha começa com um problema real e termina com um resultado concreto.',items:[
         {title:'Gestão de projetos de software',body:'De prioridades que competem e frentes abertas para um plano compartilhado, dependências visíveis e entregas sustentáveis.'},
@@ -150,7 +150,7 @@ const pageLabel = page === 'work' ? 'work' : page === 'community' ? 'community' 
   <div class="topbar localized-topbar"><a href={`/${'personal'}/${lang}.html`}>&larr; {lang === 'en' ? 'Back to the studio' : 'Voltar ao estúdio'}</a><nav aria-label={lang === 'en' ? 'Page sections' : 'Seções da página'}>{copy.sections.map(section => <a href={`#${section.id}`}>{section.eyebrow}</a>)}</nav></div>
   <header class="academic-hero brick" id="inicio"><div class="hero-inner"><div class="open-folder" data-label={pageLabel}><div class="folder-pages"><div class="hero-copy"><span class="kick">{copy.kicker}</span><h1>{copy.heading}</h1><p>{copy.lede}</p></div><aside class="file-card"><span class="label">{copy.record}</span><h2>{copy.title.split('|')[0]}</h2><p class="spoiler">{copy.note}</p><div class="file-stamps"><span>ES</span><span>{lang.toUpperCase()}</span><span>{lang === 'en' ? 'PT available' : 'EN disponível'}</span></div></aside></div></div></div></header>
   <main id="main-content" tabindex="-1">
-    {copy.sections.map((section, sectionIndex) => <section class={sectionIndex % 2 ? 'academic-projects' : 'route'} id={section.id}><div class={sectionIndex % 2 ? 'projects-inner' : 'route-inner'}><div class="section-title"><span class="small">{section.eyebrow}</span><h2>{section.title}</h2><p>{section.intro}</p></div><div class="project-stack">{section.items.map((item,index) => <article class="project-sheet" style={`grid-column:span 6;--sheet-rotate:${index % 2 ? '.6deg' : '-.6deg'};${index % 2 ? 'background:#eef3df' : ''}`}><div class="code">{item.meta || String(index + 1).padStart(2,'0')}</div><div><h3>{item.title}</h3><p>{item.body}</p></div></article>)}</div></div></section>)}
+    {copy.sections.map((section, sectionIndex) => <section class={sectionIndex % 2 ? 'academic-projects' : 'route'} id={section.id}><div class={sectionIndex % 2 ? 'projects-inner' : 'route-inner'}><div class="section-title"><span class="small">{section.eyebrow}</span><h2>{section.title}</h2><p>{section.intro}</p></div><div class="project-stack">{section.items.map((item,index) => <article class="project-sheet" style={`grid-column:span 6;--sheet-rotate:${index % 2 ? '.6deg' : '-.6deg'};${index % 2 ? 'background:#eef3df' : ''}`}>{item.meta && <div class="code">{item.meta}</div>}<div><h3>{item.title}</h3><p>{item.body}</p></div></article>)}</div></div></section>)}
   </main>
   <footer><p>{copy.note}</p><a href={`/${'personal'}/${lang}.html`}>{copy.footer}</a></footer>
   <script is:inline>
