@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /personal/
+
+Sitemap: https://romicaubarrere.github.io/personal/sitemap.xml
