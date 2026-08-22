@@ -34,5 +34,8 @@ const links = [
   .language-switcher a{display:grid;place-items:center;min-width:44px;min-height:44px;padding:0 8px;color:#241f18;font:700 13px/1 "DM Sans",sans-serif;text-decoration:none;border:2px solid transparent}
   .language-switcher a:hover,.language-switcher a:focus-visible{border-color:#8f4230;outline:none}
   .language-switcher a[aria-current="page"]{color:#faf3e4;background:#22432c;border-color:#22432c}
-  @media(max-width:760px){.language-switcher{position:relative;top:auto;right:auto;width:max-content;margin:66px 12px 0 auto}}
+  @media(max-width:760px){
+    .language-switcher{position:fixed;top:8px;right:auto;bottom:auto;left:10px;width:max-content;max-width:calc(100vw - 118px);margin:0;display:flex;flex-direction:row;gap:4px;padding:4px;overflow:visible;transform:none}
+    .language-switcher a{min-width:40px;min-height:44px;padding:0 6px}
+  }
 </style>
