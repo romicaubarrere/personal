@@ -14,8 +14,7 @@ interface Props {
 const { title, description, canonical, summary, dateTime, dateLabel } = Astro.props;
 ---
 
-<BaseLayout {title} {description} {canonical}>
-  <meta slot="head" name="author" content="Romina Caubarrere" />
+<BaseLayout {title} {description} {canonical} ogType="article">
 
   <a class="skip-link" href="#main-content">Saltar al contenido</a>
   <header class="top brick">
