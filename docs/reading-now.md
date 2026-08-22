@@ -1,7 +1,7 @@
 # Leyendo ahora
 
 - Tickets: WEB-080, WEB-140
-- Fuente publicada: estática, regenerable desde un export personal de StoryGraph
+- Fuente vigente: manual, regenerada automáticamente desde un export personal de StoryGraph
 - Respaldo: edición manual de `src/data/reading.ts`
 - Última actualización visible: 22 de agosto de 2026
 
@@ -34,9 +34,9 @@ Después se revisa el diff generado, se ejecutan las pruebas y se versiona únic
 ## Decisión sobre scraping y API
 
 StoryGraph no ofrece hoy una API pública estable para esta integración: su API oficial
-continúa anunciada a largo plazo. Tampoco se implementa scraping, evasión de
-autenticación ni una consulta desde el navegador. La automatización usa únicamente un
-export solicitado por la propia persona titular de la cuenta.
+continúa anunciada a largo plazo. No se usa scraping, no se evade autenticación y no
+se consulta StoryGraph desde el navegador. La automatización usa únicamente un export
+solicitado por la propia persona titular de la cuenta.
 
 Esto evita depender del HTML privado o cambiante de un tercero. Si StoryGraph publica
 una API adecuada, podrá reemplazarse el paso de exportación sin cambiar el contrato
