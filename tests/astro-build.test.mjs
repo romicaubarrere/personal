@@ -31,7 +31,7 @@ test('Astro genera todas las rutas públicas con su extensión histórica', asyn
 });
 
 test('la documentación explica el flujo Astro vigente', () => {
-  assert.match(readme, /Node\.js 22\.12\.0 y npm 11\.9\.0/);
+  assert.match(readme, /Node\.js 22\.19\.0 y npm 11\.9\.0/);
   assert.match(readme, /npm ci/);
   assert.match(readme, /npm run dev/);
   assert.match(readme, /npm run build/);
