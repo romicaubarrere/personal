@@ -202,6 +202,38 @@ test('la portada enlaza al recorrido académico completo', () => {
   assert.match(formationHtml, /href="index\.html#formacion"/i);
 });
 
+test('la experiencia profesional es cronológica, verificable y separa la mentoría', () => {
+  const section = html.match(/<section\b[^>]*class="experience"[^>]*id="experiencia"[^>]*>([\s\S]*?)<\/section>/i);
+  assert.ok(section, 'No se encontró la sección Experiencia');
+  assert.match(section[1], /<ol class="experience-list" aria-label="Experiencia laboral en orden cronol&oacute;gico inverso">/);
+
+  const jobs = section[1].match(/<article class="job-card reveal"/g) ?? [];
+  assert.equal(jobs.length, 4);
+  for (const expected of [
+    ['Project Manager', 'eagerworks', 'diciembre 2025'],
+    ['Associate Product Manager', 'UKG', 'octubre 2024'],
+    ['Project Manager Trainee', 'Plan Ceibal', 'junio 2023'],
+    ['Docente de rob&oacute;tica y programaci&oacute;n', 'Elemental Ciencias de la Computaci&oacute;n', 'octubre 2022']
+  ]) {
+    for (const text of expected) assert.match(section[1], new RegExp(text));
+  }
+
+  assert.match(section[1], /Proyectos de software/);
+  assert.match(section[1], /Producto digital y experiencia del empleado/);
+  assert.match(section[1], /Iniciativas tecnol&oacute;gicas/);
+  assert.match(section[1], /Educaci&oacute;n tecnol&oacute;gica/);
+  assert.match(section[1], /class="experience-mentoring reveal" aria-label="Desarrollo profesional separado de la experiencia laboral"/);
+  assert.match(section[1], /Programa de Mentoring PMI 2026/);
+  assert.match(section[1], /no un cargo laboral/);
+  assert.doesNotMatch(section[1], /\d+\s*%/);
+
+  const experienceIndex = html.indexOf('id="experiencia"');
+  assert.ok(experienceIndex < html.indexOf('id="formacion"'));
+  assert.ok(experienceIndex < html.indexOf('id="charlas"'));
+  assert.ok(experienceIndex < html.indexOf('id="comunidades"'));
+  assert.match(html, /@media\(max-width:760px\)\{[\s\S]*?\.experience-list\{grid-template-columns:1fr;\}/);
+});
+
 test('la forma de trabajo presenta cinco etapas concretas y responsivas', () => {
   const section = html.match(/<section\b[^>]*class="workflow"[^>]*id="forma-de-trabajo"[^>]*>([\s\S]*?)<\/section>/i);
   assert.ok(section, 'No se encontró la sección Forma de trabajo');
