@@ -217,8 +217,11 @@
   .strengths h2 em{font-style:italic;color:var(--green);}
   .strengths-intro{color:var(--ink-soft);font-size:.94rem;line-height:1.55;}
   .strengths-list{list-style:none;padding:0;border-top:1px solid #cfc1a7;}
-  .strength-row{--yarn:var(--green);position:relative;display:grid;grid-template-columns:50px minmax(0,1fr) minmax(155px,210px);
-    gap:20px;align-items:center;padding:25px 0;}
+  .strength-row{--yarn:var(--green);position:relative;display:grid;grid-template-columns:50px minmax(0,1fr);
+    gap:20px;align-items:start;padding:25px 16px 25px 0;isolation:isolate;}
+  .strength-row::before{content:"";position:absolute;z-index:-1;inset:7px -8px 7px 56px;border-radius:4px;
+    background:color-mix(in srgb,var(--yarn) 9%,transparent);opacity:0;transform:scaleX(.97);transform-origin:left center;
+    transition:opacity .24s ease,transform .34s cubic-bezier(.2,.8,.2,1);}
   .strength-row:nth-child(2){--yarn:var(--brick);}
   .strength-row:nth-child(3){--yarn:var(--gold);}
   .strength-row:nth-child(4){--yarn:var(--sage);}
@@ -228,22 +231,33 @@
   .crochet-loop{position:relative;width:44px;height:44px;border-radius:50%;background:
     radial-gradient(circle,var(--cream) 0 5px,transparent 6px),
     repeating-conic-gradient(from 4deg,var(--yarn) 0 9deg,transparent 9deg 22.5deg);
-    filter:drop-shadow(2px 3px 2px rgba(36,31,24,.18));transition:transform .34s cubic-bezier(.2,.8,.2,1);}
+    filter:drop-shadow(2px 3px 2px rgba(36,31,24,.18));appearance:none;border:0;padding:0;cursor:pointer;
+    transition:transform .34s cubic-bezier(.2,.8,.2,1),filter .2s ease;}
   .crochet-loop::before{content:"";position:absolute;inset:8px;border:3px dashed var(--yarn);border-radius:50%;}
   .crochet-loop::after{content:"";position:absolute;left:35px;top:24px;width:21px;border-top:3px solid var(--yarn);
     border-radius:50%;transform:rotate(12deg);transform-origin:left center;transition:transform .34s cubic-bezier(.2,.8,.2,1);}
+  .crochet-loop:focus-visible{outline:3px solid var(--gold);outline-offset:4px;filter:drop-shadow(0 0 0 var(--ink));}
   .strength-copy h3{font-family:var(--serif);font-size:1.3rem;font-weight:620;line-height:1.15;margin-bottom:7px;}
   .strength-copy p{color:var(--ink-soft);font-size:.93rem;line-height:1.55;}
-  .strength-proof{align-self:center;padding-left:17px;border-left:1px dashed #b9ad98;font-family:var(--hand);font-size:1.15rem;
+  .strength-proof{position:relative;display:inline-flex;align-items:center;gap:9px;margin-top:10px;font-family:var(--hand);font-size:1.08rem;
     line-height:1.18;color:var(--green-deep);transform:rotate(-1deg);transition:transform .28s ease,color .2s ease;}
+  .strength-proof::before{content:"";flex:0 0 auto;width:24px;height:9px;border-top:3px solid var(--yarn);border-radius:50%;
+    transform:rotate(-7deg);transition:width .28s ease,transform .28s ease;}
+  .strength-proof::after{content:"";position:absolute;left:18px;top:1px;width:7px;height:7px;border:2px solid var(--yarn);border-radius:50%;}
   .strength-row:nth-child(even) .strength-proof{color:var(--warm);transform:rotate(1deg);}
+  .strength-row.is-threaded::before{opacity:1;transform:scaleX(1);}
+  .strength-row.is-threaded .crochet-loop{transform:rotate(15deg) scale(1.1);filter:drop-shadow(3px 5px 3px rgba(36,31,24,.22));}
+  .strength-row.is-threaded .crochet-loop::after{transform:rotate(-5deg) scaleX(1.2);}
+  .strength-row.is-threaded::after{background-position:6px 50%;opacity:1;}
+  .strength-row.is-threaded .strength-proof{transform:translateX(5px) rotate(0);color:var(--yarn);}
+  .strength-row.is-threaded .strength-proof::before{width:34px;transform:rotate(2deg);}
   @media(hover:hover) and (pointer:fine){
     .strengths-sampler:hover .yarn-ball{transform:translate(-4px,3px) rotate(16deg);}
     .strengths-sampler:hover .yarn-ball::after{transform:rotate(4deg) scaleX(1.08);}
-    .strength-row:hover .crochet-loop{transform:rotate(15deg) scale(1.1);}
-    .strength-row:hover .crochet-loop::after{transform:rotate(-5deg) scaleX(1.2);}
-    .strength-row:hover::after{background-position:6px 50%;opacity:1;}
-    .strength-row:hover .strength-proof{transform:translateX(5px) rotate(0);color:var(--yarn);}
+    .strength-row:not(.is-threaded):hover .crochet-loop{transform:rotate(8deg) scale(1.05);}
+    .strength-row:not(.is-threaded):hover .crochet-loop::after{transform:rotate(3deg) scaleX(1.1);}
+    .strength-row:not(.is-threaded):hover::after{background-position:6px 50%;opacity:1;}
+    .strength-row:not(.is-threaded):hover .strength-proof{transform:translateX(3px) rotate(0);color:var(--yarn);}
   }
   .strength-row:active .crochet-loop{transform:rotate(8deg) scale(1.06);}
   @media(max-width:760px){
@@ -253,23 +267,21 @@
     .yarn-ball{right:24px;width:54px;height:54px;}
     .yarn-play-note{right:88px;top:-27px;font-size:17px;}
     .strengths-head{grid-template-columns:1fr;gap:14px;padding-bottom:25px;}
-    .strength-row{grid-template-columns:44px minmax(0,1fr);gap:14px;padding:24px 0;}
+    .strength-row{grid-template-columns:44px minmax(0,1fr);gap:14px;padding:24px 8px 24px 0;}
+    .strength-row::before{left:52px;right:-5px;}
     .strength-row::after{left:58px;}
-    .crochet-loop{width:39px;height:39px;}
-    .crochet-loop::after{left:31px;top:21px;}
-    .strength-proof{grid-column:2;margin-top:2px;padding:0;border:0;}
+    .strength-proof{margin-top:9px;}
   }
   @media(max-width:420px){
     .strengths-sampler{padding:38px 24px 30px;}
     .yarn-play-note{right:75px;max-width:90px;line-height:1;}
-    .strength-row{grid-template-columns:38px minmax(0,1fr);gap:10px;}
-    .strength-row::after{left:48px;}
-    .crochet-loop{width:34px;height:34px;}
-    .crochet-loop::before{inset:7px;border-width:2px;}
-    .crochet-loop::after{left:27px;top:18px;width:17px;}
+    .strength-row{grid-template-columns:44px minmax(0,1fr);gap:10px;}
+    .strength-row::before{left:50px;}
+    .strength-row::after{left:54px;}
   }
   @media(prefers-reduced-motion:reduce){
-    .yarn-ball,.yarn-ball::after,.crochet-loop,.crochet-loop::after,.strength-row::after,.strength-proof{transition:none!important;}
+    .yarn-ball,.yarn-ball::after,.crochet-loop,.crochet-loop::after,.strength-row::before,.strength-row::after,.strength-proof,.strength-proof::before{transition:none!important;}
+    .strength-row.is-threaded .crochet-loop,.strength-row.is-threaded .crochet-loop::after,.strength-row.is-threaded .strength-proof{transform:none;}
   }
 
   /* ---------- CORCHO (sobre mi) ---------- */
@@ -930,8 +942,9 @@
   <section class="strengths" id="fortalezas" aria-labelledby="strengths-title">
     <div class="strengths-inner">
       <div class="strengths-sampler reveal" style="--r:-.35deg">
-        <button class="yarn-ball" type="button" aria-label="Hacer rodar el ovillo de crochet"></button>
+        <button class="yarn-ball" type="button" aria-label="Hacer rodar el ovillo de crochet" aria-describedby="crochet-status"></button>
         <span class="yarn-play-note" aria-hidden="true">toc&aacute; el ovillo &nearr;</span>
+        <span class="sr-only" id="crochet-status" aria-live="polite">La muestra est&aacute; lista para explorar.</span>
         <div class="strengths-head">
           <div>
             <span class="strengths-kicker">cuatro puntos del mismo tejido</span>
@@ -941,36 +954,36 @@
         </div>
         <ul class="strengths-list">
           <li class="strength-row">
-            <span class="crochet-loop" aria-hidden="true"></span>
+            <button class="crochet-loop" type="button" aria-label="Destacar Gesti&oacute;n de proyectos de software" aria-pressed="false"></button>
             <div class="strength-copy">
               <h3>Gesti&oacute;n de proyectos de software</h3>
               <p>Coordino prioridades y cambio de contexto sin perder qu&eacute; necesita cada proyecto ni cu&aacute;l es el pr&oacute;ximo paso.</p>
+              <span class="strength-proof">tres proyectos en simult&aacute;neo</span>
             </div>
-            <span class="strength-proof">tres proyectos en simult&aacute;neo</span>
           </li>
           <li class="strength-row">
-            <span class="crochet-loop" aria-hidden="true"></span>
+            <button class="crochet-loop" type="button" aria-label="Destacar Comunicaci&oacute;n y alineaci&oacute;n" aria-pressed="false"></button>
             <div class="strength-copy">
               <h3>Comunicaci&oacute;n y alineaci&oacute;n</h3>
               <p>Bajo expectativas, decisiones y entregas a conversaciones claras para que nadie avance con una idea distinta.</p>
+              <span class="strength-proof">equipos + stakeholders</span>
             </div>
-            <span class="strength-proof">equipos + stakeholders</span>
           </li>
           <li class="strength-row">
-            <span class="crochet-loop" aria-hidden="true"></span>
+            <button class="crochet-loop" type="button" aria-label="Destacar Producto, requerimientos y m&eacute;tricas" aria-pressed="false"></button>
             <div class="strength-copy">
               <h3>Producto, requerimientos y m&eacute;tricas</h3>
               <p>Entiendo y refino requerimientos, ordeno prioridades y sigo m&eacute;tricas para decidir con algo m&aacute;s que intuici&oacute;n.</p>
+              <span class="strength-proof">de la idea al criterio</span>
             </div>
-            <span class="strength-proof">de la idea al criterio</span>
           </li>
           <li class="strength-row">
-            <span class="crochet-loop" aria-hidden="true"></span>
+            <button class="crochet-loop" type="button" aria-label="Destacar Criterio t&eacute;cnico y calidad" aria-pressed="false"></button>
             <div class="strength-copy">
               <h3>Criterio t&eacute;cnico y calidad</h3>
               <p>Mi formaci&oacute;n t&eacute;cnica y mi experiencia en testing me permiten conversar con desarrollo, hacer mejores preguntas y cuidar lo que se entrega.</p>
+              <span class="strength-proof">LTI + testing</span>
             </div>
-            <span class="strength-proof">LTI + testing</span>
           </li>
         </ul>
       </div>
@@ -1567,9 +1580,11 @@
 
   (function(){
     var yarnBall=document.querySelector('.yarn-ball');
+    var crochetStatus=document.querySelector('#crochet-status');
     if(!yarnBall) return;
     function playYarn(){
       yarnBall.classList.remove('is-playing');
+      if(crochetStatus) crochetStatus.textContent=reducedMotion ? 'Ovillo seleccionado sin movimiento.' : 'El ovillo rod&oacute; sobre la muestra.';
       if(reducedMotion) return;
       void yarnBall.offsetWidth;
       yarnBall.classList.add('is-playing');
@@ -1577,6 +1592,26 @@
     yarnBall.addEventListener('click',playYarn);
     yarnBall.addEventListener('animationend',function(e){
       if(e.animationName==='yarn-ball-play') yarnBall.classList.remove('is-playing');
+    });
+  })();
+
+  (function(){
+    var stitchButtons=Array.from(document.querySelectorAll('.crochet-loop'));
+    var crochetStatus=document.querySelector('#crochet-status');
+    stitchButtons.forEach(function(button){
+      button.addEventListener('click',function(){
+        var row=button.closest('.strength-row');
+        var nextPressed=button.getAttribute('aria-pressed')!=='true';
+        stitchButtons.forEach(function(other){
+          other.setAttribute('aria-pressed','false');
+          other.closest('.strength-row').classList.remove('is-threaded');
+        });
+        if(nextPressed){
+          button.setAttribute('aria-pressed','true');
+          row.classList.add('is-threaded');
+        }
+        if(crochetStatus) crochetStatus.textContent=nextPressed ? 'Punto destacado: '+row.querySelector('h3').textContent+'.' : 'Punto sin destacar.';
+      });
     });
   })();
 
