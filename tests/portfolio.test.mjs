@@ -224,7 +224,7 @@ test('el blog publica una nota real con estructura reutilizable y accesible', ()
   assert.match(firstPost, /<a class="skip-link" href="#main-content">Saltar al contenido<\/a>/);
   assert.match(firstPost, /<main class="cork" id="main-content" tabindex="-1">/);
   assert.match(firstPost, /<p class="summary">[^<]+<\/p>/);
-  assert.match(firstPost, /<time datetime="2026-08">agosto 2026<\/time>/);
+  assert.match(firstPost, /<time datetime="2026-08-22T04:08:07Z">agosto 2026<\/time>/);
   assert.ok((firstPost.match(/<p(?:\s|>)/g) ?? []).length >= 40);
   assert.match(postStyles, /@media\(max-width:600px\)/);
   assert.match(postStyles, /:focus-visible/);
