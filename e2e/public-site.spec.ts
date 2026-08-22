@@ -36,6 +36,30 @@ test('el selector conserva la página al cambiar de idioma', async ({ page }) =>
   await expect(page.locator('html')).toHaveAttribute('lang', 'pt');
 });
 
+test('cerrar un proyecto consume su entrada de historial sin duplicar la home', async ({ page }) => {
+  await page.goto('/personal/como-trabajo.html');
+  await page.goto('/personal/');
+
+  await page.locator('.spine[data-book="fisica"]').click();
+  await expect(page).toHaveURL(/#project=fisica&page=0$/);
+  await expect(page.locator('#bookmodal')).toHaveAttribute('aria-hidden', 'false');
+
+  await page.getByRole('button', { name: 'Cerrar proyecto', exact: true }).first().click();
+  await expect(page).toHaveURL(/\/personal\/$/);
+  await expect(page.locator('#bookmodal')).toHaveAttribute('aria-hidden', 'true');
+
+  await page.goForward();
+  await expect(page).toHaveURL(/#project=fisica&page=0$/);
+  await expect(page.locator('#bookmodal')).toHaveAttribute('aria-hidden', 'false');
+
+  await page.goBack();
+  await expect(page).toHaveURL(/\/personal\/$/);
+  await expect(page.locator('#bookmodal')).toHaveAttribute('aria-hidden', 'true');
+
+  await page.goBack();
+  await expect(page).toHaveURL(/\/personal\/como-trabajo\.html$/);
+});
+
 test('la navegación móvil abre, navega y vuelve a cerrarse', async ({ page }, testInfo) => {
   test.skip(!testInfo.project.name.startsWith('mobile'), 'Cobertura exclusiva del viewport móvil');
   await page.goto('/personal/');
