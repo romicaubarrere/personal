@@ -420,6 +420,16 @@ test('los casos de proyecto comparten una plantilla ordenada y omiten campos vac
   assert.match(projectCaseTemplate, /evidencia visual o enlazada/i);
 });
 
+test('WEB-053 no publica instrucciones ni contenido de muestra', () => {
+  for (const source of [html, projectDataSource]) {
+    assert.doesNotMatch(source, /tu foto ac[aá]|tu proyecto|tu romantasy|lo cambi[aá]s cuando quieras/i);
+    assert.doesNotMatch(source, /Cont[aá] qu[eé]|Qu[eé] hiciste vos|Sumamos el resto|Otro proyecto, otra historia/i);
+  }
+  assert.match(html, /class="portrait-mark" aria-hidden="true"/);
+  assert.match(html, /Fantasy \+ romantasy/);
+  assert.doesNotMatch(html, /<small>Borrador<\/small>/);
+});
+
 test('el modal de proyectos gestiona el foco como un diálogo accesible', () => {
   assert.match(
     html,
