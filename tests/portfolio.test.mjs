@@ -66,6 +66,7 @@ const projectCaseTemplate = await readFile(
   join(repositoryRoot, 'docs', 'project-case-template.md'),
   'utf8'
 );
+const qaStrategy = await readFile(join(repositoryRoot, 'docs', 'qa-strategy.md'), 'utf8');
 
 function extractIds(source) {
   return [...source.matchAll(/\sid="([^"]+)"/g)].map((match) => match[1]);
@@ -115,6 +116,17 @@ test('la decisión histórica queda preservada y el plan Astro la reemplaza', ()
 
   assert.match(readme, /docs\/architecture-decision\.md/);
   assert.match(readme, /docs\/astro-migration-plan\.md/);
+});
+
+test('WEB-125 documenta la estrategia de QA y la Definition of Done vigente', () => {
+  for (const layer of ['Build', 'Contenido', 'Navegación', 'Accesibilidad', 'Responsive e interacción', 'SEO técnico', 'Performance', 'Entrega']) {
+    assert.match(qaStrategy, new RegExp(`\\| ${layer.replace(/[.*+?^${}()|[\\]\\\\]/g, '\\$&')} \\|`));
+  }
+  assert.match(qaStrategy, /## Definition of Done/);
+  assert.match(qaStrategy, /`npm test` finaliza sin fallas/);
+  assert.match(qaStrategy, /el ticket queda cerrado, no solamente implementado/);
+  assert.match(qaStrategy, /no se completa el vacío por intuición/);
+  assert.match(readme, /docs\/qa-strategy\.md/);
 });
 
 test('WEB-054 publica una estrategia multilingüe sin exagerar niveles', async () => {

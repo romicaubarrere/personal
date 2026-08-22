@@ -88,6 +88,10 @@ La revisión dejó de limitarse a “se ve bien”. El proyecto incorporó verif
 
 Un caso concreto apareció al abrir los proyectos desde la home en celular: el modal podía dejar a la persona atrapada, sin una forma práctica de cerrar o continuar navegando. El problema observado en uso real volvió al ciclo, se corrigió y quedó cubierto por contratos automatizados relacionados con interacción y accesibilidad.
 
+Documentación relacionada:
+
+- [Estrategia de QA y Definition of Done](./qa-strategy.md)
+
 ### Agosto de 2026 · los tests también son documentación
 
 La suite automatizada pasó a expresar contratos del producto. No comprueba solamente funciones aisladas: protege estructura de Astro, rutas públicas, comportamiento de proyectos, accesibilidad, navegación, SEO, recursos locales, enlaces seguros, movimiento reducido y presupuestos de transferencia.

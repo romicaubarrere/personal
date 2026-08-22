@@ -73,6 +73,8 @@ La separación entre comunidades, eventos organizados y participaciones como ora
 
 La identidad visual, los tokens compartidos y la regla que evita numeración decorativa están documentados en [`docs/visual-system.md`](docs/visual-system.md).
 
+La estrategia de calidad, sus capas de verificación y la Definition of Done están documentadas en [`docs/qa-strategy.md`](docs/qa-strategy.md).
+
 ## Estructura
 
 - `src/pages/`: rutas públicas generadas por Astro.
@@ -95,3 +97,4 @@ La identidad visual, los tokens compartidos y la regla que evita numeración dec
 - `docs/special-dates.md`: calendario y URLs de simulación para revisar celebraciones fuera de fecha.
 - `docs/analytics-events.md`: contrato neutral de eventos y límites de privacidad para una integración futura.
 - `docs/ci-cd.md`: orden, permisos y garantías del pipeline de entrega.
+- `docs/qa-strategy.md`: estrategia de QA, evidencia y Definition of Done.
