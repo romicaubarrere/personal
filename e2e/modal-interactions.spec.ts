@@ -10,7 +10,7 @@ async function openHabitar(page: Page) {
 }
 
 async function dispatchSwipe(page: Page, startX: number, endX: number) {
-  await page.locator('.bk').evaluate((element, points) => {
+  await page.locator('#bookmodal .bk').evaluate((element, points) => {
     const eventWithTouch = (type: string, clientX: number) => {
       const event = new Event(type, { bubbles: true, cancelable: true });
       Object.defineProperty(event, 'changedTouches', {
@@ -38,13 +38,13 @@ test('TC-MOD-005 · swipe 47/48/49px respeta exactamente el umbral móvil', asyn
   await openHabitar(page);
   await expect(page).toHaveURL(/page=0$/);
 
-  await dispatchSwipe(page, 200, 153); // 47 px: no cambia
+  await dispatchSwipe(page, 200, 153);
   await expect(page).toHaveURL(/page=0$/);
 
-  await dispatchSwipe(page, 200, 152); // 48 px: cambia
+  await dispatchSwipe(page, 200, 152);
   await expect(page).toHaveURL(/page=1$/);
 
-  await dispatchSwipe(page, 200, 151); // 49 px: cambia
+  await dispatchSwipe(page, 200, 151);
   await expect(page).toHaveURL(/page=2$/);
 });
 
@@ -90,15 +90,16 @@ test('TC-MOD-007 · X, backdrop, Escape y botón móvil cierran el modal', async
 test('TC-MOD-008 · cerrar restaura body, inert y foco al disparador', async ({ page }) => {
   await page.setViewportSize({ width: 1024, height: 844 });
   const trigger = await openHabitar(page);
+  const projectShelf = page.locator('#proyectos');
 
   await expect(page.locator('body')).toHaveClass(/modal-open/);
   await expect(page.locator('#bookmodal')).not.toHaveAttribute('inert', '');
-  await expect(page.locator('.shelfsec')).toHaveAttribute('inert', '');
+  await expect(projectShelf).toHaveAttribute('inert', '');
 
   await page.keyboard.press('Escape');
   await waitClosed(page);
   await expect(trigger).toBeFocused();
-  await expect(page.locator('.shelfsec')).not.toHaveAttribute('inert', '');
+  await expect(projectShelf).not.toHaveAttribute('inert', '');
   await expect(page.locator('#bookmodal')).toHaveAttribute('inert', '');
 });
 
