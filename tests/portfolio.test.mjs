@@ -656,6 +656,11 @@ test('la portada incluye metadatos SEO básicos válidos', () => {
   assert.equal(person.name, 'Romina Caubarrere');
   assert.equal(person.jobTitle, 'Project Manager de software');
   assert.equal(person.url, 'https://romicaubarrere.github.io/personal/');
+  assert.deepEqual(person.sameAs, [
+    'https://www.linkedin.com/in/rominacaubarrere/'
+  ]);
+  assert.equal('email' in person, false);
+  assert.doesNotMatch(JSON.stringify(person), /instagram|placeholder/i);
 });
 
 test('la vista previa social tiene metadatos completos y una imagen de 1200 por 630', () => {
