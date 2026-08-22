@@ -15,6 +15,12 @@ const architectureDecision = await readFile(
   join(repositoryRoot, 'docs', 'architecture-decision.md'),
   'utf8'
 );
+const firstPost = await readFile(
+  join(repositoryRoot, 'posts', 'por-que-hago-tantas-preguntas.html'),
+  'utf8'
+);
+const postStyles = await readFile(join(repositoryRoot, 'posts', 'post.css'), 'utf8');
+const blogGuide = await readFile(join(repositoryRoot, 'docs', 'blog-guide.md'), 'utf8');
 
 function extractIds(source) {
   return [...source.matchAll(/\sid="([^"]+)"/g)].map((match) => match[1]);
@@ -54,6 +60,28 @@ test('la arquitectura estática y su flujo operativo quedan documentados', () =>
   assert.match(architectureDecision, /Astro debe evaluarse primero como generador estático sin React/);
   assert.match(readme, /No necesita instalación de dependencias ni un proceso de build/);
   assert.match(readme, /docs\/architecture-decision\.md/);
+});
+
+test('el blog publica una nota real con estructura reutilizable y accesible', () => {
+  assert.match(firstPost, /<title>¿Por qué hago tantas preguntas\? \| Romina Caubarrere<\/title>/);
+  assert.match(firstPost, /<meta name="description" content="[^"]+">/);
+  assert.match(firstPost, /<meta name="author" content="Romina Caubarrere">/);
+  assert.match(firstPost, /<link rel="canonical" href="https:\/\/romicaubarrere\.github\.io\/personal\/posts\/por-que-hago-tantas-preguntas\.html">/);
+  assert.match(firstPost, /<link rel="stylesheet" href="post\.css">/);
+  assert.doesNotMatch(firstPost, /<style>/);
+  assert.match(firstPost, /<a class="skip-link" href="#main-content">Saltar al contenido<\/a>/);
+  assert.match(firstPost, /<main class="cork" id="main-content" tabindex="-1">/);
+  assert.match(firstPost, /<p class="summary">[^<]+<\/p>/);
+  assert.match(firstPost, /<time datetime="2026-08">agosto 2026<\/time>/);
+  assert.ok((firstPost.match(/<p(?:\s|>)/g) ?? []).length >= 40);
+  assert.match(postStyles, /@media\(max-width:600px\)/);
+  assert.match(postStyles, /:focus-visible/);
+  assert.match(html, /href="posts\/por-que-hago-tantas-preguntas\.html"/);
+  assert.match(html, /Publicado &middot; agosto 2026/);
+  assert.match(html, /class="sticky-desc">Sobre preguntar por qu&eacute;/);
+  assert.match(blogGuide, /Audiencia y temas/);
+  assert.match(blogGuide, /Mantener el enlace a `post\.css`/);
+  assert.match(blogGuide, /No se publican textos de muestra/);
 });
 
 test('todos los identificadores HTML son únicos', () => {
