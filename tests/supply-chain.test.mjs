@@ -15,19 +15,25 @@ const workflows = [
   await read('.github/workflows/rollback-pages.yml')
 ];
 const documentation = await read('docs/supply-chain.md');
+const dependabot = await read('.github/dependabot.yml');
 
 test('WEB-130 fija Node y npm en desarrollo y entrega', () => {
   assert.equal(nvmrc, '22.19.0');
   assert.equal(packageJson.engines.node, '22.19.0');
   assert.equal(packageJson.engines.npm, '11.9.0');
   assert.equal(packageJson.packageManager, 'npm@11.9.0');
-  assert.match(npmrc, /^engine-strict=false$/m);
+  assert.match(npmrc, /^engine-strict=true$/m);
   assert.match(npmrc, /^ignore-scripts=true$/m);
   for (const workflow of workflows) {
     assert.match(workflow, /node-version: 22\.19\.0/);
     assert.match(workflow, /npm@11\.9\.0/);
     assert.match(workflow, /npm ci --ignore-scripts/);
   }
+});
+
+test('WEB-130 no reescribe los engines de dependencias transitivas', () => {
+  assert.equal(lockfile.packages['node_modules/@astrojs/compiler-rs'].engines.node, '>=22.12.0');
+  assert.equal(lockfile.packages['node_modules/@astrojs/compiler-rs'].engines.npm, undefined);
 });
 
 test('WEB-130 fija todas las acciones externas a commits completos', () => {
@@ -48,4 +54,22 @@ test('WEB-130 conserva hashes de integridad y operación documentada', () => {
   }
   assert.match(documentation, /SHA completo/);
   assert.match(documentation, /no automatiza su integración/);
+});
+
+test('WEB-131 propone actualizaciones semanales agrupadas y con límites', () => {
+  assert.match(dependabot, /package-ecosystem: npm/);
+  assert.match(dependabot, /package-ecosystem: github-actions/);
+  assert.equal((dependabot.match(/interval: weekly/g) ?? []).length, 2);
+  assert.equal((dependabot.match(/target-branch: main/g) ?? []).length, 2);
+  assert.match(dependabot, /open-pull-requests-limit: 3/);
+  assert.match(dependabot, /open-pull-requests-limit: 2/);
+  assert.equal((dependabot.match(/update-types:/g) ?? []).length, 2);
+  assert.equal((dependabot.match(/- minor/g) ?? []).length, 2);
+  assert.equal((dependabot.match(/- patch/g) ?? []).length, 2);
+});
+
+test('WEB-131 documenta revisión humana y pipeline verde', () => {
+  assert.match(documentation, /No\s+se habilita auto-merge/);
+  assert.match(documentation, /una persona revisa/);
+  assert.match(documentation, /pipeline/);
 });
