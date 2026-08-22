@@ -918,33 +918,60 @@
   </div>
 
 <script>
+  var CASE_PAGE_ORDER = [
+    {key:'context', title:'Contexto'},
+    {key:'challenge', title:'Desafío'},
+    {key:'role', title:'Rol de Romina'},
+    {key:'team', title:'Equipo y stakeholders'},
+    {key:'decisions', title:'Decisiones y acciones'},
+    {key:'results', title:'Resultados'},
+    {key:'learnings', title:'Aprendizajes'}
+  ];
+
+  function makeBookCase(data){
+    var pages=[{cover:true,title:data.title,sub:data.subtitle}];
+    var sections=data.sections||{};
+    CASE_PAGE_ORDER.forEach(function(definition){
+      var html=sections[definition.key];
+      if(!html) return;
+      pages.push({h:definition.title,html:html});
+    });
+    return {tag:data.tag,color:data.color,pages:pages};
+  }
+
   var BOOKS = {
-    eagerworks:{tag:'Gestión · software', color:'#3f7d4e', pages:[
-      {cover:true,title:'eagerworks',sub:'un proyecto real'},
-      {h:'El proyecto',html:'<em>Contá qué era: el producto, el equipo y el desafío que había.</em>'},
-      {h:'Mi rol',html:'<em>Qué hiciste vos como PM: cómo coordinaste, qué decisiones tomaste.</em>'},
-      {h:'Resultado',html:'<em>Cómo terminó. Un número o un momento concreto vale oro.</em>'}
-    ]},
-    fisica:{tag:'Divulgación · premiado en EEUU', color:'#8f4230', pages:[
-      {cover:true,title:'Física Mente Posible',sub:'divulgar la física'},
-      {h:'Qué es',html:'Un proyecto de divulgación de Física que cofundé, reconocido en Estados Unidos.'},
-      {h:'Mi rol',html:'Cofundadora. <em>Contá qué parte llevaste: contenidos, difusión, equipo.</em>'},
-      {h:'Lo que dejó',html:'<em>El reconocimiento en EEUU y lo que significó para vos.</em>'}
-    ]},
-    pmi:{tag:'Alianzas · comunidad', color:'#cf9a3f', pages:[
-      {cover:true,title:'Club Jóvenes Líderes PMI',sub:'VP de Alianzas'},
-      {h:'El club',html:'Club de Jóvenes Líderes de Proyectos de PMI Nuevo Cuyo.'},
-      {h:'Mi rol',html:'Vicepresidenta de Alianzas. <em>Contá qué alianzas armaste.</em>'},
-      {h:'Impacto',html:'<em>Qué lograron juntos.</em>'}
-    ]},
-    p4:{tag:'Sumamos', color:'#55603f', pages:[
-      {cover:true,title:'Tu próximo proyecto',sub:'este estante crece'},
-      {h:'La idea',html:'<em>Cada lomo es un caso tuyo. Sumá el que quieras contar.</em>'}
-    ]},
-    p5:{tag:'Sumamos', color:'#7a3450', pages:[
-      {cover:true,title:'Y otro más',sub:'hay lugar de sobra'},
-      {h:'La idea',html:'<em>Otro proyecto, otra historia. Lo llenamos juntas.</em>'}
-    ]}
+    eagerworks:makeBookCase({
+      tag:'Gestión · software',color:'#3f7d4e',title:'eagerworks',subtitle:'un proyecto real',
+      sections:{
+        context:'<em>Contá qué era: el producto, el equipo y el desafío que había.</em>',
+        role:'<em>Qué hiciste vos como PM: cómo coordinaste, qué decisiones tomaste.</em>',
+        results:'<em>Cómo terminó. Un número o un momento concreto vale oro.</em>'
+      }
+    }),
+    fisica:makeBookCase({
+      tag:'Divulgación · premiado en EEUU',color:'#8f4230',title:'Física Mente Posible',subtitle:'divulgar la física',
+      sections:{
+        context:'Un proyecto de divulgación de Física que cofundé, reconocido en Estados Unidos.',
+        role:'Cofundadora. <em>Contá qué parte llevaste: contenidos, difusión, equipo.</em>',
+        results:'<em>El reconocimiento en EEUU y lo que significó para vos.</em>'
+      }
+    }),
+    pmi:makeBookCase({
+      tag:'Alianzas · comunidad',color:'#cf9a3f',title:'Club Jóvenes Líderes PMI',subtitle:'VP de Alianzas',
+      sections:{
+        context:'Club de Jóvenes Líderes de Proyectos de PMI Nuevo Cuyo.',
+        role:'Vicepresidenta de Alianzas. <em>Contá qué alianzas armaste.</em>',
+        results:'<em>Qué lograron juntos.</em>'
+      }
+    }),
+    p4:makeBookCase({
+      tag:'Sumamos',color:'#55603f',title:'Tu próximo proyecto',subtitle:'este estante crece',
+      sections:{context:'<em>Cada lomo es un caso tuyo. Sumá el que quieras contar.</em>'}
+    }),
+    p5:makeBookCase({
+      tag:'Sumamos',color:'#7a3450',title:'Y otro más',subtitle:'hay lugar de sobra',
+      sections:{context:'<em>Otro proyecto, otra historia. Lo llenamos juntas.</em>'}
+    })
   };
 
   (function(){

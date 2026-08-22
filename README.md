@@ -43,6 +43,8 @@ No se incorpora React para contenido estático. Las interacciones se resuelven p
 
 El sitio se publica solamente en español por ahora. La evaluación y las condiciones para reconsiderar una versión completa en inglés están en [`docs/language-strategy.md`](docs/language-strategy.md).
 
+Los casos del estante comparten el orden y las reglas editoriales de [`docs/project-case-template.md`](docs/project-case-template.md). Los campos sin contenido se omiten y nunca se completan con métricas inventadas.
+
 ## Estructura
 
 - `index.html`: portada y secciones principales del portfolio.
@@ -51,4 +53,5 @@ El sitio se publica solamente en español por ahora. La evaluación y las condic
 - `.github/workflows/test.yml`: integración continua.
 - `docs/architecture-decision.md`: decisión de arquitectura y flujo operativo.
 - `docs/language-strategy.md`: decisión de idioma y condiciones de reevaluación.
+- `docs/project-case-template.md`: estructura, evidencia y reglas de privacidad de los casos.
 - `docs/branching-strategy.md`: estrategia de ramas y flujo de integración.
