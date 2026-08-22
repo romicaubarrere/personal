@@ -60,7 +60,9 @@ function Page({ page, project }: { page: ProjectPage | null; project: ProjectBoo
 export default function ProjectBookcase() {
   const [currentId, setCurrentId] = useState<string | null>(null);
   const [pageIndex, setPageIndex] = useState(0);
-  const [isMobile, setIsMobile] = useState(false);
+  // El HTML inicial conserva el estante desplazable en el orden de foco para móvil.
+  // Al hidratar, desktop retira ese tab stop redundante sin ocultar sus botones.
+  const [isMobile, setIsMobile] = useState(true);
   const [reducedMotion, setReducedMotion] = useState(false);
   const [turn, setTurn] = useState<TurnDirection | null>(null);
   const modalRef = useRef<HTMLDivElement>(null);
@@ -290,7 +292,7 @@ export default function ProjectBookcase() {
           <p>tocá un libro para abrirlo y pasar sus páginas →</p>
         </div>
         <div className="bookshelf">
-          <div className="shelf-scroll" role="region" aria-label="Estante de proyectos desplazable" tabIndex={0}>
+          <div className="shelf-scroll" role="region" aria-label="Estante de proyectos desplazable" tabIndex={isMobile ? 0 : -1}>
             <div className="shelf-track">
               <div className="plank top" />
               <div className="books">
