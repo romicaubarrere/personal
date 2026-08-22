@@ -22,6 +22,8 @@ un deploy antes de conocer el resultado de las pruebas.
 
 - `deploy` depende de `validate`.
 - `validate` construye una sola vez y luego ejecuta `node --test` sin reconstruir.
+- `validate` prueba el mismo `dist` en Chromium de escritorio y móvil con Playwright.
+- Si E2E falla, el reporte, las capturas y las trazas se conservan durante 7 días.
 - El artifact se carga después de las pruebas y desde el mismo directorio `dist`.
 - Los jobs de deploy no existen en pull requests.
 - Cada job tiene timeout.
@@ -35,6 +37,7 @@ Antes de integrar, ejecutar localmente:
 
 ```bash
 npm test
+npm run test:e2e
 ```
 
 En GitHub, el check estable que debe proteger `main` es `Validate build`. La
