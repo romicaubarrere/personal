@@ -363,6 +363,28 @@ test('los landmarks de navegación y sus estados activos son inequívocos', asyn
   }
 });
 
+test('los identificadores y las referencias ARIA resuelven sin ambigüedad', async () => {
+  for (const route of [...publicRoutes, '404.html']) {
+    const source = await readFile(join(dist, route), 'utf8');
+    const documentIds = [...source.matchAll(/\sid="([^"]+)"/gi)].map((match) => match[1]);
+    const uniqueIds = new Set(documentIds);
+
+    assert.equal(uniqueIds.size, documentIds.length, `${route}: contiene identificadores duplicados`);
+
+    for (const attribute of ['aria-controls', 'aria-describedby', 'aria-labelledby']) {
+      for (const match of source.matchAll(new RegExp(`\\b${attribute}="([^"]+)"`, 'gi'))) {
+        for (const reference of match[1].trim().split(/\s+/)) {
+          assert.ok(uniqueIds.has(reference), `${route}: ${attribute} apunta a #${reference}, que no existe`);
+        }
+      }
+    }
+
+    for (const match of source.matchAll(/<label\b[^>]*\bfor="([^"]+)"[^>]*>/gi)) {
+      assert.ok(uniqueIds.has(match[1]), `${route}: label[for] apunta a #${match[1]}, que no existe`);
+    }
+  }
+});
+
 test('la navegación expone la sección activa y el contacto publica solo destinos verificados', () => {
   const home = routeDocuments.get('index.html');
   assert.match(home, /setAttribute\('aria-current','location'\)/);
