@@ -83,7 +83,7 @@
   .binder-rings span{display:block;width:50px;height:15px;border:4px solid #77736b;border-left-color:#bab6aa;border-right-color:#45433f;border-radius:50%;background:rgba(255,255,255,.6);box-shadow:0 3px 5px rgba(0,0,0,.22);}
   .semester{--tab-color:var(--green);position:relative;border:0;border-bottom:1px dashed #b7ab96;background:rgba(250,243,228,.7);transition:background .2s,transform .2s,box-shadow .2s;}
   .semester:first-child{border-top:1px dashed #b7ab96;}
-  .semester summary{position:relative;cursor:pointer;list-style:none;padding:19px 43px 18px 18px;display:grid;grid-template-columns:48px 1fr;gap:13px;align-items:center;transition:transform .2s,color .2s;}
+  .semester summary{position:relative;cursor:pointer;list-style:none;padding:19px 43px 18px 18px;display:block;transition:transform .2s,color .2s;}
   .semester summary::-webkit-details-marker{display:none;}
   .semester summary::before{content:"";position:absolute;left:-29px;top:8px;bottom:8px;width:34px;background:var(--tab-color);border-radius:5px 0 0 5px;box-shadow:-3px 3px 6px rgba(0,0,0,.16);transition:width .2s,left .2s;}
   .semester summary::after{content:"+";position:absolute;right:15px;top:50%;width:24px;height:24px;border:1px solid currentColor;border-radius:50%;transform:translateY(-50%);display:grid;place-items:center;font-family:var(--hand);font-size:21px;line-height:1;color:var(--green-deep);transition:transform .25s,background .2s;}
@@ -91,7 +91,6 @@
   .semester summary:hover::before{left:-34px;width:39px;}
   .semester[open]{z-index:2;background:#fffaf0;box-shadow:3px 8px 18px rgba(53,39,24,.13);transform:scale(1.015);}
   .semester[open] summary::after{content:"−";transform:translateY(-50%) rotate(180deg);background:#eef3df;}
-  .semester .num{font-family:var(--serif);font-size:1.75rem;color:var(--warm);}
   .semester .when{font-weight:800;font-size:13px;}
   .semester .note{display:block;font-family:var(--hand);font-size:17px;font-weight:500;color:var(--ink-soft);line-height:1.1;}
   .semester ul{padding:0 28px 23px 78px;color:var(--ink-soft);font-size:13.5px;}
@@ -120,6 +119,8 @@
   .project-sheet .code{font-family:var(--hand);font-size:29px;color:var(--warm);border-right:1px dashed var(--paper2);padding-right:18px;align-self:stretch;display:flex;align-items:center;justify-content:center;}
   .project-sheet .code{grid-column:1;grid-row:1;}
   .project-sheet>div:last-child{grid-column:2;grid-row:1;}
+  .project-sheet:not(:has(>.code)){grid-template-columns:1fr;}
+  .project-sheet:not(:has(>.code))>div:last-child{grid-column:1;}
   .project-sheet h3{font-family:var(--serif);font-size:1.38rem;font-weight:600;margin-bottom:7px;line-height:1.12;}
   .project-sheet p{color:var(--ink-soft);font-size:14px;}
   .project-sheet strong{color:var(--ink);}

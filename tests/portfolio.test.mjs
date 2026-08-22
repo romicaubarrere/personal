@@ -503,6 +503,21 @@ test('WEB-122 convierte Cómo trabajo en una carpeta de proyecto propia', () => 
   assert.match(workHtml, /prefers-reduced-motion:reduce/);
 });
 
+test('WEB-123 retira la numeración decorativa con cero inicial', async () => {
+  const englishWork = await readFile(join(distRoot, 'en', 'como-trabajo.html'), 'utf8');
+  const portugueseWork = await readFile(join(distRoot, 'pt', 'como-trabajo.html'), 'utf8');
+
+  for (const source of [workHtml, formationHtml, communityHtml, englishWork, portugueseWork]) {
+    assert.doesNotMatch(source, />0[1-9]</);
+  }
+  assert.doesNotMatch(workHtml, /counter-reset:workflow|counter\(workflow\)/);
+  assert.match(workHtml, /\.work-page-index a::before\{content:"";/);
+  assert.match(workHtml, /\.workflow-step::after\{content:"";/);
+  assert.doesNotMatch(formationHtml, /class="num"/);
+  assert.match(englishWork, />listen</);
+  assert.match(portugueseWork, />entender</);
+});
+
 test('T4 aplica la pasada anti-IA a workflow y lo que hago', () => {
   const workflow = workHtml.match(/<section\b[^>]*class="workflow"[^>]*>([\s\S]*?)<\/section>/i)?.[1] ?? '';
   const offers = workHtml.match(/<section\b[^>]*class="offers"[^>]*>([\s\S]*?)<\/section>/i)?.[1] ?? '';
