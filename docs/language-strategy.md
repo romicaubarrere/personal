@@ -6,9 +6,9 @@
 
 ## Decisión vigente
 
-Romina decidió reemplazar la estrategia anterior, que postergaba la localización. El portfolio mantiene español como versión principal y publica portadas reales en inglés y portugués mediante rutas estáticas propias.
+Romina decidió reemplazar la estrategia anterior, que postergaba la localización. El portfolio mantiene español como versión principal y publica rutas reales en inglés y portugués mediante documentos estáticos propios.
 
-El selector ES / EN / PT es un control accesible, identifica el idioma activo y enlaza documentos existentes. Las tres portadas declaran `lang`, canonical, locale social y relaciones `hreflang`, incluido `x-default` hacia español.
+El selector ES / EN / PT es un control accesible, identifica el idioma activo y conserva la página equivalente cuando existe. Las familias localizadas declaran `lang`, canonical, locale social y relaciones `hreflang`, incluido `x-default` hacia español.
 
 ## Perfil lingüístico aprobado
 
@@ -17,16 +17,16 @@ El selector ES / EN / PT es un control accesible, identifica el idioma activo y 
 - Estudió italiano y ruso porque le gustan mucho los idiomas.
 - No se publican niveles CEFR, certificaciones ni afirmaciones de fluidez no confirmadas.
 
-## Cobertura inicial
+## Cobertura vigente
 
-Las portadas en inglés y portugués ofrecen una presentación profesional completa y contacto directo sin botones decorativos ni bloques mezclados. La portada española incorpora el perfil lingüístico dentro del bloque personal.
+Las portadas en español, inglés y portugués ofrecen una presentación profesional completa y contacto directo. La portada española incorpora el perfil lingüístico dentro del bloque personal.
 
-Las páginas internas extensas siguen en español durante esta primera entrega. Su localización se hará por rutas equivalentes y con revisión editorial propia; el selector no promete alternativas internas inexistentes.
+También están localizadas las páginas de Cómo trabajo, Comunidad y charlas, Formación y las notas publicadas. Cada familia conserva una ruta equivalente por idioma y permite cambiar entre ES / EN / PT sin volver innecesariamente a la portada.
 
 ## Reglas de mantenimiento
 
 - No mezclar texto de interfaz entre idiomas, salvo nombres propios, marcas y cargos cuyo uso natural se conserva.
-- Mantener las tres portadas alineadas cuando cambien posicionamiento, experiencia o contacto.
+- Mantener alineadas las tres versiones cuando cambien posicionamiento, experiencia, contacto o contenido compartido.
 - Conservar español como `x-default`.
 - Traducir metadatos, textos accesibles y datos estructurados cuando se agregue una ruta localizada.
 - No publicar traducciones automáticas sin revisión de voz y significado.
