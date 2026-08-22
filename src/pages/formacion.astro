@@ -7,9 +7,15 @@ import '../styles/formation.css';
 const title = 'Formación · Romina Caubarrere';
 const description = 'El recorrido académico de Romina Caubarrere: Licenciatura en Tecnologías de la Información en UTEC, proyectos y formación complementaria.';
 const canonical = 'https://romicaubarrere.github.io/personal/formacion.html';
+const alternates = [
+  { lang: 'es', href: canonical },
+  { lang: 'en', href: 'https://romicaubarrere.github.io/personal/en/formacion.html' },
+  { lang: 'pt', href: 'https://romicaubarrere.github.io/personal/pt/formacion.html' },
+  { lang: 'x-default', href: canonical }
+];
 ---
 
-<BaseLayout {title} {description} {canonical}>
+<BaseLayout {title} {description} {canonical} {alternates}>
   <a class="skip-link" href="#main-content">Saltar al contenido principal</a>
 
   <div class="topbar">
