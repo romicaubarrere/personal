@@ -94,12 +94,12 @@ test('Open Graph y X describen cada ruta y reutilizan la tarjeta aprobada', () =
         : 'El estudio de Romi';
     const expectedLocale = language === 'en' ? 'en_US' : language === 'pt' ? 'pt_BR' : 'es_UY';
     assert.equal(
-      getAttribute(source, /<meta\\b[^>]*property="og:site_name"[^>]*>/i, 'content'),
+      getAttribute(source, /<meta\b[^>]*property="og:site_name"[^>]*>/i, 'content'),
       expectedSiteName,
       `${route}: nombre del sitio fuera del idioma del documento`
     );
     assert.equal(
-      getAttribute(source, /<meta\\b[^>]*property="og:locale"[^>]*>/i, 'content'),
+      getAttribute(source, /<meta\b[^>]*property="og:locale"[^>]*>/i, 'content'),
       expectedLocale,
       `${route}: locale social fuera del idioma del documento`
     );
