@@ -1,34 +1,16 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Cuando puedas (cuando en realidad necesito que sea hoy) | Romina Caubarrere</title>
-<meta name="description" content="Una nota personal sobre comunicación, feedback y aprender a ser directa sin sentir que todo tiene que convertirse en un reclamo.">
-<meta name="author" content="Romina Caubarrere">
-<meta name="robots" content="index,follow">
-<meta name="theme-color" content="#22432c">
-<link rel="canonical" href="https://romicaubarrere.github.io/personal/posts/cuando-puedas.html">
-<link rel="icon" type="image/svg+xml" href="../favicon.svg">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,400..700&family=DM+Sans:opsz,wght@9..40,400..700&family=Caveat:wght@500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="post.css">
-</head>
-<body>
-<a class="skip-link" href="#main-content">Saltar al contenido</a>
-<header class="top brick">
-  <div class="hero">
-    <a class="back" href="../index.html#lecturas">← volver a lo que leo y escribo</a><br>
-    <span class="kicker">una nota mía</span>
-    <h1>Cuando <em>puedas</em></h1>
-    <p class="summary">Cuando en realidad necesito que sea hoy. Sobre feedback, mensajes de tres líneas y aprender a bancarme un poco la incomodidad.</p>
-    <div class="meta">Romina Caubarrere · <time datetime="2026-08">agosto 2026</time></div>
-  </div>
-</header>
-<main class="cork" id="main-content" tabindex="-1">
-  <article class="paper">
-    <span class="tape" aria-hidden="true"></span>
+---
+import PostLayout from '../../layouts/PostLayout.astro';
+---
+
+<PostLayout
+  title="Cuando puedas (cuando en realidad necesito que sea hoy) | Romina Caubarrere"
+  description="Una nota personal sobre comunicación, feedback y aprender a ser directa sin sentir que todo tiene que convertirse en un reclamo."
+  canonical="https://romicaubarrere.github.io/personal/posts/cuando-puedas.html"
+  summary="Cuando en realidad necesito que sea hoy. Sobre feedback, mensajes de tres líneas y aprender a bancarme un poco la incomodidad."
+  dateTime="2026-08"
+  dateLabel="agosto 2026"
+>
+  <Fragment slot="heading">Cuando <em>puedas</em></Fragment>
     <p>Tengo un problema con “cuando puedas”.</p>
     <p>Porque muchas veces digo “cuando puedas” cuando, en realidad, necesito que sea hoy.</p>
     <p>Me pasa muchísimo trabajando. Tengo que pedirle algo a alguien, escribo un mensaje de tres líneas y puedo estar una cantidad completamente innecesaria de tiempo pensando cómo decirlo.</p>
@@ -101,8 +83,4 @@
       <p>Capaz la próxima vez borro el “cuando puedas”.</p>
       <p>Cuando pueda.</p>
     </div>
-  </article>
-</main>
-<footer class="footer">hecho con método, plantas y un poco de lana · <a href="../index.html">Romina Caubarrere</a></footer>
-</body>
-</html>
+</PostLayout>

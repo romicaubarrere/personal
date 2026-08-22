@@ -1,0 +1,149 @@
+import assert from 'node:assert/strict';
+import { access, readFile } from 'node:fs/promises';
+import { dirname, join, normalize } from 'node:path';
+import test from 'node:test';
+import { fileURLToPath } from 'node:url';
+
+const repositoryRoot = join(dirname(fileURLToPath(import.meta.url)), '..');
+const dist = join(repositoryRoot, 'dist');
+const publicRoutes = [
+  'index.html',
+  'formacion.html',
+  'posts/por-que-hago-tantas-preguntas.html',
+  'posts/cuando-puedas.html'
+];
+const routeDocuments = new Map(
+  await Promise.all(publicRoutes.map(async (route) => [route, await readFile(join(dist, route), 'utf8')]))
+);
+const homeStyles = await readFile(join(repositoryRoot, 'src', 'styles', 'home.css'), 'utf8');
+
+function getAttribute(source, elementPattern, attribute) {
+  const match = source.match(elementPattern);
+  assert.ok(match, `No se encontró ${attribute}`);
+  const value = match[0].match(new RegExp(`${attribute}="([^"]+)"`, 'i'));
+  assert.ok(value, `No se encontró ${attribute} en ${match[0]}`);
+  return value[1];
+}
+
+function headingLevels(source) {
+  return [...source.matchAll(/<h([1-6])\b/gi)].map((match) => Number(match[1]));
+}
+
+function ids(source) {
+  return new Set([...source.matchAll(/\sid="([^"]+)"/g)].map((match) => match[1]));
+}
+
+test('las cuatro rutas tienen títulos, descripciones, canonical y jerarquía coherentes', () => {
+  const expectedCanonicals = new Map([
+    ['index.html', 'https://romicaubarrere.github.io/personal/'],
+    ['formacion.html', 'https://romicaubarrere.github.io/personal/formacion.html'],
+    ['posts/por-que-hago-tantas-preguntas.html', 'https://romicaubarrere.github.io/personal/posts/por-que-hago-tantas-preguntas.html'],
+    ['posts/cuando-puedas.html', 'https://romicaubarrere.github.io/personal/posts/cuando-puedas.html']
+  ]);
+  const titles = new Set();
+  const descriptions = new Set();
+
+  for (const [route, source] of routeDocuments) {
+    const title = source.match(/<title>([^<]+)<\/title>/i)?.[1];
+    const description = getAttribute(source, /<meta\b[^>]*name="description"[^>]*>/i, 'content');
+    const canonical = getAttribute(source, /<link\b[^>]*rel="canonical"[^>]*>/i, 'href');
+    const levels = headingLevels(source);
+
+    assert.match(title ?? '', /Romina Caubarrere/);
+    assert.ok(description.length >= 80 && description.length <= 180, `${route} tiene una descripción fuera de rango`);
+    assert.equal(canonical, expectedCanonicals.get(route));
+    assert.equal(levels[0], 1, `${route} debe empezar con h1`);
+    for (let index = 1; index < levels.length; index += 1) {
+      assert.ok(levels[index] <= levels[index - 1] + 1, `${route} salta de h${levels[index - 1]} a h${levels[index]}`);
+    }
+    assert.ok(!titles.has(title), `${route} repite el título`);
+    assert.ok(!descriptions.has(description), `${route} repite la descripción`);
+    titles.add(title);
+    descriptions.add(description);
+  }
+});
+
+test('Open Graph y X describen cada ruta y reutilizan la tarjeta aprobada', () => {
+  for (const [route, source] of routeDocuments) {
+    const title = source.match(/<title>([^<]+)<\/title>/i)?.[1];
+    const canonical = getAttribute(source, /<link\b[^>]*rel="canonical"[^>]*>/i, 'href');
+    assert.equal(getAttribute(source, /<meta\b[^>]*property="og:title"[^>]*>/i, 'content'), title);
+    assert.equal(getAttribute(source, /<meta\b[^>]*property="og:url"[^>]*>/i, 'content'), canonical);
+    assert.equal(
+      getAttribute(source, /<meta\b[^>]*property="og:image"[^>]*>/i, 'content'),
+      'https://romicaubarrere.github.io/personal/social-preview.png'
+    );
+    assert.match(source, /<meta name="twitter:card" content="summary_large_image">/i);
+    assert.match(source, /<meta name="twitter:image:alt" content="[^"<>]+">/i);
+    assert.match(source, /<meta property="og:description" content="[^"<>]+">/i);
+    assert.match(source, /<meta name="twitter:description" content="[^"<>]+">/i);
+    if (route.startsWith('posts/')) assert.match(source, /<meta property="og:type" content="article">/i);
+    else assert.match(source, /<meta property="og:type" content="website">/i);
+  }
+});
+
+test('los enlaces internos de las rutas compiladas resuelven a archivos y fragmentos existentes', async () => {
+  const routesToCheck = [...publicRoutes, '404.html'];
+  const sources = new Map(
+    await Promise.all(routesToCheck.map(async (route) => [route, await readFile(join(dist, route), 'utf8')]))
+  );
+
+  for (const [route, source] of sources) {
+    const links = [...source.matchAll(/<a\b[^>]*href="([^"]+)"/gi)].map((match) => match[1]);
+    assert.doesNotMatch(source, /<a\b[^>]*href="#"/i, `${route} contiene un enlace vacío`);
+
+    for (const href of links) {
+      if (/^(?:https?:|mailto:|tel:)/i.test(href)) continue;
+      const [rawPath, fragment] = href.split('#');
+      let targetRoute;
+      if (!rawPath) targetRoute = route;
+      else if (rawPath.startsWith('/personal/')) targetRoute = rawPath.slice('/personal/'.length);
+      else targetRoute = normalize(join(dirname(route), rawPath));
+      if (!targetRoute || targetRoute.endsWith('/')) targetRoute = join(targetRoute, 'index.html');
+
+      await access(join(dist, targetRoute));
+      if (fragment) {
+        const targetSource = sources.get(targetRoute) ?? await readFile(join(dist, targetRoute), 'utf8');
+        assert.ok(ids(targetSource).has(fragment), `${route}: falta el destino ${href}`);
+      }
+    }
+  }
+});
+
+test('la navegación expone la sección activa y el contacto no publica destinos falsos', () => {
+  const home = routeDocuments.get('index.html');
+  assert.match(home, /setAttribute\('aria-current','location'\)/);
+  assert.match(home, /classList\.toggle\('is-active',active\)/);
+  assert.match(homeStyles, /nav a\.is-active/);
+  assert.doesNotMatch(home, /<a\b[^>]*href="#"/i);
+  assert.equal((home.match(/class="ltag is-pending" aria-disabled="true"/g) ?? []).length, 4);
+  assert.match(home, /Los enlaces de contacto est&aacute;n pendientes de publicaci&oacute;n\./);
+});
+
+test('robots, sitemap y 404 quedan listos para GitHub Pages', async () => {
+  const robots = await readFile(join(dist, 'robots.txt'), 'utf8');
+  const sitemap = await readFile(join(dist, 'sitemap.xml'), 'utf8');
+  const notFound = await readFile(join(dist, '404.html'), 'utf8');
+
+  assert.match(robots, /^User-agent: \*/m);
+  assert.match(robots, /^Allow: \/personal\/$/m);
+  assert.match(robots, /Sitemap: https:\/\/romicaubarrere\.github\.io\/personal\/sitemap\.xml/);
+  for (const canonical of [
+    'https://romicaubarrere.github.io/personal/',
+    'https://romicaubarrere.github.io/personal/formacion.html',
+    'https://romicaubarrere.github.io/personal/posts/por-que-hago-tantas-preguntas.html',
+    'https://romicaubarrere.github.io/personal/posts/cuando-puedas.html'
+  ]) {
+    assert.match(sitemap, new RegExp(`<loc>${canonical.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}</loc>`));
+  }
+  assert.match(notFound, /<title>Página no encontrada \| Romina Caubarrere<\/title>/i);
+  assert.match(notFound, /<meta name="robots" content="noindex,follow">/i);
+  assert.match(notFound, /href="index\.html"/i);
+});
+
+test('ninguna ruta genera referencias pegadas o duplicadas a /personal', () => {
+  for (const [route, source] of routeDocuments) {
+    assert.doesNotMatch(source, /\/personal(?:favicon|microinteractions|social-preview|_astro)/, route);
+    assert.doesNotMatch(source, /\/personal\/personal\//, route);
+  }
+});

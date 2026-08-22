@@ -1,0 +1,27 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import '../styles/post.css';
+
+const title = 'Página no encontrada | Romina Caubarrere';
+const description = 'La página que buscabas no existe o cambió de lugar dentro del portfolio de Romina Caubarrere.';
+const canonical = 'https://romicaubarrere.github.io/personal/404.html';
+---
+
+<BaseLayout {title} {description} {canonical} robots="noindex,follow">
+  <a class="skip-link" href="#main-content">Saltar al contenido</a>
+  <header class="top brick">
+    <div class="hero">
+      <span class="kicker">parece que este papel se perdi&oacute;</span>
+      <h1>P&aacute;gina no encontrada</h1>
+      <p class="summary">La direcci&oacute;n puede haber cambiado o el enlace puede estar incompleto.</p>
+    </div>
+  </header>
+  <main class="cork" id="main-content" tabindex="-1">
+    <article class="paper">
+      <span class="tape" aria-hidden="true"></span>
+      <p class="short"><strong>Volvamos al estudio.</strong></p>
+      <p><a href="index.html">Ir al portfolio de Romina Caubarrere</a></p>
+    </article>
+  </main>
+  <footer class="footer">hecho con m&eacute;todo, plantas y un poco de lana &middot; Romina Caubarrere</footer>
+</BaseLayout>

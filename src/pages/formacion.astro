@@ -1,0 +1,190 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import '../styles/formation.css';
+
+const title = 'Formación · Romina Caubarrere';
+const description = 'El recorrido académico de Romina Caubarrere: Licenciatura en Tecnologías de la Información en UTEC, proyectos y formación complementaria.';
+const canonical = 'https://romicaubarrere.github.io/personal/formacion.html';
+---
+
+<BaseLayout {title} {description} {canonical}>
+  <a class="skip-link" href="#main-content">Saltar al contenido principal</a>
+
+  <div class="topbar">
+    <a href="index.html#formacion" aria-label="Volver a la secci&oacute;n Formaci&oacute;n del estudio"><span class="back-copy">&larr; Volver al estudio</span><span class="back-short" aria-hidden="true">&larr; Estudio</span></a>
+    <nav aria-label="Secciones de formaci&oacute;n">
+      <a href="#utec">UTEC</a>
+      <a href="#proyectos-academicos">Proyectos</a>
+      <a href="#complementaria">Complementaria</a>
+    </nav>
+  </div>
+  <a class="contact-tab" href="index.html#contacto">Contacto</a>
+
+  <header class="academic-hero brick" id="inicio">
+    <div class="hero-inner">
+      <svg class="desk-fern left" viewBox="0 0 240 360" aria-hidden="true" focusable="false">
+        <path d="M116 356C123 272 118 169 89 36" fill="none" stroke="currentColor" stroke-width="6"/>
+        <g fill="currentColor">
+          <ellipse cx="92" cy="62" rx="42" ry="13" transform="rotate(-32 92 62)"/><ellipse cx="112" cy="88" rx="39" ry="12" transform="rotate(28 112 88)"/>
+          <ellipse cx="79" cy="111" rx="43" ry="13" transform="rotate(-27 79 111)"/><ellipse cx="119" cy="137" rx="41" ry="13" transform="rotate(29 119 137)"/>
+          <ellipse cx="79" cy="164" rx="38" ry="12" transform="rotate(-24 79 164)"/><ellipse cx="123" cy="190" rx="37" ry="12" transform="rotate(27 123 190)"/>
+          <ellipse cx="88" cy="216" rx="34" ry="11" transform="rotate(-22 88 216)"/><ellipse cx="126" cy="244" rx="31" ry="10" transform="rotate(25 126 244)"/>
+        </g>
+      </svg>
+      <svg class="desk-fern right" viewBox="0 0 240 360" aria-hidden="true" focusable="false">
+        <path d="M116 356C123 272 118 169 89 36" fill="none" stroke="currentColor" stroke-width="6"/>
+        <g fill="currentColor">
+          <ellipse cx="92" cy="62" rx="42" ry="13" transform="rotate(-32 92 62)"/><ellipse cx="112" cy="88" rx="39" ry="12" transform="rotate(28 112 88)"/>
+          <ellipse cx="79" cy="111" rx="43" ry="13" transform="rotate(-27 79 111)"/><ellipse cx="119" cy="137" rx="41" ry="13" transform="rotate(29 119 137)"/>
+          <ellipse cx="79" cy="164" rx="38" ry="12" transform="rotate(-24 79 164)"/><ellipse cx="123" cy="190" rx="37" ry="12" transform="rotate(27 123 190)"/>
+          <ellipse cx="88" cy="216" rx="34" ry="11" transform="rotate(-22 88 216)"/><ellipse cx="126" cy="244" rx="31" ry="10" transform="rotate(25 126 244)"/>
+        </g>
+      </svg>
+
+      <div class="open-folder">
+        <div class="folder-pages">
+          <div class="hero-copy">
+            <span class="kick">mi carpeta acad&eacute;mica</span>
+            <h1>Mi recorrido por UTEC, <em>sin meterlo en una l&iacute;nea</em></h1>
+            <p>Entr&eacute; en 2022 pensando que iba a aprender tecnolog&iacute;a. Aprend&iacute; eso, claro, pero tambi&eacute;n aprend&iacute; a trabajar con equipos, sostener proyectos cuando se complican y convertir problemas t&eacute;cnicos en decisiones concretas. En 2026 cerr&eacute; la carrera con habITar.</p>
+          </div>
+          <aside class="file-card">
+            <span class="label">Expediente 2022&ndash;2026</span>
+            <h2>Licenciatura en Tecnolog&iacute;as de la Informaci&oacute;n</h2>
+            <p>UTEC, sede Minas. Plan 2018.</p>
+            <p class="spoiler">No termin&eacute; trabajando como programadora. Igual, saber c&oacute;mo se construye software cambia por completo c&oacute;mo gestiono.</p>
+            <div class="file-stamps"><span>Finalizada</span><span>Proyecto final: habITar</span></div>
+          </aside>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main id="main-content" tabindex="-1">
+    <section class="route" id="utec">
+      <div class="route-inner">
+        <div class="section-title">
+          <span class="small">el plan completo</span>
+          <h2>Ocho semestres, <em>uno por uno</em></h2>
+          <p>Ac&aacute; s&iacute; est&aacute;n todas las materias. Las dej&eacute; guardadas por semestre, como una carpeta que se abre cuando quer&eacute;s mirar el detalle.</p>
+        </div>
+
+        <div class="transversal"><strong>En todos los semestres:</strong> Ingl&eacute;s, niveles 1 a 8, y UTEC Innova, niveles 1 a 8, el eje de innovaci&oacute;n y emprendimiento de la carrera.</div>
+
+        <div class="study-binder">
+          <div class="binder-rings" aria-hidden="true"><span></span><span></span><span></span><span></span></div>
+          <div class="semesters">
+            <div class="semester-page">
+              <details class="semester" style="--tab-color:#3c7549">
+                <summary><span class="num">01</span><span><span class="when">Semestre 1 &middot; 2022</span><span class="note">ac&aacute; empez&oacute; todo</span></span></summary>
+                <ul><li>Curso Inicial Virtual</li><li>Introducci&oacute;n y Perspectivas de las TI</li><li>Fundamentos de la Programaci&oacute;n Orientada a Objetos</li><li>Introducci&oacute;n a la Programaci&oacute;n en Java</li><li>Programaci&oacute;n en lenguaje SQL</li><li>Base de Datos: conceptos y dise&ntilde;o</li><li>Metodolog&iacute;as de Testing Funcional</li></ul>
+              </details>
+              <details class="semester" style="--tab-color:#974629">
+                <summary><span class="num">02</span><span><span class="when">Semestre 2 &middot; 2023</span><span class="note">primer proyecto integrador</span></span></summary>
+                <ul><li>Patrones de Dise&ntilde;o y Algoritmos</li><li>An&aacute;lisis de Requerimientos y Modelado</li><li>Metodolog&iacute;as de Desarrollo &Aacute;gil</li><li>Aplicaciones Enterprise (Java EE)</li><li>Base de Datos Corporativas</li><li>Implementaci&oacute;n del Testing Funcional</li><li>Proyecto de Desarrollo y Testing</li></ul>
+              </details>
+              <details class="semester" style="--tab-color:#cf9a3f">
+                <summary><span class="num">03</span><span><span class="when">Semestre 3 &middot; 2023</span><span class="note">redes, servidores y bastante equipo</span></span></summary>
+                <ul><li>Infraestructura de Redes</li><li>Interconexi&oacute;n de Redes</li><li>Administraci&oacute;n de Base de Datos</li><li>Gesti&oacute;n del Testing Funcional</li><li>Proyecto de Infraestructura</li></ul>
+              </details>
+              <details class="semester" style="--tab-color:#657249">
+                <summary><span class="num">04</span><span><span class="when">Semestre 4 &middot; 2024</span><span class="note">cierre del Tecn&oacute;logo</span></span></summary>
+                <ul><li>Sistemas Operativos de Red</li><li>Fundamentos de Virtualizaci&oacute;n</li><li>Introducci&oacute;n a la Seguridad y Auditor&iacute;a</li><li>Desarrollo de Aplicaciones para Dispositivos M&oacute;viles</li><li>Proyecto Final de Tecn&oacute;logo</li><li>Optativa: IA aplicada y aprendizaje supervisado con Python</li></ul>
+              </details>
+            </div>
+            <div class="semester-page">
+              <details class="semester" style="--tab-color:#974629">
+                <summary><span class="num">05</span><span><span class="when">Semestre 5 &middot; 2024</span><span class="note">la gesti&oacute;n dej&oacute; de ser intuici&oacute;n</span></span></summary>
+                <ul><li>Gesti&oacute;n de Proyectos</li><li>Liderazgo</li><li>Automatizaci&oacute;n de Testing</li><li>Gesti&oacute;n y Gobierno de TI</li><li>Derecho Inform&aacute;tico</li><li>Proyecto Final de semestre</li></ul>
+              </details>
+              <details class="semester" style="--tab-color:#3c7549">
+                <summary><span class="num">06</span><span><span class="when">Semestre 6 &middot; 2025</span><span class="note">cloud, seguridad y datos</span></span></summary>
+                <ul><li>Fundamentos de Ciberseguridad, Arquitectura y Cloud</li><li>Arquitectura de Cloud Computing</li><li>Fundamentos de Machine Learning</li><li>Data Science</li></ul>
+              </details>
+              <details class="semester" style="--tab-color:#cf9a3f">
+                <summary><span class="num">07</span><span><span class="when">Semestre 7 &middot; 2025</span><span class="note">continuidad, UX y anteproyecto</span></span></summary>
+                <ul><li>Ciberseguridad: Conceptos, Incidencias y Contramedidas</li><li>Ciberseguridad: Continuidad del Negocio</li><li>Taller de Ciberseguridad vinculado a Desarrollo en la Nube</li><li>Fundamentos de Rob&oacute;tica y Dom&oacute;tica</li><li>Dise&ntilde;o de Experiencia de Usuario</li><li>Anteproyecto de tesis</li></ul>
+              </details>
+              <details class="semester" style="--tab-color:#974629">
+                <summary><span class="num">08</span><span><span class="when">Semestre 8 &middot; 2026</span><span class="note">la tesis y el cierre</span></span></summary>
+                <ul><li>Proyecto Final de Carrera: habITar</li><li>Inteligencia Artificial</li><li>Introducci&oacute;n a DevOps</li><li>&Eacute;tica, Tecnolog&iacute;a y Sociedad</li></ul>
+              </details>
+            </div>
+          </div>
+        </div>
+
+        <p class="source-note">Los nombres de los semestres 1 a 4 siguen la tabla oficial de homologaci&oacute;n del Plan 2018. Los semestres 5 a 8 se reconstruyeron desde mis carpetas acad&eacute;micas, por eso aparecen como parte de mi recorrido personal y no como una transcripci&oacute;n oficial del plan.</p>
+      </div>
+    </section>
+
+    <section class="academic-projects" id="proyectos-academicos">
+      <div class="projects-inner">
+        <div class="section-title">
+          <span class="small">lo que no entra en una escolaridad</span>
+          <h2>Los proyectos que <em>marcaron el camino</em></h2>
+          <p>No todos tienen nombre de portfolio, pero cada uno dej&oacute; algo que sigo usando.</p>
+        </div>
+        <div class="project-stack">
+          <article class="project-sheet"><div class="code">S2</div><div><h3>Proyecto de Desarrollo y Testing</h3><p>El primer proyecto integrador: una soluci&oacute;n, su documentaci&oacute;n t&eacute;cnica y todo el ciclo de pruebas.</p></div></article>
+          <article class="project-sheet"><div class="code">S3</div><div><h3>Proyecto de Infraestructura</h3><p>Dise&ntilde;amos una infraestructura con VLAN, VRRP, bonding, firewall, VPN y almacenamiento con RAID. El equipo pas&oacute; de cinco personas a tres y tuvimos que reorganizar el trabajo sin soltar la entrega.</p></div></article>
+          <article class="project-sheet"><div class="code">S4</div><div><h3>Proyecto Final de Tecn&oacute;logo</h3><p>El cierre del primer ciclo de la carrera, integrando programaci&oacute;n, base de datos, testing y una defensa final.</p></div></article>
+          <article class="project-sheet"><div class="code">S8</div><div><h3>habITar</h3><p>Mi proyecto final de carrera. Un producto para centralizar la gesti&oacute;n de una cooperativa de vivienda, con <strong>63 requerimientos must have, 226 casos de prueba manuales y m&aacute;s de 2700 pruebas automatizadas</strong>. Mi foco estuvo en producto, gesti&oacute;n y calidad.</p></div></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="extra" id="complementaria">
+      <div class="extra-inner">
+        <div class="section-title">
+          <span class="small">por afuera de UTEC</span>
+          <h2>Lo que fui <em>sumando en el camino</em></h2>
+          <p>Algunas cosas cerraron huecos t&eacute;cnicos. Otras me ayudaron a poner en palabras lo que ya ven&iacute;a haciendo.</p>
+        </div>
+        <div class="credentials-pocket">
+          <div class="extra-row">
+            <article class="extra-note"><span class="state">egresada</span><h3>J&oacute;venes a Programar</h3><p>Mi entrada al desarrollo web y al trabajo en tecnolog&iacute;a.</p><span class="place">Plan Ceibal</span></article>
+            <article class="extra-note"><span class="state">finalizada &middot; 2024</span><h3>Diplomatura en Gesti&oacute;n de Proyectos</h3><p>Un recorrido por alcance, cronograma, riesgos y agilidad, con una estructura m&aacute;s formal para cosas que ya empezaba a aplicar.</p><span class="place">Academia Numen &middot; avalada por PMI</span></article>
+            <article class="extra-note"><span class="state">en curso</span><h3>OPI 2.0</h3><p>Oratoria y comunicaci&oacute;n para ordenar una idea, defenderla y hacer que llegue mejor.</p><span class="place">Franco Pisso</span></article>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>hasta ac&aacute; lleg&oacute; la carpeta, el resto est&aacute; en el estudio</p>
+    <a href="index.html">Volver al portfolio</a>
+  </footer>
+  <script is:inline>
+  (function(){
+    var reducedMotion=window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var hero=document.querySelector('.academic-hero');
+
+    if(hero && !reducedMotion){
+      hero.addEventListener('pointermove',function(event){
+        var rect=hero.getBoundingClientRect();
+        hero.style.setProperty('--light-x',((event.clientX-rect.left)/rect.width*100)+'%');
+        hero.style.setProperty('--light-y',((event.clientY-rect.top)/rect.height*100)+'%');
+      },{passive:true});
+    }
+
+    var sectionLinks=Array.prototype.slice.call(document.querySelectorAll('.topbar nav a'));
+    var sections=sectionLinks.map(function(link){return document.querySelector(link.getAttribute('href'));}).filter(Boolean);
+
+    if('IntersectionObserver' in window){
+      var sectionObserver=new IntersectionObserver(function(entries){
+        entries.forEach(function(entry){
+          if(!entry.isIntersecting) return;
+          sectionLinks.forEach(function(link){
+            var active=link.getAttribute('href')==='#'+entry.target.id;
+            link.classList.toggle('is-active',active);
+            if(active) link.setAttribute('aria-current','location');
+            else link.removeAttribute('aria-current');
+          });
+        });
+      },{rootMargin:'-25% 0px -60%',threshold:0});
+      sections.forEach(function(section){sectionObserver.observe(section);});
+    }
+  })();
+  </script>
+</BaseLayout>

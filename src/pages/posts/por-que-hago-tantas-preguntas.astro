@@ -1,34 +1,16 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>¿Por qué hago tantas preguntas? | Romina Caubarrere</title>
-<meta name="description" content="Una nota personal sobre curiosidad, preguntas, rabbit holes y por qué sigo queriendo saber un poco más.">
-<meta name="author" content="Romina Caubarrere">
-<meta name="robots" content="index,follow">
-<meta name="theme-color" content="#22432c">
-<link rel="canonical" href="https://romicaubarrere.github.io/personal/posts/por-que-hago-tantas-preguntas.html">
-<link rel="icon" type="image/svg+xml" href="../favicon.svg">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,400..700&family=DM+Sans:opsz,wght@9..40,400..700&family=Caveat:wght@500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="post.css">
-</head>
-<body>
-<a class="skip-link" href="#main-content">Saltar al contenido</a>
-<header class="top brick">
-  <div class="hero">
-    <a class="back" href="../index.html#lecturas">← volver a lo que leo y escribo</a><br>
-    <span class="kicker">una nota mía</span>
-    <h1>¿Por qué hago tantas <em>preguntas</em>?</h1>
-    <p class="summary">Sobre preguntar por qué, caer en rabbit holes y tener una memoria especial para las cosas pelotudas.</p>
-    <div class="meta">Romina Caubarrere · <time datetime="2026-08">agosto 2026</time></div>
-  </div>
-</header>
-<main class="cork" id="main-content" tabindex="-1">
-  <article class="paper">
-    <span class="tape" aria-hidden="true"></span>
+---
+import PostLayout from '../../layouts/PostLayout.astro';
+---
+
+<PostLayout
+  title="¿Por qué hago tantas preguntas? | Romina Caubarrere"
+  description="Una nota personal sobre curiosidad, preguntas, rabbit holes y por qué sigo queriendo saber un poco más."
+  canonical="https://romicaubarrere.github.io/personal/posts/por-que-hago-tantas-preguntas.html"
+  summary="Sobre preguntar por qué, caer en rabbit holes y tener una memoria especial para las cosas pelotudas."
+  dateTime="2026-08"
+  dateLabel="agosto 2026"
+>
+  <Fragment slot="heading">¿Por qué hago tantas <em>preguntas</em>?</Fragment>
     <p>Cuando era chica, mis padres me regalaban <em>El libro de los porqués</em>.</p>
     <p>Lo cual tiene bastante sentido porque, aparentemente, mi respuesta a absolutamente todo era: ¿por qué?</p>
     <p class="why">¿Por qué vamos a comer esto? ¿Por qué Carla no va a venir? ¿Por qué pasan los terremotos? ¿Por qué esto? ¿Por qué lo otro?</p>
@@ -95,8 +77,4 @@
       <p>Pregunto tanto porque me gusta saber.</p>
       <p>Incluso cuando es una pelotudez.</p>
     </div>
-  </article>
-</main>
-<footer class="footer">hecho con método, plantas y un poco de lana · <a href="../index.html">Romina Caubarrere</a></footer>
-</body>
-</html>
+</PostLayout>
