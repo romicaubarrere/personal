@@ -90,6 +90,8 @@ test('Cómo trabajo reúne las tres partes y la portada conserva solo el anticip
   }
   assert.equal((work.match(/class="workflow-step reveal"/g) ?? []).length, 4);
   assert.equal((work.match(/class="offer-card reveal"/g) ?? []).length, 5);
+  assert.match(work, /class="work-page-kitchen"/);
+  assert.match(work, /mise en place del proyecto/);
 });
 
 test('la portada se compone desde módulos Astro con una única isla React', async () => {

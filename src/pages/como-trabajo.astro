@@ -12,12 +12,34 @@ const description = 'Conocé las capacidades, el proceso de trabajo y los proble
 const canonical = 'https://romicaubarrere.github.io/personal/como-trabajo.html';
 ---
 
+<style is:inline>
+  .work-page-kitchen .work-page-hero{isolation:isolate;background-color:#805033;background-image:linear-gradient(90deg,rgba(255,255,255,.035) 1px,transparent 1px),repeating-linear-gradient(96deg,#805033 0 28px,#865638 29px 58px,#78492f 59px 88px)}
+  .work-page-kitchen .work-page-hero::before{z-index:-1;background:linear-gradient(118deg,rgba(22,19,16,.34),rgba(34,67,44,.78))}
+  .work-page-kitchen .work-page-hero-inner{border:1px solid rgba(250,243,228,.16)}
+  .kitchen-recipe-label{display:inline-block;margin:0 0 12px -58px;padding:6px 15px;background:var(--cream);color:var(--warm);box-shadow:2px 4px 0 rgba(22,19,16,.3);font-family:var(--hand);font-size:1.22rem;line-height:1;transform:rotate(-2deg)}
+  .kitchen-tools{position:absolute;z-index:0;inset:0;pointer-events:none}
+  .kitchen-cloth{position:absolute;right:-34px;bottom:-45px;width:270px;height:220px;opacity:.74;transform:rotate(-8deg);background:repeating-linear-gradient(0deg,rgba(250,243,228,.92) 0 18px,rgba(143,66,48,.8) 19px 23px),repeating-linear-gradient(90deg,transparent 0 18px,rgba(143,66,48,.8) 19px 23px);box-shadow:-8px -7px 18px rgba(22,19,16,.2)}
+  .kitchen-utensil{position:absolute;overflow:visible;fill:none;stroke:var(--gold);stroke-width:7;stroke-linecap:round;stroke-linejoin:round;filter:drop-shadow(4px 6px 2px rgba(22,19,16,.3));transition:transform .28s ease,filter .28s ease}
+  .kitchen-spoon{left:max(18px,calc(50% - 570px));bottom:42px;width:66px;transform:rotate(-13deg);transform-origin:50% 90%}
+  .kitchen-whisk{right:max(30px,calc(50% - 570px));top:88px;width:67px;transform:rotate(12deg);transform-origin:50% 90%}
+  .work-page-hero:has(.kitchen-start:is(:hover,:focus-visible,:active)) .kitchen-spoon{transform:rotate(-5deg) translateY(-7px);filter:drop-shadow(7px 10px 3px rgba(22,19,16,.28))}
+  .work-page-hero:has(.kitchen-start:is(:hover,:focus-visible,:active)) .kitchen-whisk{transform:rotate(3deg) translateY(6px)}
+  .kitchen-start:is(:hover,:focus-visible,:active){transform:translateY(-3px) rotate(-.7deg);background:#e1ad55}
+  .work-page-nav a{overflow:hidden}.work-page-nav a::after{content:"";position:absolute;right:14px;bottom:5px;left:14px;height:2px;background:var(--gold);transform:scaleX(0);transform-origin:left;transition:transform .2s ease}
+  .work-page-nav a:is(:hover,:focus-visible,:active)::after{transform:scaleX(1)}
+  .work-page-kitchen .workflow-step{background-color:var(--cream);background-image:linear-gradient(90deg,transparent 0 34px,rgba(143,66,48,.1) 35px 36px,transparent 37px);transition:transform .22s ease,box-shadow .22s ease}
+  .work-page-kitchen .workflow-step::after{content:"paso";position:absolute;right:16px;top:14px;color:var(--warm);font-family:var(--hand);font-size:1rem;letter-spacing:.04em}
+  @media(hover:hover){.work-page-kitchen .workflow-step:hover{transform:rotate(0) translateY(-5px);box-shadow:5px 14px 28px rgba(36,31,24,.24)}}
+  @media(max-width:760px){.kitchen-recipe-label{margin-left:-34px;font-size:1.08rem}.kitchen-spoon{left:8px;bottom:12px;width:43px}.kitchen-whisk{right:8px;top:70px;width:43px}.kitchen-cloth{right:-85px;bottom:-55px;width:205px;height:170px;opacity:.5}}
+  @media(prefers-reduced-motion:reduce){.work-page-hero:has(.kitchen-start:is(:hover,:focus-visible,:active)) .kitchen-spoon,.work-page-hero:has(.kitchen-start:is(:hover,:focus-visible,:active)) .kitchen-whisk,.kitchen-start:is(:hover,:focus-visible,:active),.work-page-kitchen .workflow-step:hover{transform:none}}
+</style>
+
 <BaseLayout {title} {description} {canonical}>
   <a class="skip-link" href="#main-content">Saltar al contenido principal</a>
   <button class="nav-toggle" id="navToggle" type="button" aria-controls="primary-nav" aria-expanded="false">
     <span>Men&uacute;</span><span class="menu-icon" aria-hidden="true">&#9776;</span>
   </button>
-  <nav id="primary-nav" aria-label="Secciones de C&oacute;mo trabajo">
+  <nav class="work-page-nav" id="primary-nav" aria-label="Secciones de C&oacute;mo trabajo">
     <a href="#fortalezas">Lo que aporto</a>
     <a href="#forma-de-trabajo">Mi proceso</a>
     <a href="#lo-que-hago">Lo que hago</a>
@@ -25,13 +47,26 @@ const canonical = 'https://romicaubarrere.github.io/personal/como-trabajo.html';
   </nav>
   <a class="contact-tab" href="index.html#contacto" aria-label="Ir a las opciones de contacto">Hablemos</a>
 
-  <main id="main-content" tabindex="-1">
+  <main class="work-page-kitchen" id="main-content" tabindex="-1">
     <header class="work-page-hero" id="inicio">
+      <div class="kitchen-tools" aria-hidden="true">
+        <span class="kitchen-cloth"></span>
+        <svg class="kitchen-utensil kitchen-spoon" viewBox="0 0 72 240" focusable="false">
+          <ellipse cx="36" cy="43" rx="25" ry="36"></ellipse>
+          <path d="M34 76v145c0 10 4 14 4 14"></path>
+        </svg>
+        <svg class="kitchen-utensil kitchen-whisk" viewBox="0 0 80 240" focusable="false">
+          <path d="M40 229V112"></path>
+          <path d="M40 115C5 88 8 31 40 11c32 20 35 77 0 104Z"></path>
+          <path d="M40 115C20 79 24 37 40 11c16 26 20 68 0 104Z"></path>
+        </svg>
+      </div>
       <div class="work-page-hero-inner reveal in">
+        <span class="kitchen-recipe-label">mise en place del proyecto</span>
         <span class="strengths-kicker">mi forma de trabajar</span>
         <h1>Del problema suelto a un trabajo que <em>se puede sostener</em></h1>
         <p>Esta p&aacute;gina junta tres cosas distintas: lo que aporto, c&oacute;mo ordeno el camino y qu&eacute; puede quedar resuelto despu&eacute;s.</p>
-        <a class="offers-link" href="#fortalezas">Empezar por mis capacidades <span aria-hidden="true">&darr;</span></a>
+        <a class="offers-link kitchen-start" href="#fortalezas">Empezar por mis capacidades <span aria-hidden="true">&darr;</span></a>
       </div>
     </header>
     <Strengths />
