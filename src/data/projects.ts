@@ -20,6 +20,7 @@ export interface ProjectBook {
   color: string;
   title: string;
   subtitle: string;
+  summary?: string;
   sections: Partial<Record<ProjectSectionKey, string>>;
 }
 
@@ -48,6 +49,7 @@ export const PROJECTS: ProjectBook[] = [
     color: '#3f7d4e',
     title: 'eagerworks',
     subtitle: 'un proyecto real',
+    summary: 'Un proyecto real de gestión de software. El caso está en preparación y el libro conserva su estructura para completarlo con evidencia verificable.',
     sections: {
       context: '<em>Contá qué era: el producto, el equipo y el desafío que había.</em>',
       role: '<em>Qué hiciste vos como PM: cómo coordinaste, qué decisiones tomaste.</em>',
@@ -64,6 +66,7 @@ export const PROJECTS: ProjectBook[] = [
     color: '#8f4230',
     title: 'Física Mente Posible',
     subtitle: 'divulgar la física',
+    summary: 'Cofundé este proyecto de divulgación de Física, reconocido en Estados Unidos.',
     sections: {
       context: 'Un proyecto de divulgación de Física que cofundé, reconocido en Estados Unidos.',
       role: 'Cofundadora. <em>Contá qué parte llevaste: contenidos, difusión, equipo.</em>',
@@ -80,6 +83,7 @@ export const PROJECTS: ProjectBook[] = [
     color: '#cf9a3f',
     title: 'Club Jóvenes Líderes PMI',
     subtitle: 'VP de Alianzas',
+    summary: 'Vicepresidenta de Alianzas del Club de Jóvenes Líderes de Proyectos de PMI Nuevo Cuyo.',
     sections: {
       context: 'Club de Jóvenes Líderes de Proyectos de PMI Nuevo Cuyo.',
       role: 'Vicepresidenta de Alianzas. <em>Contá qué alianzas armaste.</em>',
@@ -96,6 +100,7 @@ export const PROJECTS: ProjectBook[] = [
     color: '#55603f',
     title: 'habITar',
     subtitle: 'proyecto final de UTEC',
+    summary: 'Gestioné el proyecto, la definición de producto y el testing manual: 63 requisitos must have, 226 casos manuales y más de 2.700 pruebas automatizadas.',
     sections: {
       context: 'Proyecto final de la Licenciatura en Tecnologías de la Información de UTEC. Durante 46 semanas, un equipo de tres personas desarrolló una plataforma para centralizar la gestión económica, administrativa y comunitaria de una cooperativa de vivienda uruguaya.',
       challenge: 'La información y los procesos se repartían entre canales informales y registros manuales. Eso hacía difícil seguir pagos, decisiones y tareas. A la vez, el equipo tenía que cubrir un MVP amplio mientras sus integrantes trabajaban y la disponibilidad de las personas usuarias era limitada.',

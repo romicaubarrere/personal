@@ -341,6 +341,29 @@ test('los proyectos usan botones semánticos con nombres accesibles', () => {
   assert.doesNotMatch(html, /sp\.addEventListener\('keydown'/);
 });
 
+test('los proyectos muestran información esencial sin depender de hover', () => {
+  const summaries = html.match(/<article class="project-summary"[\s\S]*?<\/article>/g) ?? [];
+  assert.equal(summaries.length, 4);
+
+  for (const summary of summaries) {
+    assert.match(summary, /<span class="tag">[^<]+<\/span>/);
+    assert.match(summary, /<h3>[^<]+<\/h3>/);
+    assert.match(summary, /<p>[^<]+<\/p>/);
+    assert.match(summary, /class="project-brief"/);
+    assert.match(summary, /data-book="[^"]+"/);
+    assert.match(summary, /aria-haspopup="dialog"/);
+    assert.match(summary, /aria-label="Abrir caso de proyecto: [^"]+"/);
+  }
+
+  assert.match(html, /<ul class="project-summaries" aria-label="Resumen de proyectos">/);
+  assert.match(html, /\.project-summaries\{[^}]*display:grid;grid-template-columns:repeat\(2,minmax\(0,1fr\)\)/);
+  assert.match(html, /@media\(max-width:760px\)\{[\s\S]*?\.project-summaries\{grid-template-columns:1fr;/);
+  assert.match(projectIslandSource, /PROJECTS\.filter\(\(book\) => book\.summary\)\.map/);
+  assert.match(projectIslandSource, /onClick=\{\(event\) => openBook\(book, event\.currentTarget\)\}/);
+  assert.equal((projectDataSource.match(/^\s+summary: /gm) ?? []).length, 4);
+  assert.doesNotMatch(html, /\.pcard\{|\.spine:hover \.pcard/);
+});
+
 test('los casos de proyecto comparten una plantilla ordenada y omiten campos vacíos', () => {
   const expectedOrder = [
     'Contexto',
@@ -405,7 +428,7 @@ test('el modal de proyectos gestiona el foco como un diálogo accesible', () => 
 });
 
 test('cada proyecto puede abrirse y recorrerse desde una URL compartible', () => {
-  const projectKeys = [...html.matchAll(/data-book="([^"]+)"/g)].map((match) => match[1]);
+  const projectKeys = [...html.matchAll(/class="spine [^"]+"[^>]*data-book="([^"]+)"/g)].map((match) => match[1]);
   assert.equal(new Set(projectKeys).size, projectKeys.length);
   assert.equal(projectKeys.length, 5);
   assert.match(projectIslandSource, /#project=\$\{encodeURIComponent\(projectId\)\}&page=\$\{page\}/);
