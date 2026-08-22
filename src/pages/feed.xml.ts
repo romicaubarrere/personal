@@ -13,14 +13,17 @@ function escapeXml(value: string) {
 }
 
 export const GET: APIRoute = () => {
-  const items = publishedPosts.map((post) => `    <item>
+  const items = [...publishedPosts]
+    .sort((left, right) => Date.parse(right.dateTime) - Date.parse(left.dateTime))
+    .map((post) => `    <item>
       <title>${escapeXml(post.title.replace(/\s+\|\s+Romina Caubarrere$/, ''))}</title>
       <link>${post.canonical}</link>
       <guid isPermaLink="true">${post.canonical}</guid>
       <description>${escapeXml(post.description)}</description>
       <dc:creator>Romina Caubarrere</dc:creator>
       <dc:date>${post.dateTime}</dc:date>
-    </item>`).join('\n');
+    </item>`)
+    .join('\n');
 
   return new Response(
     `<?xml version="1.0" encoding="UTF-8"?>
