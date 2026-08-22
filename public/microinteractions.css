@@ -14,9 +14,4 @@
 }
 .sticky-link:focus-visible{translate:0 -3px}
 @media(hover:none){.sticky-link:active,.spine:active,.ltag:active,.hero-link:active,.open-folder:active,.offers-link:active{scale:.985}.patch:active{scale:.98 .95}}
-
-.context-scribble{position:fixed;z-index:210;left:var(--scribble-left);top:var(--scribble-top);width:var(--scribble-width);pointer-events:none;padding:5px 10px 6px;background:rgba(250,243,228,.94);color:var(--warm);font-family:var(--hand);font-size:19px;line-height:1.05;text-align:center;box-shadow:2px 4px 0 rgba(36,31,24,.18);transform:rotate(-2deg);opacity:0;animation:context-scribble-pop 1.1s ease both}
-.context-scribble::after{content:"";position:absolute;left:18px;bottom:-12px;width:28px;height:18px;border-bottom:2px solid currentColor;border-radius:0 0 70% 40%;transform:rotate(18deg)}
-@keyframes context-scribble-pop{0%{opacity:0;translate:0 5px;scale:.96}12%,72%{opacity:1;translate:0 0;scale:1}100%{opacity:0;translate:0 -3px;scale:.98}}
-
-@media(prefers-reduced-motion:reduce){.strength-card,.about-note,.workflow-step,.offer-card,.nowbook,.sticky,.folder-note,.contact .card,.pin,.potplant,.vine,.hang,.cfern,.patch,.flyer,.sticky-link{translate:none!important;rotate:none!important;scale:none!important;filter:none!important}.about-note::after,.nowbook::after,.sticky::after,.context-scribble{display:none!important}}
+@media(prefers-reduced-motion:reduce){.strength-card,.about-note,.workflow-step,.offer-card,.nowbook,.sticky,.folder-note,.contact .card,.pin,.potplant,.vine,.hang,.cfern,.patch,.flyer,.sticky-link{translate:none!important;rotate:none!important;scale:none!important;filter:none!important}.about-note::after,.nowbook::after,.sticky::after{display:none!important}}
