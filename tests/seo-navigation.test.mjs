@@ -158,7 +158,7 @@ test('cada familia interna publica un cluster hreflang recíproco en ES, EN y PT
       const source = routeDocuments.get(route);
       assert.ok(source, `${route} debe estar publicada`);
       const alternates = new Map(
-        [...source.matchAll(/<link\\b[^>]*rel="alternate"[^>]*hreflang="([^"]+)"[^>]*href="([^"]+)"[^>]*>/gi)]
+        [...source.matchAll(/<link\b[^>]*rel="alternate"[^>]*hreflang="([^"]+)"[^>]*href="([^"]+)"[^>]*>/gi)]
           .map((match) => [match[1], match[2]])
       );
       assert.deepEqual(alternates, expected, `${route} debe declarar el cluster completo y recíproco`);
