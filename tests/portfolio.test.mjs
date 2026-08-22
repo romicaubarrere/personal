@@ -85,6 +85,9 @@ test('la paleta y los textos secundarios conservan contraste AA', () => {
   assert.match(html, /\.patch:nth-child\(6n\+4\)\{background-color:var\(--rose\);color:var\(--ink\);\}/);
   assert.match(html, /\.patch \.cr\{font-size:12px;margin-top:4px;/);
   assert.match(html, /\.sticky small\{[^}]*color:#4a3a12/);
+  assert.match(html, /\.scrollhint\{[^}]*opacity:\.85/);
+  assert.match(html, /\.shelfhint\{[^}]*rgba\(250,243,228,\.7\)/);
+  assert.match(html, /\.patches h2 em\{font-style:italic;color:#f3d18c;\}/);
 
   const normalTextPairs = [
     ['#faf3e4', '#3c7549'],
@@ -92,7 +95,8 @@ test('la paleta y los textos secundarios conservan contraste AA', () => {
     ['#974629', '#faf3e4'],
     ['#974629', '#f1d3c8'],
     ['#241f18', '#cf7f6a'],
-    ['#4a3a12', '#f6b9a6']
+    ['#4a3a12', '#f6b9a6'],
+    ['#f3d18c', '#55603f']
   ];
   for (const [foreground, background] of normalTextPairs) {
     assert.ok(
