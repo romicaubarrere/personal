@@ -119,6 +119,6 @@ test('TC-NAV-006 · anchors y skip-link llevan a destinos existentes', async ({ 
   for (const href of await page.locator('a[href^="#"]').evaluateAll((links) => links.map((link) => link.getAttribute('href')).filter(Boolean))) {
     const id = href!.slice(1);
     if (!id) continue;
-    await expect(page.locator(`#${CSS.escape(id)}`), `anchor ${href}`).toHaveCount(1);
+    await expect(page.locator(`#${id}`), `anchor ${href}`).toHaveCount(1);
   }
 });
