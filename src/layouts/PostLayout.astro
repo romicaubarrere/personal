@@ -54,7 +54,7 @@ const article = {
   {page && <LanguageSwitcher current={lang} {page} />}
   <header class="top brick">
     <div class="hero">
-      <a class="back" href={lang === 'es' ? '../index.html#lecturas' : `../../${lang}.html#overview`}>← {copy.back}</a><br />
+      <a class="back" href={lang === 'es' ? '/personal/#lecturas' : `../../${lang}.html#overview`}>← {copy.back}</a><br />
       <span class="kicker">{copy.kicker}</span>
       <h1><slot name="heading" /></h1>
       <p class="summary">{summary}</p>
@@ -67,5 +67,5 @@ const article = {
       <slot />
     </article>
   </main>
-  <footer class="footer">{copy.footer} · <a href={lang === 'es' ? '../index.html' : `../../${lang}.html`}>Romina Caubarrere</a> · <a href={lang === 'es' ? '../privacidad.html' : `../${lang === 'en' ? 'privacy' : 'privacidade'}.html`}>{copy.privacy}</a></footer>
+  <footer class="footer">{copy.footer} · <a href={lang === 'es' ? '/personal/' : `../../${lang}.html`}>Romina Caubarrere</a> · <a href={lang === 'es' ? '../privacidad.html' : `../${lang === 'en' ? 'privacy' : 'privacidade'}.html`}>{copy.privacy}</a></footer>
 </BaseLayout>
