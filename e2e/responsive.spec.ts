@@ -27,7 +27,7 @@ async function closeProject(page: import('@playwright/test').Page) {
 }
 
 async function expectCloseControlInsideViewport(page: import('@playwright/test').Page) {
-  const close = page.getByRole('button', { name: 'Cerrar proyecto', exact: true }).first();
+  const close = page.getByRole('button', { name: 'Cerrar proyecto', exact: true }).filter({ visible: true }).first();
   await expect(close).toBeVisible();
   const box = await close.boundingBox();
   expect(box).not.toBeNull();
@@ -56,16 +56,14 @@ test('TC-RWD-001 · 320/375/390/430px no generan overflow y mantienen controles 
   }
 });
 
-test('TC-RWD-002 · 719/720/721px respetan el límite del libro móvil', async ({ page }) => {
+test('TC-RWD-002 · 719/720/721px mantienen el libro abierto en doble página', async ({ page }) => {
   for (const width of bookBreakpointWidths) {
     await page.setViewportSize({ width, height: 900 });
     await page.goto('/personal/');
     await openFirstProject(page);
 
-    const leftPage = page.locator('.pg-left');
-    if (width <= 720) await expect(leftPage).toBeHidden();
-    else await expect(leftPage).toBeVisible();
-
+    await expect(page.locator('.pg-left')).toBeVisible();
+    await expect(page.locator('.pg-right')).toBeVisible();
     await expectCloseControlInsideViewport(page);
     await closeProject(page);
   }
