@@ -335,12 +335,12 @@ test('el estante de proyectos se desplaza en una sola fila en móvil', () => {
   assert.match(html, /\.spine\{flex:0 0 76px;scroll-snap-align:start;\}/);
 
   const projectTriggers = html.match(/<button\b[^>]*class="spine [^"]+"[^>]*type="button"/g) ?? [];
-  assert.equal(projectTriggers.length, 5);
+  assert.equal(projectTriggers.length, 3);
 });
 
 test('los proyectos usan botones semánticos con nombres accesibles', () => {
   const projectTriggers = [...html.matchAll(/<button\b([^>]*)class="spine [^"]+"([^>]*)>/g)];
-  assert.equal(projectTriggers.length, 5);
+  assert.equal(projectTriggers.length, 3);
 
   for (const trigger of projectTriggers) {
     const attributes = `${trigger[1]}${trigger[2]}`;
@@ -356,7 +356,7 @@ test('los proyectos usan botones semánticos con nombres accesibles', () => {
 
 test('los proyectos muestran información esencial sin depender de hover', () => {
   const summaries = html.match(/<article class="project-summary"[\s\S]*?<\/article>/g) ?? [];
-  assert.equal(summaries.length, 4);
+  assert.equal(summaries.length, 3);
 
   for (const summary of summaries) {
     assert.match(summary, /<span class="tag">[^<]+<\/span>/);
@@ -373,7 +373,7 @@ test('los proyectos muestran información esencial sin depender de hover', () =>
   assert.match(html, /@media\(max-width:760px\)\{[\s\S]*?\.project-summaries\{grid-template-columns:1fr;/);
   assert.match(projectIslandSource, /PROJECTS\.filter\(\(book\) => book\.summary\)\.map/);
   assert.match(projectIslandSource, /onClick=\{\(event\) => openBook\(book, event\.currentTarget\)\}/);
-  assert.equal((projectDataSource.match(/^\s+summary: /gm) ?? []).length, 4);
+  assert.equal((projectDataSource.match(/^\s+summary: /gm) ?? []).length, 3);
   assert.doesNotMatch(html, /\.pcard\{|\.spine:hover \.pcard/);
 });
 
@@ -394,12 +394,13 @@ test('los casos de proyecto comparten una plantilla ordenada y omiten campos vac
 
   const projectIds = [...projectDataSource.matchAll(/^\s+id: '([^']+)'/gm)]
     .map((match) => match[1]);
-  assert.deepEqual(projectIds, ['eagerworks', 'fisica', 'pmi', 'habitar', 'p5']);
-  assert.equal(new Set(projectIds).size, 5);
+  assert.deepEqual(projectIds, ['fisica', 'pmi', 'habitar']);
+  assert.equal(new Set(projectIds).size, 3);
   assert.match(projectDataSource, /for \(const definition of PROJECT_SECTION_ORDER\)/);
   assert.match(projectDataSource, /if \(html\) pages\.push\(\{ kind: 'content', title: definition\.title, html \}\)/);
+  assert.doesNotMatch(projectDataSource, /Contá|Qué hiciste vos|Cómo terminó|pendiente|placeholder/i);
 
-  const habitar = projectDataSource.match(/id: 'habitar',[\s\S]*?\n\s+\},\n\s+\{\n\s+id: 'p5'/);
+  const habitar = projectDataSource.match(/id: 'habitar',[\s\S]*?\n\s+\}\n\];/);
   assert.ok(habitar, 'El caso habITar debe estar publicado en el estante');
   const habitarContent = habitar[0];
   assert.match(habitarContent, /46 semanas/);
@@ -443,7 +444,7 @@ test('el modal de proyectos gestiona el foco como un diálogo accesible', () => 
 test('cada proyecto puede abrirse y recorrerse desde una URL compartible', () => {
   const projectKeys = [...html.matchAll(/class="spine [^"]+"[^>]*data-book="([^"]+)"/g)].map((match) => match[1]);
   assert.equal(new Set(projectKeys).size, projectKeys.length);
-  assert.equal(projectKeys.length, 5);
+  assert.equal(projectKeys.length, 3);
   assert.match(projectIslandSource, /#project=\$\{encodeURIComponent\(projectId\)\}&page=\$\{page\}/);
   assert.match(projectIslandSource, /new URLSearchParams\(window\.location\.hash\.slice\(1\)\)/);
   assert.match(projectIslandSource, /window\.history\.replaceState/);

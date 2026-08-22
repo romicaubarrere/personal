@@ -40,23 +40,6 @@ export type ProjectPage = CoverPage | ContentPage;
 
 export const PROJECTS: ProjectBook[] = [
   {
-    id: 'eagerworks',
-    spineClass: 's1',
-    spineLabel: 'eagerworks',
-    ariaLabel: 'Abrir proyecto: eagerworks',
-    bands: 2,
-    tag: 'Gestión · software',
-    color: '#3f7d4e',
-    title: 'eagerworks',
-    subtitle: 'un proyecto real',
-    summary: 'Un proyecto real de gestión de software. El caso está en preparación y el libro conserva su estructura para completarlo con evidencia verificable.',
-    sections: {
-      context: '<em>Contá qué era: el producto, el equipo y el desafío que había.</em>',
-      role: '<em>Qué hiciste vos como PM: cómo coordinaste, qué decisiones tomaste.</em>',
-      results: '<em>Cómo terminó. Un número o un momento concreto vale oro.</em>'
-    }
-  },
-  {
     id: 'fisica',
     spineClass: 's2',
     spineLabel: 'Física Mente Posible',
@@ -69,8 +52,7 @@ export const PROJECTS: ProjectBook[] = [
     summary: 'Cofundé este proyecto de divulgación de Física, reconocido en Estados Unidos.',
     sections: {
       context: 'Un proyecto de divulgación de Física que cofundé, reconocido en Estados Unidos.',
-      role: 'Cofundadora. <em>Contá qué parte llevaste: contenidos, difusión, equipo.</em>',
-      results: '<em>El reconocimiento en EEUU y lo que significó para vos.</em>'
+      role: 'Cofundadora.'
     }
   },
   {
@@ -86,8 +68,7 @@ export const PROJECTS: ProjectBook[] = [
     summary: 'Vicepresidenta de Alianzas del Club de Jóvenes Líderes de Proyectos de PMI Nuevo Cuyo.',
     sections: {
       context: 'Club de Jóvenes Líderes de Proyectos de PMI Nuevo Cuyo.',
-      role: 'Vicepresidenta de Alianzas. <em>Contá qué alianzas armaste.</em>',
-      results: '<em>Qué lograron juntos.</em>'
+      role: 'Vicepresidenta de Alianzas.'
     }
   },
   {
@@ -109,20 +90,6 @@ export const PROJECTS: ProjectBook[] = [
       decisions: 'Adaptamos Scrum a la disponibilidad real: mantuvimos revisiones internas por sprint y concentramos la participación de la cooperativa en hitos con valor tangible. Priorizamos el MVP con MoSCoW y definimos una estrategia de calidad que combinó pruebas manuales, automatizadas, de rendimiento y de seguridad.',
       results: 'Llegamos a la defensa técnica final el 14 de agosto de 2026 con una versión funcional que integraba cuotas y morosidad, mantenimiento, reservas, eventos, comunicados y votaciones. La validación incluyó 226 casos manuales, más de 2.700 pruebas automatizadas y seis suites.',
       learnings: 'El proyecto confirmó que adaptar el método no es aflojarlo: es sostener sus objetivos con una dinámica que el equipo y las personas usuarias puedan mantener. También dejó una regla clara: una tecnología compleja solo aporta valor si la experiencia sigue siendo simple.'
-    }
-  },
-  {
-    id: 'p5',
-    spineClass: 's5',
-    spineLabel: 'tu proyecto',
-    ariaLabel: 'Abrir proyecto pendiente 2',
-    bands: 2,
-    tag: 'Sumamos',
-    color: '#7a3450',
-    title: 'Y otro más',
-    subtitle: 'hay lugar de sobra',
-    sections: {
-      context: '<em>Otro proyecto, otra historia. Lo llenamos juntas.</em>'
     }
   }
 ];

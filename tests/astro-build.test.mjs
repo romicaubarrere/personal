@@ -67,7 +67,7 @@ test('la portada compilada conserva estructura, contenido e interacciones', asyn
     assert.match(source, new RegExp(`id="${id}"`));
   }
 
-  assert.equal((source.match(/class="spine [^"]+"[^>]*data-book="/g) ?? []).length, 5);
+  assert.equal((source.match(/class="spine [^"]+"[^>]*data-book="/g) ?? []).length, 3);
   assert.match(clientJavaScript, /#project=/);
   assert.match(source, /prefers-reduced-motion/);
   assert.match(source, /Romina Caubarrere \| Project Manager de software/);
