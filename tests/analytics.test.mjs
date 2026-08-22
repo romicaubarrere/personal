@@ -13,10 +13,11 @@ const homeScripts = await readFile(
   'utf8'
 );
 const contract = await readFile(join(repositoryRoot, 'docs', 'analytics-events.md'), 'utf8');
+const outcomes = await readFile(join(repositoryRoot, 'docs', 'analytics-outcomes.md'), 'utf8');
 
-const publishedEvents = [...home.matchAll(/data-analytics-event="([^"]+)"/g)]
-  .map((match) => match[1])
-  .sort();
+const publishedEvents = [...new Set(
+  [...home.matchAll(/data-analytics-event="([^"]+)"/g)].map((match) => match[1])
+)].sort();
 const documentedEvents = [...contract.matchAll(/\| `([a-z][a-z0-9_]+)` \|/g)]
   .map((match) => match[1])
   .sort();
@@ -25,9 +26,20 @@ test('los eventos publicados coinciden con el contrato de medición', () => {
   assert.deepEqual(publishedEvents, [
     'contact_email_click',
     'contact_linkedin_click',
-    'persistent_contact_click'
+    'persistent_contact_click',
+    'project_case_open',
+    'view_projects_click'
   ]);
   assert.deepEqual(documentedEvents, publishedEvents);
+});
+
+test('los resultados profesionales tienen un registro manual sin datos personales', () => {
+  assert.match(outcomes, /contacto_recibido/);
+  assert.match(outcomes, /propuesta_proyecto/);
+  assert.match(outcomes, /invitacion_charla/);
+  assert.match(outcomes, /fecha,resultado,origen,estado,notas/);
+  assert.match(outcomes, /No registrar nombres, emails/);
+  assert.match(outcomes, /WEB-065/);
 });
 
 test('la capa de medición es local, neutral y evita datos personales', () => {
