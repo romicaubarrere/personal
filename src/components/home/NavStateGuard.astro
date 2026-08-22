@@ -1,0 +1,73 @@
+<script is:inline>
+  (function(){
+    var nav=document.getElementById('primary-nav');
+    var toggle=document.getElementById('navToggle');
+    if(!nav || !toggle) return;
+
+    function mobileMenu(){
+      return window.innerWidth<=760 || window.matchMedia('(max-width: 760px)').matches;
+    }
+
+    function modalOpen(){
+      return document.body.classList.contains('modal-open');
+    }
+
+    function syncMenuInert(){
+      if(modalOpen()) return;
+      var shouldBeInert=mobileMenu() && toggle.getAttribute('aria-expanded')!=='true';
+      nav.toggleAttribute('inert',shouldBeInert);
+      nav.inert=shouldBeInert;
+    }
+
+    var syncingMenu=false;
+    var menuObserver=new MutationObserver(function(){
+      if(syncingMenu) return;
+      syncingMenu=true;
+      syncMenuInert();
+      syncingMenu=false;
+    });
+    menuObserver.observe(nav,{attributes:true,attributeFilter:['inert','class']});
+    menuObserver.observe(toggle,{attributes:true,attributeFilter:['aria-expanded']});
+    menuObserver.observe(document.body,{attributes:true,attributeFilter:['class']});
+    window.addEventListener('resize',syncMenuInert,{passive:true});
+    window.addEventListener('pageshow',syncMenuInert);
+    requestAnimationFrame(syncMenuInert);
+
+    var links=Array.prototype.slice.call(document.querySelectorAll('#primary-nav a[href^="#"]'));
+    var validIds=new Set(links.map(function(link){return link.getAttribute('href').slice(1);}));
+
+    function syncHashActive(){
+      var id=window.location.hash.slice(1);
+      if(!validIds.has(id)) return;
+      links.forEach(function(link){
+        var active=link.getAttribute('href')==='#'+id;
+        link.classList.toggle('is-active',active);
+        if(active) link.setAttribute('aria-current','location');
+        else link.removeAttribute('aria-current');
+      });
+    }
+
+    var syncingActive=false;
+    var activeObserver=new MutationObserver(function(){
+      if(syncingActive || !validIds.has(window.location.hash.slice(1))) return;
+      syncingActive=true;
+      syncHashActive();
+      syncingActive=false;
+    });
+    links.forEach(function(link){
+      activeObserver.observe(link,{attributes:true,attributeFilter:['class','aria-current']});
+    });
+
+    function syncHistory(){
+      syncHashActive();
+      requestAnimationFrame(function(){
+        syncHashActive();
+        requestAnimationFrame(syncHashActive);
+      });
+    }
+    window.addEventListener('hashchange',syncHistory);
+    window.addEventListener('popstate',syncHistory);
+    window.addEventListener('pageshow',syncHistory);
+    syncHistory();
+  })();
+</script>
