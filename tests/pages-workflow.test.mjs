@@ -25,15 +25,15 @@ test('Pages compila y publica Astro desde main con permisos mínimos', () => {
   assert.match(workflow, /contents: read/);
   assert.match(workflow, /pages: write/);
   assert.match(workflow, /id-token: write/);
-  assert.match(workflow, /run: npm ci/);
+  assert.match(workflow, /run: npm ci --ignore-scripts/);
   assert.match(workflow, /run: npm run build/);
   assert.match(workflow, /run: node --test/);
   assert.match(workflow, /run: npx playwright install --with-deps chromium/);
   assert.match(workflow, /run: npm run test:e2e/);
   assert.match(workflow, /if: failure\(\)/);
-  assert.match(workflow, /uses: actions\/upload-artifact@v4/);
-  assert.match(workflow, /uses: actions\/upload-pages-artifact@v5\.0\.0/);
-  assert.match(workflow, /uses: actions\/deploy-pages@v5/);
+  assert.match(workflow, /uses: actions\/upload-artifact@[0-9a-f]{40} # v4/);
+  assert.match(workflow, /uses: actions\/upload-pages-artifact@[0-9a-f]{40} # v5\.0\.0/);
+  assert.match(workflow, /uses: actions\/deploy-pages@[0-9a-f]{40} # v5/);
   assert.match(workflow, /if: github\.event_name != 'pull_request' && github\.ref == 'refs\/heads\/main'/);
   assert.match(workflow, /needs: validate/);
   assert.match(workflow, /cancel-in-progress: \$\{\{ github\.event_name == 'pull_request' \}\}/);
@@ -48,7 +48,7 @@ test('Pages verifica la publicación real después del deploy', () => {
   assert.match(workflow, /verify:[\s\S]*?needs: deploy/);
   assert.match(
     workflow,
-    /verify:[\s\S]*?uses: actions\/checkout@v7[\s\S]*?run: node scripts\/verify-production\.mjs/
+    /verify:[\s\S]*?uses: actions\/checkout@[0-9a-f]{40} # v7[\s\S]*?run: node scripts\/verify-production\.mjs/
   );
   assert.match(workflow, /PAGE_URL: \$\{\{ needs\.deploy\.outputs\.page_url \}\}/);
   assert.match(workflow, /PUBLIC_BUILD_SHA: \$\{\{ github\.sha \}\}/);
@@ -75,7 +75,7 @@ test('WEB-129 reconstruye, prueba y verifica un ref estable antes del rollback',
   );
   assert.match(rollbackWorkflow, /run: node --test/);
   assert.match(rollbackWorkflow, /run: npm run test:e2e/);
-  assert.match(rollbackWorkflow, /uses: actions\/upload-pages-artifact@v5\.0\.0/);
+  assert.match(rollbackWorkflow, /uses: actions\/upload-pages-artifact@[0-9a-f]{40} # v5\.0\.0/);
   assert.match(
     rollbackWorkflow,
     /EXPECTED_SHA: \$\{\{ needs\.validate\.outputs\.selected_sha \}\}/

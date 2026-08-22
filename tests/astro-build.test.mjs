@@ -31,7 +31,7 @@ test('Astro genera todas las rutas públicas con su extensión histórica', asyn
 });
 
 test('la documentación explica el flujo Astro vigente', () => {
-  assert.match(readme, /Node\.js 22\.12 o posterior/);
+  assert.match(readme, /Node\.js 22\.19\.0 y npm 11\.9\.0/);
   assert.match(readme, /npm ci/);
   assert.match(readme, /npm run dev/);
   assert.match(readme, /npm run build/);
@@ -43,8 +43,8 @@ test('la documentación explica el flujo Astro vigente', () => {
   assert.match(deployWorkflow, /run: npm ci/);
   assert.match(deployWorkflow, /run: npm run build/);
   assert.match(deployWorkflow, /run: node --test/);
-  assert.match(deployWorkflow, /uses: actions\/upload-pages-artifact@v5\.0\.0/);
-  assert.match(deployWorkflow, /uses: actions\/deploy-pages@v5/);
+  assert.match(deployWorkflow, /uses: actions\/upload-pages-artifact@[0-9a-f]{40} # v5\.0\.0/);
+  assert.match(deployWorkflow, /uses: actions\/deploy-pages@[0-9a-f]{40} # v5/);
   assert.match(deployWorkflow, /branches: \[main\]/);
 });
 

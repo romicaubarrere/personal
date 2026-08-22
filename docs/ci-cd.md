@@ -58,3 +58,6 @@ un grupo de concurrencia para serializar toda escritura sobre producción.
 
 La decisión operativa, ejecución y recuperación están documentadas en
 [`docs/rollback-pages.md`](./rollback-pages.md).
+
+Las versiones reproducibles, el lockfile, los scripts de instalación y los
+SHA de las acciones se documentan en [Entorno y cadena de suministro](./supply-chain.md).
