@@ -86,6 +86,7 @@ Los casos del estante comparten el orden y las reglas editoriales de [`docs/proj
 - `docs/language-strategy.md`: decisión de idioma y condiciones de reevaluación.
 - `docs/project-case-template.md`: estructura, evidencia y reglas de privacidad de los casos.
 - `docs/branching-strategy.md`: estrategia de ramas y flujo de integración.
+- `docs/special-dates.md`: calendario y URLs de simulación para revisar celebraciones fuera de fecha.
 
 ## Actualizar el CV
 
