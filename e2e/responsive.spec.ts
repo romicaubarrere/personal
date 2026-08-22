@@ -1,7 +1,7 @@
 import { expect, test } from '@playwright/test';
 
 // Contrato visual aprobado: el libro mantiene doble página visible también en mobile.
-// Esta matriz protege el comportamiento del libro físico durante cambios responsive.
+// Esta matriz protege el comportamiento del libro físico y sus controles responsive.
 const mobileWidths = [320, 375, 390, 430];
 const bookBreakpointWidths = [719, 720, 721];
 const shortHeights = [469, 470, 471];
