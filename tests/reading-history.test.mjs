@@ -33,6 +33,13 @@ test('la página publica únicamente el historial y las estadísticas del export
   assert.doesNotMatch(readingPage, /Todavía no publico estadísticas|El historial espera el archivo completo/);
 });
 
+test('el historial conserva la grafía editorial verificada sin mojibake', () => {
+  assert.match(readingPage, /Quédense en la trinchera y luego corran/);
+  assert.match(readingData, /Quédense en la trinchera y luego corran/);
+  assert.doesNotMatch(readingPage, /Quйdense/);
+  assert.doesNotMatch(readingData, /Quйdense/);
+});
+
 test('la página explica la procedencia y evita scraping runtime', () => {
   assert.match(readingPage, /export personal de StoryGraph/);
   assert.match(readingPage, /npm run reading:import/);

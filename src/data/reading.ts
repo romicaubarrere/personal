@@ -307,7 +307,7 @@ export const readingHistory = [
     "rating": 4
   },
   {
-    "title": "Quйdense en la trinchera y luego corran",
+    "title": "Quédense en la trinchera y luego corran",
     "author": "John Boyne",
     "finishedAt": "2023-02-12",
     "rating": 4
