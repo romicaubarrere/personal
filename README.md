@@ -9,7 +9,7 @@ las rutas históricas se conservaron durante la transición WEB-086 a WEB-090.
 
 ## Ejecutar localmente
 
-El sitio se genera con Astro y fija Node.js 22.12.0 y npm 11.9.0 para reproducir el entorno.
+El sitio se genera con Astro y fija Node.js 22.19.0 y npm 11.9.0 para reproducir el entorno.
 
 ```bash
 npm ci
