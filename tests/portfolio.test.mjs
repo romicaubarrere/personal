@@ -584,6 +584,17 @@ test('el hero comunica el posicionamiento y ofrece las dos acciones principales'
   assert.match(html, /class="hero-link" href="#contacto">Contactarme<\/a>/);
 });
 
+test('las cuatro fortalezas usan evidencia concreta y aparecen después del hero', () => {
+  assert.match(html, /<\/header>\s*<section class="strengths" id="fortalezas"/);
+  assert.equal((html.match(/<article class="strength-card reveal"/g) ?? []).length, 4);
+  assert.match(html, /Gesti&oacute;n de proyectos de software/);
+  assert.match(html, /Comunicaci&oacute;n y alineaci&oacute;n/);
+  assert.match(html, /Producto, requerimientos y m&eacute;tricas/);
+  assert.match(html, /Criterio t&eacute;cnico y calidad/);
+  assert.match(html, /tres proyectos en simult&aacute;neo/);
+  assert.doesNotMatch(html, /class="strength[^\"]*(progress|meter|percentage)/i);
+});
+
 test('el post-it del hero participa del layout y no usa posicionamiento parallax', () => {
   assert.match(html, /@media\(min-width:901px\)[\s\S]*?\.stickynote\{position:relative;/);
   assert.doesNotMatch(html, /class="stickynote parallax"/);
