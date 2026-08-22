@@ -337,6 +337,7 @@ export default function ProjectBookcase() {
                     className={`spine ${book.spineClass}`}
                     type="button"
                     data-book={book.id}
+                    data-analytics-event="project_case_open"
                     aria-haspopup="dialog"
                     aria-label={book.ariaLabel}
                     key={book.id}
@@ -364,6 +365,7 @@ export default function ProjectBookcase() {
                   className="project-brief"
                   type="button"
                   data-book={book.id}
+                  data-analytics-event="project_case_open"
                   aria-haspopup="dialog"
                   aria-label={`Abrir caso de proyecto: ${book.title}`}
                   onClick={(event) => openBook(book, event.currentTarget)}
