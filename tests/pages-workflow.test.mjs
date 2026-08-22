@@ -31,7 +31,7 @@ test('Pages compila y publica Astro desde main con permisos mínimos', () => {
   assert.match(workflow, /run: npx playwright install --with-deps chromium/);
   assert.match(workflow, /run: npm run test:e2e/);
   assert.match(workflow, /if: failure\(\)/);
-  assert.match(workflow, /uses: actions\/upload-artifact@[0-9a-f]{40} # v4/);
+  assert.match(workflow, /uses: actions\/upload-artifact@[0-9a-f]{40} # v7\.0\.1/);
   assert.match(workflow, /uses: actions\/upload-pages-artifact@[0-9a-f]{40} # v5\.0\.0/);
   assert.match(workflow, /uses: actions\/deploy-pages@[0-9a-f]{40} # v5/);
   assert.match(workflow, /if: github\.event_name != 'pull_request' && github\.ref == 'refs\/heads\/main'/);
@@ -75,6 +75,7 @@ test('WEB-129 reconstruye, prueba y verifica un ref estable antes del rollback',
   );
   assert.match(rollbackWorkflow, /run: node --test/);
   assert.match(rollbackWorkflow, /run: npm run test:e2e/);
+  assert.match(rollbackWorkflow, /uses: actions\/upload-artifact@[0-9a-f]{40} # v7\.0\.1/);
   assert.match(rollbackWorkflow, /uses: actions\/upload-pages-artifact@[0-9a-f]{40} # v5\.0\.0/);
   assert.match(
     rollbackWorkflow,
