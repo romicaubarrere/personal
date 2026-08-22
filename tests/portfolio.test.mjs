@@ -487,6 +487,26 @@ test('el contacto persistente es accesible, táctil y deja preparado su evento d
   assert.match(html, /@media\(max-width:760px\)[\s\S]*?\.contact-tab\{[^}]*min-height:46px/);
 });
 
+test('las microinteracciones orientan con mouse, teclado y tacto sin sumar JavaScript', () => {
+  const section = html.match(
+    /\/\* ---------- MICROINTERACCIONES DEL ESTUDIO ---------- \*\/([\s\S]*?)\/\* ---------- CTA DE CONTACTO PERSISTENTE ---------- \*\//
+  );
+  assert.ok(section, 'No se encontró la capa de microinteracciones');
+  const css = section[1];
+
+  assert.match(css, /@media\(hover:hover\) and \(pointer:fine\)/);
+  assert.match(css, /\.spine:hover\{translate:0 -38px;transform:rotate\(-3deg\);\}/);
+  assert.match(css, /\.spine:focus-visible\{translate:0 -30px;transform:rotate\(-2deg\);\}/);
+  assert.match(css, /\.open-folder:focus-visible\{background:var\(--green-deep\);translate:0 -3px;/);
+  assert.match(css, /\.bm-nav:not\(:disabled\):focus-visible,\.bm-close:focus-visible\{background:var\(--gold\);/);
+  assert.match(css, /\.bm-nav:not\(:disabled\):active,\.bm-close:active\{translate:0 1px;scale:\.98;/);
+  assert.match(css, /\.bookmodal\.open \.bookframe\{animation:book-settle/);
+  assert.match(css, /@media\(prefers-reduced-motion:reduce\)\{[\s\S]*?animation:none!important;[\s\S]*?translate:0 0!important;scale:1!important;/);
+
+  assert.equal((html.match(/<script\b/g) ?? []).length, 3);
+  assert.doesNotMatch(css, /addEventListener|requestAnimationFrame|setTimeout/);
+});
+
 test('todos los bloques JavaScript tienen sintaxis válida', () => {
   const scripts = [...html.matchAll(/<script([^>]*)>([\s\S]*?)<\/script>/gi)]
     .filter((match) => !/type="application\/ld\+json"/i.test(match[1]))

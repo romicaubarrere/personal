@@ -156,7 +156,6 @@
   .hero-actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:22px;}
   .hero-link{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:10px 18px;border:1px solid var(--cream);border-radius:4px;color:var(--cream);font-size:13px;font-weight:700;text-decoration:none;transition:background .18s,color .18s,transform .18s;}
   .hero-link.primary{background:var(--cream);color:var(--ink);}
-  .hero-link:hover{background:var(--gold);border-color:var(--gold);color:var(--ink);transform:translateY(-2px);}
   .hero-link:focus-visible{outline:3px solid var(--gold);outline-offset:3px;}
 
   .photo-tack{position:absolute;top:6%;right:3%;width:230px;transform:rotate(6deg);z-index:6;}
@@ -291,7 +290,6 @@
   .folder-marks span:nth-child(2){background:#f4e58c;transform:rotate(1.5deg);color:#5a4a12;}
   .open-folder{display:inline-flex;align-items:center;gap:10px;background:var(--iron);color:var(--cream);padding:11px 17px;text-decoration:none;
     font-size:13px;font-weight:700;border-radius:3px;box-shadow:3px 4px 0 rgba(63,125,78,.34);transition:transform .18s,background .18s;}
-  .open-folder:hover{background:var(--green-deep);transform:translateY(-3px) rotate(-1deg);}
   .open-folder:focus-visible{outline:3px solid var(--gold);outline-offset:4px;}
   @media(max-width:780px){
     .study-folder{grid-template-columns:1fr;transform:none;}
@@ -329,7 +327,6 @@
   .spine .t{writing-mode:vertical-rl;transform:rotate(180deg);font-family:var(--serif);font-size:16px;font-weight:600;letter-spacing:.02em;padding:14px 0;}
   .spine .band{position:absolute;left:0;right:0;height:22px;top:26px;background:rgba(255,255,255,.14);border-top:1px solid rgba(255,255,255,.18);border-bottom:1px solid rgba(0,0,0,.2);}
   .spine .band.b{top:auto;bottom:30px;}
-  .spine:hover{transform:translateY(-38px) rotate(-3deg);}
   .spine.s1{background:linear-gradient(90deg,var(--green-deep),var(--green));height:280px;}
   .spine.s2{background:linear-gradient(90deg,#8a2f1a,var(--brick));height:250px;}
   .spine.s3{background:linear-gradient(90deg,#8a6a1e,var(--gold));height:270px;color:#3a2b08;}
@@ -352,7 +349,6 @@
     width:230px;background:var(--cream);color:var(--ink);padding:16px 18px;border-radius:8px;opacity:0;visibility:hidden;
     box-shadow:0 14px 30px rgba(0,0,0,.5);transition:opacity .25s, transform .25s;z-index:20;text-align:left;}
   .pcard::after{content:"";position:absolute;left:50%;top:100%;transform:translateX(-50%);border:9px solid transparent;border-top-color:var(--cream);}
-  .spine:hover .pcard{opacity:1;visibility:visible;transform:translateX(-50%) translateY(0);}
   .pcard .tag{font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--green-deep);}
   .pcard h4{font-family:var(--serif);font-weight:600;font-size:1.1rem;margin:4px 0 6px;line-height:1.15;}
   .pcard p{font-size:13px;color:var(--ink-soft);line-height:1.45;}
@@ -407,7 +403,6 @@
   .offers-foot p{max-width:650px;font-family:var(--hand);font-size:1.35rem;color:rgba(250,243,228,.86);}
   .offers-link{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:11px 18px;background:var(--gold);color:#3a2b08;
     border-radius:3px;font-weight:800;text-decoration:none;box-shadow:3px 4px 0 rgba(0,0,0,.3);transition:transform .18s,background .18s;white-space:nowrap;}
-  .offers-link:hover{background:var(--cream);transform:translateY(-3px) rotate(-1deg);}
   .offers-link:focus-visible{outline:3px solid var(--cream);outline-offset:4px;}
   @media(max-width:900px){.offers-grid{grid-template-columns:repeat(2,minmax(0,1fr));}.offer-card,.offer-card:nth-child(4),.offer-card:nth-child(5){grid-column:span 1;}}
   @media(max-width:620px){
@@ -489,7 +484,6 @@
   .tags{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;}
   .ltag{position:relative;background:var(--paper);border:1px solid var(--ink);padding:10px 20px 10px 26px;font-weight:600;font-size:14px;text-decoration:none;border-radius:6px 20px 20px 6px;transition:transform .18s, background .18s;}
   .ltag::before{content:"";position:absolute;left:9px;top:50%;transform:translateY(-50%);width:8px;height:8px;border-radius:50%;background:var(--ink);}
-  .ltag:hover{transform:translateY(-3px) rotate(-2deg);background:var(--green);color:var(--cream);}
   .cfern{position:absolute;top:-6px;z-index:2;width:130px;opacity:.85;}
   .cfern.cl{left:2%;} .cfern.cr{right:2%;}
   @media(max-width:700px){.cfern{width:88px;opacity:.55;}}
@@ -525,9 +519,7 @@
   .pgc.cover .kbig{color:var(--ink-soft);}
   .bm-nav{position:absolute;top:50%;transform:translateY(-50%);z-index:7;width:52px;height:52px;border-radius:50%;
      border:none;background:var(--cream);color:var(--ink);font-size:26px;cursor:pointer;box-shadow:0 6px 18px rgba(0,0,0,.4);transition:transform .15s, background .15s;}
-  .bm-nav:hover{background:var(--gold);transform:translateY(-50%) scale(1.08);}
   .bm-nav:disabled{opacity:.48;cursor:default;}
-  .bm-nav:disabled:hover{background:var(--cream);transform:translateY(-50%);}
   .bm-nav.prev{left:-26px;} .bm-nav.next{right:-26px;}
   .bm-close{position:absolute;top:-46px;right:0;z-index:7;width:40px;height:40px;border-radius:50%;border:none;
      background:var(--cream);color:var(--ink);font-size:22px;cursor:pointer;box-shadow:0 4px 12px rgba(0,0,0,.4);}
@@ -554,6 +546,50 @@
   .spine:focus-visible{outline:3px solid var(--gold);outline-offset:3px;}
 
   .parallax{translate:var(--parallax-x,0px) var(--parallax-y,0px);will-change:translate;}
+
+  /* ---------- MICROINTERACCIONES DEL ESTUDIO ---------- */
+  .hero-link,.open-folder,.offers-link,.ltag,.bm-close,.bm-nav,.spine{
+    transition-property:background,color,border-color,box-shadow,transform,translate,scale;
+    transition-duration:.18s;transition-timing-function:cubic-bezier(.2,.8,.2,1);
+  }
+  .spine{transition-duration:.28s;}
+  .bm-close,.bm-nav{transition-duration:.15s;}
+  .bookmodal.open .bookframe{animation:book-settle .26s cubic-bezier(.2,.8,.2,1) both;}
+  .bookmodal.open .bm-backdrop{animation:backdrop-in .2s ease-out both;}
+  @keyframes book-settle{
+    from{opacity:0;translate:0 14px;scale:.975;}
+    to{opacity:1;translate:0 0;scale:1;}
+  }
+  @keyframes backdrop-in{from{opacity:0;}to{opacity:1;}}
+
+  @media(hover:hover) and (pointer:fine){
+    .hero-link:hover{background:var(--gold);border-color:var(--gold);color:var(--ink);translate:0 -2px;}
+    .open-folder:hover{background:var(--green-deep);translate:0 -3px;transform:rotate(-1deg);}
+    .offers-link:hover{background:var(--cream);translate:0 -3px;transform:rotate(-1deg);}
+    .ltag:hover{translate:0 -3px;transform:rotate(-2deg);background:var(--green);color:var(--cream);}
+    .spine:hover{translate:0 -38px;transform:rotate(-3deg);}
+    .spine:hover .pcard{opacity:1;visibility:visible;transform:translateX(-50%) translateY(0);}
+    .bm-nav:not(:disabled):hover{background:var(--gold);scale:1.08;}
+    .bm-close:hover{background:var(--gold);transform:rotate(4deg);scale:1.06;}
+  }
+
+  .hero-link:focus-visible{background:var(--gold);border-color:var(--gold);color:var(--ink);translate:0 -2px;}
+  .open-folder:focus-visible{background:var(--green-deep);translate:0 -3px;transform:rotate(-1deg);}
+  .offers-link:focus-visible{background:var(--cream);translate:0 -3px;transform:rotate(-1deg);}
+  .ltag:focus-visible{translate:0 -3px;transform:rotate(-2deg);background:var(--green);color:var(--cream);}
+  .spine:focus-visible{translate:0 -30px;transform:rotate(-2deg);}
+  .spine:focus-visible .pcard{opacity:1;visibility:visible;transform:translateX(-50%) translateY(0);}
+  .bm-nav:not(:disabled):focus-visible,.bm-close:focus-visible{background:var(--gold);scale:1.06;}
+
+  .bm-nav:not(:disabled):active,.bm-close:active{translate:0 1px;scale:.98;transition-duration:.06s;}
+
+  @media(prefers-reduced-motion:reduce){
+    .bookmodal.open .bookframe,.bookmodal.open .bm-backdrop{animation:none!important;}
+    .hero-link,.open-folder,.offers-link,.ltag,.bm-close,.bm-nav,.spine{
+      translate:0 0!important;scale:1!important;
+    }
+    .hero-link,.open-folder,.offers-link,.ltag,.spine{transform:none!important;}
+  }
 
   /* ---------- CTA DE CONTACTO PERSISTENTE ---------- */
   .contact-tab{position:fixed;right:max(16px,env(safe-area-inset-right));bottom:max(16px,env(safe-area-inset-bottom));z-index:55;
