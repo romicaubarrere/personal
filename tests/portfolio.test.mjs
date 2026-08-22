@@ -197,6 +197,32 @@ test('la portada enlaza al recorrido académico completo', () => {
   assert.match(formationHtml, /href="index\.html#formacion"/i);
 });
 
+test('la forma de trabajo presenta cinco etapas concretas y responsivas', () => {
+  const section = html.match(/<section\b[^>]*class="workflow"[^>]*id="forma-de-trabajo"[^>]*>([\s\S]*?)<\/section>/i);
+  assert.ok(section, 'No se encontró la sección Forma de trabajo');
+  assert.match(section[1], /<ol class="workflow-grid">/);
+
+  const steps = section[1].match(/<li class="workflow-step reveal"/g) ?? [];
+  assert.equal(steps.length, 5);
+  for (const heading of [
+    'Entender el problema',
+    'Definir alcance, prioridades y plan',
+    'Coordinar personas y decisiones',
+    'Cuidar calidad, cambios y riesgos',
+    'Medir, decidir y aprender'
+  ]) {
+    assert.match(section[1], new RegExp(`<h3>${heading}<\\/h3>`));
+  }
+
+  assert.match(section[1], /Refino los requerimientos/);
+  assert.match(section[1], /Gestiono tres proyectos en simult&aacute;neo/);
+  assert.match(section[1], /queremos m&eacute;tricas/);
+  assert.equal((section[1].match(/class="workflow-signal"/g) ?? []).length, 5);
+  assert.doesNotMatch(section[1], /Trello|Jira|Slack|Scrum|Kanban/i);
+  assert.match(html, /@media\(max-width:1000px\)\{\.workflow-grid\{grid-template-columns:repeat\(2,minmax\(0,1fr\)\);/);
+  assert.match(html, /@media\(max-width:620px\)\{[\s\S]*?\.workflow-grid\{grid-template-columns:1fr;/);
+});
+
 test('el estante de proyectos se desplaza en una sola fila en móvil', () => {
   assert.match(
     html,
