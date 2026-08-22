@@ -7,6 +7,9 @@ lana, madera, etiquetas y objetos con pequeñas imperfecciones. La composición
 puede ser ordenada, pero no debe parecer una plantilla genérica ni una grilla de
 tarjetas intercambiables.
 
+La lista de señales que se evitan deliberadamente y qué parte de ese criterio
+queda protegida por CI está en [Guardrails visuales: evitar una estética genérica de sitio generado por IA](./anti-ai-visual-guardrails.md).
+
 ## Tokens
 
 Los valores compartidos viven en `src/styles/brand-tokens.css`. Allí se mantiene
