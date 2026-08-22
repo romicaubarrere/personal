@@ -234,6 +234,32 @@ test('todos los recursos locales referenciados existen en la salida compilada', 
   }
 });
 
+test('todos los enlaces tienen nombre accesible y los externos usan un contrato seguro', async () => {
+  for (const route of [...publicRoutes, '404.html']) {
+    const source = await readFile(join(dist, route), 'utf8');
+    const links = [...source.matchAll(/<a\b([^>]*)>([\s\S]*?)<\/a>/gi)];
+
+    for (const [, attributes, content] of links) {
+      const href = attributes.match(/\bhref="([^"]+)"/i)?.[1];
+      const ariaLabel = attributes.match(/\baria-label="([^"]+)"/i)?.[1];
+      const visibleText = content.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
+      assert.ok(href, `${route}: enlace sin destino`);
+      assert.ok(ariaLabel?.trim() || visibleText, `${route}: ${href} no tiene nombre accesible`);
+      assert.doesNotMatch(href, /^javascript:/i, `${route}: ${href} usa javascript:`);
+
+      if (/^https?:/i.test(href)) {
+        assert.match(href, /^https:\/\//i, `${route}: ${href} no usa HTTPS`);
+      }
+
+      if (/\btarget="_blank"/i.test(attributes)) {
+        const rel = attributes.match(/\brel="([^"]+)"/i)?.[1].split(/\s+/) ?? [];
+        assert.ok(rel.includes('noopener'), `${route}: ${href} debe usar noopener`);
+        assert.ok(rel.includes('noreferrer'), `${route}: ${href} debe usar noreferrer`);
+      }
+    }
+  }
+});
+
 test('la navegación expone la sección activa y el contacto publica solo destinos verificados', () => {
   const home = routeDocuments.get('index.html');
   assert.match(home, /setAttribute\('aria-current','location'\)/);
