@@ -10,8 +10,8 @@ on:
 permissions: {}
 
 concurrency:
-  group: portfolio-${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: true
+  group: ${{ github.event_name == 'pull_request' && format('portfolio-pr-{0}', github.ref) || 'portfolio-pages-production' }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
 jobs:
   validate:

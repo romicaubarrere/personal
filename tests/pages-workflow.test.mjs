@@ -9,6 +9,10 @@ const workflow = await readFile(
   join(repositoryRoot, '.github', 'workflows', 'deploy-pages.yml'),
   'utf8'
 );
+const rollbackWorkflow = await readFile(
+  join(repositoryRoot, '.github', 'workflows', 'rollback-pages.yml'),
+  'utf8'
+);
 const productionVerifier = await readFile(
   join(repositoryRoot, 'scripts', 'verify-production.mjs'),
   'utf8'
@@ -32,7 +36,7 @@ test('Pages compila y publica Astro desde main con permisos mínimos', () => {
   assert.match(workflow, /uses: actions\/deploy-pages@v5/);
   assert.match(workflow, /if: github\.event_name != 'pull_request' && github\.ref == 'refs\/heads\/main'/);
   assert.match(workflow, /needs: validate/);
-  assert.match(workflow, /cancel-in-progress: true/);
+  assert.match(workflow, /cancel-in-progress: \$\{\{ github\.event_name == 'pull_request' \}\}/);
   assert.equal((workflow.match(/npm run build/g) ?? []).length, 1);
 });
 
@@ -54,4 +58,29 @@ test('Pages verifica la publicación real después del deploy', () => {
   assert.match(productionVerifier, /build-commit/);
   assert.match(productionVerifier, /_astro/);
   assert.match(productionVerifier, /attempts/);
+});
+
+test('WEB-129 reconstruye, prueba y verifica un ref estable antes del rollback', () => {
+  assert.match(rollbackWorkflow, /workflow_dispatch:[\s\S]*?ref:/);
+  assert.match(rollbackWorkflow, /confirmation == 'ROLLBACK'/);
+  assert.match(rollbackWorkflow, /git rev-parse --verify 'HEAD\^\{commit\}'/);
+  assert.match(rollbackWorkflow, /git merge-base --is-ancestor/);
+  assert.match(
+    rollbackWorkflow,
+    /PUBLIC_BUILD_SHA: \$\{\{ steps\.revision\.outputs\.selected_sha \}\}/
+  );
+  assert.match(rollbackWorkflow, /run: node --test/);
+  assert.match(rollbackWorkflow, /run: npm run test:e2e/);
+  assert.match(rollbackWorkflow, /uses: actions\/upload-pages-artifact@v5\.0\.0/);
+  assert.match(
+    rollbackWorkflow,
+    /EXPECTED_SHA: \$\{\{ needs\.validate\.outputs\.selected_sha \}\}/
+  );
+  assert.match(rollbackWorkflow, /run: node scripts\/verify-production\.mjs/);
+});
+
+test('WEB-129 serializa el deploy normal y el rollback sobre Pages', () => {
+  assert.match(workflow, /group: .*portfolio-pages-production/);
+  assert.match(rollbackWorkflow, /group: portfolio-pages-production/);
+  assert.match(rollbackWorkflow, /cancel-in-progress: false/);
 });
