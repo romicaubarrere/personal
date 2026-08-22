@@ -157,6 +157,14 @@ test('WEB-054 publica rutas internas equivalentes en inglés y portugués', asyn
   }
 });
 
+test('Cómo trabajo permite cambiar de idioma también desde la versión en español', async () => {
+  const spanish = await readFile(join(distRoot, 'como-trabajo.html'), 'utf8');
+  assert.match(spanish, /href="\/personal\/como-trabajo\.html"/);
+  assert.match(spanish, /href="\/personal\/en\/como-trabajo\.html"/);
+  assert.match(spanish, /href="\/personal\/pt\/como-trabajo\.html"/);
+  assert.match(spanish, /aria-label="Elegir idioma"/);
+});
+
 test('WEB-054 traduce íntegramente las notas y conecta cada idioma equivalente', async () => {
   const routes = [
     ['en/posts/why-do-i-ask-so-many-questions.html', 'en', /Why do I ask so many <em>questions<\/em>/, /I simply like knowing things/],
