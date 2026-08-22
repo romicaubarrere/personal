@@ -5,6 +5,12 @@ import '../styles/formation.css';
 const title = 'Comunidad y charlas · Romina Caubarrere';
 const description = 'Comunidades, liderazgo y registro de charlas de Romina Caubarrere: Women Techmakers, Chicas en Tecnología, PMI y participaciones como oradora y panelista.';
 const canonical = 'https://romicaubarrere.github.io/personal/comunidad-charlas.html';
+const alternates = [
+  { lang: 'es', href: canonical },
+  { lang: 'en', href: 'https://romicaubarrere.github.io/personal/en/comunidad-charlas.html' },
+  { lang: 'pt', href: 'https://romicaubarrere.github.io/personal/pt/comunidad-charlas.html' },
+  { lang: 'x-default', href: canonical }
+];
 
 const communities = [
   { name: 'Women Techmakers', role: 'Ambassador', period: 'julio 2023 a hoy' },
@@ -113,7 +119,7 @@ const talks = [
 ];
 ---
 
-<BaseLayout {title} {description} {canonical}>
+<BaseLayout {title} {description} {canonical} {alternates}>
   <a class="skip-link" href="#main-content">Saltar al contenido principal</a>
 
   <div class="topbar">
