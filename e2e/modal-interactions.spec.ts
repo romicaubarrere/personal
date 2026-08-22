@@ -103,24 +103,36 @@ test('TC-MOD-008 · cerrar restaura body, inert y foco al disparador', async ({ 
   await expect(page.locator('#bookmodal')).toHaveAttribute('inert', '');
 });
 
-test('TC-MOD-010 · URL directa válida, inválida y fuera de rango se resuelve sin estado roto', async ({ page }) => {
+test('TC-MOD-010 · URL directa normaliza page válida, inválida y fuera de rango sin sumar historial', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
 
-  await page.goto('/personal/#project=habitar&page=3');
-  await expect(page.locator('#bookmodal')).toHaveAttribute('aria-hidden', 'false');
-  await expect(page.locator('.bm-foot')).toContainText('4 / 8');
+  await page.goto('/personal/#project=habitar&page=0');
+  await expect(page).toHaveURL(/#project=habitar&page=0$/);
+  await expect(page.locator('.bm-foot')).toContainText('1 / 8');
 
-  await page.goto('/personal/#project=no-existe&page=2');
-  await expect(page.locator('#bookmodal')).toHaveAttribute('aria-hidden', 'true');
-  await expect(page.locator('body')).not.toHaveClass(/modal-open/);
+  await page.goto('/personal/#project=habitar&page=7');
+  await expect(page).toHaveURL(/#project=habitar&page=7$/);
+  await expect(page.locator('.bm-foot')).toContainText('8 / 8');
+
+  await page.goto('/personal/#project=habitar&page=8');
+  await expect(page).toHaveURL(/#project=habitar&page=7$/);
+  await expect(page.locator('.bm-foot')).toContainText('8 / 8');
 
   await page.goto('/personal/#project=habitar&page=999');
-  await expect(page.locator('#bookmodal')).toHaveAttribute('aria-hidden', 'false');
+  await expect(page).toHaveURL(/#project=habitar&page=7$/);
   await expect(page.locator('.bm-foot')).toContainText('8 / 8');
   await expect(page.getByRole('button', { name: 'siguiente' })).toBeDisabled();
 
   await page.goto('/personal/#project=habitar&page=-10');
-  await expect(page.locator('#bookmodal')).toHaveAttribute('aria-hidden', 'false');
+  await expect(page).toHaveURL(/#project=habitar&page=0$/);
   await expect(page.locator('.bm-foot')).toContainText('1 / 8');
   await expect(page.getByRole('button', { name: 'anterior' })).toBeDisabled();
+
+  await page.goto('/personal/#project=habitar&page=abc');
+  await expect(page).toHaveURL(/#project=habitar&page=0$/);
+  await expect(page.locator('.bm-foot')).toContainText('1 / 8');
+
+  await page.goto('/personal/#project=no-existe&page=2');
+  await expect(page.locator('#bookmodal')).toHaveAttribute('aria-hidden', 'true');
+  await expect(page.locator('body')).not.toHaveClass(/modal-open/);
 });
