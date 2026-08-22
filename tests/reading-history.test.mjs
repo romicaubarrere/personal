@@ -15,14 +15,17 @@ test('la portada enlaza la página completa de lecturas', () => {
   assert.match(home, /href="lecturas\.html">Abrir mi historial y estad(?:&iacute;|í)sticas/);
 });
 
-test('la página de lecturas conserva la lectura real actual y no inventa historial', () => {
-  assert.match(readingPage, /Reina de Sombras/);
-  assert.match(readingPage, /Sarah J\. Maas/);
-  assert.match(readingPage, /Todavía no publico estadísticas|Todav(?:&iacute;|í)a no publico estad(?:&iacute;|í)sticas/);
-  assert.match(readingPage, /El historial espera el archivo completo/);
-  assert.match(readingData, /export const readingHistory = \[\] as const/);
-  assert.match(readingData, /export const readingStats = null/);
-  assert.doesNotMatch(readingPage, /<strong>0<\/strong>/);
+test('la página publica únicamente el historial y las estadísticas del export real', () => {
+  assert.match(readingPage, /La Guerra del Arte/);
+  assert.match(readingPage, /Steven Pressfield, David Alpuche, Shawn Coyne/);
+  assert.match(readingPage, /112/);
+  assert.match(readingPage, /94/);
+  assert.match(readingPage, /4\.19/);
+  assert.match(readingData, /export const readingHistory = \[/);
+  assert.match(readingData, /"totalFinished": 112/);
+  assert.match(readingData, /"ratedCount": 94/);
+  assert.match(readingData, /"averageRating": 4\.19/);
+  assert.doesNotMatch(readingPage, /Todavía no publico estadísticas|El historial espera el archivo completo/);
 });
 
 test('la página explica la procedencia y evita scraping runtime', () => {
