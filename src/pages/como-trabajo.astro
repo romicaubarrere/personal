@@ -11,6 +11,12 @@ import '../styles/home.css';
 const title = 'Cómo trabajo | Romina Caubarrere';
 const description = 'Conocé las capacidades, el proceso de trabajo y los problemas que Romina Caubarrere puede ayudarte a ordenar en proyectos de software y producto.';
 const canonical = 'https://romicaubarrere.github.io/personal/como-trabajo.html';
+const alternates = [
+  { lang: 'es', href: canonical },
+  { lang: 'en', href: 'https://romicaubarrere.github.io/personal/en/como-trabajo.html' },
+  { lang: 'pt', href: 'https://romicaubarrere.github.io/personal/pt/como-trabajo.html' },
+  { lang: 'x-default', href: canonical }
+];
 ---
 
 <style is:inline>
@@ -37,7 +43,7 @@ const canonical = 'https://romicaubarrere.github.io/personal/como-trabajo.html';
   @media(prefers-reduced-motion:reduce){.work-page-hero:has(.kitchen-start:is(:hover,:focus-visible,:active)) .kitchen-spoon,.work-page-hero:has(.kitchen-start:is(:hover,:focus-visible,:active)) .kitchen-whisk,.kitchen-start:is(:hover,:focus-visible,:active),.kitchen-start:is(:hover,:focus-visible,:active) span,.work-page-kitchen .workflow-step:hover{transform:none}}
 </style>
 
-<BaseLayout {title} {description} {canonical}>
+<BaseLayout {title} {description} {canonical} {alternates}>
   <LanguageSwitcher current="es" page="work" />
   <a class="skip-link" href="#main-content">Saltar al contenido principal</a>
   <button class="nav-toggle" id="navToggle" type="button" aria-controls="primary-nav" aria-expanded="false">
