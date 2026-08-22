@@ -44,6 +44,11 @@ const defaultOgImageAlt = {
   pt: 'Cartão do portfólio de Romina Caubarrere, Project Manager de software.'
 }[lang];
 const resolvedOgImageAlt = ogImageAlt ?? defaultOgImageAlt;
+const siteName = {
+  es: 'El estudio de Romi',
+  en: "Romi's studio",
+  pt: 'O estúdio da Romi'
+}[lang];
 const buildCommit = import.meta.env.PUBLIC_BUILD_SHA ?? 'local';
 const homeCanonical = 'https://romicaubarrere.github.io/personal/';
 const localizedHomes = new Set([homeCanonical, `${homeCanonical}en.html`, `${homeCanonical}pt.html`]);
@@ -92,7 +97,7 @@ const breadcrumbData = !localizedHomes.has(canonical) && !robots.includes('noind
     <link rel="icon" type="image/svg+xml" href={`${base}favicon.svg`} />
     <meta property="og:type" content={ogType} />
     <meta property="og:locale" content={ogLocale} />
-    <meta property="og:site_name" content="El estudio de Romi" />
+    <meta property="og:site_name" content={siteName} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={ogDescription} />
     <meta property="og:url" content={canonical} />
