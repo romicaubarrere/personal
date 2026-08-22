@@ -32,6 +32,9 @@ Las ramas deben resolver un objetivo concreto y eliminarse después del merge.
 8. Integrar con **Squash and merge**.
 9. Eliminar la rama y actualizar el ticket de Trello.
 
+El límite WIP, la detección de duplicados y la evidencia obligatoria de cierre se
+definen en [Trazabilidad de entrega](./delivery-traceability.md).
+
 ## Commits
 
 Se usan mensajes breves y descriptivos con estos prefijos:
