@@ -176,6 +176,20 @@ test('WEB-054 traduce íntegramente las notas y conecta cada idioma equivalente'
   }
 });
 
+test('el contraste de eventos se mantiene coherente en los tres idiomas', async () => {
+  const english = await readFile(join(distRoot, 'en', 'comunidad-charlas.html'), 'utf8');
+  const portuguese = await readFile(join(distRoot, 'pt', 'comunidad-charlas.html'), 'utf8');
+
+  assert.match(english, /I compared the Advocu record with my LinkedIn activity/);
+  assert.match(english, /Organizer and panelist/);
+  assert.match(english, /20 Mar 2026/);
+  assert.match(english, /Auditorio San José/);
+  assert.match(portuguese, /Comparei o registro do Advocu com minha atividade no LinkedIn/);
+  assert.match(portuguese, /Organização e painelista/);
+  assert.match(portuguese, /20 mar 2026/);
+  assert.match(portuguese, /Auditorio San José/);
+});
+
 test('el blog publica una nota real con estructura reutilizable y accesible', () => {
   assert.match(firstPost, /<title>¿Por qué hago tantas preguntas\? \| Romina Caubarrere<\/title>/);
   assert.match(firstPost, /<meta name="description" content="[^"]+">/);
@@ -395,14 +409,20 @@ test('T8 publica comunidad y el registro completo de charlas sin inventar campos
   assert.match(communityHtml, /Fecha por confirmar/);
   assert.match(communityHtml, /No relleno esos huecos por intuici&oacute;n/);
   assert.match(communityHtml, /5 eventos organizados/);
-  assert.match(communityHtml, /Innovación Financiera: Inversión y Tecnología Event/);
-  assert.match(communityHtml, /IWD 2025 Photo Sharing and Community Engagement/);
+  assert.match(communityHtml, /Innovación Financiera: hablemos de inversión y tecnología/);
+  assert.match(communityHtml, /Redefine Possible · IWD 2025/);
   assert.match(communityHtml, /CX: Poniendo a las personas en el centro/);
-  assert.match(communityHtml, /Break the Pattern: Challenging Stereotypes in IT/);
+  assert.match(communityHtml, /Break the Pattern: desafiando estereotipos en TI/);
   assert.match(communityHtml, /Datos en acción: análisis y automatizaciones/);
-  assert.match(communityHtml, /figuran como organizaci&oacute;n propia en el registro/);
+  assert.match(communityHtml, /Contrast&eacute; el registro de Advocu con mi actividad de LinkedIn/);
   assert.match(communityHtml, /8 mar 2025/);
   assert.match(communityHtml, /30 jul 2026/);
+  assert.match(communityHtml, /Espacio Colabora · Sala E · Montevideo/);
+  assert.match(communityHtml, /Auditorio San José · Universidad Católica del Uruguay/);
+  assert.match(communityHtml, /20 mar 2026 · Panelista/);
+  assert.match(communityHtml, /Organización y panelista/);
+  assert.match(communityHtml, /Próspera/);
+  assert.equal((communityHtml.match(/cifra de Advocu/g) ?? []).length, 5);
 });
 
 test('la forma de trabajo presenta cuatro momentos concretos', () => {
