@@ -260,6 +260,39 @@ test('todos los enlaces tienen nombre accesible y los externos usan un contrato 
   }
 });
 
+test('todas las páginas conservan landmarks, controles e imágenes semánticas', async () => {
+  for (const route of [...publicRoutes, '404.html']) {
+    const source = await readFile(join(dist, route), 'utf8');
+    assert.equal((source.match(/<main\b/gi) ?? []).length, 1, `${route}: debe tener un main`);
+    assert.equal((source.match(/<h1\b/gi) ?? []).length, 1, `${route}: debe tener un h1`);
+    assert.match(
+      source,
+      /<a\b[^>]*class="skip-link"[^>]*href="#main-content"[^>]*>/i,
+      `${route}: falta el enlace para saltar al contenido`
+    );
+    assert.match(
+      source,
+      /<main\b[^>]*id="main-content"[^>]*tabindex="-1"[^>]*>/i,
+      `${route}: el contenido principal debe recibir foco`
+    );
+
+    for (const image of source.match(/<img\b[^>]*>/gi) ?? []) {
+      assert.match(image, /\balt="[^"]*"/i, `${route}: imagen sin alt`);
+    }
+
+    for (const [, attributes, content] of source.matchAll(/<button\b([^>]*)>([\s\S]*?)<\/button>/gi)) {
+      const ariaLabel = attributes.match(/\baria-label="([^"]+)"/i)?.[1];
+      const ariaLabelledBy = attributes.match(/\baria-labelledby="([^"]+)"/i)?.[1];
+      const visibleText = content.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
+      assert.match(attributes, /\btype="(?:button|submit|reset)"/i, `${route}: botón sin tipo`);
+      assert.ok(
+        ariaLabel?.trim() || ariaLabelledBy?.trim() || visibleText,
+        `${route}: botón sin nombre accesible`
+      );
+    }
+  }
+});
+
 test('la navegación expone la sección activa y el contacto publica solo destinos verificados', () => {
   const home = routeDocuments.get('index.html');
   assert.match(home, /setAttribute\('aria-current','location'\)/);
