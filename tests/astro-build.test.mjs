@@ -65,7 +65,7 @@ test('la portada compilada conserva estructura, contenido e interacciones', asyn
   }
   assert.doesNotMatch(source, /id="experiencia"|id="formacion"/);
 
-  assert.equal((source.match(/class="spine [^"]+"[^>]*data-book="/g) ?? []).length, 4);
+  assert.equal((source.match(/class="spine [^"]+"[^>]*data-book="/g) ?? []).length, 3);
   assert.match(clientJavaScript, /#project=/);
   assert.match(source, /prefers-reduced-motion/);
   assert.match(source, /Romina Caubarrere \| Project Manager de software/);
