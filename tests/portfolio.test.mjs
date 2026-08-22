@@ -10,6 +10,11 @@ const formationHtml = await readFile(join(repositoryRoot, 'formacion.html'), 'ut
 const favicon = await readFile(join(repositoryRoot, 'favicon.svg'), 'utf8');
 const socialPreview = await readFile(join(repositoryRoot, 'social-preview.png'));
 const socialPreviewSource = await readFile(join(repositoryRoot, 'social-preview.svg'), 'utf8');
+const readme = await readFile(join(repositoryRoot, 'README.md'), 'utf8');
+const architectureDecision = await readFile(
+  join(repositoryRoot, 'docs', 'architecture-decision.md'),
+  'utf8'
+);
 
 function extractIds(source) {
   return [...source.matchAll(/\sid="([^"]+)"/g)].map((match) => match[1]);
@@ -39,6 +44,16 @@ test('los documentos HTML están completos y en español', () => {
     assert.match(source, /<title>[^<]*Romina Caubarrere[^<]*<\/title>/i);
     assert.match(source, /<\/body>\s*<\/html>\s*$/i);
   }
+});
+
+test('la arquitectura estática y su flujo operativo quedan documentados', () => {
+  assert.match(architectureDecision, /Estado: aceptada/);
+  assert.match(architectureDecision, /Se mantiene la arquitectura actual de HTML, CSS y JavaScript nativos/);
+  assert.match(architectureDecision, /No se incorpora Astro ni React en esta etapa/);
+  assert.match(architectureDecision, /Publicar `main` directamente con GitHub Pages/);
+  assert.match(architectureDecision, /Astro debe evaluarse primero como generador estático sin React/);
+  assert.match(readme, /No necesita instalación de dependencias ni un proceso de build/);
+  assert.match(readme, /docs\/architecture-decision\.md/);
 });
 
 test('todos los identificadores HTML son únicos', () => {
