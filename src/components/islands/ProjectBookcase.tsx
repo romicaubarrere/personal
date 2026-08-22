@@ -115,6 +115,8 @@ export default function ProjectBookcase() {
   }, []);
 
   const closeBook = useCallback((options: { history?: boolean } = {}) => {
+    const shouldConsumeProjectEntry = options.history !== false && openedFromPageRef.current;
+
     setTurn(null);
     setCurrentId(null);
     document.body.classList.remove('modal-open');
@@ -124,11 +126,15 @@ export default function ProjectBookcase() {
       window.requestAnimationFrame(() => lastFocus.focus({ preventScroll: true }));
     }
     lastFocusRef.current = null;
+    openedFromPageRef.current = false;
 
     if (options.history !== false) {
-      window.history.replaceState(null, '', `${window.location.pathname}${window.location.search}`);
+      if (shouldConsumeProjectEntry) {
+        window.history.back();
+      } else {
+        window.history.replaceState(null, '', `${window.location.pathname}${window.location.search}`);
+      }
     }
-    openedFromPageRef.current = false;
   }, []);
 
   const syncProjectFromUrl = useCallback(() => {
@@ -140,7 +146,7 @@ export default function ProjectBookcase() {
 
     const targetPages = pagesFor(target.project);
     const nextPage = Math.max(0, Math.min(target.page, targetPages.length - 1));
-    openedFromPageRef.current = false;
+    openedFromPageRef.current = window.history.state?.portfolioProject === true;
     setTurn(null);
     setCurrentId(target.project.id);
     setPageIndex(nextPage);
