@@ -361,7 +361,7 @@ export default function ProjectBookcase() {
         <div className="bm-backdrop" data-close onClick={() => closeBook()} />
         <div className="bookframe">
           <h2 className="sr-only" id="bookDialogTitle">{project ? `Proyecto: ${project.title}` : 'Proyecto'}</h2>
-          <button className="bm-close" data-close aria-label="Cerrar proyecto" ref={closeRef} onClick={() => closeBook()}>×</button>
+          <button className="bm-close" type="button" data-close aria-label="Cerrar proyecto" ref={closeRef} onClick={() => closeBook()}>×</button>
           <div className="bk">
             <div className="pg pg-left">{project && <Page page={leftPage} project={project} />}</div>
             <div className="pg pg-right">{project && <Page page={rightPage} project={project} />}</div>
@@ -377,8 +377,8 @@ export default function ProjectBookcase() {
               </div>
             )}
           </div>
-          <button className="bm-nav prev" aria-label="anterior" disabled={previousDisabled || Boolean(turn)} onClick={() => changePage('prev')}>‹</button>
-          <button className="bm-nav next" aria-label="siguiente" disabled={nextDisabled || Boolean(turn)} onClick={() => changePage('next')}>›</button>
+          <button className="bm-nav prev" type="button" aria-label="anterior" disabled={previousDisabled || Boolean(turn)} onClick={() => changePage('prev')}>‹</button>
+          <button className="bm-nav next" type="button" aria-label="siguiente" disabled={nextDisabled || Boolean(turn)} onClick={() => changePage('next')}>›</button>
           <div className="bm-foot">
             <span>{isMobile ? `${pageIndex + 1} / ${pages.length}` : `${spread + 1} / ${spreadCount}`}</span> · tocá las flechas o ← →
           </div>
