@@ -42,6 +42,11 @@ const resolvedOgImageAlt = ogImageAlt ?? 'Tarjeta del portfolio de Romina Caubar
 const buildCommit = import.meta.env.PUBLIC_BUILD_SHA ?? 'local';
 const homeCanonical = 'https://romicaubarrere.github.io/personal/';
 const localizedHomes = new Set([homeCanonical, `${homeCanonical}en.html`, `${homeCanonical}pt.html`]);
+const localizedHome = lang === 'en'
+  ? `${homeCanonical}en.html`
+  : lang === 'pt'
+    ? `${homeCanonical}pt.html`
+    : homeCanonical;
 const breadcrumbData = !localizedHomes.has(canonical) && !robots.includes('noindex')
   ? {
       '@context': 'https://schema.org',
@@ -51,7 +56,7 @@ const breadcrumbData = !localizedHomes.has(canonical) && !robots.includes('noind
           '@type': 'ListItem',
           position: 1,
           name: lang === 'en' ? 'Home' : lang === 'pt' ? 'Início' : 'Inicio',
-          item: homeCanonical
+          item: localizedHome
         },
         {
           '@type': 'ListItem',
