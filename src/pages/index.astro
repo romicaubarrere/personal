@@ -1,6 +1,5 @@
 ---
 import About from '../components/home/About.astro';
-import BookDialog from '../components/home/BookDialog.astro';
 import Chrome from '../components/home/Chrome.astro';
 import Communities from '../components/home/Communities.astro';
 import Contact from '../components/home/Contact.astro';
@@ -10,7 +9,7 @@ import Footer from '../components/home/Footer.astro';
 import Hero from '../components/home/Hero.astro';
 import HomeScripts from '../components/home/HomeScripts.astro';
 import Offers from '../components/home/Offers.astro';
-import ProjectsShelf from '../components/home/ProjectsShelf.astro';
+import ProjectBookcase from '../components/islands/ProjectBookcase';
 import Reads from '../components/home/Reads.astro';
 import Strengths from '../components/home/Strengths.astro';
 import Talks from '../components/home/Talks.astro';
@@ -65,7 +64,7 @@ const person = {
     <About />
     <Experience />
     <Education />
-    <ProjectsShelf />
+    <ProjectBookcase client:load />
     <Workflow />
     <Offers />
     <Talks />
@@ -74,6 +73,5 @@ const person = {
     <Contact />
   </main>
   <Footer />
-  <BookDialog />
   <HomeScripts />
 </BaseLayout>

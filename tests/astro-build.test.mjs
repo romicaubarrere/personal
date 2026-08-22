@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import { access, readFile } from 'node:fs/promises';
+import { access, readFile, readdir } from 'node:fs/promises';
 import { dirname, join } from 'node:path';
 import test from 'node:test';
 import { fileURLToPath } from 'node:url';
@@ -35,6 +35,13 @@ test('la documentación explica el flujo Astro vigente', () => {
 
 test('la portada compilada conserva estructura, contenido e interacciones', async () => {
   const source = await readFile(join(dist, 'index.html'), 'utf8');
+  const assetNames = await readdir(join(dist, '_astro'));
+  const scripts = await Promise.all(
+    assetNames
+      .filter((name) => name.endsWith('.js'))
+      .map((name) => readFile(join(dist, '_astro', name), 'utf8'))
+  );
+  const clientJavaScript = scripts.join('\n');
 
   for (const id of [
     'fortalezas',
@@ -53,7 +60,7 @@ test('la portada compilada conserva estructura, contenido e interacciones', asyn
   }
 
   assert.equal((source.match(/data-book="/g) ?? []).length, 5);
-  assert.match(source, /#project=/);
+  assert.match(clientJavaScript, /#project=/);
   assert.match(source, /prefers-reduced-motion/);
   assert.match(source, /Romina Caubarrere \| Project Manager de software/);
   assert.match(source, /href="\/personal\/favicon\.svg"/);
@@ -62,13 +69,17 @@ test('la portada compilada conserva estructura, contenido e interacciones', asyn
   assert.doesNotMatch(source, /\/personalmicrointeractions\.css/);
 });
 
-test('la portada se compone desde módulos Astro y ya no desde el HTML legado', async () => {
+test('la portada se compone desde módulos Astro con una única isla React', async () => {
   const page = await readFile(join(repositoryRoot, 'src', 'pages', 'index.astro'), 'utf8');
+  const scripts = await readFile(join(repositoryRoot, 'src', 'components', 'home', 'HomeScripts.astro'), 'utf8');
 
   assert.match(page, /components\/home\/Hero\.astro/);
-  assert.match(page, /components\/home\/ProjectsShelf\.astro/);
+  assert.match(page, /components\/islands\/ProjectBookcase/);
+  assert.match(page, /<ProjectBookcase client:load \/>/);
   assert.match(page, /layouts\/BaseLayout\.astro/);
+  assert.equal((page.match(/client:/g) ?? []).length, 1);
   assert.doesNotMatch(page, /LegacyDocument/);
+  assert.doesNotMatch(scripts, /CASE_PAGE_ORDER|BOOKS|openBook/);
 });
 
 test('la salida conserva assets públicos y cantidades académicas', async () => {

@@ -519,6 +519,10 @@
   .leaf{position:absolute;left:320px;top:0;width:320px;height:452px;transform-style:preserve-3d;transform-origin:left center;transition:transform .74s cubic-bezier(.42,.1,.2,1);z-index:6;}
   .leaf.hide{display:none;}
   .leaf.notrans{transition:none;}
+  .leaf.turn-next{animation:leaf-turn-next .74s cubic-bezier(.42,.1,.2,1) forwards;}
+  .leaf.turn-prev{animation:leaf-turn-prev .74s cubic-bezier(.42,.1,.2,1) forwards;}
+  @keyframes leaf-turn-next{from{transform:rotateY(0deg);}to{transform:rotateY(-180deg);}}
+  @keyframes leaf-turn-prev{from{transform:rotateY(-180deg);}to{transform:rotateY(0deg);}}
   .lf{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;background:linear-gradient(160deg,var(--cream),#f1e6cf);overflow:hidden;}
   .lf.front{border-radius:0 6px 6px 0;box-shadow:inset 20px 0 34px -20px rgba(60,40,20,.45);}
   .lf.back{transform:rotateY(180deg);border-radius:6px 0 0 6px;box-shadow:inset -20px 0 34px -20px rgba(60,40,20,.45);}
