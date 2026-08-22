@@ -524,6 +524,22 @@
   .spine:focus-visible{outline:3px solid var(--gold);outline-offset:3px;}
 
   .parallax{translate:var(--parallax-x,0px) var(--parallax-y,0px);will-change:translate;}
+
+  /* ---------- CTA DE CONTACTO PERSISTENTE ---------- */
+  .contact-tab{position:fixed;right:max(16px,env(safe-area-inset-right));bottom:max(16px,env(safe-area-inset-bottom));z-index:55;
+    display:inline-flex;align-items:center;justify-content:center;gap:9px;min-width:132px;min-height:48px;padding:10px 17px 10px 14px;
+    border:1px solid rgba(255,255,255,.16);border-radius:5px 5px 2px 5px;background:var(--iron);color:var(--cream);
+    box-shadow:3px 7px 18px rgba(0,0,0,.38);font-size:13px;font-weight:700;letter-spacing:.02em;text-decoration:none;
+    transform:rotate(-1deg);transition:transform .18s,background .18s,color .18s;}
+  .contact-tab::before{content:"";width:10px;height:10px;border:2px solid var(--gold);border-radius:50%;box-shadow:inset 0 0 0 2px var(--iron);}
+  .contact-tab::after{content:"";position:absolute;inset:4px;border:1px dashed rgba(255,255,255,.18);border-radius:3px;pointer-events:none;}
+  .contact-tab:hover{background:var(--gold);color:var(--ink);transform:translateY(-3px) rotate(0deg);}
+  .contact-tab:hover::before{border-color:var(--ink);box-shadow:inset 0 0 0 2px var(--gold);}
+  .contact-tab:focus-visible{outline:3px solid var(--cream);outline-offset:3px;box-shadow:0 0 0 6px var(--ink),3px 7px 18px rgba(0,0,0,.38);}
+  @media(max-width:760px){
+    .contact-tab{right:max(10px,env(safe-area-inset-right));bottom:max(10px,env(safe-area-inset-bottom));min-width:0;min-height:46px;padding:9px 13px;font-size:12px;}
+  }
+
   .reveal{opacity:0;transform:translateY(34px) rotate(var(--r,0deg));transition:opacity .8s cubic-bezier(.2,.7,.2,1), transform .8s cubic-bezier(.2,.7,.2,1);}
   .reveal.in{opacity:1;transform:translateY(0) rotate(var(--r,0deg));}
   @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto;}*{animation:none!important;transition-duration:.001ms!important;}.reveal{opacity:1;transform:none;}}
@@ -628,6 +644,7 @@
     <a href="#lecturas">Lecturas</a>
     <a href="#contacto">Contacto</a>
   </nav>
+  <a class="contact-tab" href="#contacto" aria-label="Ir a las opciones de contacto" data-analytics-event="persistent_contact_click">Hablemos</a>
 
   <main id="main-content" tabindex="-1">
   <header class="hero brick" id="top">
