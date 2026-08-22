@@ -388,10 +388,10 @@ test('la forma de trabajo presenta cuatro momentos concretos', () => {
   assert.match(section[1], /Gestiono tres proyectos en simult&aacute;neo/);
   assert.match(section[1], /Queremos m&eacute;tricas/);
   assert.doesNotMatch(section[1], /Se&ntilde;al concreta|workflow-signal/);
-  assert.match(workHtml, /\.workflow-grid\{list-style:none;display:grid;grid-template-columns:repeat\(4,minmax\(0,1fr\)\)/);
+  assert.match(workHtml, /\.workflow-grid\{list-style:none;display:grid;grid-template-columns:repeat\(2,minmax\(0,1fr\)\)/);
   assert.doesNotMatch(section[1], /Trello|Jira|Slack|Scrum|Kanban/i);
-  assert.match(workHtml, /@media\(max-width:1000px\)\{\.workflow-grid\{grid-template-columns:repeat\(2,minmax\(0,1fr\)\);/);
-  assert.match(workHtml, /@media\(max-width:620px\)\{[\s\S]*?\.workflow-grid\{grid-template-columns:1fr;/);
+  assert.match(workHtml, /\.workflow-inner\{[^}]*background:repeating-linear-gradient/);
+  assert.match(workHtml, /@media\(max-width:760px\)\{[\s\S]*?\.workflow-grid\{grid-template-columns:1fr;/);
 });
 
 test('lo que hago presenta cinco encargos como problema y resultado sin rótulos repetidos', () => {
@@ -421,8 +421,22 @@ test('lo que hago presenta cinco encargos como problema y resultado sin rótulos
   assert.match(section[1], /La necesidad es real, pero llega como una idea suelta/);
   assert.match(section[1], /<a class="offers-link" href="index\.html#contacto">Hablemos de tu idea/);
   assert.doesNotMatch(section[1], /fractional|freelance/i);
-  assert.match(workHtml, /@media\(max-width:900px\)\{\.offers-grid\{grid-template-columns:repeat\(2,minmax\(0,1fr\)\);/);
-  assert.match(workHtml, /@media\(max-width:620px\)\{[\s\S]*?\.offers-grid\{grid-template-columns:1fr;/);
+  assert.match(workHtml, /\.offers-grid\{display:grid;grid-template-columns:repeat\(12,minmax\(0,1fr\)\)/);
+  assert.match(workHtml, /\.offer-card:nth-child\(5\)\{grid-column:3\/span 8;/);
+  assert.match(workHtml, /@media\(max-width:760px\)\{[\s\S]*?grid-column:span 12;/);
+});
+
+test('WEB-122 convierte Cómo trabajo en una carpeta de proyecto propia', () => {
+  assert.match(workHtml, /<main class="work-page-kitchen" id="main-content"/);
+  assert.match(workHtml, /<ol class="work-page-index" aria-label="&Iacute;ndice de C&oacute;mo trabajo">/);
+  const index = workHtml.match(/<ol class="work-page-index"[\s\S]*?<\/ol>/)?.[0] ?? '';
+  assert.equal((index.match(/href="#[^"]+"/g) ?? []).length, 3);
+  assert.match(workHtml, /\.work-page-hero-inner\{[^}]*border-left:16px solid var\(--brick\)/);
+  assert.match(workHtml, /\.strengths\{[^}]*background-color:var\(--cork\);border-top:12px solid/);
+  assert.match(workHtml, /\.workflow-step:nth-child\(even\)\{translate:0 34px;/);
+  assert.match(workHtml, /\.offers \.hd\{[^}]*background:var\(--green-dark\);/);
+  assert.match(workHtml, /\.work-page-index a:hover,\.work-page-index a:focus-visible,\.work-page-index a\.is-active\{translate:6px 0;/);
+  assert.match(workHtml, /prefers-reduced-motion:reduce/);
 });
 
 test('T4 aplica la pasada anti-IA a workflow y lo que hago', () => {
