@@ -6,7 +6,9 @@ import { currentReading } from '../../data/reading';
     <style is:inline>
       .sticky-link.is-lifting{animation:paper-lift .17s cubic-bezier(.2,.75,.3,1) both}
       @keyframes paper-lift{to{transform:rotate(0) translateY(-12px) scale(.985);opacity:.82;box-shadow:7px 18px 25px rgba(0,0,0,.22)}}
-      @media(prefers-reduced-motion:reduce){.sticky-link.is-lifting{animation:none}}
+      .reading-ledger-link{display:inline-flex;align-items:center;min-height:44px;margin-top:17px;padding:8px 12px;background:var(--gold);color:var(--ink);font-family:var(--hand);font-size:1.05rem;font-weight:700;text-decoration:none;box-shadow:3px 4px 0 rgba(36,31,24,.18);transform:rotate(-1deg);transition:transform .18s ease,box-shadow .18s ease}
+      .reading-ledger-link:is(:hover,:focus-visible){transform:rotate(0) translateY(-2px);box-shadow:4px 6px 0 rgba(36,31,24,.2)}
+      @media(prefers-reduced-motion:reduce){.sticky-link.is-lifting{animation:none}.reading-ledger-link{transition:none;transform:none!important}}
     </style>
     <div class="hd reveal">
       <h2>Lo que <em>leo</em> y lo que escribo</h2>
@@ -26,6 +28,7 @@ import { currentReading } from '../../data/reading';
           </div>
         </div>
         <p class="shelf-note">Fantasy + romantasy: los g&eacute;neros que siempre vuelven a mi estante.</p>
+        <a class="reading-ledger-link" href="lecturas.html">Abrir mi historial y estad&iacute;sticas →</a>
         <div class="note-h">tambi&eacute;n: qu&eacute; planta reviv&iacute;, en qu&eacute; crochet ando y qu&eacute; cocin&eacute; esta semana</div>
         <p class="language-note">Hablo espa&ntilde;ol e ingl&eacute;s, bastante portugu&eacute;s; tambi&eacute;n estudi&eacute; italiano y ruso porque me gustan mucho los idiomas.</p>
       </div>
