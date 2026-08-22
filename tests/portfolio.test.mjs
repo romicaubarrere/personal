@@ -385,6 +385,19 @@ test('el modal de proyectos gestiona el foco como un diálogo accesible', () => 
   assert.match(html, /body\.modal-open\{overflow:hidden;\}/);
 });
 
+test('cada proyecto puede abrirse y recorrerse desde una URL compartible', () => {
+  const projectKeys = [...html.matchAll(/data-book="([^"]+)"/g)].map((match) => match[1]);
+  assert.equal(new Set(projectKeys).size, projectKeys.length);
+  assert.equal(projectKeys.length, 5);
+  assert.match(html, /'#project='\+encodeURIComponent\(key\)\+'&page='\+index/);
+  assert.match(html, /new URLSearchParams\(window\.location\.hash\.slice\(1\)\)/);
+  assert.match(html, /window\.history\[mode\|\|'replaceState'\]/);
+  assert.match(html, /updateProjectUrl\('pushState'\)/);
+  assert.match(html, /window\.addEventListener\('popstate',syncProjectFromUrl\)/);
+  assert.match(html, /window\.addEventListener\('hashchange',syncProjectFromUrl\)/);
+  assert.match(html, /syncProjectFromUrl\(\);/);
+});
+
 test('el libro muestra una sola página por vez en móvil y conserva el pliego en escritorio', () => {
   assert.match(
     html,
@@ -396,8 +409,8 @@ test('el libro muestra una sola página por vez en móvil y conserva el pliego e
   assert.match(html, /window\.matchMedia \? window\.matchMedia\('\(max-width: 720px\)'\)/);
   assert.match(html, /pgR\.innerHTML=pageHTML\(pages\[pageIndex\]\)/);
   assert.match(html, /pnum\.textContent=\(pageIndex\+1\)\+' \/ '\+pageCount/);
-  assert.match(html, /pageIndex\+=1; render\(\); return;/);
-  assert.match(html, /pageIndex-=1; render\(\); return;/);
+  assert.match(html, /pageIndex\+=1; render\(\); updateProjectUrl\(\); return;/);
+  assert.match(html, /pageIndex-=1; render\(\); updateProjectUrl\(\); return;/);
   assert.match(html, /pgL\.innerHTML=pageHTML\(pages\[spread\*2\]\)/);
   assert.match(html, /pgR\.innerHTML=pageHTML\(pages\[spread\*2\+1\]\)/);
   assert.match(html, /prevButton\.disabled=isMobileBook\(\) \? pageIndex<=0 : spread<=0/);
