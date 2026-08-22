@@ -100,3 +100,4 @@ La estrategia de calidad, sus capas de verificación y la Definition of Done est
 - `docs/qa-strategy.md`: estrategia de QA, evidencia y Definition of Done.
 - `docs/supply-chain.md`: entorno reproducible y controles de cadena de suministro.
 - `docs/dependency-updates.md`: automatización y política de revisión de actualizaciones.
+- `docs/reading-now.md`: fuente manual y decisión de integración para “Leyendo ahora”.

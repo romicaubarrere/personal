@@ -550,6 +550,7 @@
   .nowbook .cover span{transform:rotate(-90deg);white-space:nowrap;}
   .nowbook .bt{font-family:var(--serif);font-size:1.15rem;}
   .nowbook .ba{color:var(--ink-soft);font-size:.9rem;}
+  .nowbook .shelf-note{margin:14px 0 0;padding-top:12px;border-top:1px solid rgba(37,48,39,.2);color:var(--ink-soft);font-size:.86rem;line-height:1.5;}
   .nowbook .note-h{font-family:var(--hand);font-size:20px;color:var(--ink-soft);margin-top:14px;line-height:1.3;}
   .nowbook .language-note{margin:14px 0 0;padding:12px 14px;border-left:4px solid var(--gold);background:rgba(250,243,228,.66);font-size:15px;line-height:1.55;color:var(--ink-soft);}
   .stickies{display:flex;flex-wrap:wrap;gap:18px;}
