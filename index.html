@@ -149,6 +149,48 @@
   .factnote small{color:var(--ink-soft);}
   .leafpress{position:absolute;right:-6px;top:-30px;width:80px;color:var(--olive);transform:rotate(18deg);opacity:.9;z-index:1;}
 
+  /* ---------- FORMACION: una carpeta dentro del estudio ---------- */
+  .education{background:var(--paper);padding:88px 0 96px;position:relative;overflow:hidden;}
+  .education::before{content:"";position:absolute;inset:0;pointer-events:none;opacity:.24;
+    background-image:linear-gradient(rgba(63,125,78,.13) 1px,transparent 1px);
+    background-size:100% 29px;}
+  .education-inner{max-width:1040px;margin:0 auto;padding:0 40px;position:relative;z-index:1;}
+  .study-folder{position:relative;display:grid;grid-template-columns:.78fr 1.22fr;min-height:340px;
+    background:#c8a66f;border-radius:5px 9px 9px 5px;box-shadow:7px 15px 34px rgba(36,31,24,.28);transform:rotate(-.6deg);}
+  .study-folder::before{content:"formaci\00f3n";position:absolute;left:28px;top:-28px;width:150px;height:34px;
+    padding:7px 18px;background:#c8a66f;border-radius:7px 7px 0 0;font-family:var(--hand);font-size:18px;color:#513b1f;}
+  .folder-cover{position:relative;margin:20px 0 20px 20px;padding:38px 30px;background:var(--green-deep);color:var(--cream);
+    border-radius:3px 0 0 3px;box-shadow:inset -8px 0 18px rgba(0,0,0,.2);display:flex;flex-direction:column;justify-content:space-between;}
+  .folder-cover .uni{font-size:11px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:#9bd49d;}
+  .folder-cover h3{font-family:var(--serif);font-size:clamp(1.55rem,3.3vw,2.35rem);font-weight:430;line-height:1.08;margin:14px 0 22px;}
+  .folder-cover .years{font-family:var(--hand);font-size:24px;color:var(--gold);}
+  .folder-note{position:relative;align-self:center;margin:30px 28px 30px -18px;padding:36px 38px 34px;background:var(--cream);
+    box-shadow:3px 8px 20px rgba(36,31,24,.22);transform:rotate(1deg);}
+  .folder-note::before{content:"";position:absolute;width:92px;height:28px;top:-13px;right:44px;background:rgba(207,154,63,.56);transform:rotate(4deg);}
+  .folder-note .scribble{font-family:var(--hand);font-size:23px;color:var(--warm);transform:rotate(-2deg);display:inline-block;}
+  .folder-note h2{font-family:var(--serif);font-size:clamp(2rem,4.6vw,3.25rem);font-weight:360;line-height:1;margin:8px 0 18px;}
+  .folder-note h2 em{font-style:italic;color:var(--green);}
+  .folder-note p{color:var(--ink-soft);max-width:570px;}
+  .folder-note p strong{color:var(--ink);}
+  .folder-marks{display:flex;gap:10px;flex-wrap:wrap;margin:20px 0 24px;}
+  .folder-marks span{font-family:var(--hand);font-size:18px;padding:4px 10px;background:#eef3df;color:var(--green-deep);transform:rotate(-1deg);}
+  .folder-marks span:nth-child(2){background:#f4e58c;transform:rotate(1.5deg);color:#5a4a12;}
+  .open-folder{display:inline-flex;align-items:center;gap:10px;background:var(--iron);color:var(--cream);padding:11px 17px;text-decoration:none;
+    font-size:13px;font-weight:700;border-radius:3px;box-shadow:3px 4px 0 rgba(63,125,78,.34);transition:transform .18s,background .18s;}
+  .open-folder:hover{background:var(--green-deep);transform:translateY(-3px) rotate(-1deg);}
+  .open-folder:focus-visible{outline:3px solid var(--gold);outline-offset:4px;}
+  @media(max-width:780px){
+    .study-folder{grid-template-columns:1fr;transform:none;}
+    .folder-cover{margin:18px 18px 0;padding:28px;min-height:210px;border-radius:3px;}
+    .folder-note{margin:-24px 32px 28px;padding:32px 28px;}
+  }
+  @media(max-width:520px){
+    .education{padding:76px 0 82px;}
+    .education-inner{padding:0 20px;}
+    .folder-cover{margin:14px 14px 0;}
+    .folder-note{margin:-18px 22px 24px;padding:30px 22px;}
+  }
+
   /* ---------- ESTANTE DE PROYECTOS ---------- */
   .shelfsec{background:var(--green-dark);padding:96px 0 70px;position:relative;}
   .shelfsec .hd{max-width:1120px;margin:0 auto 10px;padding:0 40px;color:var(--cream);}
@@ -404,6 +446,7 @@
   </button>
   <nav id="primary-nav" aria-label="Navegaci&oacute;n principal">
     <a href="#sobre">Sobre m&iacute;</a>
+    <a href="#formacion">Formaci&oacute;n</a>
     <a href="#proyectos">Proyectos</a>
     <a href="#charlas">Charlas</a>
     <a href="#comunidades">Comunidades</a>
@@ -459,14 +502,38 @@
           <span class="pin" style="top:-9px;left:30px;"></span>
           <span class="pin green" style="top:-9px;right:30px;"></span>
           <p class="big">Ac&aacute; va tu historia, en tu voz: por qu&eacute; elegiste esto y qu&eacute; te importa. La escribimos juntas.</p>
-          <p>Mientras tanto, lo que ya sabemos: soy <strong>Project Manager en eagerworks</strong>, a un paso de recibirme de <strong>Lic. en Tecnolog&iacute;as de la Informaci&oacute;n</strong> (UTEC). Vengo de J&oacute;venes a Programar.</p>
+          <p>Mientras tanto, lo que ya sabemos: soy <strong>Project Manager en eagerworks</strong> y <strong>Licenciada en Tecnolog&iacute;as de la Informaci&oacute;n</strong> por UTEC. Vengo de J&oacute;venes a Programar.</p>
           <p>Doy charlas y soy embajadora y mentora en comunidades de la regi&oacute;n, para acercar a m&aacute;s mujeres a la tecnolog&iacute;a.</p>
         </div>
         <div class="factcol">
           <svg class="leafpress" viewBox="0 0 80 90" fill="currentColor"><path d="M40 88C40 50 20 30 6 22 24 18 42 30 42 62 44 30 62 18 78 22 62 32 44 50 40 88Z"/></svg>
           <div class="factnote reveal" style="--r:1.4deg"><span class="pin gold" style="top:-8px;left:50%;transform:translateX(-50%)"></span><b>eagerworks</b><br><small>Project Manager &middot; software &middot; Uruguay</small></div>
-          <div class="factnote reveal" style="--r:-1.8deg"><span class="pin" style="top:-8px;left:50%;transform:translateX(-50%)"></span><b>UTEC</b><br><small>Lic. en Tecnolog&iacute;as de la Informaci&oacute;n (en tesis)</small></div>
+          <div class="factnote reveal" style="--r:-1.8deg"><span class="pin" style="top:-8px;left:50%;transform:translateX(-50%)"></span><b>UTEC</b><br><small>Licenciada en Tecnolog&iacute;as de la Informaci&oacute;n &middot; 2026</small></div>
           <div class="factnote reveal" style="--r:1.4deg"><span class="pin green" style="top:-8px;left:50%;transform:translateX(-50%)"></span><b>Women Techmakers</b><br><small>Ambassador &middot; Chicas en Tecnolog&iacute;a &middot; PMI</small></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ FORMACION / PUERTA AL RECORRIDO ============ -->
+  <section class="education" id="formacion">
+    <div class="education-inner">
+      <div class="study-folder reveal" style="--r:-.6deg">
+        <div class="folder-cover">
+          <div>
+            <span class="uni">UTEC &middot; Licenciatura en TI</span>
+            <h3>Cuatro a&ntilde;os entre apuntes, proyectos y preguntas</h3>
+          </div>
+          <span class="years">2022 &rarr; 2026</span>
+        </div>
+        <div class="folder-note">
+          <span class="scribble">de Java a habITar</span>
+          <h2>Lo que estudi&eacute; <em>tambi&eacute;n explica c&oacute;mo trabajo</em></h2>
+          <p>Pas&eacute; por c&oacute;digo, testing, redes, cloud, ciberseguridad e IA. Cerr&eacute; la carrera con <strong>habITar</strong> y con algo que hoy uso todos los d&iacute;as como PM: entender mejor lo que est&aacute; pasando y hacer mejores preguntas.</p>
+          <div class="folder-marks" aria-label="Resumen del recorrido">
+            <span>8 semestres</span><span>proyectos que s&iacute; sobrevivieron</span>
+          </div>
+          <a class="open-folder" href="formacion.html">Abrir mi recorrido <span aria-hidden="true">&rarr;</span></a>
         </div>
       </div>
     </div>

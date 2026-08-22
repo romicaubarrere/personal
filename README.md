@@ -8,7 +8,7 @@ El sitio está en desarrollo. La identidad visual y las interacciones principale
 
 ## Ejecutar localmente
 
-El sitio es un HTML estático y no necesita instalación de dependencias.
+El sitio es un proyecto estático y no necesita instalación de dependencias.
 
 ```bash
 npm run serve
@@ -24,18 +24,21 @@ npm test
 
 Los tests comprueban:
 
-- Estructura básica del documento HTML.
+- Estructura básica de los documentos HTML.
 - IDs únicos.
 - Navegación interna y destinos existentes.
+- Enlace entre la portada y el recorrido académico.
+- Integridad de semestres, materias, proyectos y formación complementaria.
 - Accesibilidad básica del menú móvil.
-- Disponibilidad de las seis secciones en móvil.
+- Disponibilidad de las siete secciones en móvil.
 - Sintaxis de los bloques JavaScript.
 
 GitHub Actions ejecuta los tests automáticamente en cada push y pull request.
 
 ## Estructura
 
-- `index.html`: sitio principal.
+- `index.html`: portada y secciones principales del portfolio.
+- `formacion.html`: recorrido UTEC, proyectos académicos y formación complementaria.
 - `tests/portfolio.test.mjs`: validaciones automáticas sin dependencias externas.
 - `.github/workflows/test.yml`: integración continua.
 - `docs/branching-strategy.md`: estrategia de ramas y flujo de integración.

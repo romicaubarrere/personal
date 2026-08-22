@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Formaci&oacute;n &middot; Romina Caubarrere</title>
+<meta name="description" content="El recorrido acad&eacute;mico de Romina Caubarrere: Licenciatura en Tecnolog&iacute;as de la Informaci&oacute;n en UTEC, proyectos y formaci&oacute;n complementaria.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,400..700&family=DM+Sans:opsz,wght@9..40,400..700&family=Caveat:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#efe4cd;--paper2:#e5d6ba;--cream:#faf3e4;--ink:#241f18;--ink-soft:#5f5749;
+    --green:#3f7d4e;--green-deep:#2b5a38;--green-dark:#22432c;--sage:#6f7a54;--olive:#55603f;
+    --brick:#8f4230;--brick2:#7a3626;--mortar:#d8c4a4;--iron:#161310;--gold:#cf9a3f;--warm:#c0693e;--rose:#cf7f6a;--cork:#c8a678;
+    --serif:'Fraunces',Georgia,serif;--sans:'DM Sans',system-ui,sans-serif;--hand:'Caveat',cursive;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html{scroll-behavior:smooth;}
+  body{font-family:var(--sans);color:var(--ink);background:var(--paper);line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden;}
+  a{color:inherit;}
+  ::selection{background:var(--gold);color:var(--ink);}
+  section{scroll-margin-top:72px;}
+  .hand{font-family:var(--hand);}
+  .brick{background-color:var(--brick);background-image:linear-gradient(335deg,rgba(0,0,0,.22),transparent 55%),repeating-linear-gradient(0deg,var(--mortar) 0 3px,transparent 3px 46px),repeating-linear-gradient(90deg,var(--mortar) 0 3px,var(--brick) 3px 120px),repeating-linear-gradient(90deg,transparent 0 60px,var(--mortar) 60px 63px,transparent 63px 120px);}
+  .topbar{position:fixed;top:0;left:0;right:0;z-index:50;display:flex;justify-content:space-between;align-items:start;padding:0 24px;pointer-events:none;}
+  .topbar a{pointer-events:auto;background:var(--iron);color:var(--cream);text-decoration:none;padding:10px 16px 9px;border-radius:0 0 9px 9px;font-size:12px;font-weight:700;box-shadow:0 4px 12px rgba(0,0,0,.35);}
+  .topbar nav{display:flex;gap:6px;}
+  .topbar a:hover{background:var(--green-deep);}
+  .topbar a:focus-visible,.contact-tab:focus-visible{outline:3px solid var(--gold);outline-offset:3px;}
+  .contact-tab{position:fixed;right:0;top:45%;z-index:45;background:var(--gold);color:#342509;text-decoration:none;font-weight:800;font-size:12px;padding:12px 13px 12px 16px;border-radius:10px 0 0 10px;box-shadow:-3px 5px 16px rgba(0,0,0,.28);writing-mode:vertical-rl;transform:rotate(180deg);}
+
+  /* portada */
+  .academic-hero{min-height:86vh;padding:120px 40px 84px;position:relative;overflow:hidden;color:var(--cream);}
+  .academic-hero::after{content:"";position:absolute;inset:0;background:linear-gradient(100deg,rgba(22,19,16,.82),rgba(22,19,16,.3) 62%,rgba(22,19,16,.56));}
+  .hero-inner{max-width:1120px;margin:0 auto;position:relative;z-index:2;display:grid;grid-template-columns:1.1fr .9fr;gap:70px;align-items:center;}
+  .hero-copy .kick{font-family:var(--hand);font-size:28px;color:var(--gold);display:inline-block;transform:rotate(-3deg);}
+  .hero-copy h1{font-family:var(--serif);font-size:clamp(3rem,7.7vw,6.6rem);font-weight:330;line-height:.91;letter-spacing:-.035em;margin:10px 0 26px;}
+  .hero-copy h1 em{display:block;color:#98d69b;font-style:italic;margin-left:.35em;}
+  .hero-copy p{max-width:650px;color:rgba(250,243,228,.83);font-size:17px;}
+  .file-card{position:relative;background:var(--cream);color:var(--ink);padding:42px 36px 36px;box-shadow:7px 15px 35px rgba(0,0,0,.42);transform:rotate(3deg);}
+  .file-card::before{content:"";position:absolute;width:100px;height:29px;top:-13px;left:50%;background:rgba(207,154,63,.66);transform:translateX(-50%) rotate(-3deg);}
+  .file-card .label{font-size:10px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--green-deep);}
+  .file-card h2{font-family:var(--serif);font-size:2rem;font-weight:520;line-height:1.1;margin:9px 0 18px;}
+  .file-card p{color:var(--ink-soft);font-size:14px;}
+  .file-card .spoiler{font-family:var(--hand);font-size:22px;line-height:1.22;color:var(--warm);border-top:1px dashed var(--paper2);margin-top:22px;padding-top:16px;}
+  .file-stamps{display:flex;gap:10px;flex-wrap:wrap;margin-top:20px;}
+  .file-stamps span{border:2px solid var(--green);color:var(--green-deep);font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.08em;padding:5px 9px;transform:rotate(-2deg);}
+  .file-stamps span:nth-child(2){border-color:var(--warm);color:var(--warm);transform:rotate(2deg);}
+
+  /* recorrido */
+  .route{position:relative;padding:102px 0 112px;background-color:var(--cork);background-image:radial-gradient(rgba(0,0,0,.14) 1px,transparent 1.4px),radial-gradient(rgba(255,255,255,.12) 1px,transparent 1.4px);background-size:9px 9px;background-position:0 0,4px 5px;border-top:10px solid #6b4a2a;border-bottom:10px solid #6b4a2a;box-shadow:inset 0 0 90px rgba(0,0,0,.3);}
+  .route-inner{max-width:1080px;margin:0 auto;padding:0 40px;}
+  .section-title{max-width:760px;margin-bottom:38px;}
+  .section-title .small{font-family:var(--hand);font-size:24px;color:var(--green-deep);}
+  .section-title h2{font-family:var(--serif);font-size:clamp(2.4rem,5vw,4rem);font-weight:350;line-height:1.03;}
+  .section-title h2 em{font-style:italic;color:var(--green-deep);}
+  .section-title p{color:#5b4022;margin-top:12px;max-width:680px;}
+  .transversal{position:relative;background:#f4e58c;padding:17px 22px;margin:0 0 28px auto;max-width:630px;box-shadow:3px 7px 18px rgba(0,0,0,.22);transform:rotate(1deg);font-size:14px;color:#5a4a12;}
+  .transversal::before{content:"";position:absolute;width:16px;height:16px;border-radius:50%;background:var(--brick);top:-8px;left:50%;box-shadow:0 3px 4px rgba(0,0,0,.35);}
+  .semesters{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px 22px;align-items:start;}
+  .semester{background:var(--cream);box-shadow:3px 8px 20px rgba(0,0,0,.24);transform:rotate(-.6deg);}
+  .semester:nth-child(4n+2){transform:rotate(.8deg);}
+  .semester:nth-child(4n+3){transform:rotate(.4deg);background:#eef3df;}
+  .semester:nth-child(4n+4){transform:rotate(-.8deg);}
+  .semester[open]{transform:rotate(0) scale(1.01);box-shadow:5px 13px 26px rgba(0,0,0,.3);}
+  .semester summary{cursor:pointer;list-style:none;padding:19px 22px;display:grid;grid-template-columns:auto 1fr auto;gap:14px;align-items:center;}
+  .semester summary::-webkit-details-marker{display:none;}
+  .semester summary:focus-visible{outline:3px solid var(--green-deep);outline-offset:-4px;}
+  .semester .num{font-family:var(--serif);font-size:1.7rem;color:var(--warm);}
+  .semester .when{font-weight:800;font-size:13px;}
+  .semester .note{display:block;font-family:var(--hand);font-size:17px;font-weight:500;color:var(--ink-soft);line-height:1.1;}
+  .semester summary::after{content:"+";font-family:var(--hand);font-size:27px;color:var(--green-deep);}
+  .semester[open] summary::after{content:"−";}
+  .semester ul{padding:0 24px 22px 58px;color:var(--ink-soft);font-size:13.5px;}
+  .semester li+li{margin-top:7px;}
+  .source-note{margin-top:25px;font-size:11.5px;color:#5b4022;max-width:850px;}
+
+  /* proyectos academicos */
+  .academic-projects{background:var(--green-dark);color:var(--cream);padding:102px 0 112px;}
+  .projects-inner{max-width:1080px;margin:0 auto;padding:0 40px;}
+  .academic-projects .section-title .small{color:var(--gold);}
+  .academic-projects .section-title h2 em{color:var(--gold);}
+  .academic-projects .section-title p{color:rgba(250,243,228,.7);}
+  .project-stack{position:relative;display:flex;flex-direction:column;gap:18px;max-width:900px;margin:45px auto 0;}
+  .project-sheet{position:relative;display:grid;grid-template-columns:140px 1fr;gap:26px;background:var(--cream);color:var(--ink);padding:25px 30px;box-shadow:5px 10px 25px rgba(0,0,0,.35);transform:rotate(-.5deg);}
+  .project-sheet:nth-child(even){transform:rotate(.65deg);margin-left:38px;}
+  .project-sheet .code{font-family:var(--hand);font-size:27px;color:var(--warm);border-right:1px dashed var(--paper2);padding-right:20px;align-self:stretch;display:flex;align-items:center;}
+  .project-sheet h3{font-family:var(--serif);font-size:1.35rem;font-weight:600;margin-bottom:5px;}
+  .project-sheet p{color:var(--ink-soft);font-size:14px;}
+  .project-sheet strong{color:var(--ink);}
+
+  /* complementaria */
+  .extra{padding:102px 0 112px;background:var(--paper);position:relative;}
+  .extra::before{content:"";position:absolute;inset:0;opacity:.22;background-image:linear-gradient(rgba(63,125,78,.12) 1px,transparent 1px);background-size:100% 29px;}
+  .extra-inner{max-width:1080px;margin:0 auto;padding:0 40px;position:relative;z-index:1;}
+  .extra-row{display:grid;grid-template-columns:repeat(3,1fr);gap:28px;margin-top:44px;align-items:start;}
+  .extra-note{position:relative;background:var(--cream);padding:28px 25px 30px;box-shadow:3px 9px 23px rgba(36,31,24,.2);transform:rotate(-2deg);}
+  .extra-note:nth-child(2){transform:rotate(1.5deg);margin-top:25px;background:#eef3df;}
+  .extra-note:nth-child(3){transform:rotate(-.5deg);}
+  .extra-note::before{content:"";position:absolute;width:85px;height:26px;top:-12px;left:50%;transform:translateX(-50%) rotate(2deg);background:rgba(207,154,63,.52);}
+  .extra-note .state{font-family:var(--hand);font-size:20px;color:var(--warm);}
+  .extra-note h3{font-family:var(--serif);font-size:1.25rem;line-height:1.15;margin:8px 0 7px;}
+  .extra-note p{font-size:13.5px;color:var(--ink-soft);}
+  .extra-note .place{display:block;margin-top:15px;font-size:10px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--green-deep);}
+
+  footer{background:var(--iron);color:rgba(250,243,228,.75);padding:48px 24px;text-align:center;}
+  footer p{font-family:var(--hand);font-size:22px;margin-bottom:16px;}
+  footer a{display:inline-block;border:1px solid rgba(250,243,228,.35);border-radius:4px;padding:9px 15px;text-decoration:none;font-size:13px;}
+  footer a:hover{background:var(--green-deep);}
+
+  @media(max-width:860px){
+    .hero-inner{grid-template-columns:1fr;gap:45px;}.academic-hero{padding-left:24px;padding-right:24px;}.file-card{max-width:560px;}
+    .extra-row{grid-template-columns:1fr;max-width:620px;}.extra-note:nth-child(2){margin-top:0;}
+  }
+  @media(max-width:700px){
+    .topbar{padding:0 10px;}.topbar nav a:not(:last-child){display:none;}.academic-hero{padding-top:105px;}.hero-copy h1 em{margin-left:0;}
+    .route-inner,.projects-inner,.extra-inner{padding:0 22px;}.semesters{grid-template-columns:1fr;}.project-sheet,.project-sheet:nth-child(even){grid-template-columns:1fr;margin-left:0;transform:none;}
+    .project-sheet .code{border-right:0;border-bottom:1px dashed var(--paper2);padding:0 0 8px;}.contact-tab{top:auto;bottom:18px;writing-mode:horizontal-tb;transform:none;border-radius:10px 0 0 10px;}
+  }
+  @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto;}}
+</style>
+</head>
+<body>
+  <div class="topbar">
+    <a href="index.html#formacion">&larr; Volver al estudio</a>
+    <nav aria-label="Secciones de formaci&oacute;n">
+      <a href="#utec">UTEC</a>
+      <a href="#proyectos-academicos">Proyectos</a>
+      <a href="#complementaria">Complementaria</a>
+    </nav>
+  </div>
+  <a class="contact-tab" href="index.html#contacto">Contacto</a>
+
+  <header class="academic-hero brick">
+    <div class="hero-inner">
+      <div class="hero-copy">
+        <span class="kick">mi carpeta acad&eacute;mica</span>
+        <h1>Mi recorrido por UTEC, <em>sin meterlo en una l&iacute;nea</em></h1>
+        <p>Entr&eacute; en 2022 pensando que iba a aprender tecnolog&iacute;a. Aprend&iacute; eso, claro, pero tambi&eacute;n aprend&iacute; a trabajar con equipos, sostener proyectos cuando se complican y convertir problemas t&eacute;cnicos en decisiones concretas. En 2026 cerr&eacute; la carrera con habITar.</p>
+      </div>
+      <aside class="file-card">
+        <span class="label">Expediente 2022&ndash;2026</span>
+        <h2>Licenciatura en Tecnolog&iacute;as de la Informaci&oacute;n</h2>
+        <p>UTEC, sede Minas. Plan 2018.</p>
+        <p class="spoiler">No termin&eacute; trabajando como programadora. Igual, saber c&oacute;mo se construye software cambia por completo c&oacute;mo gestiono.</p>
+        <div class="file-stamps"><span>Finalizada</span><span>Proyecto final: habITar</span></div>
+      </aside>
+    </div>
+  </header>
+
+  <main>
+    <section class="route" id="utec">
+      <div class="route-inner">
+        <div class="section-title">
+          <span class="small">el plan completo</span>
+          <h2>Ocho semestres, <em>uno por uno</em></h2>
+          <p>Ac&aacute; s&iacute; est&aacute;n todas las materias. Las dej&eacute; guardadas por semestre, como una carpeta que se abre cuando quer&eacute;s mirar el detalle.</p>
+        </div>
+        <div class="transversal"><strong>En todos los semestres:</strong> Ingl&eacute;s, niveles 1 a 8, y UTEC Innova, niveles 1 a 8, el eje de innovaci&oacute;n y emprendimiento de la carrera.</div>
+        <div class="semesters">
+          <details class="semester">
+            <summary><span class="num">01</span><span><span class="when">Semestre 1 &middot; 2022</span><span class="note">ac&aacute; empez&oacute; todo</span></span></summary>
+            <ul><li>Curso Inicial Virtual</li><li>Introducci&oacute;n y Perspectivas de las TI</li><li>Fundamentos de la Programaci&oacute;n Orientada a Objetos</li><li>Introducci&oacute;n a la Programaci&oacute;n en Java</li><li>Programaci&oacute;n en lenguaje SQL</li><li>Base de Datos: conceptos y dise&ntilde;o</li><li>Metodolog&iacute;as de Testing Funcional</li></ul>
+          </details>
+          <details class="semester">
+            <summary><span class="num">02</span><span><span class="when">Semestre 2 &middot; 2023</span><span class="note">primer proyecto integrador</span></span></summary>
+            <ul><li>Patrones de Dise&ntilde;o y Algoritmos</li><li>An&aacute;lisis de Requerimientos y Modelado</li><li>Metodolog&iacute;as de Desarrollo &Aacute;gil</li><li>Aplicaciones Enterprise (Java EE)</li><li>Base de Datos Corporativas</li><li>Implementaci&oacute;n del Testing Funcional</li><li>Proyecto de Desarrollo y Testing</li></ul>
+          </details>
+          <details class="semester">
+            <summary><span class="num">03</span><span><span class="when">Semestre 3 &middot; 2023</span><span class="note">redes, servidores y bastante equipo</span></span></summary>
+            <ul><li>Infraestructura de Redes</li><li>Interconexi&oacute;n de Redes</li><li>Administraci&oacute;n de Base de Datos</li><li>Gesti&oacute;n del Testing Funcional</li><li>Proyecto de Infraestructura</li></ul>
+          </details>
+          <details class="semester">
+            <summary><span class="num">04</span><span><span class="when">Semestre 4 &middot; 2024</span><span class="note">cierre del Tecn&oacute;logo</span></span></summary>
+            <ul><li>Sistemas Operativos de Red</li><li>Fundamentos de Virtualizaci&oacute;n</li><li>Introducci&oacute;n a la Seguridad y Auditor&iacute;a</li><li>Desarrollo de Aplicaciones para Dispositivos M&oacute;viles</li><li>Proyecto Final de Tecn&oacute;logo</li><li>Optativa: IA aplicada y aprendizaje supervisado con Python</li></ul>
+          </details>
+          <details class="semester">
+            <summary><span class="num">05</span><span><span class="when">Semestre 5 &middot; 2024</span><span class="note">la gesti&oacute;n dej&oacute; de ser intuici&oacute;n</span></span></summary>
+            <ul><li>Gesti&oacute;n de Proyectos</li><li>Liderazgo</li><li>Automatizaci&oacute;n de Testing</li><li>Gesti&oacute;n y Gobierno de TI</li><li>Derecho Inform&aacute;tico</li><li>Proyecto Final de semestre</li></ul>
+          </details>
+          <details class="semester">
+            <summary><span class="num">06</span><span><span class="when">Semestre 6 &middot; 2025</span><span class="note">cloud, seguridad y datos</span></span></summary>
+            <ul><li>Fundamentos de Ciberseguridad, Arquitectura y Cloud</li><li>Arquitectura de Cloud Computing</li><li>Fundamentos de Machine Learning</li><li>Data Science</li></ul>
+          </details>
+          <details class="semester">
+            <summary><span class="num">07</span><span><span class="when">Semestre 7 &middot; 2025</span><span class="note">continuidad, UX y anteproyecto</span></span></summary>
+            <ul><li>Ciberseguridad: Conceptos, Incidencias y Contramedidas</li><li>Ciberseguridad: Continuidad del Negocio</li><li>Taller de Ciberseguridad vinculado a Desarrollo en la Nube</li><li>Fundamentos de Rob&oacute;tica y Dom&oacute;tica</li><li>Dise&ntilde;o de Experiencia de Usuario</li><li>Anteproyecto de tesis</li></ul>
+          </details>
+          <details class="semester">
+            <summary><span class="num">08</span><span><span class="when">Semestre 8 &middot; 2026</span><span class="note">la tesis y el cierre</span></span></summary>
+            <ul><li>Proyecto Final de Carrera: habITar</li><li>Inteligencia Artificial</li><li>Introducci&oacute;n a DevOps</li><li>&Eacute;tica, Tecnolog&iacute;a y Sociedad</li></ul>
+          </details>
+        </div>
+        <p class="source-note">Los nombres de los semestres 1 a 4 siguen la tabla oficial de homologaci&oacute;n del Plan 2018. Los semestres 5 a 8 se reconstruyeron desde mis carpetas acad&eacute;micas, por eso aparecen como parte de mi recorrido personal y no como una transcripci&oacute;n oficial del plan.</p>
+      </div>
+    </section>
+
+    <section class="academic-projects" id="proyectos-academicos">
+      <div class="projects-inner">
+        <div class="section-title">
+          <span class="small">lo que no entra en una escolaridad</span>
+          <h2>Los proyectos que <em>marcaron el camino</em></h2>
+          <p>No todos tienen nombre de portfolio, pero cada uno dej&oacute; algo que sigo usando.</p>
+        </div>
+        <div class="project-stack">
+          <article class="project-sheet"><div class="code">S2</div><div><h3>Proyecto de Desarrollo y Testing</h3><p>El primer proyecto integrador: una soluci&oacute;n, su documentaci&oacute;n t&eacute;cnica y todo el ciclo de pruebas.</p></div></article>
+          <article class="project-sheet"><div class="code">S3</div><div><h3>Proyecto de Infraestructura</h3><p>Dise&ntilde;amos una infraestructura con VLAN, VRRP, bonding, firewall, VPN y almacenamiento con RAID. El equipo pas&oacute; de cinco personas a tres y tuvimos que reorganizar el trabajo sin soltar la entrega.</p></div></article>
+          <article class="project-sheet"><div class="code">S4</div><div><h3>Proyecto Final de Tecn&oacute;logo</h3><p>El cierre del primer ciclo de la carrera, integrando programaci&oacute;n, base de datos, testing y una defensa final.</p></div></article>
+          <article class="project-sheet"><div class="code">S8</div><div><h3>habITar</h3><p>Mi proyecto final de carrera. Un producto para centralizar la gesti&oacute;n de una cooperativa de vivienda, con <strong>63 requerimientos must have, 226 casos de prueba manuales y m&aacute;s de 2700 pruebas automatizadas</strong>. Mi foco estuvo en producto, gesti&oacute;n y calidad.</p></div></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="extra" id="complementaria">
+      <div class="extra-inner">
+        <div class="section-title">
+          <span class="small">por afuera de UTEC</span>
+          <h2>Lo que fui <em>sumando en el camino</em></h2>
+          <p>Algunas cosas cerraron huecos t&eacute;cnicos. Otras me ayudaron a poner en palabras lo que ya ven&iacute;a haciendo.</p>
+        </div>
+        <div class="extra-row">
+          <article class="extra-note"><span class="state">egresada</span><h3>J&oacute;venes a Programar</h3><p>Mi entrada al desarrollo web y al trabajo en tecnolog&iacute;a.</p><span class="place">Plan Ceibal</span></article>
+          <article class="extra-note"><span class="state">finalizada &middot; 2024</span><h3>Diplomatura en Gesti&oacute;n de Proyectos</h3><p>Un recorrido por alcance, cronograma, riesgos y agilidad, con una estructura m&aacute;s formal para cosas que ya empezaba a aplicar.</p><span class="place">Academia Numen &middot; avalada por PMI</span></article>
+          <article class="extra-note"><span class="state">en curso</span><h3>OPI 2.0</h3><p>Oratoria y comunicaci&oacute;n para ordenar una idea, defenderla y hacer que llegue mejor.</p><span class="place">Franco Pisso</span></article>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>hasta ac&aacute; lleg&oacute; la carpeta, el resto est&aacute; en el estudio</p>
+    <a href="index.html">Volver al portfolio</a>
+  </footer>
+</body>
+</html>
