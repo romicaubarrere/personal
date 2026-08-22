@@ -23,15 +23,17 @@ const formationDocument = await readFile(join(distRoot, 'formacion.html'), 'utf8
 const workDocument = await readFile(join(distRoot, 'como-trabajo.html'), 'utf8');
 const communityDocument = await readFile(join(distRoot, 'comunidad-charlas.html'), 'utf8');
 const homeStyles = await readFile(join(repositoryRoot, 'src', 'styles', 'home.css'), 'utf8');
+const brandTokens = await readFile(join(repositoryRoot, 'src', 'styles', 'brand-tokens.css'), 'utf8');
+const visualSystem = await readFile(join(repositoryRoot, 'docs', 'visual-system.md'), 'utf8');
 const homeScripts = await readFile(
   join(repositoryRoot, 'src', 'components', 'home', 'HomeScripts.astro'),
   'utf8'
 );
 const formationStyles = await readFile(join(repositoryRoot, 'src', 'styles', 'formation.css'), 'utf8');
-const html = htmlDocument.replace(/<\/head>/i, `<style>${homeStyles}</style></head>`);
-const formationHtml = formationDocument.replace(/<\/head>/i, `<style>${formationStyles}</style></head>`);
-const workHtml = workDocument.replace(/<\/head>/i, `<style>${homeStyles}</style></head>`);
-const communityHtml = communityDocument.replace(/<\/head>/i, `<style>${formationStyles}</style></head>`);
+const html = htmlDocument.replace(/<\/head>/i, `<style>${brandTokens}\n${homeStyles}</style></head>`);
+const formationHtml = formationDocument.replace(/<\/head>/i, `<style>${brandTokens}\n${formationStyles}</style></head>`);
+const workHtml = workDocument.replace(/<\/head>/i, `<style>${brandTokens}\n${homeStyles}</style></head>`);
+const communityHtml = communityDocument.replace(/<\/head>/i, `<style>${brandTokens}\n${formationStyles}</style></head>`);
 const favicon = await readFile(join(distRoot, 'favicon.svg'), 'utf8');
 const socialPreview = await readFile(join(distRoot, 'social-preview.png'));
 const socialPreviewSource = await readFile(join(distRoot, 'social-preview.svg'), 'utf8');
@@ -251,9 +253,9 @@ test('los SVG decorativos quedan fuera del árbol de accesibilidad', () => {
 
 test('la paleta y los textos secundarios conservan contraste AA', () => {
   for (const source of [html, formationHtml, communityHtml]) {
-    assert.match(source, /--green:#3c7549/);
-    assert.match(source, /--sage:#657249/);
-    assert.match(source, /--warm:#974629/);
+    assert.match(source, /--green:\s*#3c7549/);
+    assert.match(source, /--sage:\s*#657249/);
+    assert.match(source, /--warm:\s*#974629/);
   }
   assert.match(html, /\.patch:nth-child\(6n\+4\)\{background-color:var\(--rose\);color:var\(--ink\);\}/);
   assert.match(html, /\.patch \.cr\{font-size:12px;margin-top:4px;/);
@@ -1075,4 +1077,14 @@ test('WEB-100 mantiene nombres, cifras y términos editoriales consistentes', ()
   assert.doesNotMatch(formationHtml, /m&aacute;s de 2700 pruebas automatizadas/);
   assert.doesNotMatch(formationHtml, /<span class="state">en curso<\/span><h3>OPI 2\.0<\/h3>/);
   assert.match(formationHtml, /An&aacute;lisis de Requerimientos y Modelado/);
+});
+
+test('WEB-064 centraliza los tokens y documenta la identidad visual', () => {
+  for (const token of ['--green-dark', '--brick', '--gold', '--serif', '--sans', '--hand', '--shadow-paper']) {
+    assert.match(brandTokens, new RegExp(token));
+  }
+  assert.doesNotMatch(homeStyles, /:root\s*\{/);
+  assert.doesNotMatch(formationStyles, /:root\s*\{/);
+  assert.match(visualSystem, /No se usan indicadores decorativos `01`, `02`, `03`/);
+  assert.match(readme, /docs\/visual-system\.md/);
 });

@@ -68,6 +68,8 @@ Los casos del estante comparten el orden y las reglas editoriales de [`docs/proj
 
 La separación entre comunidades, eventos organizados y participaciones como oradora está documentada en [`docs/community-events.md`](docs/community-events.md).
 
+La identidad visual, los tokens compartidos y la regla que evita numeración decorativa están documentados en [`docs/visual-system.md`](docs/visual-system.md).
+
 ## Estructura
 
 - `src/pages/`: rutas públicas generadas por Astro.
@@ -86,6 +88,7 @@ La separación entre comunidades, eventos organizados y participaciones como ora
 - `docs/language-strategy.md`: decisión de idioma y condiciones de reevaluación.
 - `docs/project-case-template.md`: estructura, evidencia y reglas de privacidad de los casos.
 - `docs/community-events.md`: formato visual y reglas de evidencia para comunidades, eventos y charlas.
+- `docs/visual-system.md`: tokens, materiales, estados y reglas de identidad visual.
 - `docs/branching-strategy.md`: estrategia de ramas y flujo de integración.
 - `docs/special-dates.md`: calendario y URLs de simulación para revisar celebraciones fuera de fecha.
 - `docs/analytics-events.md`: contrato neutral de eventos y límites de privacidad para una integración futura.
