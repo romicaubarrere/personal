@@ -156,3 +156,14 @@ test('el post-it del hero participa del layout y no usa posicionamiento parallax
   assert.match(html, /@media\(min-width:901px\)[\s\S]*?\.stickynote\{position:relative;/);
   assert.doesNotMatch(html, /class="stickynote parallax"/);
 });
+
+test('sobre mí reparte el recorrido en cuatro notas breves', () => {
+  const notes = [...html.matchAll(/<article class="about-note reveal"/g)];
+
+  assert.equal(notes.length, 4);
+  assert.match(html, /<h3>Project Manager de software<\/h3>/);
+  assert.match(html, /<h3>Rob&oacute;tica, Ceibal y UKG<\/h3>/);
+  assert.match(html, /<h3>UTEC y habITar<\/h3>/);
+  assert.match(html, /<h3>Women Techmakers y Chicas en Tecnolog&iacute;a<\/h3>/);
+  assert.doesNotMatch(html, /Ac&aacute; va tu historia|Ac&aacute; va tu historia|La escribimos juntas|en tesis/i);
+});
