@@ -13,8 +13,17 @@ async function expectNoHorizontalOverflow(page: import('@playwright/test').Page)
 }
 
 async function openFirstProject(page: import('@playwright/test').Page) {
-  await page.locator('.spine[data-book="fisica"]').click();
+  const trigger = page.locator('.spine[data-book="fisica"]');
+  await expect(trigger).toBeVisible();
+  await trigger.scrollIntoViewIfNeeded();
+  await trigger.click();
   await expect(page.locator('#bookmodal')).toHaveAttribute('aria-hidden', 'false');
+}
+
+async function closeProject(page: import('@playwright/test').Page) {
+  await page.keyboard.press('Escape');
+  await expect(page.locator('#bookmodal')).toHaveAttribute('aria-hidden', 'true');
+  await expect(page).not.toHaveURL(/#project=/);
 }
 
 async function expectCloseControlInsideViewport(page: import('@playwright/test').Page) {
@@ -43,8 +52,7 @@ test('TC-RWD-001 · 320/375/390/430px no generan overflow y mantienen controles 
     await expectNoHorizontalOverflow(page);
     await openFirstProject(page);
     await expectCloseControlInsideViewport(page);
-    await page.keyboard.press('Escape');
-    await expect(page.locator('#bookmodal')).toHaveAttribute('aria-hidden', 'true');
+    await closeProject(page);
   }
 });
 
@@ -59,7 +67,7 @@ test('TC-RWD-002 · 719/720/721px respetan el límite del libro móvil', async (
     else await expect(leftPage).toBeVisible();
 
     await expectCloseControlInsideViewport(page);
-    await page.keyboard.press('Escape');
+    await closeProject(page);
   }
 });
 
@@ -69,7 +77,7 @@ test('TC-RWD-003 · 469/470/471px de alto conservan cierre accesible', async ({ 
     await page.goto('/personal/');
     await openFirstProject(page);
     await expectCloseControlInsideViewport(page);
-    await page.keyboard.press('Escape');
+    await closeProject(page);
   }
 });
 
@@ -87,4 +95,5 @@ test('TC-RWD-004 · cambiar portrait/landscape no pierde el estado del modal', a
   await page.setViewportSize({ width: 390, height: 844 });
   await expect(page.locator('#bookmodal')).toHaveAttribute('aria-hidden', 'false');
   await expectCloseControlInsideViewport(page);
+  await closeProject(page);
 });
