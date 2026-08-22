@@ -138,27 +138,31 @@ test('idioma, locale e indexación son coherentes en toda la salida', async () =
   assert.equal(getAttribute(notFound, /<meta\b[^>]*name="robots"[^>]*>/i, 'content'), 'noindex,follow');
 });
 
-test('Cómo trabajo publica un cluster hreflang recíproco en ES, EN y PT', () => {
-  const cluster = [
-    ['como-trabajo.html', 'https://romicaubarrere.github.io/personal/como-trabajo.html'],
-    ['en/como-trabajo.html', 'https://romicaubarrere.github.io/personal/en/como-trabajo.html'],
-    ['pt/como-trabajo.html', 'https://romicaubarrere.github.io/personal/pt/como-trabajo.html']
+test('cada familia interna publica un cluster hreflang recíproco en ES, EN y PT', () => {
+  const clusters = [
+    ['como-trabajo.html', 'en/como-trabajo.html', 'pt/como-trabajo.html'],
+    ['comunidad-charlas.html', 'en/comunidad-charlas.html', 'pt/comunidad-charlas.html'],
+    ['formacion.html', 'en/formacion.html', 'pt/formacion.html']
   ];
-  const expected = new Map([
-    ['es', cluster[0][1]],
-    ['en', cluster[1][1]],
-    ['pt', cluster[2][1]],
-    ['x-default', cluster[0][1]]
-  ]);
 
-  for (const [route] of cluster) {
-    const source = routeDocuments.get(route);
-    assert.ok(source, `${route} debe estar publicada`);
-    const alternates = new Map(
-      [...source.matchAll(/<link\b[^>]*rel="alternate"[^>]*hreflang="([^"]+)"[^>]*href="([^"]+)"[^>]*>/gi)]
-        .map((match) => [match[1], match[2]])
-    );
-    assert.deepEqual(alternates, expected, `${route} debe declarar el cluster completo y recíproco`);
+  for (const cluster of clusters) {
+    const urls = cluster.map((route) => `https://romicaubarrere.github.io/personal/${route}`);
+    const expected = new Map([
+      ['es', urls[0]],
+      ['en', urls[1]],
+      ['pt', urls[2]],
+      ['x-default', urls[0]]
+    ]);
+
+    for (const route of cluster) {
+      const source = routeDocuments.get(route);
+      assert.ok(source, `${route} debe estar publicada`);
+      const alternates = new Map(
+        [...source.matchAll(/<link\\b[^>]*rel="alternate"[^>]*hreflang="([^"]+)"[^>]*href="([^"]+)"[^>]*>/gi)]
+          .map((match) => [match[1], match[2]])
+      );
+      assert.deepEqual(alternates, expected, `${route} debe declarar el cluster completo y recíproco`);
+    }
   }
 });
 
