@@ -51,6 +51,10 @@ Los tests comprueban:
 GitHub Actions ejecuta los tests automáticamente en cada push y pull request. Al
 integrar cambios en `main`, el workflow de Pages compila Astro y publica `dist/`.
 
+## Sistema visual
+
+Las decisiones de identidad, tokens, estados, responsive y uso de numeración están documentadas en [`docs/visual-system.md`](docs/visual-system.md).
+
 ## Arquitectura y publicación
 
 Astro genera un sitio completamente estático con base pública `/personal`. La
