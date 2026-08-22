@@ -313,7 +313,7 @@ test('T8 publica comunidad y el registro completo de charlas sin inventar campos
   assert.match(communityHtml, /id="comunidad-en-accion"/);
   assert.match(communityHtml, /id="registro-charlas"/);
   assert.equal((communityHtml.match(/class="extra-note"/g) ?? []).length, 6);
-  assert.equal((communityHtml.match(/class="project-sheet"/g) ?? []).length, 13);
+  assert.equal((communityHtml.match(/class="project-sheet"/g) ?? []).length, 18);
   for (const event of [
     'Presentación de habITar',
     'Break the Pattern',
@@ -328,7 +328,15 @@ test('T8 publica comunidad y el registro completo de charlas sin inventar campos
   ]) assert.match(communityHtml, new RegExp(event));
   assert.match(communityHtml, /Fecha por confirmar/);
   assert.match(communityHtml, /No relleno esos huecos por intuici&oacute;n/);
-  assert.doesNotMatch(communityHtml, /organizado por m&iacute;/i);
+  assert.match(communityHtml, /5 eventos organizados/);
+  assert.match(communityHtml, /Innovación Financiera: Inversión y Tecnología Event/);
+  assert.match(communityHtml, /IWD 2025 Photo Sharing and Community Engagement/);
+  assert.match(communityHtml, /CX: Poniendo a las personas en el centro/);
+  assert.match(communityHtml, /Break the Pattern: Challenging Stereotypes in IT/);
+  assert.match(communityHtml, /Datos en acción: análisis y automatizaciones/);
+  assert.match(communityHtml, /figuran como organizaci&oacute;n propia en el registro/);
+  assert.match(communityHtml, /8 mar 2025/);
+  assert.match(communityHtml, /30 jul 2026/);
 });
 
 test('la forma de trabajo presenta cuatro momentos concretos', () => {
