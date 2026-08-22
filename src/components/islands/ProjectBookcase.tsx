@@ -351,6 +351,7 @@ export default function ProjectBookcase() {
         aria-modal="true"
         aria-hidden={isOpen ? 'false' : 'true'}
         aria-labelledby="bookDialogTitle"
+        inert={isOpen ? undefined : true}
         tabIndex={-1}
         ref={modalRef}
         onKeyDown={handleModalKeyDown}

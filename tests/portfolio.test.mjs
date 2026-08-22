@@ -433,7 +433,7 @@ test('WEB-053 no publica instrucciones ni contenido de muestra', () => {
 test('el modal de proyectos gestiona el foco como un diálogo accesible', () => {
   assert.match(
     html,
-    /<div class="bookmodal" id="bookmodal" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="bookDialogTitle" tabindex="-1">/
+    /<div class="bookmodal" id="bookmodal" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="bookDialogTitle" inert="" tabindex="-1">/
   );
   assert.match(html, /<h2 class="sr-only" id="bookDialogTitle">Proyecto<\/h2>/);
   assert.match(projectIslandSource, /lastFocusRef\.current = trigger \?\?/);
@@ -441,6 +441,7 @@ test('el modal de proyectos gestiona el foco como un diálogo accesible', () => 
   assert.match(projectIslandSource, /document\.body\.classList\.toggle\('modal-open', isOpen\)/);
   assert.match(projectIslandSource, /document\.body\.classList\.remove\('modal-open'\)/);
   assert.match(projectIslandSource, /element\.inert = isOpen/);
+  assert.match(projectIslandSource, /inert=\{isOpen \? undefined : true\}/);
   assert.match(projectIslandSource, /closeRef\.current\?\.focus\(\{ preventScroll: true \}\)/);
   assert.match(projectIslandSource, /else if \(event\.key === 'Tab'\)/);
   assert.match(projectIslandSource, /event\.shiftKey && \(document\.activeElement === first \|\| !modal\.contains\(document\.activeElement\)\)/);
