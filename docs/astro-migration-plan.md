@@ -104,5 +104,7 @@ estático y preservando una salida completamente estática para GitHub Pages.
 
 Antes de integrar la rama, en `Settings > Pages > Build and deployment` se debe
 elegir `GitHub Actions` como fuente. A partir de ese momento,
-`.github/workflows/deploy-pages.yml` compila y publica `dist/` con cada push a
-`main`. La URL pública y la base `/personal` no cambian.
+`.github/workflows/deploy-pages.yml` construye y prueba una sola vez. En pull
+requests se detiene después de la validación; en `main` carga y publica exactamente
+ese mismo `dist`, y después verifica la URL pública. La URL y la base `/personal`
+no cambian.
