@@ -1,0 +1,11 @@
+---
+import PrivacyPage from '../../components/PrivacyPage.astro';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import '../../styles/formation.css';
+const canonical = 'https://romicaubarrere.github.io/personal/pt/privacidade.html';
+const alternates = [
+  { lang: 'es', href: 'https://romicaubarrere.github.io/personal/privacidad.html' }, { lang: 'en', href: 'https://romicaubarrere.github.io/personal/en/privacy.html' },
+  { lang: 'pt', href: canonical }, { lang: 'x-default', href: 'https://romicaubarrere.github.io/personal/privacidad.html' }
+];
+---
+<BaseLayout lang="pt" ogLocale="pt_BR" title="Privacidade | Romina Caubarrere" description="Como os dados de navegação são protegidos e usados no portfólio profissional de Romina Caubarrere, sem rastreamento pessoal." {canonical} {alternates}><PrivacyPage lang="pt" /></BaseLayout>

@@ -152,7 +152,7 @@ const pageLabel = page === 'work' ? 'work' : page === 'community' ? 'community' 
   <main id="main-content" tabindex="-1">
     {copy.sections.map((section, sectionIndex) => <section class={sectionIndex % 2 ? 'academic-projects' : 'route'} id={section.id}><div class={sectionIndex % 2 ? 'projects-inner' : 'route-inner'}><div class="section-title"><span class="small">{section.eyebrow}</span><h2>{section.title}</h2><p>{section.intro}</p></div><div class="project-stack">{section.items.map((item,index) => <article class="project-sheet" style={`grid-column:span 6;--sheet-rotate:${index % 2 ? '.6deg' : '-.6deg'};${index % 2 ? 'background:#eef3df' : ''}`}>{item.meta && <div class="code">{item.meta}</div>}<div><h3>{item.title}</h3><p>{item.body}</p></div></article>)}</div></div></section>)}
   </main>
-  <footer><p>{copy.note}</p><a href={`/${'personal'}/${lang}.html`}>{copy.footer}</a></footer>
+  <footer><p>{copy.note}</p><a href={`/${'personal'}/${lang}.html`}>{copy.footer}</a> · <a href={`/personal/${lang}/${lang === 'en' ? 'privacy' : 'privacidade'}.html`}>{lang === 'en' ? 'Privacy' : 'Privacidade'}</a></footer>
   <script is:inline>
   (function(){
     var sectionLinks=Array.prototype.slice.call(document.querySelectorAll('.topbar nav a'));

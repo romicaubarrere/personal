@@ -1,0 +1,72 @@
+---
+interface Props { lang: 'es' | 'en' | 'pt' }
+
+const { lang } = Astro.props;
+const copy = {
+  es: {
+    skip: 'Saltar al contenido principal',
+    back: 'Volver al estudio',
+    kicker: 'una nota clara sobre los datos',
+    title: 'Privacidad, sin letra chica',
+    lede: 'Este portfolio está pensado para mostrar mi trabajo, no para seguir a quienes lo visitan.',
+    statusTitle: 'Estado actual',
+    status: 'La analítica externa todavía no está activa. Hoy el sitio no envía eventos ni datos de navegación a un proveedor de analítica.',
+    sections: [
+      ['Qué mediré', 'Cuando active la medición, usaré Plausible Analytics para conocer tendencias generales: páginas vistas, páginas más visitadas, procedencia aproximada, país, dispositivo, navegador y eventos concretos como abrir un enlace de contacto o descargar el CV.'],
+      ['Qué no mediré', 'No usaré cookies de analítica, perfiles personales, publicidad, seguimiento entre sitios, grabaciones de sesión ni campos de texto. Tampoco enviaré nombres, direcciones de email o el contenido de mensajes.'],
+      ['Para qué', 'Usaré estas métricas agregadas para entender qué contenido resulta útil, detectar enlaces rotos y mejorar el portfolio. No venderé los datos ni los usaré para publicidad.'],
+      ['Proveedor y conservación', 'El proveedor previsto es Plausible Analytics Cloud, con procesamiento y alojamiento en la Unión Europea. Antes de activarlo definiré y publicaré aquí el período concreto de conservación contratado.'],
+      ['Contacto', 'Si tenés una pregunta sobre esta política o sobre los datos del sitio, escribime a rominacaubarrere@gmail.com.']
+    ],
+    updated: 'Última actualización: 22 de agosto de 2026',
+    provider: 'Conocer la política de datos de Plausible'
+  },
+  en: {
+    skip: 'Skip to main content', back: 'Back to the studio', kicker: 'a clear note about data', title: 'Privacy, without the fine print',
+    lede: 'This portfolio is designed to show my work, not to follow the people who visit it.', statusTitle: 'Current status',
+    status: 'External analytics is not active yet. The site currently sends no events or browsing data to an analytics provider.',
+    sections: [
+      ['What I will measure', 'When measurement is enabled, I will use Plausible Analytics to understand broad trends: page views, popular pages, approximate referral source, country, device, browser and specific events such as opening a contact link or downloading my CV.'],
+      ['What I will not measure', 'I will not use analytics cookies, personal profiles, advertising, cross-site tracking, session recordings or text fields. I will not send names, email addresses or message contents.'],
+      ['Why', 'I will use these aggregated metrics to understand which content is useful, find broken links and improve the portfolio. I will not sell the data or use it for advertising.'],
+      ['Provider and retention', 'The intended provider is Plausible Analytics Cloud, with processing and hosting in the European Union. Before enabling it, I will define and publish the specific retention period included in the selected plan.'],
+      ['Contact', 'If you have a question about this policy or the site’s data, email me at rominacaubarrere@gmail.com.']
+    ], updated: 'Last updated: August 22, 2026', provider: 'Read Plausible’s data policy'
+  },
+  pt: {
+    skip: 'Pular para o conteúdo principal', back: 'Voltar ao estúdio', kicker: 'uma nota clara sobre os dados', title: 'Privacidade, sem letras miúdas',
+    lede: 'Este portfólio foi pensado para mostrar meu trabalho, não para seguir quem o visita.', statusTitle: 'Estado atual',
+    status: 'A análise externa ainda não está ativa. Atualmente, o site não envia eventos nem dados de navegação a um provedor de análise.',
+    sections: [
+      ['O que medirei', 'Quando ativar a medição, usarei o Plausible Analytics para entender tendências gerais: visualizações, páginas mais visitadas, origem aproximada, país, dispositivo, navegador e eventos específicos, como abrir um link de contato ou baixar meu CV.'],
+      ['O que não medirei', 'Não usarei cookies de análise, perfis pessoais, publicidade, rastreamento entre sites, gravações de sessão nem campos de texto. Também não enviarei nomes, endereços de email ou o conteúdo de mensagens.'],
+      ['Para quê', 'Usarei essas métricas agregadas para entender quais conteúdos são úteis, encontrar links quebrados e melhorar o portfólio. Não venderei os dados nem os usarei para publicidade.'],
+      ['Provedor e retenção', 'O provedor previsto é o Plausible Analytics Cloud, com processamento e hospedagem na União Europeia. Antes de ativá-lo, definirei e publicarei aqui o período específico de retenção do plano contratado.'],
+      ['Contato', 'Se você tiver alguma dúvida sobre esta política ou sobre os dados do site, escreva para rominacaubarrere@gmail.com.']
+    ], updated: 'Última atualização: 22 de agosto de 2026', provider: 'Ler a política de dados do Plausible'
+  }
+}[lang];
+
+const home = lang === 'es' ? '/personal/' : `/personal/${lang}.html`;
+---
+
+<a class="skip-link" href="#main-content">{copy.skip}</a>
+<header class="topbar"><a href={home}>&larr; {copy.back}</a></header>
+<main id="main-content" tabindex="-1">
+  <header class="academic-hero brick">
+    <div class="hero-inner"><div class="open-folder" data-label="privacy"><div class="folder-pages"><div class="hero-copy">
+      <span class="kick">{copy.kicker}</span><h1>{copy.title}</h1><p>{copy.lede}</p>
+    </div></div></div></div>
+  </header>
+  <section class="route" aria-label={copy.title}>
+    <div class="route-inner">
+      <div class="section-title"><span class="small">{copy.statusTitle}</span><h2>{copy.statusTitle}</h2><p>{copy.status}</p></div>
+      <div class="project-stack">
+        {copy.sections.map(([title, body], index) => <article class="project-sheet" style={`grid-column:span 6;--sheet-rotate:${index % 2 ? '.6deg' : '-.6deg'}`}><div><h2>{title}</h2><p>{body}</p></div></article>)}
+      </div>
+      <p><a href="https://plausible.io/data-policy" rel="noopener noreferrer">{copy.provider}</a></p>
+      <p>{copy.updated}</p>
+    </div>
+  </section>
+</main>
+<footer><p>{copy.updated}</p><a href={home}>Romina Caubarrere</a></footer>
