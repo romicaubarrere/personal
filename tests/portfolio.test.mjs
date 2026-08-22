@@ -714,7 +714,7 @@ test('cada proyecto puede abrirse y recorrerse desde una URL compartible', () =>
   assert.match(projectIslandSource, /syncProjectFromUrl\(\);/);
   assert.match(
     projectIslandSource,
-    /setPageIndex\(nextPage\);\s*window\.requestAnimationFrame\(\(\) => closeRef\.current\?\.focus\(\{ preventScroll: true \}\)\);/
+    /if \(target\.rawPage !== String\(nextPage\)\) \{[\s\S]*?replaceProjectUrl\(target\.project\.id, nextPage\);[\s\S]*?window\.requestAnimationFrame\(\(\) => closeRef\.current\?\.focus\(\{ preventScroll: true \}\)\);/
   );
 });
 
