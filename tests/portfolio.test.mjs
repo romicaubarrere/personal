@@ -16,6 +16,10 @@ const architectureDecision = await readFile(
   join(repositoryRoot, 'docs', 'architecture-decision.md'),
   'utf8'
 );
+const astroMigrationPlan = await readFile(
+  join(repositoryRoot, 'docs', 'astro-migration-plan.md'),
+  'utf8'
+);
 const firstPost = await readFile(
   join(repositoryRoot, 'posts', 'por-que-hago-tantas-preguntas.html'),
   'utf8'
@@ -61,14 +65,24 @@ test('los documentos HTML están completos y en español', () => {
   }
 });
 
-test('la arquitectura estática y su flujo operativo quedan documentados', () => {
-  assert.match(architectureDecision, /Estado: aceptada/);
+test('la decisión histórica queda preservada y el plan Astro la reemplaza', () => {
+  assert.match(architectureDecision, /Estado: reemplazada por WEB-086/);
   assert.match(architectureDecision, /Se mantiene la arquitectura actual de HTML, CSS y JavaScript nativos/);
   assert.match(architectureDecision, /No se incorpora Astro ni React en esta etapa/);
-  assert.match(architectureDecision, /Publicar `main` directamente con GitHub Pages/);
-  assert.match(architectureDecision, /Astro debe evaluarse primero como generador estático sin React/);
-  assert.match(readme, /No necesita instalación de dependencias ni un proceso de build/);
+  assert.match(architectureDecision, /astro-migration-plan\.md/);
+
+  assert.match(astroMigrationPlan, /ADR 002: migrar el portfolio a Astro/);
+  assert.match(astroMigrationPlan, /Estado: aceptada/);
+  assert.match(astroMigrationPlan, /Reemplaza: WEB-071 y ADR 001/);
+  assert.match(astroMigrationPlan, /base: '\/personal'/);
+  assert.match(astroMigrationPlan, /build\.format: 'file'/);
+  assert.match(astroMigrationPlan, /React se hidratará solamente en el libro de proyectos/);
+  assert.match(astroMigrationPlan, /8269444/);
+  assert.match(astroMigrationPlan, /por-que-hago-tantas-preguntas\.html/);
+  assert.match(astroMigrationPlan, /cuando-puedas\.html/);
+
   assert.match(readme, /docs\/architecture-decision\.md/);
+  assert.match(readme, /docs\/astro-migration-plan\.md/);
 });
 
 test('la decisión de publicar solo en español queda explícita y es consistente', () => {

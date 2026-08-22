@@ -1,8 +1,13 @@
 # ADR 001: mantener una arquitectura web estática
 
-- Estado: aceptada
+- Estado: reemplazada por WEB-086
 - Fecha: 22 de agosto de 2026
 - Ticket: WEB-071
+
+> Esta decisión conserva el contexto que llevó a mantener HTML nativo en WEB-071,
+> pero dejó de ser la arquitectura objetivo cuando Romina confirmó la migración a
+> Astro el 22 de agosto de 2026. El plan vigente está documentado en
+> [`astro-migration-plan.md`](astro-migration-plan.md).
 
 ## Contexto
 
