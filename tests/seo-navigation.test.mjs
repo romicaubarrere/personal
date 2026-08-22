@@ -277,7 +277,7 @@ test('el feed RSS coincide con las notas publicadas y sólo se anuncia en rutas 
   assert.equal(items.length, postRoutes.length);
   assert.match(feed, /<language>es-uy<\/language>/);
   const dates = items.map((item) => item.match(/<dc:date>([^<]+)<\/dc:date>/)?.[1]);
-  assert.ok(dates.every((date) => /^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}Z$/.test(date)));
+  assert.ok(dates.every((date) => /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z$/.test(date)));
   assert.equal(new Set(dates).size, dates.length, 'cada nota debe tener una fecha de publicación inequívoca');
   assert.deepEqual(
     dates,
