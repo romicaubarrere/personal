@@ -13,6 +13,23 @@ function extractIds(source) {
   return [...source.matchAll(/\sid="([^"]+)"/g)].map((match) => match[1]);
 }
 
+function headingLevels(source) {
+  return [...source.matchAll(/<h([1-6])\b/gi)].map((match) => Number(match[1]));
+}
+
+function relativeLuminance(hex) {
+  const channels = hex.match(/[0-9a-f]{2}/gi).map((channel) => Number.parseInt(channel, 16) / 255);
+  const linear = channels.map((channel) => (
+    channel <= 0.04045 ? channel / 12.92 : ((channel + 0.055) / 1.055) ** 2.4
+  ));
+  return (0.2126 * linear[0]) + (0.7152 * linear[1]) + (0.0722 * linear[2]);
+}
+
+function contrastRatio(foreground, background) {
+  const values = [relativeLuminance(foreground), relativeLuminance(background)].sort((a, b) => b - a);
+  return (values[0] + 0.05) / (values[1] + 0.05);
+}
+
 test('los documentos HTML están completos y en español', () => {
   for (const source of [html, formationHtml]) {
     assert.match(source, /<!doctype html>/i);
@@ -26,6 +43,62 @@ test('todos los identificadores HTML son únicos', () => {
   for (const [filename, source] of [['index.html', html], ['formacion.html', formationHtml]]) {
     const ids = extractIds(source);
     assert.equal(new Set(ids).size, ids.length, `Hay IDs duplicados en ${filename}`);
+  }
+});
+
+test('ambas páginas permiten saltar al contenido principal', () => {
+  for (const source of [html, formationHtml]) {
+    assert.match(source, /<a\b[^>]*class="skip-link"[^>]*href="#main-content"/i);
+    assert.match(source, /<main\b[^>]*id="main-content"[^>]*tabindex="-1"/i);
+    assert.match(source, /:where\(a,button,summary,\[tabindex\]:not\(\[tabindex="-1"\]\)\):focus-visible/);
+  }
+});
+
+test('el orden de encabezados no salta niveles', () => {
+  for (const [filename, source] of [['index.html', html], ['formacion.html', formationHtml]]) {
+    const levels = headingLevels(source);
+    assert.equal(levels[0], 1, `${filename} debe comenzar con un h1`);
+    for (let index = 1; index < levels.length; index += 1) {
+      assert.ok(
+        levels[index] <= levels[index - 1] + 1,
+        `${filename} salta de h${levels[index - 1]} a h${levels[index]}`
+      );
+    }
+  }
+});
+
+test('los SVG decorativos quedan fuera del árbol de accesibilidad', () => {
+  const svgTags = [...html.matchAll(/<svg\b[^>]*>/gi)].map((match) => match[0]);
+  assert.ok(svgTags.length > 0);
+  for (const tag of svgTags) {
+    assert.match(tag, /aria-hidden="true"/i);
+    assert.match(tag, /focusable="false"/i);
+  }
+});
+
+test('la paleta y los textos secundarios conservan contraste AA', () => {
+  for (const source of [html, formationHtml]) {
+    assert.match(source, /--green:#3c7549/);
+    assert.match(source, /--sage:#657249/);
+    assert.match(source, /--warm:#974629/);
+  }
+  assert.match(html, /\.patch:nth-child\(6n\+4\)\{background-color:var\(--rose\);color:var\(--ink\);\}/);
+  assert.match(html, /\.patch \.cr\{font-size:12px;margin-top:4px;/);
+  assert.match(html, /\.sticky small\{[^}]*color:#4a3a12/);
+
+  const normalTextPairs = [
+    ['#faf3e4', '#3c7549'],
+    ['#faf3e4', '#657249'],
+    ['#974629', '#faf3e4'],
+    ['#974629', '#f1d3c8'],
+    ['#241f18', '#cf7f6a'],
+    ['#4a3a12', '#f6b9a6']
+  ];
+  for (const [foreground, background] of normalTextPairs) {
+    assert.ok(
+      contrastRatio(foreground, background) >= 4.5,
+      `${foreground} sobre ${background} no alcanza contraste AA`
+    );
   }
 });
 

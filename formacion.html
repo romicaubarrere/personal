@@ -11,8 +11,8 @@
 <style>
   :root{
     --paper:#efe4cd;--paper2:#e5d6ba;--cream:#faf3e4;--ink:#241f18;--ink-soft:#5f5749;
-    --green:#3f7d4e;--green-deep:#2b5a38;--green-dark:#22432c;--sage:#6f7a54;--olive:#55603f;
-    --brick:#8f4230;--brick2:#7a3626;--mortar:#d8c4a4;--iron:#161310;--gold:#cf9a3f;--warm:#c0693e;--rose:#cf7f6a;--cork:#c8a678;
+    --green:#3c7549;--green-deep:#2b5a38;--green-dark:#22432c;--sage:#657249;--olive:#55603f;
+    --brick:#8f4230;--brick2:#7a3626;--mortar:#d8c4a4;--iron:#161310;--gold:#cf9a3f;--warm:#974629;--rose:#cf7f6a;--cork:#c8a678;
     --serif:'Fraunces',Georgia,serif;--sans:'DM Sans',system-ui,sans-serif;--hand:'Caveat',cursive;
   }
   *{box-sizing:border-box;margin:0;padding:0;}
@@ -21,6 +21,8 @@
   a{color:inherit;}
   ::selection{background:var(--gold);color:var(--ink);}
   section{scroll-margin-top:72px;}
+  .skip-link{position:fixed;top:12px;left:12px;z-index:100;transform:translateY(-160%);background:var(--cream);color:var(--ink);padding:10px 14px;border:2px solid var(--ink);border-radius:6px;font-weight:800;text-decoration:none;transition:transform .15s;}
+  .skip-link:focus{transform:translateY(0);}
   .hand{font-family:var(--hand);}
   .brick{background-color:var(--brick);background-image:linear-gradient(335deg,rgba(0,0,0,.22),transparent 55%),repeating-linear-gradient(0deg,var(--mortar) 0 3px,transparent 3px 46px),repeating-linear-gradient(90deg,var(--mortar) 0 3px,var(--brick) 3px 120px),repeating-linear-gradient(90deg,transparent 0 60px,var(--mortar) 60px 63px,transparent 63px 120px);}
   .topbar{position:fixed;top:0;left:0;right:0;z-index:50;display:flex;justify-content:space-between;align-items:start;padding:0 24px;pointer-events:none;}
@@ -108,6 +110,7 @@
   footer p{font-family:var(--hand);font-size:22px;margin-bottom:16px;}
   footer a{display:inline-block;border:1px solid rgba(250,243,228,.35);border-radius:4px;padding:9px 15px;text-decoration:none;font-size:13px;}
   footer a:hover{background:var(--green-deep);}
+  :where(a,button,summary,[tabindex]:not([tabindex="-1"])):focus-visible{outline:3px solid var(--cream);outline-offset:2px;box-shadow:0 0 0 5px var(--ink);}
 
   @media(max-width:860px){
     .hero-inner{grid-template-columns:1fr;gap:45px;}.academic-hero{padding-left:24px;padding-right:24px;}.file-card{max-width:560px;}
@@ -122,6 +125,7 @@
 </style>
 </head>
 <body>
+  <a class="skip-link" href="#main-content">Saltar al contenido principal</a>
   <div class="topbar">
     <a href="index.html#formacion">&larr; Volver al estudio</a>
     <nav aria-label="Secciones de formaci&oacute;n">
@@ -149,7 +153,7 @@
     </div>
   </header>
 
-  <main>
+  <main id="main-content" tabindex="-1">
     <section class="route" id="utec">
       <div class="route-inner">
         <div class="section-title">
