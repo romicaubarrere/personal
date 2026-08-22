@@ -401,6 +401,23 @@ test('el menú adaptable conserva estado, cierre y foco accesibles', async () =>
   }
 });
 
+test('todas las rutas preservan foco visible y movimiento reducido', async () => {
+  for (const route of [...publicRoutes, '404.html']) {
+    const source = await readFile(join(dist, route), 'utf8');
+    const styleHrefs = (source.match(/<link\b[^>]*>/gi) ?? [])
+      .filter((tag) => /\brel="stylesheet"/i.test(tag))
+      .map((tag) => tag.match(/\bhref="([^"]+)"/i)?.[1])
+      .filter((href) => href && !/^https?:/i.test(href));
+    const styles = (await Promise.all(styleHrefs.map(async (href) => {
+      const path = href.startsWith('/personal/') ? href.slice('/personal/'.length) : href;
+      return readFile(join(dist, path), 'utf8');
+    }))).join('\n');
+
+    assert.match(styles, /:focus-visible/, `${route}: no define un indicador de foco visible`);
+    assert.match(styles, /@media\s*\(prefers-reduced-motion:reduce\)/, `${route}: no respeta movimiento reducido`);
+  }
+});
+
 test('la navegación expone la sección activa y el contacto publica solo destinos verificados', () => {
   const home = routeDocuments.get('index.html');
   assert.match(home, /setAttribute\('aria-current','location'\)/);
