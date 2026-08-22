@@ -326,6 +326,34 @@
     .workflow-grid{grid-template-columns:1fr;gap:24px;}.workflow-step{min-height:0;transform:none!important;}
   }
 
+  /* ---------- LO QUE HAGO: fichas de colaboracion ---------- */
+  .offers{position:relative;padding:96px 0 104px;background:var(--green-dark);color:var(--cream);overflow:hidden;}
+  .offers::after{content:"";position:absolute;right:-90px;bottom:-120px;width:330px;height:330px;border:2px dashed rgba(250,243,228,.16);border-radius:50%;}
+  .offers-inner{position:relative;z-index:1;max-width:1120px;margin:0 auto;padding:0 40px;}
+  .offers .hd{max-width:780px;margin-bottom:38px;}
+  .offers .hd h2{font-family:var(--serif);font-weight:340;font-size:clamp(2rem,4.5vw,3.4rem);}
+  .offers .hd h2 em{font-style:italic;color:var(--gold);}
+  .offers .hd p{max-width:680px;margin-top:10px;color:rgba(250,243,228,.78);font-size:1.05rem;}
+  .offers-grid{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:18px;}
+  .offer-card{grid-column:span 2;position:relative;padding:27px 24px 25px;background:var(--cream);color:var(--ink);
+    border-radius:3px;box-shadow:4px 9px 20px rgba(0,0,0,.28);}
+  .offer-card:nth-child(4),.offer-card:nth-child(5){grid-column:span 3;}
+  .offer-card::before{content:"";position:absolute;top:18px;right:18px;width:11px;height:11px;border-radius:50%;background:var(--warm);box-shadow:0 2px 3px rgba(0,0,0,.25);}
+  .offer-card h3{max-width:88%;font-family:var(--serif);font-size:1.35rem;font-weight:600;line-height:1.15;margin-bottom:18px;}
+  .offer-label{display:block;margin-top:13px;font-size:.7rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--warm);}
+  .offer-card p{margin-top:5px;color:var(--ink-soft);font-size:.92rem;line-height:1.55;}
+  .offers-foot{display:flex;align-items:center;justify-content:space-between;gap:22px;margin-top:34px;padding-top:26px;border-top:1px solid rgba(250,243,228,.24);}
+  .offers-foot p{max-width:650px;font-family:var(--hand);font-size:1.35rem;color:rgba(250,243,228,.86);}
+  .offers-link{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:11px 18px;background:var(--gold);color:#3a2b08;
+    border-radius:3px;font-weight:800;text-decoration:none;box-shadow:3px 4px 0 rgba(0,0,0,.3);transition:transform .18s,background .18s;white-space:nowrap;}
+  .offers-link:hover{background:var(--cream);transform:translateY(-3px) rotate(-1deg);}
+  .offers-link:focus-visible{outline:3px solid var(--cream);outline-offset:4px;}
+  @media(max-width:900px){.offers-grid{grid-template-columns:repeat(2,minmax(0,1fr));}.offer-card,.offer-card:nth-child(4),.offer-card:nth-child(5){grid-column:span 1;}}
+  @media(max-width:620px){
+    .offers{padding:78px 0 84px;}.offers-inner{padding:0 20px;}.offers-grid{grid-template-columns:1fr;gap:16px;}
+    .offers-foot{align-items:flex-start;flex-direction:column;}.offers-link{width:100%;white-space:normal;text-align:center;}
+  }
+
   /* ---------- CHARLAS: flyers pinchados ---------- */
   .flyers{background:var(--paper);padding:96px 0 110px;position:relative;}
   .flyers .hd{max-width:1120px;margin:0 auto;padding:0 40px;}
@@ -740,6 +768,56 @@
           </article>
         </li>
       </ol>
+    </div>
+  </section>
+
+  <section class="offers" id="lo-que-hago">
+    <div class="offers-inner">
+      <div class="hd reveal">
+        <h2>Lo que <em>hago</em></h2>
+        <p>Hay proyectos, ideas y encuentros que necesitan orden para avanzar. En estos espacios es donde m&aacute;s puedo aportar.</p>
+      </div>
+      <div class="offers-grid">
+        <article class="offer-card reveal" style="--r:-.8deg">
+          <h3>Gesti&oacute;n de proyectos de software</h3>
+          <span class="offer-label">Qu&eacute; resuelvo</span>
+          <p>Si hay muchas piezas movi&eacute;ndose a la vez, ordeno prioridades, dependencias y entregas para que el equipo pueda avanzar.</p>
+          <span class="offer-label">C&oacute;mo colaboro</span>
+          <p>Coordinaci&oacute;n y seguimiento de un proyecto o de varios frentes en simult&aacute;neo.</p>
+        </article>
+        <article class="offer-card reveal" style="--r:.7deg">
+          <h3>Definici&oacute;n y refinamiento de producto</h3>
+          <span class="offer-label">Qu&eacute; resuelvo</span>
+          <p>Si la necesidad todav&iacute;a est&aacute; difusa, la convierto en decisiones y requerimientos que se pueden conversar, priorizar y construir.</p>
+          <span class="offer-label">C&oacute;mo colaboro</span>
+          <p>Definici&oacute;n inicial, refinamiento y acompa&ntilde;amiento del trabajo de producto.</p>
+        </article>
+        <article class="offer-card reveal" style="--r:-.5deg">
+          <h3>Charlas, talleres y moderaci&oacute;n</h3>
+          <span class="offer-label">Qu&eacute; resuelvo</span>
+          <p>Si un tema necesita una voz clara y un espacio bien llevado, preparo el contenido y cuido el ritmo de la conversaci&oacute;n.</p>
+          <span class="offer-label">C&oacute;mo colaboro</span>
+          <p>Charlas, talleres, paneles y moderaci&oacute;n.</p>
+        </article>
+        <article class="offer-card reveal" style="--r:.6deg">
+          <h3>Planificaci&oacute;n de eventos</h3>
+          <span class="offer-label">Qu&eacute; resuelvo</span>
+          <p>Si una idea tiene que convertirse en un encuentro real, armo el plan y coordino a las personas, los tiempos y los detalles.</p>
+          <span class="offer-label">C&oacute;mo colaboro</span>
+          <p>Planificaci&oacute;n y coordinaci&oacute;n de eventos de punta a punta.</p>
+        </article>
+        <article class="offer-card reveal" style="--r:-.6deg">
+          <h3>Contenido para redes</h3>
+          <span class="offer-label">Qu&eacute; resuelvo</span>
+          <p>Si hay mucho para contar y poca estructura, ordeno los temas, el calendario y la producci&oacute;n para sostener una comunicaci&oacute;n coherente.</p>
+          <span class="offer-label">C&oacute;mo colaboro</span>
+          <p>Planificaci&oacute;n, creaci&oacute;n y gesti&oacute;n de contenido para redes.</p>
+        </article>
+      </div>
+      <div class="offers-foot reveal">
+        <p>Si alguna de estas fichas se parece a lo que necesit&aacute;s, escribime y vemos si tiene sentido hacerlo juntas.</p>
+        <a class="offers-link" href="#contacto">Hablemos de tu idea <span aria-hidden="true">&rarr;</span></a>
+      </div>
     </div>
   </section>
 
