@@ -34,6 +34,8 @@ jobs:
         run: npm ci
 
       - name: Build Astro site
+        env:
+          PUBLIC_BUILD_SHA: ${{ github.sha }}
         run: npm run build
 
       - name: Test compiled site
@@ -91,10 +93,5 @@ jobs:
       - name: Verify published Astro site
         env:
           PAGE_URL: ${{ needs.deploy.outputs.page_url }}
-        run: |
-          page="$(mktemp)"
-          curl --fail --location --retry 6 --retry-delay 10 --retry-all-errors \
-            --output "$page" "$PAGE_URL"
-          grep --fixed-strings '<html lang="es">' "$page"
-          grep --fixed-strings '<link rel="canonical" href="https://romicaubarrere.github.io/personal/">' "$page"
-          grep --fixed-strings '/personal/_astro/' "$page"
+          EXPECTED_SHA: ${{ github.sha }}
+        run: node scripts/verify-production.mjs
