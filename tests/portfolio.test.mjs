@@ -221,18 +221,19 @@ test('la paleta y los textos secundarios conservan contraste AA', () => {
   }
 });
 
-test('la navegación principal contiene las siete secciones esperadas', () => {
+test('la navegación principal refleja el recorrido aprobado de la portada', () => {
   const nav = html.match(/<nav\b[^>]*id="primary-nav"[^>]*>([\s\S]*?)<\/nav>/i);
   assert.ok(nav, 'No se encontró la navegación principal');
 
   const links = [...nav[1].matchAll(/href="(#[^"]+)"/g)].map((match) => match[1]);
   assert.deepEqual(links, [
-    '#sobre',
+    '#fortalezas',
+    '#experiencia',
     '#formacion',
     '#proyectos',
+    '#forma-de-trabajo',
     '#charlas',
-    '#comunidades',
-    '#lecturas',
+    '#sobre',
     '#contacto'
   ]);
 
@@ -240,6 +241,29 @@ test('la navegación principal contiene las siete secciones esperadas', () => {
   for (const link of links) {
     assert.ok(ids.has(link.slice(1)), `Falta el destino interno ${link}`);
   }
+});
+
+test('las secciones de la portada siguen el orden aprobado', () => {
+  const sectionOrder = [
+    'top',
+    'fortalezas',
+    'experiencia',
+    'formacion',
+    'proyectos',
+    'forma-de-trabajo',
+    'lo-que-hago',
+    'charlas',
+    'comunidades',
+    'sobre',
+    'lecturas',
+    'contacto'
+  ];
+  const positions = sectionOrder.map((id) => html.indexOf(`id="${id}"`));
+
+  assert.ok(positions.every((position) => position >= 0));
+  assert.deepEqual([...positions].sort((a, b) => a - b), positions);
+  assert.match(html, /section\[id\],header\[id\]\{scroll-margin-top:64px;\}/);
+  assert.match(html, /nav\{top:60px;[^}]*bottom:10px;[^}]*overflow:auto;/);
 });
 
 test('la portada enlaza al recorrido académico completo', () => {
@@ -280,7 +304,7 @@ test('la experiencia profesional es cronológica, verificable y separa la mentor
   assert.match(html, /@media\(max-width:760px\)\{[\s\S]*?\.experience-list\{grid-template-columns:1fr;\}/);
 });
 
-test('la forma de trabajo presenta cuatro momentos concretos antes de proyectos', () => {
+test('la forma de trabajo presenta cuatro momentos concretos después de proyectos', () => {
   const section = html.match(/<section\b[^>]*class="workflow"[^>]*id="forma-de-trabajo"[^>]*>([\s\S]*?)<\/section>/i);
   assert.ok(section, 'No se encontró la sección Forma de trabajo');
   assert.match(section[1], /<ol class="workflow-grid">/);
@@ -300,7 +324,7 @@ test('la forma de trabajo presenta cuatro momentos concretos antes de proyectos'
   assert.match(section[1], /Gestiono tres proyectos en simult&aacute;neo/);
   assert.match(section[1], /Queremos m&eacute;tricas/);
   assert.doesNotMatch(section[1], /Se&ntilde;al concreta|workflow-signal/);
-  assert.ok(html.indexOf('id="forma-de-trabajo"') < html.indexOf('id="proyectos"'));
+  assert.ok(html.indexOf('id="proyectos"') < html.indexOf('id="forma-de-trabajo"'));
   assert.match(html, /\.workflow-grid\{list-style:none;display:grid;grid-template-columns:repeat\(4,minmax\(0,1fr\)\)/);
   assert.doesNotMatch(section[1], /Trello|Jira|Slack|Scrum|Kanban/i);
   assert.match(html, /@media\(max-width:1000px\)\{\.workflow-grid\{grid-template-columns:repeat\(2,minmax\(0,1fr\)\);/);
@@ -707,7 +731,8 @@ test('el hero comunica el posicionamiento y ofrece las dos acciones principales'
 });
 
 test('las cuatro fortalezas forman una sola muestra de crochet sin numeración', () => {
-  assert.match(html, /<section class="education" id="formacion"[\s\S]*?<\/section>\s*<section class="strengths" id="fortalezas"/);
+  assert.ok(html.indexOf('id="top"') < html.indexOf('id="fortalezas"'));
+  assert.ok(html.indexOf('id="fortalezas"') < html.indexOf('id="experiencia"'));
   assert.equal((html.match(/<div class="strengths-sampler reveal"/g) ?? []).length, 1);
   assert.match(html, /<ul class="strengths-list">/);
   assert.equal((html.match(/<li class="strength-row">/g) ?? []).length, 4);
