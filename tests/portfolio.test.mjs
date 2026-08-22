@@ -307,7 +307,7 @@ test('la forma de trabajo presenta cuatro momentos concretos antes de proyectos'
   assert.match(html, /@media\(max-width:620px\)\{[\s\S]*?\.workflow-grid\{grid-template-columns:1fr;/);
 });
 
-test('lo que hago presenta cinco encargos como punto de partida y resultado', () => {
+test('lo que hago presenta cinco encargos como problema y resultado sin rótulos repetidos', () => {
   const section = html.match(/<section\b[^>]*class="offers"[^>]*id="lo-que-hago"[^>]*>([\s\S]*?)<\/section>/i);
   assert.ok(section, 'No se encontró la sección Lo que hago');
   assert.match(section[1], /<h2>Lo que <em>hago<\/em><\/h2>/);
@@ -324,17 +324,32 @@ test('lo que hago presenta cinco encargos como punto de partida y resultado', ()
     assert.match(section[1], new RegExp(`<h3>${heading}<\\/h3>`));
   }
 
-  assert.match(section[1], /Me suelen llamar cuando hay algo valioso en marcha/);
-  assert.equal((section[1].match(/Punto de partida/g) ?? []).length, 5);
-  assert.equal((section[1].match(/Resultado/g) ?? []).length, 5);
+  assert.match(section[1], /Me llaman cuando hay algo valioso en marcha/);
+  assert.equal((section[1].match(/class="offer-problem"/g) ?? []).length, 5);
+  assert.equal((section[1].match(/class="offer-outcome"/g) ?? []).length, 5);
+  assert.doesNotMatch(section[1], /Punto de partida|Resultado/);
   const cardBodies = section[1].match(/<article class="offer-card reveal"[\s\S]*?<\/article>/gi) ?? [];
   assert.equal(cardBodies.filter((card) => /<p>Si\s/i.test(card)).length, 0);
-  assert.match(section[1], /Un proyecto de software con varios frentes abiertos/);
-  assert.match(section[1], /Una necesidad real que todav&iacute;a llega como idea suelta/);
+  assert.match(section[1], /Hay un proyecto de software abierto en demasiados frentes/);
+  assert.match(section[1], /La necesidad es real, pero llega como una idea suelta/);
   assert.match(section[1], /<a class="offers-link" href="#contacto">Hablemos de tu idea/);
   assert.doesNotMatch(section[1], /fractional|freelance/i);
   assert.match(html, /@media\(max-width:900px\)\{\.offers-grid\{grid-template-columns:repeat\(2,minmax\(0,1fr\)\);/);
   assert.match(html, /@media\(max-width:620px\)\{[\s\S]*?\.offers-grid\{grid-template-columns:1fr;/);
+});
+
+test('T4 aplica la pasada anti-IA a workflow y lo que hago', () => {
+  const workflow = html.match(/<section\b[^>]*class="workflow"[^>]*>([\s\S]*?)<\/section>/i)?.[1] ?? '';
+  const offers = html.match(/<section\b[^>]*class="offers"[^>]*>([\s\S]*?)<\/section>/i)?.[1] ?? '';
+
+  assert.doesNotMatch(`${workflow}${offers}`, /&mdash;|—/);
+  assert.doesNotMatch(workflow, /Se&ntilde;al concreta|responde[^.]+, habilita[^.]+, (?:y )?muestra/i);
+  assert.doesNotMatch(offers, /Punto de partida|Resultado/);
+  const offerCards = offers.match(/<article class="offer-card reveal"[\s\S]*?<\/article>/gi) ?? [];
+  assert.equal(offerCards.filter((card) => /<p[^>]*>Si\s/i.test(card)).length, 0);
+  assert.match(workflow, /Queremos m&eacute;tricas/);
+  assert.match(workflow, /tres proyectos en simult&aacute;neo/);
+  assert.match(offers, /El encuentro est&aacute; en una nota o en un chat/);
 });
 
 test('el estante de proyectos se desplaza en una sola fila en móvil', () => {
