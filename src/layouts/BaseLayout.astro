@@ -1,4 +1,5 @@
 ---
+import LanguageSwitcher from '../components/LanguageSwitcher.astro';
 import '../styles/brand-tokens.css';
 
 interface Props {
@@ -42,6 +43,34 @@ const resolvedOgImageAlt = ogImageAlt ?? 'Tarjeta del portfolio de Romina Caubar
 const buildCommit = import.meta.env.PUBLIC_BUILD_SHA ?? 'local';
 const homeCanonical = 'https://romicaubarrere.github.io/personal/';
 const localizedHomes = new Set([homeCanonical, `${homeCanonical}en.html`, `${homeCanonical}pt.html`]);
+
+const localizedFamilies: Record<string, Array<{ lang: string; href: string }>> = {
+  [`${homeCanonical}como-trabajo.html`]: [
+    { lang: 'es', href: `${homeCanonical}como-trabajo.html` },
+    { lang: 'en', href: `${homeCanonical}en/como-trabajo.html` },
+    { lang: 'pt', href: `${homeCanonical}pt/como-trabajo.html` },
+    { lang: 'x-default', href: `${homeCanonical}como-trabajo.html` }
+  ],
+  [`${homeCanonical}comunidad-charlas.html`]: [
+    { lang: 'es', href: `${homeCanonical}comunidad-charlas.html` },
+    { lang: 'en', href: `${homeCanonical}en/comunidad-charlas.html` },
+    { lang: 'pt', href: `${homeCanonical}pt/comunidad-charlas.html` },
+    { lang: 'x-default', href: `${homeCanonical}comunidad-charlas.html` }
+  ],
+  [`${homeCanonical}formacion.html`]: [
+    { lang: 'es', href: `${homeCanonical}formacion.html` },
+    { lang: 'en', href: `${homeCanonical}en/formacion.html` },
+    { lang: 'pt', href: `${homeCanonical}pt/formacion.html` },
+    { lang: 'x-default', href: `${homeCanonical}formacion.html` }
+  ]
+};
+const resolvedAlternates = alternates.length ? alternates : (localizedFamilies[canonical] ?? []);
+const implicitLanguageSwitcherPage = canonical === `${homeCanonical}comunidad-charlas.html`
+  ? 'community'
+  : canonical === `${homeCanonical}formacion.html`
+    ? 'education'
+    : null;
+
 const breadcrumbData = !localizedHomes.has(canonical) && !robots.includes('noindex')
   ? {
       '@context': 'https://schema.org',
@@ -76,7 +105,7 @@ const breadcrumbData = !localizedHomes.has(canonical) && !robots.includes('noind
     <meta name="theme-color" content={themeColor} />
     <meta name="build-commit" content={buildCommit} />
     <link rel="canonical" href={canonical} />
-    {alternates.map((alternate) => <link rel="alternate" hreflang={alternate.lang} href={alternate.href} />)}
+    {resolvedAlternates.map((alternate) => <link rel="alternate" hreflang={alternate.lang} href={alternate.href} />)}
     <link rel="me" href="https://www.linkedin.com/in/rominacaubarrere/" />
     <link rel="alternate" type="application/rss+xml" title="Notas de Romina Caubarrere" href={`${base}feed.xml`} />
     <link rel="icon" type="image/svg+xml" href={`${base}favicon.svg`} />
@@ -114,6 +143,7 @@ const breadcrumbData = !localizedHomes.has(canonical) && !robots.includes('noind
     )}
   </head>
   <body>
+    {implicitLanguageSwitcherPage && <LanguageSwitcher current="es" page={implicitLanguageSwitcherPage} />}
     <slot />
   </body>
 </html>
