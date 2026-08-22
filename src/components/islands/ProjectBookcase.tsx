@@ -5,7 +5,8 @@ import {
   useRef,
   useState,
   type CSSProperties,
-  type KeyboardEvent as ReactKeyboardEvent
+  type KeyboardEvent as ReactKeyboardEvent,
+  type TouchEvent as ReactTouchEvent
 } from 'react';
 import {
   PROJECTS,
@@ -69,6 +70,7 @@ export default function ProjectBookcase() {
   const closeRef = useRef<HTMLButtonElement>(null);
   const lastFocusRef = useRef<HTMLElement | null>(null);
   const openedFromPageRef = useRef(false);
+  const touchStartRef = useRef<number | null>(null);
 
   const project = useMemo(() => projectById(currentId) ?? null, [currentId]);
   const pages = useMemo(() => project ? pagesFor(project) : [], [project]);
@@ -124,8 +126,7 @@ export default function ProjectBookcase() {
     lastFocusRef.current = null;
 
     if (options.history !== false) {
-      if (openedFromPageRef.current) window.history.back();
-      else window.history.replaceState(null, '', `${window.location.pathname}${window.location.search}`);
+      window.history.replaceState(null, '', `${window.location.pathname}${window.location.search}`);
     }
     openedFromPageRef.current = false;
   }, []);
@@ -219,11 +220,13 @@ export default function ProjectBookcase() {
       if (element !== island) element.inert = isOpen;
     }
     for (const element of islandElements) element.inert = isOpen;
+    modal.inert = !isOpen;
     document.body.classList.toggle('modal-open', isOpen);
 
     return () => {
       for (const element of bodyElements) element.inert = false;
       for (const element of islandElements) element.inert = false;
+      modal.inert = true;
       document.body.classList.remove('modal-open');
     };
   }, [isOpen]);
@@ -265,6 +268,18 @@ export default function ProjectBookcase() {
 
   const handleModalKeyDown = (event: ReactKeyboardEvent<HTMLDivElement>) => {
     if (event.key === 'Enter' && event.target === event.currentTarget) closeBook();
+  };
+
+  const handleTouchStart = (event: ReactTouchEvent<HTMLDivElement>) => {
+    touchStartRef.current = event.changedTouches[0]?.clientX ?? null;
+  };
+
+  const handleTouchEnd = (event: ReactTouchEvent<HTMLDivElement>) => {
+    const start = touchStartRef.current;
+    const end = event.changedTouches[0]?.clientX;
+    touchStartRef.current = null;
+    if (start === null || end === undefined || Math.abs(end - start) < 48) return;
+    changePage(end < start ? 'next' : 'prev');
   };
 
   const previousDisabled = isMobile ? pageIndex <= 0 : spread <= 0;
@@ -353,7 +368,6 @@ export default function ProjectBookcase() {
         aria-modal="true"
         aria-hidden={isOpen ? 'false' : 'true'}
         aria-labelledby="bookDialogTitle"
-        inert={isOpen ? undefined : true}
         tabIndex={-1}
         ref={modalRef}
         onKeyDown={handleModalKeyDown}
@@ -362,7 +376,7 @@ export default function ProjectBookcase() {
         <div className="bookframe">
           <h2 className="sr-only" id="bookDialogTitle">{project ? `Proyecto: ${project.title}` : 'Proyecto'}</h2>
           <button className="bm-close" type="button" data-close aria-label="Cerrar proyecto" ref={closeRef} onClick={() => closeBook()}>×</button>
-          <div className="bk">
+          <div className="bk" onTouchStart={handleTouchStart} onTouchEnd={handleTouchEnd}>
             <div className="pg pg-left">{project && <Page page={leftPage} project={project} />}</div>
             <div className="pg pg-right">{project && <Page page={rightPage} project={project} />}</div>
             {project && turn && (
@@ -382,6 +396,7 @@ export default function ProjectBookcase() {
           <div className="bm-foot">
             <span>{isMobile ? `${pageIndex + 1} / ${pages.length}` : `${spread + 1} / ${spreadCount}`}</span> · tocá las flechas o ← →
           </div>
+          <button className="bm-close-mobile" type="button" onClick={() => closeBook()}>Cerrar proyecto</button>
         </div>
       </div>
     </>
