@@ -242,13 +242,13 @@
   .spine.s5{background:linear-gradient(90deg,#7a3450,var(--rose));height:265px;}
   @media(max-width:760px){
     .bookshelf{max-width:none;margin-top:34px;padding:0;}
-    .shelf-scroll{overflow-x:auto;overscroll-behavior-inline:contain;scroll-snap-type:x proximity;
+    .shelf-scroll{overflow-x:auto;overscroll-behavior-inline:contain;scroll-snap-type:x proximity;touch-action:pan-x pan-y;
       -webkit-overflow-scrolling:touch;scrollbar-width:thin;scrollbar-color:var(--gold) rgba(250,243,228,.16);
       padding:0 20px 14px;}
     .shelf-scroll:focus-visible{outline:3px solid var(--gold);outline-offset:-3px;}
     .shelf-track{width:max-content;min-width:calc(100vw - 40px);}
     .books{flex-wrap:nowrap;width:max-content;min-width:100%;}
-    .spine{flex:0 0 70px;scroll-snap-align:start;}
+    .spine{flex:0 0 76px;scroll-snap-align:start;}
     .plank{width:100%;max-width:none;}
     .potplant{right:8px;bottom:26px;pointer-events:none;}
     .shelfhint{padding:0 20px;text-align:left;}

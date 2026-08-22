@@ -61,10 +61,10 @@ test('el estante de proyectos se desplaza en una sola fila en móvil', () => {
     html,
     /<div\b[^>]*class="shelf-scroll"[^>]*role="region"[^>]*aria-label="Estante de proyectos desplazable"[^>]*tabindex="0"/i
   );
-  assert.match(html, /\.shelf-scroll\{overflow-x:auto;overscroll-behavior-inline:contain;scroll-snap-type:x proximity;/);
+  assert.match(html, /\.shelf-scroll\{overflow-x:auto;overscroll-behavior-inline:contain;scroll-snap-type:x proximity;touch-action:pan-x pan-y;/);
   assert.match(html, /-webkit-overflow-scrolling:touch/);
   assert.match(html, /\.books\{flex-wrap:nowrap;width:max-content;min-width:100%;\}/);
-  assert.match(html, /\.spine\{flex:0 0 70px;scroll-snap-align:start;\}/);
+  assert.match(html, /\.spine\{flex:0 0 76px;scroll-snap-align:start;\}/);
 
   const projectTriggers = html.match(/class="spine [^"]+"[^>]*role="button"[^>]*tabindex="0"/g) ?? [];
   assert.equal(projectTriggers.length, 5);
