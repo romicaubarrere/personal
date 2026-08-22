@@ -7,18 +7,16 @@ const docsUrl = `${repositoryUrl}/tree/main/docs`;
 <section class="living-project" aria-labelledby="living-project-title">
   <div class="living-project-folder">
     <div class="living-project-tab" aria-hidden="true">proyecto de punta a punta</div>
-    <div class="living-project-pin" aria-hidden="true"></div>
 
     <div class="living-project-copy">
       <p class="living-project-kicker">Este portfolio también cuenta como proyecto.</p>
       <h2 id="living-project-title">El estudio de Romi</h2>
-      <p class="living-project-intro">
+      <p>
         Lo empecé una semana después de recibirme como Licenciada en Tecnologías de la Información.
         Y quise hacerlo completo: producto, diseño, gestión, testing y DevOps, todo en el mismo lugar.
       </p>
       <p>
-        No lo estoy tratando como una pieza estática. Cada problema que aparece vuelve al backlog,
-        cada cambio importante deja una decisión documentada y cada versión suma algo al historial.
+        Cada problema vuelve al backlog, cada cambio importante deja una decisión documentada y cada versión suma algo al historial.
       </p>
 
       <ul class="living-project-roles" aria-label="Roles que llevo en este proyecto">
@@ -30,189 +28,34 @@ const docsUrl = `${repositoryUrl}/tree/main/docs`;
       </ul>
 
       <div class="living-project-links" aria-label="Evidencia del proyecto">
-        <a href={historyUrl} target="_blank" rel="noreferrer">ver el historial</a>
-        <a href={docsUrl} target="_blank" rel="noreferrer">entrar a la documentación</a>
-        <a href={repositoryUrl} target="_blank" rel="noreferrer">ver el repositorio</a>
+        <a href={historyUrl} target="_blank" rel="noopener noreferrer">ver el historial</a>
+        <a href={docsUrl} target="_blank" rel="noopener noreferrer">entrar a la documentación</a>
+        <a href={repositoryUrl} target="_blank" rel="noopener noreferrer">ver el repositorio</a>
       </div>
     </div>
 
     <aside class="living-project-note" aria-label="Estado del proyecto">
       <span>historial abierto</span>
       <strong>agosto 2026 →</strong>
-      <p>Lo importante no es solo cómo queda. También quiero que se pueda ver cómo llegué hasta acá.</p>
+      <p>Quiero que se pueda ver cómo llegué hasta acá, no solo cómo quedó.</p>
     </aside>
   </div>
 </section>
 
 <style>
-  .living-project {
-    background: var(--green-dark);
-    padding: 18px 40px 90px;
-  }
-
-  .living-project-folder {
-    position: relative;
-    max-width: 1040px;
-    margin: 0 auto;
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) 260px;
-    gap: 34px;
-    padding: 44px 42px 38px;
-    background: var(--cream);
-    color: var(--ink);
-    box-shadow: 5px 12px 28px rgba(0, 0, 0, .32);
-    transform: rotate(.35deg);
-    border-radius: 3px 14px 5px 4px;
-  }
-
-  .living-project-folder::before {
-    content: '';
-    position: absolute;
-    inset: 12px;
-    border: 1px solid rgba(36, 31, 24, .14);
-    pointer-events: none;
-  }
-
-  .living-project-tab {
-    position: absolute;
-    top: -24px;
-    left: 32px;
-    padding: 8px 18px 6px;
-    background: var(--gold);
-    color: var(--ink);
-    font-family: var(--hand);
-    font-size: 19px;
-    transform: rotate(-1.5deg);
-    box-shadow: 2px 4px 8px rgba(0, 0, 0, .2);
-  }
-
-  .living-project-pin {
-    position: absolute;
-    top: 18px;
-    right: 32px;
-    width: 15px;
-    height: 15px;
-    border-radius: 50%;
-    background: var(--brick);
-    box-shadow: 0 3px 5px rgba(0, 0, 0, .32);
-  }
-
-  .living-project-kicker {
-    margin: 0 0 6px;
-    font-family: var(--hand);
-    font-size: 24px;
-    color: var(--warm);
-  }
-
-  .living-project h2 {
-    margin: 0 0 18px;
-    font-family: var(--serif);
-    font-weight: 430;
-    font-size: clamp(2rem, 5vw, 3.3rem);
-    line-height: 1;
-  }
-
-  .living-project-copy > p:not(.living-project-kicker) {
-    max-width: 700px;
-    margin: 0 0 14px;
-    color: var(--ink-soft);
-  }
-
-  .living-project-intro {
-    font-size: 1.08rem;
-    color: var(--ink) !important;
-  }
-
-  .living-project-roles {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-    margin: 24px 0;
-    padding: 0;
-    list-style: none;
-  }
-
-  .living-project-roles li {
-    padding: 5px 10px;
-    border: 1px solid rgba(36, 31, 24, .28);
-    border-radius: 999px;
-    font-size: .82rem;
-    font-weight: 650;
-  }
-
-  .living-project-links {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px 18px;
-  }
-
-  .living-project-links a {
-    font-weight: 700;
-    text-underline-offset: 4px;
-    text-decoration-thickness: 1px;
-  }
-
-  .living-project-links a:hover,
-  .living-project-links a:focus-visible {
-    color: var(--green-deep);
-  }
-
-  .living-project-note {
-    align-self: start;
-    position: relative;
-    margin-top: 24px;
-    padding: 22px 20px;
-    background: #f4e58c;
-    color: #54440d;
-    transform: rotate(2.4deg);
-    box-shadow: 3px 7px 14px rgba(0, 0, 0, .18);
-  }
-
-  .living-project-note span,
-  .living-project-note strong {
-    display: block;
-    font-family: var(--hand);
-  }
-
-  .living-project-note span {
-    font-size: 18px;
-  }
-
-  .living-project-note strong {
-    margin: 2px 0 12px;
-    font-size: 27px;
-    line-height: 1;
-  }
-
-  .living-project-note p {
-    margin: 0;
-    font-size: .9rem;
-    line-height: 1.5;
-  }
-
-  @media (max-width: 760px) {
-    .living-project {
-      padding: 8px 18px 72px;
-    }
-
-    .living-project-folder {
-      grid-template-columns: 1fr;
-      gap: 18px;
-      padding: 38px 24px 28px;
-      transform: rotate(0);
-    }
-
-    .living-project-note {
-      width: min(100%, 300px);
-      margin: 0 0 0 auto;
-    }
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    .living-project-folder,
-    .living-project-tab,
-    .living-project-note {
-      transform: none;
-    }
-  }
+  .living-project{background:var(--green-dark);padding:18px 40px 80px}
+  .living-project-folder{position:relative;max-width:1040px;margin:auto;padding:42px;background:var(--cream);color:var(--ink);box-shadow:5px 12px 28px #0005}
+  .living-project-tab{position:absolute;top:-22px;left:30px;padding:7px 16px;background:var(--gold);font:19px var(--hand);transform:rotate(-1.5deg)}
+  .living-project-kicker{margin:0;color:var(--warm);font:24px var(--hand)}
+  .living-project h2{margin:4px 0 18px;font:430 clamp(2rem,5vw,3.3rem)/1 var(--serif)}
+  .living-project-copy>p{max-width:760px;color:var(--ink-soft)}
+  .living-project-roles,.living-project-links{display:flex;flex-wrap:wrap;gap:10px 14px}
+  .living-project-roles{list-style:none;padding:0;margin:22px 0}
+  .living-project-roles li{border:1px solid #241f1847;border-radius:99px;padding:4px 9px;font-size:.82rem;font-weight:650}
+  .living-project-links a{font-weight:700;text-underline-offset:4px}
+  .living-project-note{margin:28px 0 0 auto;max-width:300px;padding:18px;background:#f4e58c;color:#54440d;transform:rotate(2deg);box-shadow:3px 7px 14px #0003}
+  .living-project-note span,.living-project-note strong{display:block;font-family:var(--hand)}
+  .living-project-note strong{font-size:25px}
+  @media(max-width:760px){.living-project{padding:8px 18px 64px}.living-project-folder{padding:36px 22px}.living-project-note{margin-top:24px}}
+  @media(prefers-reduced-motion:reduce){.living-project-tab,.living-project-note{transform:none}}
 </style>
