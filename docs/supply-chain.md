@@ -18,9 +18,11 @@ npm ci --ignore-scripts
 npm test
 ```
 
-`engine-strict=true` evita continuar silenciosamente con otra versión. El
-lockfile v3 es obligatorio y `npm ci` falla si `package.json` y
-`package-lock.json` no coinciden.
+CI comprueba explícitamente las versiones raíz. `engine-strict` queda
+desactivado porque dos dependencias transitivas publican rangos de Node
+incompatibles entre sí, aunque funcionan sobre el runtime fijado. El lockfile
+v3 es obligatorio y `npm ci` falla si `package.json` y `package-lock.json` no
+coinciden.
 
 ## Controles de suministro
 
