@@ -971,7 +971,7 @@ test('el hero comunica el posicionamiento y ofrece las dos acciones principales'
     html,
     /Conecto personas, producto y tecnolog&iacute;a para que proyectos complejos avancen y lleguen a resultados\./
   );
-  assert.match(html, /class="hero-link primary" href="#proyectos">Ver proyectos<\/a>/);
+  assert.match(html, /class="hero-link primary" href="#proyectos" data-analytics-event="view_projects_click">Ver proyectos<\/a>/);
   assert.match(html, /class="hero-link" href="#contacto">Contactarme<\/a>/);
 });
 
