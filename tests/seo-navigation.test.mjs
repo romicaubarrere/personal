@@ -105,7 +105,11 @@ test('las notas publican datos estructurados específicos y sin datos no aprobad
     assert.equal(article.description, description);
     assert.equal(article.datePublished, published);
     assert.equal(article.inLanguage, 'es');
+    assert.deepEqual(article.isPartOf, {
+      '@id': 'https://romicaubarrere.github.io/personal/#website'
+    });
     assert.deepEqual(article.author, {
+      '@id': 'https://romicaubarrere.github.io/personal/#person',
       '@type': 'Person',
       name: 'Romina Caubarrere',
       url: 'https://romicaubarrere.github.io/personal/',
