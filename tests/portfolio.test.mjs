@@ -443,17 +443,21 @@ test('el recorrido académico conserva toda la información aprobada', () => {
 });
 
 
-test('formación se presenta como una carpeta del estudio y no como una grilla genérica', () => {
-  assert.match(formationHtml, /--folder:#c9a66f;--folder-dark:#9d7548;--folder-edge:#7a5634/);
-  assert.match(formationHtml, /<svg class="desk-vine"[^>]*aria-hidden="true"[^>]*focusable="false"/);
-  assert.match(formationHtml, /<svg class="desk-plant"[^>]*aria-hidden="true"[^>]*focusable="false"/);
-  assert.match(formationHtml, /\.hero-inner\{[\s\S]*?background:var\(--folder\)[\s\S]*?transform:rotate\(-\.35deg\)/);
-  assert.match(formationHtml, /\.semesters::before\{[\s\S]*?repeating-radial-gradient/);
-  assert.match(formationHtml, /\.semester,\.semester:nth-child\(n\),\.semester\[open\]\{background:transparent;box-shadow:none;transform:none/);
-  assert.match(formationHtml, /\.project-sheet:nth-child\(4\)\{width:96%;margin:-7px 0 0 1%;transform:rotate\(\.55deg\)/);
-  assert.match(formationHtml, /\.extra-row::before\{[\s\S]*?clip-path:polygon/);
-  assert.match(formationHtml, /@media\(max-width:700px\)\{[\s\S]*?\.topbar a\{display:block!important;/);
-  assert.match(formationHtml, /@media\(prefers-reduced-motion:reduce\)\{[\s\S]*?transition:none!important/);
+test('formación continúa la metáfora visual de la carpeta del estudio', () => {
+  assert.match(formationHtml, /class="open-folder"/);
+  assert.match(formationHtml, /class="folder-pages"/);
+  assert.match(formationHtml, /class="study-binder"/);
+  assert.match(formationHtml, /class="binder-rings" aria-hidden="true"/);
+  assert.match(formationHtml, /class="credentials-pocket"/);
+  assert.match(formationHtml, /class="desk-fern left"/);
+  assert.match(formationHtml, /class="desk-fern right"/);
+  assert.match(formationHtml, /@media\(max-width:1000px\)/);
+  assert.match(formationHtml, /@media\(max-width:760px\)/);
+  assert.match(formationHtml, /@media\(max-width:430px\)/);
+  assert.match(formationHtml, /@media\(prefers-reduced-motion:reduce\)/);
+  assert.match(formationHtml, /hero\.style\.setProperty\('--light-x'/);
+  assert.match(formationHtml, /new IntersectionObserver/);
+  assert.doesNotMatch(formationHtml, /topbar nav a:not\(:last-child\)\{display:none;/);
 });
 test('el menú móvil expone estado y controles accesibles', () => {
   assert.match(
@@ -628,3 +632,4 @@ test('sobre mí reparte el recorrido en cuatro notas breves', () => {
   assert.match(html, /<h3>Women Techmakers y Chicas en Tecnolog&iacute;a<\/h3>/);
   assert.doesNotMatch(html, /Acá va tu historia|Ac&aacute; va tu historia|La escribimos juntas|en tesis/i);
 });
+
