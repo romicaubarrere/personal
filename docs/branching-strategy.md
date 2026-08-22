@@ -27,7 +27,7 @@ Las ramas deben resolver un objetivo concreto y eliminarse después del merge.
 3. Implementar cambios pequeños y verificables.
 4. Ejecutar `npm test` antes de publicar la rama.
 5. Abrir un pull request hacia `main` usando `WEB-xxx` en el título.
-6. Confirmar que GitHub Actions termina correctamente.
+6. Confirmar que el job `Validate build` del pipeline unificado termina correctamente.
 7. Revisar los criterios de aceptación y el impacto visual, responsive y accesible cuando corresponda.
 8. Integrar con **Squash and merge**.
 9. Eliminar la rama y actualizar el ticket de Trello.
@@ -46,10 +46,10 @@ Ejemplo: `fix: completar navegación móvil WEB-020`.
 
 ## Protección de main
 
-Después de la carga inicial, `main` debe configurarse con estas reglas:
+`main` debe configurarse con estas reglas:
 
 - Requerir pull request antes del merge.
-- Requerir que el check `test` termine correctamente.
+- Requerir que el check `Validate build` termine correctamente.
 - Resolver conversaciones abiertas antes del merge.
 - Bloquear force push y eliminación de la rama.
 - Evitar commits directos, excepto una intervención de emergencia justificada.

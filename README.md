@@ -48,8 +48,11 @@ Los tests comprueban:
 - Disponibilidad de las siete secciones en móvil.
 - Sintaxis de los bloques JavaScript.
 
-GitHub Actions ejecuta los tests automáticamente en cada push y pull request. Al
-integrar cambios en `main`, el workflow de Pages compila Astro y publica `dist/`.
+GitHub Actions usa un único pipeline. En cada pull request construye y prueba el
+sitio; en `main`, además, publica exactamente el mismo `dist` que pasó las pruebas.
+Los pushes más nuevos cancelan ejecuciones obsoletas para reducir ruido y evitar
+despliegues innecesarios. El contrato completo está en
+[`docs/ci-cd.md`](docs/ci-cd.md).
 
 ## Arquitectura y publicación
 
@@ -81,8 +84,7 @@ La identidad visual, los tokens compartidos y la regla que evita numeración dec
 - `astro.config.mjs`: salida estática, base `/personal` y rutas con formato `.html`.
 - `tests/portfolio.test.mjs`: validaciones automáticas sin dependencias externas.
 - `tests/astro-build.test.mjs`: paridad y rutas sobre la salida compilada.
-- `.github/workflows/test.yml`: integración continua.
-- `.github/workflows/deploy-pages.yml`: build y publicación de `dist/` en GitHub Pages.
+- `.github/workflows/deploy-pages.yml`: CI unificado, artefacto probado, publicación y verificación de GitHub Pages.
 - `docs/architecture-decision.md`: decisión de arquitectura y flujo operativo.
 - `docs/astro-migration-plan.md`: arquitectura Astro objetivo, contratos de paridad y rollback.
 - `docs/language-strategy.md`: decisión de idioma y condiciones de reevaluación.
@@ -92,3 +94,4 @@ La identidad visual, los tokens compartidos y la regla que evita numeración dec
 - `docs/branching-strategy.md`: estrategia de ramas y flujo de integración.
 - `docs/special-dates.md`: calendario y URLs de simulación para revisar celebraciones fuera de fecha.
 - `docs/analytics-events.md`: contrato neutral de eventos y límites de privacidad para una integración futura.
+- `docs/ci-cd.md`: orden, permisos y garantías del pipeline de entrega.
