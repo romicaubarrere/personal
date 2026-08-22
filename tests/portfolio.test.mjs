@@ -74,3 +74,15 @@ test('todos los bloques JavaScript tienen sintaxis válida', () => {
     );
   }
 });
+
+test('la experiencia respeta la preferencia de movimiento reducido', () => {
+  assert.match(html, /matchMedia\('\(prefers-reduced-motion: reduce\)'\)/);
+  assert.match(html, /reducedMotionQuery\.addEventListener\('change',applyMotionPreference\)/);
+  assert.match(html, /if\(reducedMotion\)\{stopParallax\(\);showReveals\(\);\}/);
+  assert.match(html, /cancelAnimationFrame\(parallaxFrame\)/);
+  assert.match(html, /if\(reducedMotion\)\{showReveals\(\);return;\}/);
+  assert.match(
+    html,
+    /@media\(prefers-reduced-motion:reduce\)\{html\{scroll-behavior:auto;\}[\s\S]*?\.reveal\{opacity:1;transform:none;\}\}/
+  );
+});
