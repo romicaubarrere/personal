@@ -75,6 +75,8 @@ Los casos del estante comparten el orden y las reglas editoriales de [`docs/proj
 - `src/styles/`: estilos de portada, formación y notas.
 - `public/`: assets servidos sin transformación.
 - `astro.config.mjs`: salida estática, base `/personal` y rutas con formato `.html`.
+- `public/assets/cv/romina-caubarrere-cv.pdf`: CV descargable publicado desde la sección de contacto.
+- `scripts/generate_cv.py`: fuente reproducible del CV en PDF.
 - `tests/portfolio.test.mjs`: validaciones automáticas sin dependencias externas.
 - `tests/astro-build.test.mjs`: paridad y rutas sobre la salida compilada.
 - `.github/workflows/test.yml`: integración continua.
@@ -84,3 +86,13 @@ Los casos del estante comparten el orden y las reglas editoriales de [`docs/proj
 - `docs/language-strategy.md`: decisión de idioma y condiciones de reevaluación.
 - `docs/project-case-template.md`: estructura, evidencia y reglas de privacidad de los casos.
 - `docs/branching-strategy.md`: estrategia de ramas y flujo de integración.
+
+## Actualizar el CV
+
+El PDF se regenera desde la raíz del repositorio con:
+
+```bash
+python3 scripts/generate_cv.py
+```
+
+Después de actualizar su contenido, revisá visualmente las dos páginas y ejecutá `node --test` antes de publicar.
