@@ -17,6 +17,7 @@ const productionVerifier = await readFile(
   join(repositoryRoot, 'scripts', 'verify-production.mjs'),
   'utf8'
 );
+const readme = await readFile(join(repositoryRoot, 'README.md'), 'utf8');
 
 test('Pages compila y publica Astro desde main con permisos mínimos', () => {
   assert.match(workflow, /push:\n\s+branches: \[main\]/);
@@ -69,6 +70,16 @@ test('Pages verifica la publicación real después del deploy', () => {
   assert.match(productionVerifier, /build-commit/);
   assert.match(productionVerifier, /_astro/);
   assert.match(productionVerifier, /attempts/);
+});
+
+test('el README documenta las capas de QA que realmente ejecuta el repositorio', () => {
+  assert.match(readme, /npm test/);
+  assert.match(readme, /npm run test:e2e/);
+  assert.match(readme, /npx playwright install chromium/);
+  assert.match(readme, /`tests\/`: contratos Node/);
+  assert.match(readme, /`e2e\/`: recorridos Playwright/);
+  assert.match(readme, /scripts\/verify-production\.mjs/);
+  assert.match(readme, /docs\/qa-strategy\.md/);
 });
 
 test('WEB-129 reconstruye, prueba y verifica un ref estable antes del rollback', () => {

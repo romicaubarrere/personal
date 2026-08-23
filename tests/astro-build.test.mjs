@@ -35,8 +35,11 @@ test('la documentación explica el flujo Astro vigente', () => {
   assert.match(readme, /npm ci/);
   assert.match(readme, /npm run dev/);
   assert.match(readme, /npm run build/);
+  assert.match(readme, /npm test/);
+  assert.match(readme, /npm run test:e2e/);
   assert.match(readme, /base pública `\/personal`/);
-  assert.match(readme, /tests\/astro-build\.test\.mjs/);
+  assert.match(readme, /`tests\/`: contratos Node/);
+  assert.match(readme, /`e2e\/`: recorridos Playwright/);
   assert.match(readme, /GitHub Actions/);
   assert.match(deployWorkflow, /name: CI and GitHub Pages/);
   assert.match(deployWorkflow, /pull_request:/);
