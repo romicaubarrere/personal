@@ -33,23 +33,38 @@ npm run preview
 
 ## Tests
 
+El chequeo principal construye la salida de producción y ejecuta los contratos
+Node sobre el código y los archivos compilados:
+
 ```bash
 npm test
 ```
 
-Los tests comprueban:
+Las pruebas de interacción real se ejecutan con Playwright en configuraciones
+desktop y móvil. La primera vez hay que instalar Chromium:
 
-- Estructura básica de los documentos HTML.
-- IDs únicos.
-- Navegación interna y destinos existentes.
-- Enlace entre la portada y el recorrido académico.
-- Integridad de semestres, materias, proyectos y formación complementaria.
-- Accesibilidad básica del menú móvil.
-- Disponibilidad de las siete secciones en móvil.
-- Sintaxis de los bloques JavaScript.
+```bash
+npx playwright install chromium
+npm run test:e2e
+```
+
+Entre ambas capas se comprueban:
+
+- generación de rutas y recursos con Astro;
+- contenido aprobado, datos verificables y guardrails editoriales;
+- navegación, enlaces, idiomas, SEO técnico y datos estructurados;
+- semántica, teclado, foco, ARIA y movimiento reducido;
+- menú, libro de proyectos, modales y responsive en desktop y móvil;
+- presupuestos de transferencia, dependencias y cadena de suministro;
+- workflows, artefacto publicado, rollback y smoke test de producción.
+
+La cobertura y la Definition of Done completas se mantienen en
+[`docs/qa-strategy.md`](docs/qa-strategy.md).
 
 GitHub Actions usa un único pipeline. En cada pull request construye y prueba el
-sitio; en `main`, además, publica exactamente el mismo `dist` que pasó las pruebas.
+sitio con Node y Playwright; en `main`, además, publica exactamente el mismo `dist`
+que pasó las pruebas. Después del deploy, el smoke test recorre todas las URLs del
+sitemap y valida respuesta, idioma, canonical y SHA publicado para cada página.
 Los pushes más nuevos cancelan ejecuciones obsoletas para reducir ruido y evitar
 despliegues innecesarios. El contrato completo está en
 [`docs/ci-cd.md`](docs/ci-cd.md).
@@ -88,8 +103,9 @@ El mantenimiento editorial y técnico, su cadencia y los disparadores de revisi�
 - `src/styles/`: estilos de portada, formación y notas.
 - `public/`: assets servidos sin transformación.
 - `astro.config.mjs`: salida estática, base `/personal` y rutas con formato `.html`.
-- `tests/portfolio.test.mjs`: validaciones automáticas sin dependencias externas.
-- `tests/astro-build.test.mjs`: paridad y rutas sobre la salida compilada.
+- `tests/`: contratos Node sobre fuentes, configuración y salida compilada.
+- `e2e/`: recorridos Playwright para desktop, móvil, responsive y fechas especiales.
+- `scripts/verify-production.mjs`: verificación posterior al deploy sobre las rutas del sitemap.
 - `.github/workflows/deploy-pages.yml`: CI unificado, artefacto probado, publicación y verificación de GitHub Pages.
 - `docs/architecture-decision.md`: decisión de arquitectura y flujo operativo.
 - `docs/astro-migration-plan.md`: arquitectura Astro objetivo, contratos de paridad y rollback.
