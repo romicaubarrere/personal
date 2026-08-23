@@ -95,7 +95,15 @@ La deuda se registra solo cuando existe y se acepta deliberadamente. No se compl
 
 Cada deuda futura debe incluir: contexto, riesgo, motivo por el que no se resuelve ahora, condición que justificaría abordarla y evidencia relacionada.
 
-No hay una deuda adicional documentada en este registro al 22 de agosto de 2026 que pueda afirmarse con suficiente evidencia sin inventarla.
+### Margen del presupuesto CSS
+
+La auditoría del 23 de agosto de 2026 midió 88.029 bytes de CSS compilado frente a un límite de 88.064 bytes. El build pasa, pero quedan sólo 35 bytes de margen. El riesgo está registrado en Trello y debe resolverse mediante optimización comprobable, sin aumentar el presupuesto para hacer pasar nuevos estilos.
+
+### Paridad de las portadas localizadas
+
+Las rutas internas ES/EN/PT están publicadas, pero las portadas EN/PT todavía usan una composición reducida frente a la portada española. El trabajo tiene un flujo activo y no se considera deuda desconocida ni se duplica en otro ticket.
+
+Evidencia consolidada: [auditoría general del 23 de agosto de 2026](./general-audit-2026-08-23.md).
 
 ## Backlog descartado o postergado
 
