@@ -200,7 +200,7 @@ const talks = [
                 <p>{event.detail}</p>
                 <p><strong>Responsabilidades:</strong> <span set:html={event.responsibilities}></span></p>
                 <p><strong>Resultado:</strong> <span set:html={event.result}></span></p>
-                {event.source && <p><a href={event.source} target="_blank" rel="noopener noreferrer">Ver evidencia del evento <span aria-hidden="true">&nearr;</span></a></p>}
+                {event.source && <p><a href={event.source} target="_blank" rel="noopener noreferrer">Ver evidencia del evento<span class="sr-only"> (abre en una nueva pesta&ntilde;a)</span> <span aria-hidden="true">&nearr;</span></a></p>}
               </div>
             </article>
           ))}
