@@ -23,7 +23,7 @@ repositorio no use.
 | Accesibilidad | Semántica, teclado, foco, ARIA y movimiento reducido | `tests/portfolio.test.mjs`, `tests/seo-navigation.test.mjs` |
 | Responsive e interacción | Menú móvil, libros, modales, tacto y alturas reducidas | `tests/portfolio.test.mjs` |
 | SEO técnico | Títulos, canonical, Open Graph, sitemap, robots y 404 | `tests/seo-navigation.test.mjs` |
-| Performance | Presupuestos de transferencia y peso de recursos críticos | `tests/performance.test.mjs` |
+| Performance | Presupuestos de transferencia y peso de recursos críticos | `tests/performance-assets.test.mjs` |
 | Entrega | Validación previa, artefacto único y smoke test posterior | `.github/workflows/deploy-pages.yml`, `docs/ci-cd.md` |
 
 Los tests automatizados expresan contratos, pero no sustituyen la revisión en
