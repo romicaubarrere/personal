@@ -3,7 +3,7 @@
 ## Estado
 
 - Ticket: WEB-062
-- Proveedor propuesto: Plausible Analytics Cloud, todav&iacute;a desactivado
+- Proveedor aprobado: plan Hobby gratuito de Umami Cloud, todav&iacute;a desactivado
 - Transporte actual: evento local del navegador `portfolio:analytics`
 
 La portada emite un evento local cuando una persona activa un elemento con `data-analytics-event`. Esta capa no carga servicios externos, no guarda informaci&oacute;n y no env&iacute;a datos fuera del navegador. Un proveedor podr&aacute; conectarse m&aacute;s adelante escuchando el evento sin modificar los componentes del sitio.
@@ -34,4 +34,4 @@ Los contactos recibidos, propuestas de proyecto e invitaciones a charlas no se d
 
 ## Integraci&oacute;n futura
 
-La pol&iacute;tica publicada propone Plausible Analytics Cloud, pero el adaptador externo contin&uacute;a fuera de esta capa hasta aprobar proveedor, plan y retenci&oacute;n. Antes de conectarlo se debe verificar la configuraci&oacute;n en producci&oacute;n y mantener esta lista como fuente de verdad. No se agregan eventos desde un proveedor mediante selectores de texto o URLs: primero se declara el atributo en el componente y se actualizan contrato y pruebas.
+La decisi&oacute;n de proveedor selecciona el plan Hobby gratuito de Umami Cloud. El adaptador externo contin&uacute;a fuera de esta capa hasta crear el sitio, seleccionar la regi&oacute;n europea y confirmar la retenci&oacute;n efectiva. No se contratar&aacute; un plan pago. Antes de conectarlo se debe verificar la configuraci&oacute;n en producci&oacute;n y mantener esta lista como fuente de verdad. No se agregan eventos desde un proveedor mediante selectores de texto o URLs: primero se declara el atributo en el componente y se actualizan contrato y pruebas.

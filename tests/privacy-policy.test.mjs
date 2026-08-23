@@ -9,10 +9,11 @@ test('la política se publica en los tres idiomas y declara el estado real', asy
   const routes = ['privacidad.html', 'en/privacy.html', 'pt/privacidade.html'];
   for (const route of routes) {
     const page = await readFile(join(root, 'dist', route), 'utf8');
-    assert.match(page, /Plausible Analytics Cloud/);
-    assert.match(page, /https:\/\/plausible\.io\/data-policy/);
+    assert.match(page, /Umami Cloud/);
+    assert.match(page, /https:\/\/umami\.is\/privacy/);
+    assert.match(page, /gratuito|free Hobby|gratuito Hobby/);
     assert.match(page, /rominacaubarrere@gmail\.com/);
-    assert.match(page, /(?:22 (?:de )?agosto (?:de )?2026|August 22, 2026)/i);
+    assert.match(page, /(?:23 (?:de )?agosto (?:de )?2026|August 23, 2026)/i);
   }
   const es = await readFile(join(root, 'dist', routes[0]), 'utf8');
   assert.match(es, /La analítica externa todavía no está activa/);
