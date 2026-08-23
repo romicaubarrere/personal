@@ -276,6 +276,12 @@ test('el feed RSS coincide con las notas publicadas y sólo se anuncia en rutas 
 
   assert.equal(items.length, postRoutes.length);
   assert.match(feed, /<language>es-uy<\/language>/);
+  assert.match(feed, /<rss\b[^>]*xmlns:atom="http:\/\/www\.w3\.org\/2005\/Atom"/);
+  assert.match(
+    feed,
+    /<atom:link href="https:\/\/romicaubarrere\.github\.io\/personal\/feed\.xml" rel="self" type="application\/rss\+xml" \/>/,
+    'el feed debe identificar su URL canónica'
+  );
   const dates = items.map((item) => item.match(/<dc:date>([^<]+)<\/dc:date>/)?.[1]);
   const publicationDates = items.map((item) => {
     const matches = [...item.matchAll(/<pubDate>([^<]+)<\/pubDate>/g)];
