@@ -1,8 +1,14 @@
-# Backlog pendiente
+# Backlog y estado operativo
 
-## WEB-051 — Publicar CV
+Trello es la fuente de verdad para el estado din&aacute;mico de tickets. Este archivo conserva referencias estables y decisiones; no intenta duplicar manualmente todo el tablero.
 
-- Estado: pendiente de contenido
-- Prioridad: retomar cuando exista una versi&oacute;n actual del CV aprobada para publicar
-- Alcance: incorporar el archivo o enlace p&uacute;blico al bloque de contacto, reemplazar el estado deshabilitado y verificar descarga, accesibilidad y anal&iacute;tica
-- Restricci&oacute;n: no publicar una versi&oacute;n anterior ni construir un CV con informaci&oacute;n inferida
+## Fotograf&iacute;a auditada
+
+La [auditor&iacute;a general del 23 de agosto de 2026](./general-audit-2026-08-23.md) registra el estado, los bloqueos y el roadmap comprobados sobre `main` `6bb679c`.
+
+## Reglas
+
+- No marcar una dependencia como resuelta sin PR, CI y evidencia de integraci&oacute;n.
+- No completar contenido, m&eacute;tricas ni fechas por inferencia.
+- Mantener en Trello el estado de CV, casos profesionales, fotograf&iacute;as, idiomas, anal&iacute;tica, dominio y material audiovisual.
+- Crear un ticket nuevo s&oacute;lo cuando un hallazgo no est&eacute; cubierto por otro flujo.
