@@ -26,7 +26,7 @@ const base = import.meta.env.BASE_URL.endsWith('/')
       <p><a href={base} data-i18n="cta">Ir al portfolio de Romina Caubarrere</a></p>
     </article>
   </main>
-  <footer class="footer"><span data-i18n="footer">hecho con m&eacute;todo, plantas y un poco de lana &middot; Romina Caubarrere</span> &middot; <a href="/personal/privacidad.html">Privacidad</a></footer>
+  <footer class="footer"><span data-i18n="footer">hecho con m&eacute;todo, plantas y un poco de lana &middot; Romina Caubarrere</span> &middot; <a href="/personal/privacidad.html" data-i18n="privacy">Privacidad</a></footer>
 
   <script is:inline define:vars={{ base }}>
     const translations = {
@@ -41,6 +41,8 @@ const base = import.meta.env.BASE_URL.endsWith('/')
         return: 'Volvamos al estudio.',
         cta: 'Ir al portfolio de Romina Caubarrere',
         home: base,
+        privacy: 'Privacidad',
+        privacyHref: `${base}privacidad.html`,
         footer: 'hecho con método, plantas y un poco de lana · Romina Caubarrere'
       },
       en: {
@@ -54,6 +56,8 @@ const base = import.meta.env.BASE_URL.endsWith('/')
         return: "Let's go back to the studio.",
         cta: "Go to Romina Caubarrere's portfolio",
         home: `${base}en.html`,
+        privacy: 'Privacy',
+        privacyHref: `${base}en/privacy.html`,
         footer: 'made with method, plants and a little yarn · Romina Caubarrere'
       },
       pt: {
@@ -67,6 +71,8 @@ const base = import.meta.env.BASE_URL.endsWith('/')
         return: 'Vamos voltar ao estúdio.',
         cta: 'Ir ao portfólio de Romina Caubarrere',
         home: `${base}pt.html`,
+        privacy: 'Privacidade',
+        privacyHref: `${base}pt/privacidade.html`,
         footer: 'feito com método, plantas e um pouco de lã · Romina Caubarrere'
       }
     };
@@ -88,11 +94,12 @@ const base = import.meta.env.BASE_URL.endsWith('/')
     document.querySelector('meta[name="twitter:title"]')?.setAttribute('content', copy.title);
     document.querySelector('meta[name="twitter:description"]')?.setAttribute('content', copy.description);
     for (const [key, value] of Object.entries(copy)) {
-      if (['title', 'description', 'locale', 'home'].includes(key)) continue;
+      if (['title', 'description', 'locale', 'home', 'privacyHref'].includes(key)) continue;
       document.querySelectorAll(`[data-i18n="${key}"]`).forEach((element) => {
         element.textContent = value;
       });
     }
     document.querySelector('[data-i18n="cta"]')?.setAttribute('href', copy.home);
+    document.querySelector('[data-i18n="privacy"]')?.setAttribute('href', copy.privacyHref);
   </script>
 </BaseLayout>
