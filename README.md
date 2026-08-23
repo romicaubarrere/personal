@@ -75,6 +75,8 @@ La identidad visual, los tokens compartidos y la regla que evita numeración dec
 
 La estrategia de calidad, sus capas de verificación y la Definition of Done están documentadas en [`docs/qa-strategy.md`](docs/qa-strategy.md).
 
+La fotografía integral de producto, diseño, contenido, calidad, operación, riesgos y pendientes está en [`docs/general-audit-2026-08-23.md`](docs/general-audit-2026-08-23.md).
+
 El mantenimiento editorial y técnico, su cadencia y los disparadores de revisión extraordinaria están documentados en [`docs/maintenance-plan.md`](docs/maintenance-plan.md).
 
 ## Estructura
@@ -105,3 +107,4 @@ El mantenimiento editorial y técnico, su cadencia y los disparadores de revisi�
 - `docs/reading-now.md`: fuente manual y decisión de integración para “Leyendo ahora”.
 - `docs/delivery-traceability.md`: relación entre ticket, rama, PR, commit y despliegue.
 - `docs/maintenance-plan.md`: frecuencia, responsables, checklist y flujo para mantener el portfolio vigente.
+- `docs/general-audit-2026-08-23.md`: auditoría integral, evidencia, riesgos y roadmap al 23 de agosto de 2026.
