@@ -75,6 +75,8 @@ La identidad visual, los tokens compartidos y la regla que evita numeración dec
 
 La estrategia de calidad, sus capas de verificación y la Definition of Done están documentadas en [`docs/qa-strategy.md`](docs/qa-strategy.md).
 
+El mantenimiento editorial y técnico, su cadencia y los disparadores de revisión extraordinaria están documentados en [`docs/maintenance-plan.md`](docs/maintenance-plan.md).
+
 ## Estructura
 
 - `src/pages/`: rutas públicas generadas por Astro.
@@ -102,3 +104,4 @@ La estrategia de calidad, sus capas de verificación y la Definition of Done est
 - `docs/dependency-updates.md`: automatización y política de revisión de actualizaciones.
 - `docs/reading-now.md`: fuente manual y decisión de integración para “Leyendo ahora”.
 - `docs/delivery-traceability.md`: relación entre ticket, rama, PR, commit y despliegue.
+- `docs/maintenance-plan.md`: frecuencia, responsables, checklist y flujo para mantener el portfolio vigente.
