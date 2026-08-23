@@ -137,6 +137,18 @@ El proyecto se incorporó al recorrido de proyectos como un caso vivo. Los libro
 
 El objetivo es que una persona pueda ver el resultado, entender qué responsabilidades asumió Romina y, si quiere profundizar, entrar directamente al repositorio y a esta documentación. El propio sitio pasa así a ser evidencia de proceso: muestra trabajos anteriores y, al mismo tiempo, expone cómo fue pensado, diseñado, gestionado, probado y operado.
 
+### Agosto de 2026 · una auditoría integral fija la línea base
+
+Después de la migración, la expansión multilenguaje y una secuencia intensa de mejoras, se auditó el producto completo contra el HTML original, `main`, la salida compilada, las pruebas, CI, Trello y la documentación. La revisión confirmó la continuidad de la identidad del estudio y la solidez de arquitectura, accesibilidad, SEO y entrega, pero también hizo visibles límites concretos: paridad incompleta de las portadas EN/PT, decisiones editoriales y de contenido pendientes, cobertura cross-browser todavía acotada y sólo 35 bytes de margen en el presupuesto CSS.
+
+La auditoría también encontró deriva en la propia documentación. En lugar de copiar continuamente el estado del tablero a Markdown, se decidió que Trello conserve el estado dinámico y que el repositorio mantenga fotografías fechadas, decisiones y evidencia durable.
+
+Documentación relacionada:
+
+- [Auditoría general del 23 de agosto de 2026](./general-audit-2026-08-23.md)
+- [Registro de evidencia](./project-evidence.md)
+- [Estrategia de QA](./qa-strategy.md)
+
 ## Decisiones de alcance que también cuentan
 
 Parte del trabajo de producto está en decidir qué no hacer. Durante la evolución se preservaron contenidos y diseños ya aprobados cuando un ticket no justificaba modificarlos, se separaron migraciones técnicas de cambios visuales para reducir riesgo y se evitó presentar como terminadas piezas que todavía estaban en evolución.
