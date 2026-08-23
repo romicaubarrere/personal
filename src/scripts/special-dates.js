@@ -121,15 +121,20 @@ function addBirthdayConfetti(holder) {
   }
 }
 
-export function formatSpecialDateLabel(event, age, isPreview) {
-  const prefix = isPreview ? 'Vista previa · ' : '';
-  if (event.kind === 'birthday') return `${prefix}${isPreview ? 'Cumpleaños' : `Hoy cumplo ${age} años`}`;
-  if (event.kind === 'halloween') return `${prefix}Halloween en el estudio`;
-  if (event.kind === 'new-year') return `${prefix}Feliz Año Nuevo`;
-  if (event.kind === 'easter') return `${prefix}Felices Pascuas`;
-  if (event.kind === 'hearts') return `${prefix}Un día con más corazones`;
-  if (event.kind === 'christmas') return `${prefix}Feliz Navidad`;
-  return `${prefix}Fecha patria · ${String(event.day).padStart(2, '0')}/${String(event.month).padStart(2, '0')}`;
+export function formatSpecialDateLabel(event, age, isPreview, lang = 'es') {
+  const labels = lang === 'en'
+    ? { preview: 'Preview · ', birthday: 'Birthday', today: `I turn ${age} today`, halloween: 'Halloween in the studio', newYear: 'Happy New Year', easter: 'Happy Easter', hearts: 'A day with extra hearts', christmas: 'Merry Christmas', patriotic: 'Uruguayan national day' }
+    : lang === 'pt'
+      ? { preview: 'Prévia · ', birthday: 'Aniversário', today: `Hoje faço ${age} anos`, halloween: 'Halloween no estúdio', newYear: 'Feliz Ano Novo', easter: 'Feliz Páscoa', hearts: 'Um dia com mais corações', christmas: 'Feliz Natal', patriotic: 'Data nacional uruguaia' }
+      : { preview: 'Vista previa · ', birthday: 'Cumpleaños', today: `Hoy cumplo ${age} años`, halloween: 'Halloween en el estudio', newYear: 'Feliz Año Nuevo', easter: 'Felices Pascuas', hearts: 'Un día con más corazones', christmas: 'Feliz Navidad', patriotic: 'Fecha patria' };
+  const prefix = isPreview ? labels.preview : '';
+  if (event.kind === 'birthday') return `${prefix}${isPreview ? labels.birthday : labels.today}`;
+  if (event.kind === 'halloween') return `${prefix}${labels.halloween}`;
+  if (event.kind === 'new-year') return `${prefix}${labels.newYear}`;
+  if (event.kind === 'easter') return `${prefix}${labels.easter}`;
+  if (event.kind === 'hearts') return `${prefix}${labels.hearts}`;
+  if (event.kind === 'christmas') return `${prefix}${labels.christmas}`;
+  return `${prefix}${labels.patriotic} · ${String(event.day).padStart(2, '0')}/${String(event.month).padStart(2, '0')}`;
 }
 
 export function initializeSpecialDates({ now = new Date(), location = window.location } = {}) {
@@ -158,7 +163,7 @@ export function initializeSpecialDates({ now = new Date(), location = window.loc
   const badge = document.getElementById('specialDateBadge');
   if (badge) {
     badge.textContent = resolution.events
-      .map((event, index) => formatSpecialDateLabel(event, age, resolution.isPreview && index === 0))
+      .map((event, index) => formatSpecialDateLabel(event, age, resolution.isPreview && index === 0, document.documentElement.lang))
       .join(' · ');
     badge.removeAttribute('hidden');
   }

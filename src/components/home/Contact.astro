@@ -1,15 +1,21 @@
+---
+import { HOME_COPY, type HomeLanguage } from '../../data/home-copy';
+interface Props { lang?: HomeLanguage }
+const { lang = 'es' } = Astro.props;
+const copy = HOME_COPY[lang];
+---
   <section class="contact brick" id="contacto">
     <svg class="cfern cl parallax" data-depth="16" viewBox="0 0 240 240" style="overflow:visible" aria-hidden="true" focusable="false"><use href="#fern"/></svg>
     <svg class="cfern cr parallax" data-depth="12" viewBox="0 0 240 240" style="overflow:visible" aria-hidden="true" focusable="false"><use href="#fern"/></svg>
     <div class="card reveal" style="--r:-1deg">
-      <div class="stamp">escribime</div>
-      <h2>&iquest;Charlamos, <em>tomamos algo</em>?</h2>
-      <p class="sub hand">PM, una charla o un proyecto que necesita orden. Va todo.</p>
+      <div class="stamp">{copy.stamp}</div>
+      <h2>{copy.contactTitle[0]}<em>{copy.contactTitle[1]}</em>{copy.contactTitle[2]}</h2>
+      <p class="sub hand">{copy.contactText}</p>
       <div class="tags">
         <a
           class="ltag"
           href="mailto:rominacaubarrere@gmail.com"
-          aria-label="Enviar un email a Romina Caubarrere"
+          aria-label={copy.emailLabel}
           data-analytics-event="contact_email_click"
         >Email</a>
         <a
@@ -17,14 +23,14 @@
           href="https://www.linkedin.com/in/rominacaubarrere/"
           target="_blank"
           rel="me noopener noreferrer"
-          aria-label="LinkedIn de Romina Caubarrere (abre en una nueva pesta&ntilde;a)"
+          aria-label={copy.linkedinLabel}
           data-analytics-event="contact_linkedin_click"
         >LinkedIn</a>
         <a
           class="ltag"
           href="cv/romina-caubarrere-cv.pdf"
           download="romina-caubarrere-cv.pdf"
-          aria-label="Descargar el curr&iacute;culum de Romina Caubarrere en PDF"
+          aria-label={copy.cvLabel}
           data-analytics-event="contact_cv_download"
         >CV</a>
       </div>

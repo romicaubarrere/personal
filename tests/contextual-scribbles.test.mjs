@@ -7,6 +7,7 @@ import { fileURLToPath } from 'node:url';
 const repositoryRoot = join(dirname(fileURLToPath(import.meta.url)), '..');
 const script = await readFile(join(repositoryRoot, 'public', 'contextual-scribbles.js'), 'utf8');
 const page = await readFile(join(repositoryRoot, 'src', 'pages', 'index.astro'), 'utf8');
+const home = await readFile(join(repositoryRoot, 'src', 'components', 'home', 'Home.astro'), 'utf8');
 
 test('los garabatos aparecen solo en proyectos seleccionados y duran brevemente', () => {
   assert.match(script, /\['fisica', 'acá hubo caos'\]/);
@@ -34,6 +35,6 @@ test('los garabatos son decorativos, no interceptan controles y respetan reduced
 });
 
 test('la portada carga el comportamiento sin incorporarlo a las demás rutas', () => {
-  assert.match(page, /contextual-scribbles\.js/);
+  assert.match(home, /contextual-scribbles\.js/);
   assert.match(page, /microinteractions\.css/);
 });

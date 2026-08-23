@@ -19,7 +19,7 @@ test('todos los enlaces que abren otra pestaña anuncian el cambio de contexto',
     const source = await readFile(path, 'utf8');
     const externalLinks = source.match(/<a\b[^>]*target="_blank"[^>]*>[\s\S]*?<\/a>/gi) ?? [];
     for (const link of externalLinks) {
-      assert.match(link, /nueva pesta(?:ña|&ntilde;a)/i, `${path} no anuncia la nueva pestaña`);
+      assert.match(link, /nueva pesta(?:ña|&ntilde;a)|new tab|nova aba/i, `${path} no anuncia la nueva pestaña`);
       assert.match(link, /rel="[^"]*noopener[^"]*noreferrer[^"]*"/i, `${path} no protege la pestaña de origen`);
     }
   }

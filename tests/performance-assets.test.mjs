@@ -63,9 +63,9 @@ test('las fuentes externas conservan conexiones anticipadas', async () => {
 
 test('la isla React se hidrata cuando el navegador queda libre', async () => {
   const home = await readFile(join(distRoot, 'index.html'), 'utf8');
-  const pageSource = await readFile(join(repositoryRoot, 'src', 'pages', 'index.astro'), 'utf8');
+  const pageSource = await readFile(join(repositoryRoot, 'src', 'components', 'home', 'Home.astro'), 'utf8');
 
-  assert.match(pageSource, /<ProjectBookcase client:idle \/>/);
+  assert.match(pageSource, /<ProjectBookcase \{lang\} \{projects\} client:idle \/>/);
   assert.doesNotMatch(pageSource, /client:load/);
   assert.match(home, /client="idle"/);
 });

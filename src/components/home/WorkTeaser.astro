@@ -1,14 +1,20 @@
+---
+import { HOME_COPY, localizedPath, type HomeLanguage } from '../../data/home-copy';
+interface Props { lang?: HomeLanguage }
+const { lang = 'es' } = Astro.props;
+const copy = HOME_COPY[lang];
+---
 <section class="workflow" id="forma-de-trabajo" aria-labelledby="work-teaser-title">
   <div class="workflow-inner">
     <div class="hd reveal">
-      <span class="strengths-kicker">una p&aacute;gina para abrir aparte</span>
-      <h2 id="work-teaser-title">C&oacute;mo <em>trabajo</em></h2>
-      <p>Qu&eacute; aporto, c&oacute;mo llevo una idea a algo construible y en qu&eacute; problemas puedo ayudarte.</p>
+      <span class="strengths-kicker">{copy.workKicker}</span>
+      <h2 id="work-teaser-title">{copy.workTitle[0]}<em>{copy.workTitle[1]}</em></h2>
+      <p>{copy.workIntro}</p>
     </div>
     <article class="workflow-step work-teaser-card reveal" style="--r:-.7deg">
-      <h3>Del ovillo al plan</h3>
-      <p>Junt&eacute; en un solo lugar mis capacidades, los cuatro momentos de mi proceso y los resultados que puedo ayudar a construir.</p>
-      <a class="offers-link" href="como-trabajo.html">Ver c&oacute;mo trabajo <span aria-hidden="true">&rarr;</span></a>
+      <h3>{copy.workCard}</h3>
+      <p>{copy.workBody}</p>
+      <a class="offers-link" href={localizedPath(lang, 'como-trabajo.html')}>{copy.workLink} <span aria-hidden="true">&rarr;</span></a>
     </article>
   </div>
 </section>

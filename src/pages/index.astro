@@ -1,17 +1,5 @@
 ---
-import About from '../components/home/About.astro';
-import Chrome from '../components/home/Chrome.astro';
-import Contact from '../components/home/Contact.astro';
-import Footer from '../components/home/Footer.astro';
-import Hero from '../components/home/Hero.astro';
-import HomeScripts from '../components/home/HomeScripts.astro';
-import PortfolioCaseStudy from '../components/home/PortfolioCaseStudy.astro';
-import LanguageSwitcher from '../components/LanguageSwitcher.astro';
-import ProjectBookcase from '../components/islands/ProjectBookcase';
-import Reads from '../components/home/Reads.astro';
-import StudioTransition from '../components/home/StudioTransition.astro';
-import Talks from '../components/home/Talks.astro';
-import WorkTeaser from '../components/home/WorkTeaser.astro';
+import Home from '../components/home/Home.astro';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import '../styles/home.css';
 
@@ -69,22 +57,5 @@ const structuredData = {
     @media(max-width:430px){.bookmodal .bookframe{width:95vw;padding-inline:7px}.bookmodal .bk{width:90vw}.bookmodal .pg{width:45vw}.bookmodal .leaf{left:45vw;width:45vw}.bookmodal .pgc{padding-inline:12px}.bookmodal .pgc .pbody{font-size:11.5px;line-height:1.52}.bookmodal .bm-nav.prev{left:-10px}.bookmodal .bm-nav.next{right:-10px}}
   </style>
 
-  <Chrome />
-  <LanguageSwitcher current="es" />
-  <main id="main-content" tabindex="-1">
-    <Hero />
-    <About />
-    <ProjectBookcase client:idle />
-    <StudioTransition />
-    <PortfolioCaseStudy />
-    <WorkTeaser />
-    <StudioTransition />
-    <Talks />
-    <Reads />
-    <StudioTransition />
-    <Contact />
-  </main>
-  <Footer />
-  <HomeScripts />
-  <script is:inline src={`${base}contextual-scribbles.js`} defer></script>
+  <Home lang="es" />
 </BaseLayout>

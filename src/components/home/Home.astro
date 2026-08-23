@@ -1,0 +1,43 @@
+---
+import About from './About.astro';
+import BookModalStyles from './BookModalStyles.astro';
+import Chrome from './Chrome.astro';
+import Contact from './Contact.astro';
+import Footer from './Footer.astro';
+import Hero from './Hero.astro';
+import HomeScripts from './HomeScripts.astro';
+import PortfolioCaseStudy from './PortfolioCaseStudy.astro';
+import LanguageSwitcher from '../LanguageSwitcher.astro';
+import ProjectBookcase from '../islands/ProjectBookcase';
+import Reads from './Reads.astro';
+import StudioTransition from './StudioTransition.astro';
+import Talks from './Talks.astro';
+import WorkTeaser from './WorkTeaser.astro';
+import type { HomeLanguage } from '../../data/home-copy';
+import { projectsFor } from '../../data/projects';
+
+interface Props { lang?: HomeLanguage }
+const { lang = 'es' } = Astro.props;
+const base = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL : `${import.meta.env.BASE_URL}/`;
+const projects = projectsFor(lang);
+---
+
+{lang !== 'es' && <BookModalStyles />}
+<Chrome {lang} />
+<LanguageSwitcher current={lang} />
+<main id="main-content" tabindex="-1">
+  <Hero {lang} />
+  <About {lang} />
+  <ProjectBookcase {lang} {projects} client:idle />
+  <StudioTransition />
+  <PortfolioCaseStudy {lang} />
+  <WorkTeaser {lang} />
+  <StudioTransition />
+  <Talks {lang} />
+  <Reads {lang} />
+  <StudioTransition />
+  <Contact {lang} />
+</main>
+<Footer {lang} />
+<HomeScripts />
+<script is:inline src={`${base}contextual-scribbles.js`} defer></script>

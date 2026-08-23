@@ -544,11 +544,11 @@ test('la navegación expone la sección activa y el contacto publica solo destin
   assert.match(home, /data-analytics-event="contact_email_click"/);
   assert.match(home, /href="https:\/\/www\.linkedin\.com\/in\/rominacaubarrere\/"/);
   assert.match(home, /rel="me noopener noreferrer"/);
-  assert.match(home, /aria-label="LinkedIn de Romina Caubarrere \(abre en una nueva pesta&ntilde;a\)"/);
+  assert.match(home, /aria-label="LinkedIn de Romina Caubarrere \(abre en una nueva pestaña\)"/);
   assert.match(home, /data-analytics-event="contact_linkedin_click"/);
   assert.match(home, /href="cv\/romina-caubarrere-cv\.pdf"/);
   assert.match(home, /download="romina-caubarrere-cv\.pdf"/);
-  assert.match(home, /aria-label="Descargar el curr&iacute;culum de Romina Caubarrere en PDF"/);
+  assert.match(home, /aria-label="Descargar el currículum de Romina Caubarrere en PDF"/);
   assert.match(home, /data-analytics-event="contact_cv_download"/);
   assert.doesNotMatch(home, />Instagram<\/span>/);
   assert.doesNotMatch(home, /El CV est&aacute; pendiente de publicaci&oacute;n\./);

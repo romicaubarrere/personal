@@ -104,16 +104,35 @@ test('Cómo trabajo reúne las tres partes y la portada conserva solo el anticip
 
 test('la portada se compone desde módulos Astro con una única isla React', async () => {
   const page = await readFile(join(repositoryRoot, 'src', 'pages', 'index.astro'), 'utf8');
+  const home = await readFile(join(repositoryRoot, 'src', 'components', 'home', 'Home.astro'), 'utf8');
   const scripts = await readFile(join(repositoryRoot, 'src', 'components', 'home', 'HomeScripts.astro'), 'utf8');
 
-  assert.match(page, /components\/home\/Hero\.astro/);
-  assert.match(page, /components\/islands\/ProjectBookcase/);
-  assert.match(page, /<ProjectBookcase client:idle \/>/);
-  assert.doesNotMatch(page, /<ProjectBookcase client:load \/>/);
+  assert.match(home, /\.\/Hero\.astro/);
+  assert.match(home, /islands\/ProjectBookcase/);
+  assert.match(home, /<ProjectBookcase \{lang\} \{projects\} client:idle \/>/);
+  assert.doesNotMatch(home, /client:load/);
   assert.match(page, /layouts\/BaseLayout\.astro/);
-  assert.equal((page.match(/client:/g) ?? []).length, 1);
+  assert.equal((home.match(/client:/g) ?? []).length, 1);
   assert.doesNotMatch(page, /LegacyDocument/);
   assert.doesNotMatch(scripts, /CASE_PAGE_ORDER|BOOKS|openBook/);
+});
+
+test('las portadas ES, EN y PT comparten arquitectura, casos y contacto', async () => {
+  const pages = await Promise.all(['index.html', 'en.html', 'pt.html'].map((name) => readFile(join(dist, name), 'utf8')));
+  const sectionOrder = ['top', 'sobre', 'proyectos', 'forma-de-trabajo', 'charlas', 'lecturas', 'contacto'];
+  for (const html of pages) {
+    let last = -1;
+    for (const id of sectionOrder) {
+      const position = html.indexOf(`id="${id}"`);
+      assert.ok(position > last, `${id} debe existir y conservar el orden`);
+      last = position;
+    }
+    assert.equal((html.match(/data-book="/g) ?? []).length, 6);
+    assert.match(html, /data-analytics-event="contact_cv_download"/);
+    assert.match(html, /client="idle"/);
+  }
+  assert.match(pages[1], /My project/);
+  assert.match(pages[2], /Minha/);
 });
 
 test('la salida conserva assets públicos y cantidades académicas', async () => {

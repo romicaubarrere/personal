@@ -2,36 +2,35 @@
 const repositoryUrl = 'https://github.com/romicaubarrere/personal';
 const historyUrl = `${repositoryUrl}/blob/main/docs/project-history.md`;
 const docsUrl = `${repositoryUrl}/tree/main/docs`;
+import { HOME_COPY, type HomeLanguage } from '../../data/home-copy';
+interface Props { lang?: HomeLanguage }
+const { lang = 'es' } = Astro.props;
+const copy = HOME_COPY[lang];
 ---
 
 <section class="shelfsec" aria-labelledby="living-project-title">
   <div class="hd reveal">
-    <h2 id="living-project-title">Este portfolio también es <em>un proyecto</em></h2>
-    <p>de punta a punta, y con el historial abierto</p>
+    <h2 id="living-project-title">{copy.livingTitle[0]}<em>{copy.livingTitle[1]}</em></h2>
+    <p>{copy.livingSubtitle}</p>
   </div>
 
   <div class="bookshelf">
     <article class="memo paper reveal">
       <span class="pin gold" aria-hidden="true"></span>
-      <p class="big">El estudio de Romi · mi primer proyecto después de recibirme.</p>
-      <p>
-        Lo empecé una semana después de recibirme como Licenciada en Tecnologías de la Información.
-        Quise hacerlo completo: <strong>producto, dirección de diseño, gestión, QA &amp; testing y DevOps</strong>, todo en el mismo lugar.
-      </p>
-      <p>
-        Cada problema vuelve al backlog, cada cambio importante deja una decisión documentada y cada versión suma algo al historial. No quiero mostrar solamente cómo quedó: también quiero que se pueda ver cómo llegué hasta acá.
-      </p>
+      <p class="big">{copy.livingBig}</p>
+      <p set:html={copy.livingBody[0]}></p>
+      <p>{copy.livingBody[1]}</p>
 
-      <div class="tags" aria-label="Evidencia del proyecto">
-        <a class="ltag" href={historyUrl} target="_blank" rel="noopener noreferrer">Historial<span class="sr-only"> (abre en una nueva pesta&ntilde;a)</span></a>
-        <a class="ltag" href={docsUrl} target="_blank" rel="noopener noreferrer">Documentación<span class="sr-only"> (abre en una nueva pesta&ntilde;a)</span></a>
-        <a class="ltag" href={repositoryUrl} target="_blank" rel="noopener noreferrer">Repositorio<span class="sr-only"> (abre en una nueva pesta&ntilde;a)</span></a>
+      <div class="tags" aria-label={copy.evidence}>
+        <a class="ltag" href={historyUrl} target="_blank" rel="noopener noreferrer">{copy.history}<span class="sr-only">{copy.newTab}</span></a>
+        <a class="ltag" href={docsUrl} target="_blank" rel="noopener noreferrer">{copy.documentation}<span class="sr-only">{copy.newTab}</span></a>
+        <a class="ltag" href={repositoryUrl} target="_blank" rel="noopener noreferrer">{copy.repository}<span class="sr-only">{copy.newTab}</span></a>
       </div>
     </article>
 
     <div class="factnote reveal">
-      <b>Historial abierto · agosto 2026 →</b><br />
-      <small>Los hitos importantes quedan documentados; los fixes menores quedan trazados en Git.</small>
+      <b>{copy.historyNote}</b><br />
+      <small>{copy.historyDetail}</small>
     </div>
   </div>
 </section>

@@ -54,7 +54,7 @@ const article = {
   {page && <LanguageSwitcher current={lang} {page} />}
   <header class="top brick">
     <div class="hero">
-      <a class="back" href={lang === 'es' ? '/personal/#lecturas' : `../../${lang}.html#overview`}>← {copy.back}</a><br />
+      <a class="back" href={lang === 'es' ? '/personal/#lecturas' : `../../${lang}.html#lecturas`}>← {copy.back}</a><br />
       <span class="kicker">{copy.kicker}</span>
       <h1><slot name="heading" /></h1>
       <p class="summary">{summary}</p>

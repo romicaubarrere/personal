@@ -5,7 +5,7 @@ import test from 'node:test';
 import { fileURLToPath } from 'node:url';
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..');
-const page = await readFile(join(root, 'src/pages/index.astro'), 'utf8');
+const page = await readFile(join(root, 'src/components/home/Home.astro'), 'utf8');
 const transition = await readFile(join(root, 'src/components/home/StudioTransition.astro'), 'utf8');
 
 test('la continuidad del estudio aparece solo en transiciones seleccionadas', () => {
