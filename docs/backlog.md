@@ -4,7 +4,7 @@ Trello es la fuente de verdad para el estado din&aacute;mico de tickets. Este ar
 
 ## Fotograf&iacute;a auditada
 
-La [auditor&iacute;a general del 23 de agosto de 2026](./general-audit-2026-08-23.md) registra el estado, los bloqueos y el roadmap comprobados sobre `main` `6bb679c`.
+La [auditor&iacute;a general del 23 de agosto de 2026](./general-audit-2026-08-23.md) registra el estado, los bloqueos y el roadmap comprobados sobre `main` `d354588`.
 
 ## Reglas
 
