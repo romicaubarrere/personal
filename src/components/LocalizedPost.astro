@@ -1,5 +1,6 @@
 ---
 import PostLayout from '../layouts/PostLayout.astro';
+import { getPublishedPost } from '../data/posts';
 
 type Lang = 'en' | 'pt';
 type Page = 'questions' | 'when-you-can';
@@ -134,6 +135,7 @@ const copies: Record<Page, Record<Lang, Copy>> = {
 };
 
 const copy = copies[page][lang];
+const sourcePost = getPublishedPost(page === 'questions' ? 'por-que-hago-tantas-preguntas' : 'cuando-puedas');
 const canonical = `${base}${copy.slug}.html`;
 const equivalents = page === 'questions'
   ? { es:'posts/por-que-hago-tantas-preguntas.html', en:'en/posts/why-do-i-ask-so-many-questions.html', pt:'pt/posts/por-que-faco-tantas-perguntas.html' }
@@ -143,7 +145,7 @@ const alternates = [
 ];
 ---
 
-<PostLayout lang={lang} {page} title={copy.title} description={copy.description} {canonical} summary={copy.summary} dateTime="2026-08" dateLabel={copy.dateLabel} {alternates}>
+<PostLayout lang={lang} {page} title={copy.title} description={copy.description} {canonical} summary={copy.summary} dateTime={sourcePost.dateTime} dateLabel={copy.dateLabel} {alternates}>
   <Fragment slot="heading"><span set:html={copy.heading} /></Fragment>
   {copy.blocks.map((block) => block.type === 'aside'
     ? <div class="aside" set:html={block.html} />
