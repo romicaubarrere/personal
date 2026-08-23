@@ -62,7 +62,7 @@ Las cifras son una fotografía fechada. No deben copiarse como métricas permane
 | QA | Sólido | Build, 141 contratos Node, E2E, responsive, fechas, accesibilidad, SEO, supply chain y guardrails visuales. |
 | CI/CD | Sólido | Artefacto único probado, permisos mínimos, concurrencia, evidencia de fallos, smoke test y rollback reconstruido desde un ref. |
 | Privacidad | Sólido en el estado actual | Política ES/EN/PT, analítica sin terceros, sin formularios ni almacenamiento de datos personales. |
-| Analítica | Parcial | Eventos locales y resultados manuales definidos; falta un spike y una decisión de proveedor gratis o muy económico. Plausible no está aprobado. |
+| Analítica | Parcial | Eventos locales y resultados manuales definidos; el spike seleccionó Umami Cloud Hobby por ser gratuito y admitir eventos personalizados. Falta crear el sitio y verificar la integración. |
 | Documentación | Sólido con deriva puntual | La cobertura es amplia, pero se detectaron un enlace roto en QA y un backlog local desactualizado. |
 | Operación y mantenimiento | Sólido | Cadencia mensual, disparadores extraordinarios, Definition of Done y trazabilidad documentadas. |
 
@@ -243,7 +243,7 @@ Hallazgo documental corregido en esta auditoría: `docs/qa-strategy.md` referenc
 
 ### Decisión pendiente
 
-Plausible Cloud figura como propuesta histórica, no como decisión aprobada. La restricción vigente es evaluar una solución gratis o muy económica mediante un spike que compare costo, eventos, privacidad, retención, esfuerzo operativo y compatibilidad con GitHub Pages. Hasta entonces, WEB-062 sigue parcial y no se conecta ningún tercero.
+Plausible Cloud quedó descartado porque no ofrece un plan gratuito. Cloudflare Web Analytics también quedó descartado para WEB-062 porque, aunque es gratuito y orientado a privacidad, no admite eventos personalizados. El spike seleccionó el plan Hobby gratuito de Umami Cloud, que admite eventos y no usa cookies ni recopila datos personales. WEB-062 sigue parcial hasta crear el sitio en la región europea, confirmar la retención y verificar los eventos en producción.
 
 ## Documentación y trazabilidad
 
@@ -297,7 +297,7 @@ Al iniciar la auditoría:
 | P1 | Home EN/PT sin paridad completa | Continuar el flujo ya activo y agregar contrato de secciones. |
 | P1 | Compatibilidad formal sólo automatizada en Chromium | Ejecutar WEB-063 en Chrome, Safari y Firefox al cierre. |
 | P1 | habITar necesita material visual aprobado | Integrar primero el relato seguro; añadir multimedia después de aprobación. |
-| P2 | Proveedor de analítica no decidido | Hacer spike gratis/muy económico; no asumir Plausible. |
+| P2 | Integración gratuita de analítica pendiente | Crear el sitio en Umami Cloud Hobby, confirmar retención y verificar eventos; no contratar planes pagos. |
 | P2 | Documentación dinámica se había desalineado de Trello | Mantener índice estable y auditorías fechadas. |
 | P2 | Sin baseline de Web Vitals en producción | Medir sólo cuando exista un método reproducible. |
 
