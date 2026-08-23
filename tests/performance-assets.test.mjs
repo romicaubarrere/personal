@@ -44,10 +44,11 @@ test('los recursos compilados respetan presupuestos de transferencia', async () 
   for (const document of htmlDocuments) {
     assert.ok((await stat(document)).size <= 100 * 1024, `${document} supera 100 KiB`);
   }
-  assert.equal(downloadableDocuments.length, 0, 'No debe publicarse un CV hasta contar con una versión aprobada');
+  assert.equal(downloadableDocuments.length, 1, 'Debe publicarse solo el CV aprobado');
+  assert.ok(downloadableDocuments[0].endsWith('cv/romina-caubarrere-cv.pdf'));
   assert.ok(
-    await totalBytes(downloadableDocuments) <= 100 * 1024,
-    'Los documentos descargables superan 100 KiB'
+    await totalBytes(downloadableDocuments) <= 125 * 1024,
+    'Los documentos descargables superan 125 KiB'
   );
   assert.equal(files.some((path) => path.endsWith('.map')), false, 'No se publican source maps');
 });

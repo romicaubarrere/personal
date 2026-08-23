@@ -24,6 +24,7 @@ const documentedEvents = [...contract.matchAll(/\| `([a-z][a-z0-9_]+)` \|/g)]
 
 test('los eventos publicados coinciden con el contrato de medición', () => {
   assert.deepEqual(publishedEvents, [
+    'contact_cv_download',
     'contact_email_click',
     'contact_linkedin_click',
     'persistent_contact_click',
