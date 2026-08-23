@@ -35,7 +35,9 @@ En Drive existen duplicados, exportaciones PDF, documentos nativos y versiones a
 | Validación | Guía UAT e investigación UX | Sí, con resultados agregados y anonimizados |
 | Calidad | Plan de testing, informe final, métricas QA | Sí, con cifras canónicas verificadas |
 | Arquitectura y seguridad | Anexos técnicos y defensa | Sólo a nivel explicativo; sin secretos ni detalles operativos sensibles |
-| Capturas y video | Presentaciones, manuales y materiales de defensa | Pendiente de selección, saneamiento y aprobación explícita |
+| Prototipo navegable | URL pública de Lovable referenciada en Anexo 10 | Aprobado para enlazar por Romina el 23/08/2026 |
+| Video del prototipo | Demostración funcional v1.0 en Drive, compartida como lectura pública | Aprobado para enlazar por Romina el 23/08/2026; se mantiene externo por peso |
+| Capturas estáticas | Presentaciones, manuales y materiales de defensa | Pendientes de exportación/saneamiento antes de incorporarlas al repositorio |
 
 ## Hallazgos
 
@@ -46,6 +48,7 @@ En Drive existen duplicados, exportaciones PDF, documentos nativos y versiones a
 5. Hay material visual reutilizable, pero contiene potencialmente nombres, rostros, correos, datos de la cooperativa, datos operativos o pantallas con información identificable.
 6. Se detectó y corrigió en el PR una filtración de contexto: el tamaño exacto de la cooperativa. También se eliminó el nombre de una especialista porque la existencia del documento en Drive no prueba autorización de publicación.
 7. Los duplicados y borradores no deben citarse como fuente final ni usarse para resolver contradicciones.
+8. La demostración funcional pesa aproximadamente 311 MB, por lo que enlazarla desde Drive evita incorporar una carga desproporcionada al sitio.
 
 ## Política de publicación
 
@@ -66,14 +69,18 @@ Requiere anonimización previa:
 - testimonios, respuestas, datos de contacto y datos financieros;
 - capturas con perfiles, correos, unidades, movimientos o identificadores.
 
-Requiere aprobación explícita de Romina antes de publicar:
+Aprobado explícitamente por Romina el 23/08/2026:
 
-- video del producto o de la defensa;
-- capturas del prototipo o del producto;
-- logos de terceros o de la cooperativa;
-- citas textuales atribuibles;
-- cualquier material donde la anonimización pueda reducirse por contexto.
+- enlace al prototipo público de Lovable;
+- enlace a la demostración funcional del prototipo en Drive;
+- relato del proceso y el material visual seleccionado bajo las reglas de privacidad anteriores.
+
+Sigue requiriendo saneamiento antes de publicar:
+
+- capturas estáticas del prototipo o del producto que contengan cualquier dato identificable;
+- logos de terceros o de la cooperativa cuando el permiso de uso no esté confirmado;
+- citas textuales atribuibles.
 
 ## Estado de WEB-074
 
-La fase textual queda respaldada por Drive y puede completarse con contenido anonimizado. La fase multimedia sigue bloqueada hasta seleccionar, sanear y aprobar video y capturas. El ticket no debe cerrarse como completo mientras esos criterios sigan pendientes.
+La fase textual está respaldada por Drive y anonimizada. El prototipo navegable y la demostración funcional están aprobados y enlazados como evidencia externa. Las capturas estáticas permanecen como mejora pendiente porque deben exportarse a un formato web estable y sanearse antes de entrar al repositorio; no bloquean el acceso al proceso visual, que ya queda cubierto por el prototipo y el video.
