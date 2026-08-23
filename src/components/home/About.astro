@@ -1,24 +1,30 @@
+---
+import { HOME_COPY, localizedPath, type HomeLanguage } from '../../data/home-copy';
+interface Props { lang?: HomeLanguage }
+const { lang = 'es' } = Astro.props;
+const copy = HOME_COPY[lang];
+---
   <section class="cork" id="sobre">
     <div class="wood-frame"></div>
     <svg class="vine parallax" data-depth="14" viewBox="0 0 100 260" style="overflow:visible" aria-hidden="true" focusable="false"><use href="#vine"/></svg>
     <svg class="vine v2 parallax" data-depth="9" viewBox="0 0 100 260" style="overflow:visible" aria-hidden="true" focusable="false"><use href="#vine"/></svg>
     <div class="board">
-      <h2 class="board-title reveal" style="--r:-1.5deg">Un vistazo a <em>mi mundo</em></h2>
+      <h2 class="board-title reveal" style="--r:-1.5deg">{copy.aboutTitle[0]}<em>{copy.aboutTitle[1]}</em></h2>
       <div class="clip">
         <article class="about-note reveal" style="--r:-1deg">
-          <button class="note-pin" type="button" aria-label="Fijar la nota sobre mi trabajo actual" aria-pressed="false"></button>
-          <span class="about-kicker">hoy</span>
-          <h3>Project Manager de software</h3>
-          <p>Tengo <span data-age>23</span> a&ntilde;os y trabajo en eagerworks. Ordeno el trabajo, coordino al equipo y sigo de cerca lo que hace falta para que cada proyecto avance.</p>
+          <button class="note-pin" type="button" aria-label={copy.pinLabels[0]} aria-pressed="false"></button>
+          <span class="about-kicker">{copy.today}</span>
+          <h3>{copy.about[0][0]}</h3>
+          <p set:html={copy.about[0][1]}></p>
         </article>
         <article class="about-note reveal" style="--r:1.2deg">
-          <button class="note-pin green" type="button" aria-label="Fijar la nota sobre mi recorrido" aria-pressed="false"></button>
-          <span class="about-kicker">el recorrido</span>
-          <h3>De la rob&oacute;tica a producto</h3>
-          <p>Empec&eacute; dando clases de rob&oacute;tica y programaci&oacute;n. Despu&eacute;s llegaron Ceibal, UKG, la Licenciatura en TI y los proyectos que me trajeron hasta ac&aacute;.</p>
+          <button class="note-pin green" type="button" aria-label={copy.pinLabels[1]} aria-pressed="false"></button>
+          <span class="about-kicker">{copy.journey}</span>
+          <h3>{copy.about[1][0]}</h3>
+          <p>{copy.about[1][1]}</p>
         </article>
       </div>
       <p class="sr-only" id="note-pin-status" aria-live="polite"></p>
-      <a class="open-folder" href="formacion.html#experiencia">Abrir mi recorrido completo <span aria-hidden="true">&rarr;</span></a>
+      <a class="open-folder" href={`${localizedPath(lang, 'formacion.html')}#${lang === 'es' ? 'experiencia' : 'experience'}`}>{copy.journeyLink} <span aria-hidden="true">&rarr;</span></a>
     </div>
   </section>

@@ -8,13 +8,7 @@ import {
   type KeyboardEvent as ReactKeyboardEvent,
   type TouchEvent as ReactTouchEvent
 } from 'react';
-import {
-  PROJECTS,
-  pagesFor,
-  projectById,
-  type ProjectBook,
-  type ProjectPage
-} from '../../data/projects';
+import type { ProjectBook, ProjectPage, ProjectSectionKey } from '../../data/projects';
 
 type TurnDirection = 'next' | 'prev';
 
@@ -23,10 +17,26 @@ type ProjectUrlState =
   | { kind: 'invalid' }
   | { kind: 'valid'; project: ProjectBook; page: number; rawPage: string | null };
 
-function projectFromUrl(): ProjectUrlState {
+const PAGE_KEYS: ProjectSectionKey[] = ['context', 'challenge', 'role', 'team', 'decisions', 'results', 'learnings'];
+const PAGE_TITLES = {
+  es: ['Contexto', 'Desafío', 'Rol de Romina', 'Equipo y stakeholders', 'Decisiones y acciones', 'Resultados', 'Aprendizajes'],
+  en: ['Context', 'Challenge', "Romina's role", 'Team and stakeholders', 'Decisions and actions', 'Outcomes', 'Learnings'],
+  pt: ['Contexto', 'Desafio', 'Papel da Romina', 'Equipe e stakeholders', 'Decisões e ações', 'Resultados', 'Aprendizados']
+} as const;
+
+function pagesFor(project: ProjectBook, lang: 'es' | 'en' | 'pt'): ProjectPage[] {
+  const pages: ProjectPage[] = [{ kind: 'cover', title: project.title, subtitle: project.subtitle }];
+  PAGE_KEYS.forEach((key, index) => {
+    const html = project.sections[key];
+    if (html) pages.push({ kind: 'content', title: PAGE_TITLES[lang][index], html });
+  });
+  return pages;
+}
+
+function projectFromUrl(projects: ProjectBook[]): ProjectUrlState {
   if (!window.location.hash.startsWith('#project=')) return { kind: 'none' };
   const params = new URLSearchParams(window.location.hash.slice(1));
-  const project = projectById(params.get('project'));
+  const project = projects.find((candidate) => candidate.id === params.get('project'));
   if (!project) return { kind: 'invalid' };
   const rawPage = params.get('page');
   const parsedPage = Number.parseInt(rawPage ?? '0', 10);
@@ -60,7 +70,14 @@ function Page({ page, project }: { page: ProjectPage | null; project: ProjectBoo
   );
 }
 
-export default function ProjectBookcase() {
+export default function ProjectBookcase({ lang = 'es', projects }: { lang?: 'es' | 'en' | 'pt'; projects: ProjectBook[] }) {
+  const copy = lang === 'en' ? {
+    title: <>My project <em>bookshelf</em></>, hint: 'open a book and turn its pages →', region: 'Scrollable project bookshelf', summaries: 'Project summaries', open: 'Open case study', shelf: 'there is still room on the shelf', project: 'Project', close: 'Close project', previous: 'previous', next: 'next', arrows: 'use the arrows or ← →'
+  } : lang === 'pt' ? {
+    title: <>Minha <em>estante</em> de projetos</>, hint: 'abra um livro e folheie suas páginas →', region: 'Estante de projetos rolável', summaries: 'Resumo dos projetos', open: 'Abrir caso', shelf: 'ainda há espaço na estante', project: 'Projeto', close: 'Fechar projeto', previous: 'anterior', next: 'próxima', arrows: 'use as setas ou ← →'
+  } : {
+    title: <>Mi <em>estante</em> de proyectos</>, hint: 'tocá un libro para abrirlo y pasar sus páginas →', region: 'Estante de proyectos desplazable', summaries: 'Resumen de proyectos', open: 'Abrir caso', shelf: 'todavía queda lugar en el estante', project: 'Proyecto', close: 'Cerrar proyecto', previous: 'anterior', next: 'siguiente', arrows: 'tocá las flechas o ← →'
+  };
   const [currentId, setCurrentId] = useState<string | null>(null);
   const [pageIndex, setPageIndex] = useState(0);
   const [isMobile, setIsMobile] = useState(true);
@@ -73,8 +90,8 @@ export default function ProjectBookcase() {
   const openedFromPageRef = useRef(false);
   const touchStartRef = useRef<number | null>(null);
 
-  const project = useMemo(() => projectById(currentId) ?? null, [currentId]);
-  const pages = useMemo(() => project ? pagesFor(project) : [], [project]);
+  const project = useMemo(() => projects.find((candidate) => candidate.id === currentId) ?? null, [currentId, projects]);
+  const pages = useMemo(() => project ? pagesFor(project, lang) : [], [lang, project]);
   const paddedPages = useMemo(() => pages.length % 2 ? [...pages, null] : pages, [pages]);
   const spread = Math.floor(pageIndex / 2);
   const spreadCount = Math.ceil(paddedPages.length / 2);
@@ -98,7 +115,7 @@ export default function ProjectBookcase() {
     trigger: HTMLElement | null,
     options: { page?: number; history?: boolean; focus?: boolean } = {}
   ) => {
-    const pageCount = pagesFor(nextProject).length;
+    const pageCount = pagesFor(nextProject, lang).length;
     const nextPage = normalizedPage(options.page ?? 0, pageCount);
     lastFocusRef.current = trigger ?? (document.activeElement as HTMLElement | null);
     openedFromPageRef.current = options.history !== false;
@@ -110,7 +127,7 @@ export default function ProjectBookcase() {
       window.history.pushState({ portfolioProject: true }, '', projectUrl(nextProject.id, nextPage));
     }
     if (options.focus !== false) window.requestAnimationFrame(focusCloseControl);
-  }, [focusCloseControl, normalizedPage]);
+  }, [focusCloseControl, lang, normalizedPage]);
 
   const closeBook = useCallback((options: { history?: boolean } = {}) => {
     const shouldConsumeProjectEntry = options.history !== false && openedFromPageRef.current;
@@ -130,7 +147,7 @@ export default function ProjectBookcase() {
   }, []);
 
   const syncProjectFromUrl = useCallback(() => {
-    const target = projectFromUrl();
+    const target = projectFromUrl(projects);
     if (target.kind !== 'valid') {
       closeBook({ history: false });
       if (target.kind === 'invalid') {
@@ -139,7 +156,7 @@ export default function ProjectBookcase() {
       return;
     }
 
-    const targetPages = pagesFor(target.project);
+    const targetPages = pagesFor(target.project, lang);
     const nextPage = normalizedPage(target.page, targetPages.length);
     openedFromPageRef.current = window.history.state?.portfolioProject === true;
     setTurn(null);
@@ -150,7 +167,7 @@ export default function ProjectBookcase() {
     }
     window.requestAnimationFrame(() => closeRef.current?.focus({ preventScroll: true }));
     window.requestAnimationFrame(focusCloseControl);
-  }, [closeBook, focusCloseControl, normalizedPage, replaceProjectUrl]);
+  }, [closeBook, focusCloseControl, lang, normalizedPage, projects, replaceProjectUrl]);
 
   const finishTurn = useCallback(() => {
     if (!turn || !project) return;
@@ -324,15 +341,15 @@ export default function ProjectBookcase() {
     <>
       <section className="shelfsec" id="proyectos">
         <div className="hd reveal">
-          <h2>Mi <em>estante</em> de proyectos</h2>
-          <p>tocá un libro para abrirlo y pasar sus páginas →</p>
+          <h2>{copy.title}</h2>
+          <p>{copy.hint}</p>
         </div>
         <div className="bookshelf">
-          <div className="shelf-scroll" role="region" aria-label="Estante de proyectos desplazable" tabIndex={isMobile ? 0 : -1}>
+          <div className="shelf-scroll" role="region" aria-label={copy.region} tabIndex={isMobile ? 0 : -1}>
             <div className="shelf-track">
               <div className="plank top" />
               <div className="books">
-                {PROJECTS.map((book) => (
+                {projects.map((book) => (
                   <button
                     className={`spine ${book.spineClass}`}
                     type="button"
@@ -354,8 +371,8 @@ export default function ProjectBookcase() {
           </div>
           <svg className="potplant" viewBox="0 0 120 150" aria-hidden="true" focusable="false"><use href="#pot" /></svg>
         </div>
-        <ul className="project-summaries" aria-label="Resumen de proyectos">
-          {PROJECTS.filter((book) => book.summary).map((book) => (
+        <ul className="project-summaries" aria-label={copy.summaries}>
+          {projects.filter((book) => book.summary).map((book) => (
             <li key={book.id}>
               <article className="project-summary" style={{ '--summary-color': book.color } as CSSProperties}>
                 <span className="tag">{book.tag}</span>
@@ -367,16 +384,16 @@ export default function ProjectBookcase() {
                   data-book={book.id}
                   data-analytics-event="project_case_open"
                   aria-haspopup="dialog"
-                  aria-label={`Abrir caso de proyecto: ${book.title}`}
+                  aria-label={`${copy.open}: ${book.title}`}
                   onClick={(event) => openBook(book, event.currentTarget)}
                 >
-                  Abrir caso <span aria-hidden="true">→</span>
+                  {copy.open} <span aria-hidden="true">→</span>
                 </button>
               </article>
             </li>
           ))}
         </ul>
-        <div className="shelfhint hand">todavía queda lugar en el estante</div>
+        <div className="shelfhint hand">{copy.shelf}</div>
       </section>
 
       <div
@@ -392,8 +409,8 @@ export default function ProjectBookcase() {
       >
         <div className="bm-backdrop" data-close onClick={() => closeBook()} />
         <div className="bookframe">
-          <h2 className="sr-only" id="bookDialogTitle">{project ? `Proyecto: ${project.title}` : 'Proyecto'}</h2>
-          <button className="bm-close" type="button" data-close aria-label="Cerrar proyecto" ref={closeRef} onClick={() => closeBook()}>×</button>
+          <h2 className="sr-only" id="bookDialogTitle">{project ? `${copy.project}: ${project.title}` : copy.project}</h2>
+          <button className="bm-close" type="button" data-close aria-label={copy.close} ref={closeRef} onClick={() => closeBook()}>×</button>
           <div className="bk" onTouchStart={handleTouchStart} onTouchEnd={handleTouchEnd}>
             <div className="pg pg-left">{project && <Page page={leftPage} project={project} />}</div>
             <div className="pg pg-right">{project && <Page page={rightPage} project={project} />}</div>
@@ -409,10 +426,10 @@ export default function ProjectBookcase() {
               </div>
             )}
           </div>
-          <button className="bm-nav prev" type="button" aria-label="anterior" disabled={previousDisabled || Boolean(turn)} onClick={() => changePage('prev')}>‹</button>
-          <button className="bm-nav next" type="button" aria-label="siguiente" disabled={nextDisabled || Boolean(turn)} onClick={() => changePage('next')}>›</button>
-          <div className="bm-foot"><span>{isMobile ? `${pageIndex + 1} / ${pages.length}` : `${spread + 1} / ${spreadCount}`}</span> · tocá las flechas o ← →</div>
-          <button className="bm-close-mobile" type="button" aria-label="Cerrar proyecto" ref={mobileCloseRef} onClick={() => closeBook()}>Cerrar proyecto</button>
+          <button className="bm-nav prev" type="button" aria-label={copy.previous} disabled={previousDisabled || Boolean(turn)} onClick={() => changePage('prev')}>‹</button>
+          <button className="bm-nav next" type="button" aria-label={copy.next} disabled={nextDisabled || Boolean(turn)} onClick={() => changePage('next')}>›</button>
+          <div className="bm-foot"><span>{isMobile ? `${pageIndex + 1} / ${pages.length}` : `${spread + 1} / ${spreadCount}`}</span> · {copy.arrows}</div>
+          <button className="bm-close-mobile" type="button" aria-label={copy.close} ref={mobileCloseRef} onClick={() => closeBook()}>{copy.close}</button>
         </div>
       </div>
     </>

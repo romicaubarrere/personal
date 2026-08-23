@@ -1,3 +1,9 @@
+---
+import { HOME_COPY, type HomeLanguage } from '../../data/home-copy';
+interface Props { lang?: HomeLanguage }
+const { lang = 'es' } = Astro.props;
+const copy = HOME_COPY[lang];
+---
   <header class="hero brick" id="top">
     <div class="special-date-layer" id="specialDateLayer" aria-hidden="true" hidden>
       <div class="birthday-decor">
@@ -32,14 +38,14 @@
 
     <div class="stage">
       <div class="titlewrap">
-        <span class="kick hand">hola, soy</span>
+        <span class="kick hand">{copy.hello}</span>
         <h1 class="bigname">Romina<span class="l2">Caubarrere</span></h1>
-        <div class="rolebar">Project Manager de software</div>
-        <p class="hero-copy">Conecto personas, producto y tecnolog&iacute;a para que proyectos complejos avancen y lleguen a resultados.</p>
+        <div class="rolebar">{copy.role}</div>
+        <p class="hero-copy">{copy.hero}</p>
         <div class="special-date-badge" id="specialDateBadge" role="status" aria-live="polite" hidden></div>
-        <div class="hero-actions" aria-label="Acciones principales">
-          <a class="hero-link primary" href="#proyectos" data-analytics-event="view_projects_click">Ver proyectos</a>
-          <a class="hero-link" href="#contacto">Contactarme</a>
+        <div class="hero-actions" aria-label={copy.actionsLabel}>
+          <a class="hero-link primary" href="#proyectos" data-analytics-event="view_projects_click">{copy.heroActions[0]}</a>
+          <a class="hero-link" href="#contacto">{copy.heroActions[1]}</a>
         </div>
       </div>
 
@@ -56,9 +62,9 @@
 
       <div class="stickynote">
         <span class="pin gold" style="top:-9px;left:50%;transform:translateX(-50%);"></span>
-        muchas preguntas, planes claros <b>+</b><br>proyectos que salen bien
+        {copy.sticky.split(' + ')[0]} <b>+</b><br>{copy.sticky.split(' + ')[1]}
       </div>
     </div>
 
-    <div class="scrollhint">baj&aacute; a mi estudio<span>&darr;</span></div>
+    <div class="scrollhint">{copy.scroll}<span>&darr;</span></div>
   </header>

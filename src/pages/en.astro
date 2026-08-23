@@ -1,7 +1,7 @@
 ---
-import LocalizedOverview from '../components/LocalizedOverview.astro';
+import Home from '../components/home/Home.astro';
 import BaseLayout from '../layouts/BaseLayout.astro';
-import '../styles/localized.css';
+import '../styles/home.css';
 
 const canonical = 'https://romicaubarrere.github.io/personal/en.html';
 const alternates = [
@@ -10,8 +10,19 @@ const alternates = [
   { lang: 'pt', href: 'https://romicaubarrere.github.io/personal/pt.html' },
   { lang: 'x-default', href: 'https://romicaubarrere.github.io/personal/' }
 ];
+const base = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL : `${import.meta.env.BASE_URL}/`;
+const title = 'Romina Caubarrere | Software Project Manager';
+const description = 'Portfolio of Romina Caubarrere, a Software Project Manager connecting people, product and technology to move complex projects forward.';
+const structuredData = {
+  '@context': 'https://schema.org', '@graph': [
+    { '@id': `${canonical}#website`, '@type': 'WebSite', name: "Romi's studio", url: canonical, inLanguage: 'en' },
+    { '@id': `${canonical}#profile`, '@type': 'ProfilePage', name: title, description, url: canonical, inLanguage: 'en', isPartOf: { '@id': `${canonical}#website` }, mainEntity: { '@id': `${canonical}#person` } },
+    { '@id': `${canonical}#person`, '@type': 'Person', name: 'Romina Caubarrere', url: canonical, jobTitle: 'Software Project Manager', description: 'Software Project Manager with experience in product, project management and quality.', sameAs: ['https://www.linkedin.com/in/rominacaubarrere/'], knowsAbout: ['Software project management', 'Digital product', 'Testing and quality'] }
+  ]
+};
 ---
 
-<BaseLayout lang="en" ogLocale="en_US" title="Romina Caubarrere | Software Project Manager" description="Portfolio of Romina Caubarrere, a Software Project Manager connecting people, product and technology to move complex projects forward." {canonical} {alternates} ogDescription="I connect people, product and technology so complex projects can move forward and reach real outcomes." ogImageAlt="Portfolio card for Romina Caubarrere, Software Project Manager.">
-  <LocalizedOverview lang="en" />
+<BaseLayout lang="en" ogLocale="en_US" {title} {description} {canonical} {alternates} ogDescription="I connect people, product and technology so complex projects can move forward and reach real outcomes." ogImageAlt="Portfolio card for Romina Caubarrere, Software Project Manager." extraStylesheets={[`${base}microinteractions.css`]}>
+  <script is:inline slot="head" type="application/ld+json" set:html={JSON.stringify(structuredData, null, 2)}></script>
+  <Home lang="en" />
 </BaseLayout>

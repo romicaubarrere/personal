@@ -1,1 +1,8 @@
-  <footer>hecho con m&eacute;todo, plantas y un poco de lana &middot; Romina Caubarrere &middot; <a href="/personal/privacidad.html">Privacidad</a></footer>
+---
+import { HOME_COPY, type HomeLanguage } from '../../data/home-copy';
+interface Props { lang?: HomeLanguage }
+const { lang = 'es' } = Astro.props;
+const copy = HOME_COPY[lang];
+const privacyHref = lang === 'es' ? '/personal/privacidad.html' : `/personal/${lang}/${lang === 'en' ? 'privacy' : 'privacidade'}.html`;
+---
+  <footer>{copy.footer} &middot; Romina Caubarrere &middot; <a href={privacyHref}>{copy.privacy}</a></footer>

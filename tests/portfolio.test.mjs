@@ -144,7 +144,7 @@ test('WEB-054 publica una estrategia multilingüe sin exagerar niveles', async (
   assert.match(html, /<html\s+lang="es">/i);
   assert.match(english, /<html\s+lang="en">/i);
   assert.match(portuguese, /<html\s+lang="pt">/i);
-  assert.match(html, /Hablo espa&ntilde;ol e ingl&eacute;s, bastante portugu&eacute;s/);
+  assert.match(html, /Hablo español e inglés, bastante portugués/);
   assert.match(english, /I speak Spanish and English, and quite a bit of Portuguese/);
   assert.match(portuguese, /Falo espanhol e inglês, e bastante português/);
   for (const source of [html, english, portuguese]) {
@@ -229,8 +229,8 @@ test('el blog publica una nota real con estructura reutilizable y accesible', ()
   assert.match(postStyles, /@media\(max-width:600px\)/);
   assert.match(postStyles, /:focus-visible/);
   assert.match(html, /href="posts\/por-que-hago-tantas-preguntas\.html"/);
-  assert.match(html, /Publicado &middot; agosto 2026/);
-  assert.match(html, /class="sticky-desc">Sobre preguntar por qu&eacute;/);
+  assert.match(html, /Publicado · agosto 2026/);
+  assert.match(html, /class="sticky-desc">Sobre preguntar por qué/);
   assert.match(blogGuide, /Audiencia y temas/);
   assert.match(blogGuide, /PostLayout\.astro/);
   assert.match(blogGuide, /No se publican textos de muestra/);
@@ -612,15 +612,15 @@ test('los proyectos muestran información esencial sin depender de hover', () =>
     assert.match(summary, /class="project-brief"/);
     assert.match(summary, /data-book="[^"]+"/);
     assert.match(summary, /aria-haspopup="dialog"/);
-    assert.match(summary, /aria-label="Abrir caso de proyecto: [^"]+"/);
+    assert.match(summary, /aria-label="Abrir caso: [^"]+"/);
   }
 
   assert.match(html, /<ul class="project-summaries" aria-label="Resumen de proyectos">/);
   assert.match(html, /\.project-summaries\{[^}]*display:grid;grid-template-columns:repeat\(2,minmax\(0,1fr\)\)/);
   assert.match(html, /@media\(max-width:760px\)\{[\s\S]*?\.project-summaries\{grid-template-columns:1fr;/);
-  assert.match(projectIslandSource, /PROJECTS\.filter\(\(book\) => book\.summary\)\.map/);
+  assert.match(projectIslandSource, /projects\.filter\(\(book\) => book\.summary\)\.map/);
   assert.match(projectIslandSource, /onClick=\{\(event\) => openBook\(book, event\.currentTarget\)\}/);
-  assert.equal((projectDataSource.match(/^\s+summary: /gm) ?? []).length, 3);
+  assert.equal((projectDataSource.match(/^\s+summary: /gm) ?? []).length, 9);
   assert.doesNotMatch(html, /\.pcard\{|\.spine:hover \.pcard/);
 });
 
@@ -643,8 +643,8 @@ test('los casos de proyecto comparten una plantilla ordenada y omiten campos vac
     .map((match) => match[1]);
   assert.deepEqual(projectIds, ['fisica', 'pmi', 'habitar']);
   assert.equal(new Set(projectIds).size, 3);
-  assert.match(projectDataSource, /for \(const definition of PROJECT_SECTION_ORDER\)/);
-  assert.match(projectDataSource, /if \(html\) pages\.push\(\{ kind: 'content', title: definition\.title, html \}\)/);
+  assert.match(projectDataSource, /for \(const \[index, definition\] of PROJECT_SECTION_ORDER\.entries\(\)\)/);
+  assert.match(projectDataSource, /if \(html\) pages\.push\(\{ kind: 'content', title: SECTION_TITLES\[lang\]\[index\], html \}\)/);
   assert.doesNotMatch(projectDataSource, /Contá|Qué hiciste vos|Cómo terminó|pendiente|placeholder/i);
 
   const habitar = projectDataSource.match(/id: 'habitar',[\s\S]*?\n\s+\}\n\];/);
@@ -686,7 +686,7 @@ test('el modal de proyectos gestiona el foco como un diálogo accesible', () => 
   );
   assert.match(html, /<h2 class="sr-only" id="bookDialogTitle">Proyecto<\/h2>/);
   assert.match(projectIslandSource, /lastFocusRef\.current = trigger \?\?/);
-  assert.match(projectIslandSource, /`Proyecto: \$\{project\.title\}`/);
+  assert.match(projectIslandSource, /`\$\{copy\.project\}: \$\{project\.title\}`/);
   assert.match(projectIslandSource, /document\.body\.classList\.toggle\('modal-open', isOpen\)/);
   assert.match(projectIslandSource, /document\.body\.classList\.remove\('modal-open'\)/);
   assert.match(projectIslandSource, /element\.inert = isOpen/);
@@ -969,7 +969,7 @@ test('el hero comunica el posicionamiento y ofrece las dos acciones principales'
   assert.match(html, /Project Manager de software/);
   assert.match(
     html,
-    /Conecto personas, producto y tecnolog&iacute;a para que proyectos complejos avancen y lleguen a resultados\./
+    /Conecto personas, producto y tecnología para que proyectos complejos avancen y lleguen a resultados\./
   );
   assert.match(html, /class="hero-link primary" href="#proyectos" data-analytics-event="view_projects_click">Ver proyectos<\/a>/);
   assert.match(html, /class="hero-link" href="#contacto">Contactarme<\/a>/);
@@ -1024,7 +1024,7 @@ test('la edad se calcula desde el 13 de mayo de 2003 en hora de Montevideo', () 
   assert.equal(calculateAge({ year: 2027, month: 5, day: 12 }), 23);
   assert.equal(calculateAge({ year: 2027, month: 5, day: 13 }), 24);
   assert.equal(calculateAge({ year: 2027, month: 5, day: 14 }), 24);
-  assert.match(html, /Tengo <span data-age>23<\/span> a&ntilde;os/);
+  assert.match(html, /Tengo <span data-age>23<\/span> años/);
   assert.match(homeScripts, /import '\.\.\/\.\.\/scripts\/special-dates\.js'/);
 });
 
@@ -1133,7 +1133,7 @@ test('T6 deja una bio breve y deriva el recorrido completo a su página', () => 
 
   assert.equal(notes.length, 2);
   assert.match(html, /<h3>Project Manager de software<\/h3>/);
-  assert.match(html, /<h3>De la rob&oacute;tica a producto<\/h3>/);
+  assert.match(html, /<h3>De la robótica a producto<\/h3>/);
   assert.match(html, /Abrir mi recorrido completo/);
   assert.doesNotMatch(html, /<ol class="experience-list"|id="formacion"/);
   assert.doesNotMatch(html, /Acá va tu historia|Ac&aacute; va tu historia|La escribimos juntas|en tesis/i);

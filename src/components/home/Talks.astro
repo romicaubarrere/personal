@@ -1,12 +1,18 @@
+---
+import { HOME_COPY, localizedPath, type HomeLanguage } from '../../data/home-copy';
+interface Props { lang?: HomeLanguage }
+const { lang = 'es' } = Astro.props;
+const copy = HOME_COPY[lang];
+---
   <section class="flyers" id="charlas">
     <div class="hd reveal">
-      <h2>Comunidad y <em>escenario</em></h2>
-      <p class="hand" style="color:var(--ink-soft)">una muestra corta; el registro completo tiene su propia pared</p>
+      <h2>{copy.talksTitle[0]}<em>{copy.talksTitle[1]}</em></h2>
+      <p class="hand" style="color:var(--ink-soft)">{copy.talksIntro}</p>
     </div>
     <div class="flywrap">
-      <div class="flyer"><span class="pin" style="top:-8px;left:50%;transform:translateX(-50%)"></span><div class="yr hand">2026</div><span class="role">Oradora</span><h3>Presentaci&oacute;n de habITar</h3><p>C&aacute;mara Uruguaya de Blockchain.</p><div class="perf hand">del proyecto al escenario</div></div>
-      <div class="flyer"><span class="pin green" style="top:-8px;left:50%;transform:translateX(-50%)"></span><div class="yr hand">mar 2026</div><span class="role">Panelista</span><h3>Break the Pattern</h3><p>UCU &middot; estereotipos y liderazgo en TI.</p><div class="perf hand">romper el molde</div></div>
-      <div class="flyer"><span class="pin gold" style="top:-8px;left:50%;transform:translateX(-50%)"></span><div class="yr hand">2025</div><span class="role">Panelista</span><h3>Campus Party Uruguay</h3><p>WTM Uruguay &middot; roles en tecnolog&iacute;a.</p><div class="perf hand">mostrar los caminos</div></div>
+      <div class="flyer"><span class="pin" style="top:-8px;left:50%;transform:translateX(-50%)"></span><div class="yr hand">2026</div><span class="role">{copy.talks[0][0]}</span><h3>{copy.talks[0][1]}</h3><p>{copy.talks[0][2]}</p><div class="perf hand">{copy.talks[0][3]}</div></div>
+      <div class="flyer"><span class="pin green" style="top:-8px;left:50%;transform:translateX(-50%)"></span><div class="yr hand">mar 2026</div><span class="role">{copy.talks[1][0]}</span><h3>{copy.talks[1][1]}</h3><p>{copy.talks[1][2]}</p><div class="perf hand">{copy.talks[1][3]}</div></div>
+      <div class="flyer"><span class="pin gold" style="top:-8px;left:50%;transform:translateX(-50%)"></span><div class="yr hand">2025</div><span class="role">{copy.talks[2][0]}</span><h3>{copy.talks[2][1]}</h3><p>{copy.talks[2][2]}</p><div class="perf hand">{copy.talks[2][3]}</div></div>
     </div>
-    <a class="open-folder" href="comunidad-charlas.html">Abrir comunidad y charlas <span aria-hidden="true">&rarr;</span></a>
+    <a class="open-folder" href={localizedPath(lang, 'comunidad-charlas.html')}>{copy.talksLink} <span aria-hidden="true">&rarr;</span></a>
   </section>

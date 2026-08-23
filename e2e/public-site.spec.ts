@@ -23,6 +23,26 @@ test('las rutas principales cargan en el idioma esperado', async ({ page }) => {
   }
 });
 
+test('las tres portadas conservan secciones, casos interactivos y CV', async ({ page }) => {
+  const homes = [
+    { path: '/personal/', close: 'Cerrar proyecto' },
+    { path: '/personal/en.html', close: 'Close project' },
+    { path: '/personal/pt.html', close: 'Fechar projeto' }
+  ];
+  for (const home of homes) {
+    await page.goto(home.path);
+    for (const id of ['top', 'sobre', 'proyectos', 'forma-de-trabajo', 'charlas', 'lecturas', 'contacto']) {
+      await expect(page.locator(`#${id}`), `${home.path} #${id}`).toHaveCount(1);
+    }
+    await expect(page.locator('.spine')).toHaveCount(3);
+    await expect(page.locator('[data-analytics-event="contact_cv_download"]')).toHaveAttribute('href', 'cv/romina-caubarrere-cv.pdf');
+    await page.locator('.spine[data-book="habitar"]').click();
+    await expect(page.locator('#bookmodal')).toHaveAttribute('aria-hidden', 'false');
+    await page.getByRole('button', { name: home.close, exact: true }).first().click();
+    await expect(page.locator('#bookmodal')).toHaveAttribute('aria-hidden', 'true');
+  }
+});
+
 test('la 404 conserva el idioma y vuelve a la portada equivalente', async ({ page }) => {
   const cases = [
     { path: '/personal/no-existe', lang: 'es', heading: 'Página no encontrada', home: '/personal/', privacy: 'Privacidad', privacyHref: '/personal/privacidad.html' },

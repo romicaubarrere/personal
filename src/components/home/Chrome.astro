@@ -1,4 +1,10 @@
-  <a class="skip-link" href="#main-content">Saltar al contenido principal</a>
+---
+import { HOME_COPY, type HomeLanguage } from '../../data/home-copy';
+interface Props { lang?: HomeLanguage }
+const { lang = 'es' } = Astro.props;
+const copy = HOME_COPY[lang];
+---
+  <a class="skip-link" href="#main-content">{copy.skip}</a>
 
   <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
     <defs>
@@ -83,14 +89,14 @@
   </svg>
 
   <button class="nav-toggle" id="navToggle" type="button" aria-controls="primary-nav" aria-expanded="false">
-    <span>Men&uacute;</span><span class="menu-icon" aria-hidden="true">&#9776;</span>
+    <span>{copy.menu}</span><span class="menu-icon" aria-hidden="true">&#9776;</span>
   </button>
-  <nav id="primary-nav" aria-label="Navegaci&oacute;n principal">
-    <a href="#sobre">Mi mundo</a>
-    <a href="#proyectos">Proyectos</a>
-    <a href="#forma-de-trabajo">C&oacute;mo trabajo</a>
-    <a href="#charlas">Charlas y comunidad</a>
-    <a href="#lecturas">Lecturas</a>
-    <a href="#contacto">Contacto</a>
+  <nav id="primary-nav" aria-label={copy.navLabel}>
+    <a href="#sobre">{copy.nav[0]}</a>
+    <a href="#proyectos">{copy.nav[1]}</a>
+    <a href="#forma-de-trabajo">{copy.nav[2]}</a>
+    <a href="#charlas">{copy.nav[3]}</a>
+    <a href="#lecturas">{copy.nav[4]}</a>
+    <a href="#contacto">{copy.nav[5]}</a>
   </nav>
-  <a class="contact-tab" href="#contacto" aria-label="Ir a las opciones de contacto" data-analytics-event="persistent_contact_click">Hablemos</a>
+  <a class="contact-tab" href="#contacto" aria-label={lang === 'es' ? 'Ir a las opciones de contacto' : lang === 'en' ? 'Go to contact options' : 'Ir para as opções de contato'} data-analytics-event="persistent_contact_click">{copy.talk}</a>
