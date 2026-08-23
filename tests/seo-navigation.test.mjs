@@ -538,7 +538,7 @@ test('la navegación expone la sección activa y el contacto publica solo destin
   assert.match(home, /classList\.toggle\('is-active',active\)/);
   assert.match(homeStyles, /nav a\.is-active/);
   assert.doesNotMatch(home, /<a\b[^>]*href="#"/i);
-  assert.equal((home.match(/class="ltag is-pending" aria-disabled="true"/g) ?? []).length, 1);
+  assert.equal((home.match(/class="ltag is-pending" aria-disabled="true"/g) ?? []).length, 0);
   assert.match(home, /href="mailto:rominacaubarrere@gmail\.com"/);
   assert.match(home, /aria-label="Enviar un email a Romina Caubarrere"/);
   assert.match(home, /data-analytics-event="contact_email_click"/);
@@ -546,8 +546,12 @@ test('la navegación expone la sección activa y el contacto publica solo destin
   assert.match(home, /rel="me noopener noreferrer"/);
   assert.match(home, /aria-label="LinkedIn de Romina Caubarrere \(abre en una nueva pesta&ntilde;a\)"/);
   assert.match(home, /data-analytics-event="contact_linkedin_click"/);
+  assert.match(home, /href="cv\/romina-caubarrere-cv\.pdf"/);
+  assert.match(home, /download="romina-caubarrere-cv\.pdf"/);
+  assert.match(home, /aria-label="Descargar el curr&iacute;culum de Romina Caubarrere en PDF"/);
+  assert.match(home, /data-analytics-event="contact_cv_download"/);
   assert.doesNotMatch(home, />Instagram<\/span>/);
-  assert.match(home, /El CV est&aacute; pendiente de publicaci&oacute;n\./);
+  assert.doesNotMatch(home, /El CV est&aacute; pendiente de publicaci&oacute;n\./);
 });
 
 test('robots, sitemap y 404 quedan listos para GitHub Pages', async () => {

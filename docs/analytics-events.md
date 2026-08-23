@@ -22,6 +22,7 @@ No se incluyen texto visible, URL de destino, direcci&oacute;n de email, conteni
 | --- | --- |
 | `persistent_contact_click` | Activar la pesta&ntilde;a persistente que lleva a Contacto. |
 | `contact_email_click` | Activar el enlace de email aprobado. |
+| `contact_cv_download` | Descargar el curr&iacute;culum aprobado en PDF. |
 | `contact_linkedin_click` | Activar el enlace al LinkedIn aprobado. |
 | `project_case_open` | Abrir un caso desde el lomo o su resumen. No identifica qu&eacute; proyecto fue abierto. |
 | `view_projects_click` | Activar “Ver proyectos” en el hero. |
