@@ -27,3 +27,16 @@
   --focus-ring: 3px solid var(--gold);
   --shadow-paper: 4px 12px 32px rgba(36, 31, 24, .3);
 }
+
+* { box-sizing: border-box; }
+body { margin: 0; font-family: var(--sans); color: var(--ink); -webkit-font-smoothing: antialiased; }
+.hand { font-family: var(--hand); }
+.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
+.brick {
+  background-color: var(--brick);
+  background-image:
+    linear-gradient(335deg, rgba(0, 0, 0, .22), transparent 55%),
+    repeating-linear-gradient(0deg, var(--mortar) 0 3px, transparent 3px 46px),
+    repeating-linear-gradient(90deg, var(--mortar) 0 3px, var(--brick) 3px 120px),
+    repeating-linear-gradient(90deg, transparent 0 60px, var(--mortar) 60px 63px, transparent 63px 120px);
+}

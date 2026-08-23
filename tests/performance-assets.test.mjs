@@ -39,7 +39,7 @@ test('los recursos compilados respetan presupuestos de transferencia', async () 
   const htmlDocuments = files.filter((path) => extname(path) === '.html');
 
   assert.ok(await totalBytes(javascript) <= 220 * 1024, 'El JavaScript supera 220 KiB');
-  assert.ok(await totalBytes(styles) <= 86 * 1024, 'El CSS supera 86 KiB');
+  assert.ok(await totalBytes(styles) <= 85 * 1024, 'El CSS supera 85 KiB');
   assert.ok(await totalBytes(sharedResources) <= 500 * 1024, 'Los recursos compartidos superan 500 KiB');
   for (const document of htmlDocuments) {
     assert.ok((await stat(document)).size <= 100 * 1024, `${document} supera 100 KiB`);
