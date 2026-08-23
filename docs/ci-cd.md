@@ -41,12 +41,14 @@ npm run test:e2e
 ```
 
 En GitHub, el check estable que debe proteger `main` es `Validate build`. La
-verificación posterior al deploy recorre las portadas en los tres idiomas, las
-páginas principales y las notas; comprueba canonical, `hreflang`, sitemap,
-feed, 404 y assets compilados. El build publica el SHA esperado en un metadato y
-el smoke test lo compara con el commit del workflow. Los reintentos cubren la
-propagación de Pages, pero la ejecución termina con error si el contrato sigue
-sin cumplirse.
+verificación posterior al deploy toma el sitemap publicado como fuente y recorre
+todas las URLs que declara. Cada página HTML debe responder correctamente y
+coincidir en idioma, canonical y SHA con el commit del workflow. Además mantiene
+comprobaciones específicas para los `hreflang` de la portada, el sitemap, robots,
+feed, 404 y assets compilados. Rechaza URLs duplicadas o ajenas al portfolio y no
+interpreta los recursos no HTML como documentos. Los reintentos cubren la
+propagación de Pages, pero la ejecución termina con error si alguna ruta o parte
+del contrato sigue sin cumplirse.
 
 ## Rollback de producción
 

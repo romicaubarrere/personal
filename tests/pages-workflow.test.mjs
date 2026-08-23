@@ -18,6 +18,7 @@ const productionVerifier = await readFile(
   'utf8'
 );
 const readme = await readFile(join(repositoryRoot, 'README.md'), 'utf8');
+const ciCd = await readFile(join(repositoryRoot, 'docs', 'ci-cd.md'), 'utf8');
 
 test('Pages compila y publica Astro desde main con permisos mínimos', () => {
   assert.match(workflow, /push:\n\s+branches: \[main\]/);
@@ -80,6 +81,15 @@ test('el README documenta las capas de QA que realmente ejecuta el repositorio',
   assert.match(readme, /`e2e\/`: recorridos Playwright/);
   assert.match(readme, /scripts\/verify-production\.mjs/);
   assert.match(readme, /docs\/qa-strategy\.md/);
+});
+
+test('la documentación de CI/CD describe el smoke completo basado en sitemap', () => {
+  assert.match(ciCd, /toma el sitemap publicado como fuente/);
+  assert.match(ciCd, /recorre\s+todas las URLs que declara/);
+  assert.match(ciCd, /idioma, canonical y SHA/);
+  assert.match(ciCd, /`hreflang`[^\n]*portada, el sitemap, robots,\s*\nfeed, 404 y assets compilados/);
+  assert.match(ciCd, /Rechaza URLs duplicadas o ajenas al portfolio/);
+  assert.match(ciCd, /no\s+interpreta los recursos no HTML como documentos/);
 });
 
 test('WEB-129 reconstruye, prueba y verifica un ref estable antes del rollback', () => {
