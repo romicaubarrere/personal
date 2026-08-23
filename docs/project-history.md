@@ -149,6 +149,73 @@ Documentación relacionada:
 - [Registro de evidencia](./project-evidence.md)
 - [Estrategia de QA](./qa-strategy.md)
 
+### Agosto de 2026 · recuperar margen sin mover el límite
+
+La auditoría encontró que el CSS compilado quedaba a sólo 35 bytes del presupuesto vigente. El riesgo no se resolvió aumentando el máximo: se eliminaron reglas redundantes, se reutilizó el sistema visual y se redujo el CSS de 88.029 a 86.408 bytes. Después, el presupuesto se ajustó de 86 a 85 KiB para conservar una restricción útil y evitar que el margen recuperado se consumiera sin una decisión explícita.
+
+Este cambio convirtió una observación de auditoría en una mejora medible y en un contrato preventivo. También dejó evidencia de que optimizar no significó retirar la estética propia ni las microinteracciones aprobadas.
+
+Evidencia relacionada:
+
+- [Auditoría general del 23 de agosto de 2026](./general-audit-2026-08-23.md)
+- [`tests/performance-assets.test.mjs`](../tests/performance-assets.test.mjs)
+- [PR #170](https://github.com/romicaubarrere/personal/pull/170)
+
+### Agosto de 2026 · endurecer SEO, localización y recuperación
+
+La revisión transversal produjo una serie de correcciones pequeñas pero sistémicas: se localizaron rutas y enlaces de privacidad de la 404, se completaron relaciones `hreflang`, se corrigieron fechas ISO en notas traducidas, se consolidó el canonical del RSS y se eliminaron anuncios del feed en páginas EN/PT cuando el contenido seguía siendo exclusivamente español.
+
+El valor del trabajo no estuvo en una etiqueta aislada. Cada corrección amplió los contratos automatizados para impedir que idioma visible, URL canónica, fecha estructurada y navegación volvieran a divergir. La 404 también pasó a recuperar el idioma desde las raíces localizadas y los enlaces externos comenzaron a anunciar que abren una pestaña nueva.
+
+Evidencia relacionada:
+
+- [Estrategia de idiomas](./language-strategy.md)
+- [SEO y crawling](./seo-crawling.md)
+- [PR #163](https://github.com/romicaubarrere/personal/pull/163)
+- [PR #165](https://github.com/romicaubarrere/personal/pull/165)
+- [PR #166](https://github.com/romicaubarrere/personal/pull/166)
+- [PR #167](https://github.com/romicaubarrere/personal/pull/167)
+- [PR #169](https://github.com/romicaubarrere/personal/pull/169)
+
+### Agosto de 2026 · verificar producción desde su propia fuente pública
+
+El smoke test dejó de depender de una lista manual de páginas y comenzó a descubrir todas las rutas desde el sitemap publicado. Después de cada despliegue visita las 23 URLs declaradas y comprueba respuesta, idioma, canonical y SHA de build. Así, agregar una ruta al producto sin incorporarla a la verificación dejó de ser una omisión silenciosa.
+
+El README y la documentación de CI/CD se reconciliaron con el comportamiento real del pipeline. La línea base cerró en 144 pruebas Node, además de Playwright en Chromium para escritorio y móvil. Esta etapa reforzó una idea que atravesó todo el proyecto: la documentación, los tests y producción deben describir el mismo sistema.
+
+Evidencia relacionada:
+
+- [CI/CD](./ci-cd.md)
+- [Estrategia de QA](./qa-strategy.md)
+- [PR #171](https://github.com/romicaubarrere/personal/pull/171)
+- [PR #172](https://github.com/romicaubarrere/personal/pull/172)
+- [PR #173](https://github.com/romicaubarrere/personal/pull/173)
+
+### Agosto de 2026 · convertir la documentación en un recorrido navegable
+
+La documentación versionada se organizó también en Confluence para ofrecer una lectura integral sin sustituir las fuentes técnicas. El espacio reúne producto, evolución, diseño y accesibilidad, arquitectura, QA, DevOps, contenido y SEO, privacidad, operación y evidencia. El repositorio conserva especificaciones ejecutables e historial; Confluence funciona como mapa y narrativa; Trello mantiene prioridad, responsables y estado dinámico.
+
+Esta separación evita dos extremos: obligar a una persona interesada en el caso a reconstruirlo desde commits, o copiar a páginas estáticas un backlog que cambia continuamente. La gobernanza quedó explícita: una decisión material debe poder rastrearse a ticket, PR, commit o documento versionado.
+
+Documentación relacionada:
+
+- [Portfolio en Confluence](https://personal-romi.atlassian.net/wiki/spaces/PM/pages/1114277/Portfolio)
+- [Trazabilidad de entrega](./delivery-traceability.md)
+
+## Línea base verificable · 23 de agosto de 2026
+
+Esta fotografía permite leer los hitos anteriores sin confundir métricas históricas con el estado vigente en el commit `67c00d2`:
+
+- 23 rutas HTML publicadas y recorridas por el smoke test;
+- 144 pruebas Node;
+- Playwright en Chromium para escritorio y móvil;
+- español, inglés y portugués publicados, con español como base y `x-default`;
+- 86.408 bytes de CSS compilado frente a un presupuesto de 85 KiB;
+- CI/CD unificado, artefacto probado, rollback reproducible y SHA verificable en producción;
+- documentación integral en el repositorio y en Confluence.
+
+Esta línea base no afirma que el producto esté terminado. Siguen dependiendo de contenido o decisiones aprobadas la profundidad de algunos casos, fotografías, CV, paridad completa EN/PT, proveedor de analítica y dominio propio.
+
 ## Decisiones de alcance que también cuentan
 
 Parte del trabajo de producto está en decidir qué no hacer. Durante la evolución se preservaron contenidos y diseños ya aprobados cuando un ticket no justificaba modificarlos, se separaron migraciones técnicas de cambios visuales para reducir riesgo y se evitó presentar como terminadas piezas que todavía estaban en evolución.
@@ -162,6 +229,7 @@ El caso está pensado para que las afirmaciones puedan comprobarse:
 - [Repositorio](https://github.com/romicaubarrere/personal): implementación y estructura actual.
 - [Historial de commits](https://github.com/romicaubarrere/personal/commits/main): evolución técnica y fixes.
 - [Documentación](https://github.com/romicaubarrere/personal/tree/main/docs): arquitectura, producto, diseño, idiomas, analytics y proceso.
+- [Documentación integral en Confluence](https://personal-romi.atlassian.net/wiki/spaces/PM/pages/1114277/Portfolio): índice ejecutivo y recorrido por las diez áreas del proyecto.
 - [Backlog](./backlog.md): trabajo identificado y alcance.
 - [Estrategia de branching](./branching-strategy.md): forma de integración.
 - [Sistema visual](./visual-system.md): criterios de identidad.

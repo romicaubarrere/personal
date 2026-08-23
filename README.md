@@ -92,6 +92,8 @@ La estrategia de calidad, sus capas de verificación y la Definition of Done est
 
 La fotografía integral de producto, diseño, contenido, calidad, operación, riesgos y pendientes está en [`docs/general-audit-2026-08-23.md`](docs/general-audit-2026-08-23.md).
 
+La evolución narrativa, las decisiones y los aprendizajes del proyecto se mantienen en [`docs/project-history.md`](docs/project-history.md). La misma documentación está organizada como recorrido navegable en [Portfolio · Confluence](https://personal-romi.atlassian.net/wiki/spaces/PM/pages/1114277/Portfolio).
+
 El mantenimiento editorial y técnico, su cadencia y los disparadores de revisión extraordinaria están documentados en [`docs/maintenance-plan.md`](docs/maintenance-plan.md).
 
 ## Estructura
@@ -124,3 +126,4 @@ El mantenimiento editorial y técnico, su cadencia y los disparadores de revisi�
 - `docs/delivery-traceability.md`: relación entre ticket, rama, PR, commit y despliegue.
 - `docs/maintenance-plan.md`: frecuencia, responsables, checklist y flujo para mantener el portfolio vigente.
 - `docs/general-audit-2026-08-23.md`: auditoría integral, evidencia, riesgos y roadmap al 23 de agosto de 2026.
+- `docs/project-history.md`: historial vivo de producto, diseño, gestión, QA, DevOps, arquitectura y aprendizajes.
