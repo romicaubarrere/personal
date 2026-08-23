@@ -1,7 +1,7 @@
 # Auditoría general del portfolio
 
 - Fecha de corte: 23 de agosto de 2026
-- Línea base auditada: `main` en `6bb679c38dfd802b6e1b35f648921b2bed37f393`
+- Línea base auditada: `main` en `d354588a1c2a66c3edf92ac1f0b60fb76e8cc563`
 - Producción: [romicaubarrere.github.io/personal](https://romicaubarrere.github.io/personal/)
 - Repositorio: [romicaubarrere/personal](https://github.com/romicaubarrere/personal)
 - Alcance: producto, contenido, experiencia, sistema visual, accesibilidad, responsive, idiomas, SEO, performance, arquitectura, QA, DevOps, privacidad, analítica, documentación y gestión
@@ -23,7 +23,7 @@ Esta revisión no certifica conformidad universal con WCAG, compatibilidad con t
 
 El portfolio dejó de ser un único HTML experimental y hoy es un producto estático mantenible, publicado y con un proceso de entrega fuerte. La identidad del estudio sobrevivió a la migración: conserva papel, corcho, ladrillo, libros, lana, plantas, cocina y pequeñas imperfecciones, pero ahora esos recursos tienen tokens, componentes, reglas anti-IA y contratos de accesibilidad.
 
-La base técnica es sólida: Astro genera 23 documentos HTML públicos, React se limita al libro interactivo, `main` tiene 233 commits en el clon auditado, la suite Node pasa 141/141 y CI prueba Chromium de escritorio y móvil antes de integrar o publicar. SEO, rutas, enlaces, semántica, foco, movimiento reducido, fechas especiales y presupuestos de transferencia tienen regresiones automatizadas.
+La base técnica es sólida: Astro genera 23 documentos HTML públicos, React se limita al libro interactivo, `main` tiene 235 commits en el clon auditado, la suite Node pasa 141/141 y CI prueba Chromium de escritorio y móvil antes de integrar o publicar. SEO, rutas, enlaces, semántica, foco, movimiento reducido, fechas especiales y presupuestos de transferencia tienen regresiones automatizadas.
 
 El mayor riesgo técnico inmediato es el margen de CSS: 88.029 bytes sobre un máximo de 88.064, apenas 35 bytes disponibles. Los principales pendientes de producto no son fallas ocultas, sino decisiones o materiales conocidos: CV, paridad completa EN/PT, casos profesionales publicables, fotografías, tratamiento editorial de charlas incompletas, proveedor de analítica, dominio definitivo y material audiovisual de habITar.
 
@@ -31,7 +31,7 @@ El mayor riesgo técnico inmediato es el margen de CSS: 88.029 bytes sobre un m�
 
 | Indicador | Estado al corte | Evidencia |
 | --- | ---: | --- |
-| Commits en el historial clonado | 233 | `git rev-list --count HEAD` |
+| Commits en el historial clonado | 235 | `git rev-list --count HEAD` |
 | Rutas HTML compiladas | 23 | build Astro |
 | Pruebas Node | 141/141 | `node --test` |
 | Suites E2E | 4 archivos | `e2e/` |
@@ -146,7 +146,7 @@ La comparación con `romi-estudio_1.html` confirma continuidad, no reemplazo de 
 ### Límites y trabajo activo
 
 - GitHub Project Pages publica bajo `/personal/`; el repositorio no controla `/robots.txt` en la raíz del host.
-- PR #166 agrega la URL canónica propia del RSS y no se considera integrado hasta su merge.
+- La URL canónica propia del RSS se integró durante la auditoría mediante PR #166.
 - EN/PT tienen rutas internas, pero sus portadas todavía no alcanzan la estructura completa de ES.
 
 ## Performance
@@ -158,7 +158,7 @@ La comparación con `romi-estudio_1.html` confirma continuidad, no reemplazo de 
 | JavaScript | 213.531 B | 225.280 B | 11.749 B |
 | CSS | 88.029 B | 88.064 B | 35 B |
 | Mayor HTML (`index.html`) | 48.411 B | 102.400 B | 53.989 B |
-| Recursos compartidos | 346.039 B | 512.000 B | 165.961 B |
+| Recursos compartidos | 346.194 B | 512.000 B | 165.806 B |
 
 ### Hallazgo P1
 
@@ -273,7 +273,7 @@ Al iniciar la auditoría:
 - WEB-051 y WEB-085: CV y contacto;
 - paridad completa EN/PT;
 - WEB-062: proveedor de analítica;
-- RSS canónico: PR #166;
+- RSS canónico: integrado durante la auditoría mediante PR #166;
 - WEB-074: PR #164 y material visual pendiente.
 
 ### Backlog dependiente de decisiones o material
@@ -303,7 +303,7 @@ Al iniciar la auditoría:
 
 ## Roadmap recomendado
 
-1. Terminar e integrar los PR #164 y #166 cuando sus checks y revisiones estén completos.
+1. Terminar e integrar el PR #164 cuando sus checks y revisiones estén completos.
 2. Integrar el CV aprobado y cerrar WEB-085/WEB-051.
 3. Recuperar margen de CSS antes de sumar nuevas piezas visuales grandes.
 4. Completar la paridad EN/PT sin degradar la home ES.
