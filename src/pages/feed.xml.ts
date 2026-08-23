@@ -12,6 +12,10 @@ function escapeXml(value: string) {
     .replaceAll("'", '&apos;');
 }
 
+function formatRssDate(value: string) {
+  return new Date(value).toUTCString();
+}
+
 export const GET: APIRoute = () => {
   const items = [...publishedPosts]
     .sort((left, right) => Date.parse(right.dateTime) - Date.parse(left.dateTime))
@@ -21,6 +25,7 @@ export const GET: APIRoute = () => {
       <guid isPermaLink="true">${post.canonical}</guid>
       <description>${escapeXml(post.description)}</description>
       <dc:creator>Romina Caubarrere</dc:creator>
+      <pubDate>${formatRssDate(post.dateTime)}</pubDate>
       <dc:date>${post.dateTime}</dc:date>
     </item>`)
     .join('\n');

@@ -277,7 +277,21 @@ test('el feed RSS coincide con las notas publicadas y sólo se anuncia en rutas 
   assert.equal(items.length, postRoutes.length);
   assert.match(feed, /<language>es-uy<\/language>/);
   const dates = items.map((item) => item.match(/<dc:date>([^<]+)<\/dc:date>/)?.[1]);
+  const publicationDates = items.map((item) => {
+    const matches = [...item.matchAll(/<pubDate>([^<]+)<\/pubDate>/g)];
+    assert.equal(matches.length, 1, 'cada nota debe publicar exactamente un pubDate');
+    return matches[0][1];
+  });
   assert.ok(dates.every((date) => /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z$/.test(date)));
+  assert.ok(
+    publicationDates.every((date) => /^(?:Mon|Tue|Wed|Thu|Fri|Sat|Sun), \d{2} (?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec) \d{4} \d{2}:\d{2}:\d{2} GMT$/.test(date)),
+    'pubDate debe usar una fecha RSS compatible con RFC 822'
+  );
+  assert.deepEqual(
+    publicationDates.map((date) => Date.parse(date)),
+    dates.map((date) => Date.parse(date)),
+    'pubDate y dc:date deben representar el mismo instante'
+  );
   assert.equal(new Set(dates).size, dates.length, 'cada nota debe tener una fecha de publicación inequívoca');
   assert.deepEqual(
     dates,
