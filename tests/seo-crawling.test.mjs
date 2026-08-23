@@ -14,7 +14,9 @@ test('el robots del subpath anuncia el sitemap real sin sustituir al robots raí
 });
 
 test('la verificación de producción comprueba URLs efectivas de crawling', () => {
-  assert.match(verifier, /fetchText\('sitemap\.xml'\)/);
+  assert.match(verifier, /const sitemapUrl = new URL\('sitemap\.xml', base\)/);
+  assert.match(verifier, /const sitemap = await fetchText\(sitemapUrl\)/);
+  assert.match(verifier, /for \(const location of sitemapLocations\)/);
   assert.match(verifier, /fetchText\('robots\.txt'\)/);
   assert.match(verifier, /new URL\('\/robots\.txt', base\)/);
   assert.match(verifier, /response\.status === 404/);

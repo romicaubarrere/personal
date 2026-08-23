@@ -36,38 +36,49 @@ async function verifyRootRobots() {
 }
 
 async function verify() {
-  const pages = [
-    ['', 'lang="es"', 'https://romicaubarrere.github.io/personal/'],
-    ['en.html', 'lang="en"', 'https://romicaubarrere.github.io/personal/en.html'],
-    ['pt.html', 'lang="pt"', 'https://romicaubarrere.github.io/personal/pt.html'],
-    ['como-trabajo.html', 'lang="es"', 'https://romicaubarrere.github.io/personal/como-trabajo.html'],
-    ['formacion.html', 'lang="es"', 'https://romicaubarrere.github.io/personal/formacion.html'],
-    ['comunidad-charlas.html', 'lang="es"', 'https://romicaubarrere.github.io/personal/comunidad-charlas.html'],
-    ['posts/por-que-hago-tantas-preguntas.html', 'lang="es"', 'https://romicaubarrere.github.io/personal/posts/por-que-hago-tantas-preguntas.html'],
-    ['posts/cuando-puedas.html', 'lang="es"', 'https://romicaubarrere.github.io/personal/posts/cuando-puedas.html']
-  ];
+  const sitemapUrl = new URL('sitemap.xml', base);
+  const sitemap = await fetchText(sitemapUrl);
+  assertIncludes(sitemap, '<urlset', 'sitemap');
+
+  const sitemapLocations = [...sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)]
+    .map((match) => new URL(match[1]));
+  if (sitemapLocations.length === 0) throw new Error('sitemap: no contiene URLs publicadas');
+  if (new Set(sitemapLocations.map((location) => location.href)).size !== sitemapLocations.length) {
+    throw new Error('sitemap: contiene URLs duplicadas');
+  }
 
   let home = '';
-  for (const [path, lang, canonical] of pages) {
-    const body = await fetchText(path);
-    assertIncludes(body, `<html ${lang}>`, path || 'portada');
-    assertIncludes(body, `<link rel="canonical" href="${canonical}">`, path || 'portada');
-    if (!path) home = body;
+  for (const location of sitemapLocations) {
+    if (location.origin !== base.origin || !location.pathname.startsWith(base.pathname)) {
+      throw new Error(`sitemap: URL fuera del portfolio ${location.href}`);
+    }
+
+    const body = await fetchText(location);
+    const isHtmlPage = location.href === base.href || location.pathname.endsWith('.html');
+    if (!isHtmlPage) continue;
+
+    const relativePath = location.pathname.slice(base.pathname.length);
+    const lang = relativePath === 'en.html' || relativePath.startsWith('en/')
+      ? 'en'
+      : relativePath === 'pt.html' || relativePath.startsWith('pt/')
+        ? 'pt'
+        : 'es';
+    const label = relativePath || 'portada';
+    assertIncludes(body, `<html lang="${lang}">`, label);
+    assertIncludes(body, `<link rel="canonical" href="${location.href}">`, label);
+    assertIncludes(body, `<meta name="build-commit" content="${expectedSha}">`, label);
+    if (location.href === base.href) home = body;
   }
+  if (!home) throw new Error('sitemap: falta la portada canónica');
 
   for (const language of ['es', 'en', 'pt', 'x-default']) {
     assertIncludes(home, `hreflang="${language}"`, 'portada');
   }
-  assertIncludes(home, `<meta name="build-commit" content="${expectedSha}">`, 'commit publicado');
-
-  const sitemapUrl = 'https://romicaubarrere.github.io/personal/sitemap.xml';
-  const sitemap = await fetchText('sitemap.xml');
-  assertIncludes(sitemap, '<urlset', 'sitemap');
   assertIncludes(sitemap, 'como-trabajo.html', 'sitemap');
 
   const projectRobots = await fetchText('robots.txt');
   assertIncludes(projectRobots, 'Allow: /personal/', 'robots del proyecto');
-  assertIncludes(projectRobots, `Sitemap: ${sitemapUrl}`, 'robots del proyecto');
+  assertIncludes(projectRobots, `Sitemap: ${sitemapUrl.href}`, 'robots del proyecto');
   await verifyRootRobots();
 
   const feed = await fetchText('feed.xml');

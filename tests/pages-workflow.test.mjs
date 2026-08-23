@@ -54,10 +54,17 @@ test('Pages verifica la publicación real después del deploy', () => {
   assert.match(workflow, /PUBLIC_BUILD_SHA: \$\{\{ github\.sha \}\}/);
   assert.match(workflow, /EXPECTED_SHA: \$\{\{ github\.sha \}\}/);
   assert.match(workflow, /run: node scripts\/verify-production\.mjs/);
-  for (const route of ['en.html', 'pt.html', 'como-trabajo.html', 'formacion.html', 'comunidad-charlas.html', 'sitemap.xml', 'feed.xml', '404.html']) {
+  for (const route of ['sitemap.xml', 'feed.xml', '404.html']) {
     assert.match(productionVerifier, new RegExp(route.replace('.', '\\.')));
   }
-  assert.match(productionVerifier, /posts\/por-que-hago-tantas-preguntas\.html/);
+  assert.match(productionVerifier, /sitemapLocations = \[\.\.\.sitemap\.matchAll/);
+  assert.match(productionVerifier, /for \(const location of sitemapLocations\)/);
+  assert.match(productionVerifier, /await fetchText\(location\)/);
+  assert.match(productionVerifier, /location\.origin !== base\.origin/);
+  assert.match(productionVerifier, /location\.pathname\.startsWith\(base\.pathname\)/);
+  assert.match(productionVerifier, /location\.pathname\.endsWith\('\.html'\)/);
+  assert.match(productionVerifier, /<html lang="\$\{lang\}">/);
+  assert.match(productionVerifier, /<link rel="canonical" href="\$\{location\.href\}">/);
   assert.match(productionVerifier, /hreflang/);
   assert.match(productionVerifier, /build-commit/);
   assert.match(productionVerifier, /_astro/);
