@@ -572,6 +572,11 @@ test('robots, sitemap y 404 quedan listos para GitHub Pages', async () => {
   assert.ok(notFound.includes("home: \`${base}pt.html\`"));
   assert.ok(notFound.includes('document.documentElement.lang = lang'));
   assert.ok(notFound.includes("setAttribute('href', copy.home)"));
+  assert.match(notFound, /data-i18n="privacy"/i);
+  assert.ok(notFound.includes("privacyHref: `${base}privacidad.html`"));
+  assert.ok(notFound.includes("privacyHref: `${base}en/privacy.html`"));
+  assert.ok(notFound.includes("privacyHref: `${base}pt/privacidade.html`"));
+  assert.ok(notFound.includes("setAttribute('href', copy.privacyHref)"));
 });
 
 test('ninguna ruta genera referencias pegadas o duplicadas a /personal', () => {
