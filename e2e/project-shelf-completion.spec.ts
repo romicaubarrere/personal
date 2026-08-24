@@ -25,18 +25,12 @@ test('WEB-135 · JavaMoment abre como caso navegable y conserva su evidencia', a
 });
 
 test('WEB-135 · el juego mobile se presenta explícitamente como trabajo activo', async ({ page }) => {
-  await page.goto('/personal/#project=monopoly-mobile&page=0');
+  await page.goto('/personal/#project=monopoly-mobile&page=5');
   const dialog = page.getByRole('dialog');
   await expect(dialog).toBeVisible();
   await expect(dialog).toContainText('Juego mobile de tablero uruguayo');
-  let foundDevelopmentStatus = false;
-  for (let index = 0; index < 6 && !foundDevelopmentStatus; index += 1) {
-    const text = await dialog.innerText();
-    foundDevelopmentStatus = /desarrollo activo|en desarrollo|active development/i.test(text);
-    const next = page.getByRole('button', { name: 'siguiente' });
-    if (!foundDevelopmentStatus && await next.isEnabled()) await next.click();
-  }
-  expect(foundDevelopmentStatus).toBe(true);
+  await expect(dialog).toContainText(/desarrollo activo|en desarrollo|active development/i);
+  await expect(dialog).toContainText(/no lo presento como un producto terminado|not present it as a finished product/i);
 });
 
 test('WEB-135 · móvil conserva scroll horizontal y acceso a los casos nuevos', async ({ page }) => {
