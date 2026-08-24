@@ -1,3 +1,7 @@
-<span aria-hidden="true" style="display:block;position:relative;z-index:2;height:0;pointer-events:none">
-  <span style="display:block;position:absolute;top:-13px;left:8vw;width:70px;height:28px;background:linear-gradient(165deg,var(--cream) 68%,transparent 69%);transform:rotate(-3deg)"></span>
-</span>
+<span class="studio-seam" aria-hidden="true"><span></span></span>
+
+<style>
+  .studio-seam{display:block;position:relative;z-index:2;height:0;pointer-events:none}
+  .studio-seam span{display:block;position:absolute;top:-2px;left:8vw;width:min(260px,42vw);height:4px;border-top:2px dashed rgba(207,154,63,.55);transform:rotate(-1.2deg)}
+  .studio-seam span::after{content:"";position:absolute;right:-7px;top:-5px;width:9px;height:9px;border:2px solid rgba(207,154,63,.65);border-radius:50%;background:transparent}
+</style>
