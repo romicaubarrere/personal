@@ -20,7 +20,7 @@ for (const [path, message] of messages) {
 
 test('HERO-AUDIT · CTA tienen costura visible y siguen siendo enlaces accesibles', async ({ page }) => {
   await page.goto('/personal/');
-  const actions = page.locator('.hero-actions .stitched-cta');
+  const actions = page.locator('.hero-actions .hero-link');
   await expect(actions).toHaveCount(2);
   await expect(actions.nth(0)).toHaveAttribute('href', '#proyectos');
   await expect(actions.nth(1)).toHaveAttribute('href', '#contacto');
@@ -42,7 +42,7 @@ test('HERO-AUDIT · CTA tienen costura visible y siguen siendo enlaces accesible
 test('HERO-AUDIT · reduced motion elimina el desplazamiento del CTA', async ({ page }) => {
   await page.emulateMedia({ reducedMotion: 'reduce' });
   await page.goto('/personal/');
-  const cta = page.locator('.stitched-cta').first();
+  const cta = page.locator('.hero-actions .hero-link').first();
   await cta.focus();
   const transform = await cta.evaluate((node) => getComputedStyle(node).transform);
   expect(transform).toBe('none');
