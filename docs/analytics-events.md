@@ -3,10 +3,12 @@
 ## Estado
 
 - Ticket: WEB-062
-- Proveedor aprobado: plan Hobby gratuito de Umami Cloud, todav&iacute;a desactivado
-- Transporte actual: evento local del navegador `portfolio:analytics`
+- Proveedor activo: plan Hobby gratuito de Umami Cloud, regi&oacute;n europea
+- Sitio: `Portfolio` para `romicaubarrere.github.io`
+- Retenci&oacute;n: 6 meses
+- Transporte: evento local `portfolio:analytics` conectado al tracker oficial de Umami
 
-La portada emite un evento local cuando una persona activa un elemento con `data-analytics-event`. Esta capa no carga servicios externos, no guarda informaci&oacute;n y no env&iacute;a datos fuera del navegador. Un proveedor podr&aacute; conectarse m&aacute;s adelante escuchando el evento sin modificar los componentes del sitio.
+La portada emite un evento local cuando una persona activa un elemento con `data-analytics-event`. El adaptador escucha ese contrato y llama a `umami.track()` con el nombre y las dos propiedades permitidas. El tracker se carga en todas las rutas, restringido al dominio productivo, sin query strings ni fragmentos y respetando la preferencia Do Not Track.
 
 ## Propiedades permitidas
 
@@ -33,6 +35,10 @@ No se incluyen texto visible, URL de destino, direcci&oacute;n de email, conteni
 
 Los contactos recibidos, propuestas de proyecto e invitaciones a charlas no se deducen de clics. Se registran manualmente con el formato definido en [Resultados de la medici&oacute;n](./analytics-outcomes.md).
 
-## Integraci&oacute;n futura
+## Integraci&oacute;n productiva
 
-La decisi&oacute;n de proveedor selecciona el plan Hobby gratuito de Umami Cloud. El adaptador externo contin&uacute;a fuera de esta capa hasta crear el sitio, seleccionar la regi&oacute;n europea y confirmar la retenci&oacute;n efectiva. No se contratar&aacute; un plan pago. Antes de conectarlo se debe verificar la configuraci&oacute;n en producci&oacute;n y mantener esta lista como fuente de verdad. No se agregan eventos desde un proveedor mediante selectores de texto o URLs: primero se declara el atributo en el componente y se actualizan contrato y pruebas.
+El sitio usa el plan Hobby gratuito de Umami Cloud, con regi&oacute;n europea, un sitio, hasta 100.000 eventos mensuales y 6 meses de retenci&oacute;n. No se contrat&oacute; un plan pago ni se ingres&oacute; una tarjeta. El identificador del sitio es p&uacute;blico y no concede acceso al panel.
+
+Umami registra p&aacute;ginas vistas y el contexto agregado que documenta su tracker: hostname, idioma del navegador, referrer, pantalla, t&iacute;tulo y ruta. Los eventos personalizados agregan &uacute;nicamente `path` y `target_kind`. No se llama a `umami.identify()`, no se crean perfiles y no se env&iacute;an nombres, emails, texto visible, destinos de enlaces, query strings ni fragmentos.
+
+No se agregan eventos desde el proveedor mediante selectores de texto o URLs: primero se declara el atributo en el componente y se actualizan contrato y pruebas.

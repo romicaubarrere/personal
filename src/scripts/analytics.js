@@ -32,6 +32,24 @@ export function initializeAnalytics(root = document, target = window) {
   });
 }
 
+export function initializeUmamiAdapter(target = window) {
+  if (target.document?.documentElement?.dataset.umamiAdapterReady === 'true') return;
+  if (target.document?.documentElement) {
+    target.document.documentElement.dataset.umamiAdapterReady = 'true';
+  }
+
+  target.addEventListener(ANALYTICS_EVENT_NAME, (event) => {
+    const detail = event.detail;
+    if (!detail || typeof target.umami?.track !== 'function') return;
+
+    target.umami.track(detail.name, {
+      path: detail.path,
+      target_kind: detail.target_kind
+    });
+  });
+}
+
 if (typeof window !== 'undefined' && typeof document !== 'undefined') {
   initializeAnalytics();
+  initializeUmamiAdapter();
 }
