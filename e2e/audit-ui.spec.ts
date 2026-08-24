@@ -4,7 +4,7 @@ test.beforeEach(async ({ page }) => {
   await page.route(/https:\/\/fonts\.(googleapis|gstatic)\.com\/.*/, (route) => route.abort());
 });
 
-test('AUDIT-UI-001 · selector de idiomas es compacto, transparente y no tapa el menú', async ({ page }) => {
+test('AUDIT-UI-001 · selector de idiomas es compacto, transparente y no tapa controles del menú', async ({ page }) => {
   await page.goto('/personal/');
   const switcher = page.locator('.language-switcher');
   await expect(switcher).toBeVisible();
@@ -17,26 +17,35 @@ test('AUDIT-UI-001 · selector de idiomas es compacto, transparente y no tapa el
       backgroundColor: cs.backgroundColor,
       boxShadow: cs.boxShadow,
       width: box.width,
-      height: box.height
+      height: box.height,
+      direction: cs.flexDirection
     };
   });
 
   expect(styles.backgroundColor).toBe('rgba(0, 0, 0, 0)');
   expect(styles.boxShadow).toBe('none');
+  expect(styles.direction).toBe('row');
   expect(styles.width).toBeLessThan(110);
   expect(styles.height).toBeLessThanOrEqual(36);
 
-  const nav = page.locator('#primary-nav');
-  const switcherBox = await switcher.boundingBox();
-  const navBox = await nav.boundingBox();
-  if (switcherBox && navBox) {
-    const overlaps = !(
-      switcherBox.x + switcherBox.width <= navBox.x ||
-      navBox.x + navBox.width <= switcherBox.x ||
-      switcherBox.y + switcherBox.height <= navBox.y ||
-      navBox.y + navBox.height <= switcherBox.y
-    );
-    expect(overlaps).toBe(false);
+  const languageRects = await switcher.locator('a').evaluateAll((nodes) =>
+    nodes.map((node) => {
+      const r = node.getBoundingClientRect();
+      return { x: r.x, y: r.y, width: r.width, height: r.height };
+    })
+  );
+  const navRects = await page.locator('#primary-nav a:visible').evaluateAll((nodes) =>
+    nodes.map((node) => {
+      const r = node.getBoundingClientRect();
+      return { x: r.x, y: r.y, width: r.width, height: r.height };
+    })
+  );
+
+  for (const a of languageRects) {
+    for (const b of navRects) {
+      const overlaps = !(a.x + a.width <= b.x || b.x + b.width <= a.x || a.y + a.height <= b.y || b.y + b.height <= a.y);
+      expect(overlaps).toBe(false);
+    }
   }
 });
 
