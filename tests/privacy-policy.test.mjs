@@ -16,8 +16,9 @@ test('la política se publica en los tres idiomas y declara el estado real', asy
     assert.match(page, /(?:23 (?:de )?agosto (?:de )?2026|August 23, 2026)/i);
   }
   const es = await readFile(join(root, 'dist', routes[0]), 'utf8');
-  assert.match(es, /La analítica externa todavía no está activa/);
-  assert.match(es, /no envía eventos ni datos de navegación/);
+  assert.match(es, /La analítica externa está activa/);
+  assert.match(es, /Los datos se conservan durante 6 meses/);
+  assert.match(es, /excluye parámetros y fragmentos de URL y respeta Do Not Track/);
 });
 
 test('las tres portadas enlazan su política localizada', async () => {
