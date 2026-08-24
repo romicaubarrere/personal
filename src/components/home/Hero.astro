@@ -3,6 +3,11 @@ import { HOME_COPY, type HomeLanguage } from '../../data/home-copy';
 interface Props { lang?: HomeLanguage }
 const { lang = 'es' } = Astro.props;
 const copy = HOME_COPY[lang];
+const heroMessage = {
+  es: 'Hago muchas preguntas, ordeno lo complejo y convierto decisiones en un plan que el equipo puede ejecutar.',
+  en: 'I ask a lot of questions, bring order to complexity and turn decisions into a plan the team can execute.',
+  pt: 'Faço muitas perguntas, organizo a complexidade e transformo decisões em um plano que a equipe consegue executar.'
+}[lang];
 ---
   <header class="hero brick" id="top">
     <div class="special-date-layer" id="specialDateLayer" aria-hidden="true" hidden>
@@ -41,11 +46,11 @@ const copy = HOME_COPY[lang];
         <span class="kick hand">{copy.hello}</span>
         <h1 class="bigname">Romina<span class="l2">Caubarrere</span></h1>
         <div class="rolebar">{copy.role}</div>
-        <p class="hero-copy">{copy.hero}</p>
+        <p class="hero-copy">{heroMessage}</p>
         <div class="special-date-badge" id="specialDateBadge" role="status" aria-live="polite" hidden></div>
         <div class="hero-actions" aria-label={copy.actionsLabel}>
-          <a class="hero-link primary" href="#proyectos" data-analytics-event="view_projects_click">{copy.heroActions[0]}</a>
-          <a class="hero-link" href="#contacto">{copy.heroActions[1]}</a>
+          <a class="hero-link primary stitched-cta" href="#proyectos" data-analytics-event="view_projects_click"><span>{copy.heroActions[0]}</span></a>
+          <a class="hero-link stitched-cta" href="#contacto"><span>{copy.heroActions[1]}</span></a>
         </div>
       </div>
 
@@ -68,3 +73,18 @@ const copy = HOME_COPY[lang];
 
     <div class="scrollhint">{copy.scroll}<span>&darr;</span></div>
   </header>
+
+<style>
+  .stitched-cta{position:relative;isolation:isolate;overflow:visible;border:0;border-radius:7px;background:rgba(22,19,16,.72);box-shadow:0 5px 0 rgba(0,0,0,.25),inset 0 0 0 1px rgba(250,243,228,.22);transform:rotate(.45deg)}
+  .stitched-cta.primary{background:var(--cream);color:var(--ink);transform:rotate(-.7deg);box-shadow:0 5px 0 rgba(0,0,0,.28),inset 0 0 0 1px rgba(36,31,24,.12)}
+  .stitched-cta::before{content:"";position:absolute;inset:4px;border:1.5px dashed currentColor;border-radius:4px;opacity:.48;pointer-events:none}
+  .stitched-cta::after{content:"";position:absolute;right:-8px;bottom:7px;width:20px;height:8px;border-bottom:2px solid var(--gold);border-radius:50%;transform:rotate(18deg);transform-origin:left center;transition:transform .2s ease,width .2s ease;pointer-events:none}
+  .stitched-cta span{position:relative;z-index:1;padding:0 3px;transition:transform .2s ease}
+  .stitched-cta:is(:hover,:focus-visible){transform:translateY(-3px) rotate(0);box-shadow:0 8px 0 rgba(0,0,0,.24),inset 0 0 0 1px rgba(250,243,228,.22)}
+  .stitched-cta.primary:is(:hover,:focus-visible){box-shadow:0 8px 0 rgba(0,0,0,.26),inset 0 0 0 1px rgba(36,31,24,.12)}
+  .stitched-cta:is(:hover,:focus-visible)::after{width:31px;transform:rotate(6deg) translateX(2px)}
+  .stitched-cta:is(:hover,:focus-visible) span{transform:translateY(-1px)}
+  .stitched-cta:focus-visible{outline:3px solid var(--gold);outline-offset:4px}
+  @media(max-width:520px){.hero-actions{gap:10px}.stitched-cta{min-width:132px}}
+  @media(prefers-reduced-motion:reduce){.stitched-cta,.stitched-cta::after,.stitched-cta span{transition:none}.stitched-cta:is(:hover,:focus-visible),.stitched-cta.primary:is(:hover,:focus-visible){transform:none}.stitched-cta:is(:hover,:focus-visible)::after{width:20px;transform:rotate(18deg)}}
+</style>
