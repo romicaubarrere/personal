@@ -15,11 +15,13 @@ import Talks from './Talks.astro';
 import WorkTeaser from './WorkTeaser.astro';
 import type { HomeLanguage } from '../../data/home-copy';
 import { projectsFor } from '../../data/projects';
+import { completeProjectsFor } from '../../data/portfolio-projects';
+import { normalizePublishedProjectCopy } from '../../data/project-editorial';
 
 interface Props { lang?: HomeLanguage }
 const { lang = 'es' } = Astro.props;
 const base = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL : `${import.meta.env.BASE_URL}/`;
-const projects = projectsFor(lang);
+const projects = normalizePublishedProjectCopy(completeProjectsFor(projectsFor(lang), lang), lang);
 ---
 
 {lang !== 'es' && <BookModalStyles />}

@@ -34,7 +34,7 @@ test('las tres portadas conservan secciones, casos interactivos y CV', async ({ 
     for (const id of ['top', 'sobre', 'proyectos', 'forma-de-trabajo', 'charlas', 'lecturas', 'contacto']) {
       await expect(page.locator(`#${id}`), `${home.path} #${id}`).toHaveCount(1);
     }
-    await expect(page.locator('.spine')).toHaveCount(3);
+    await expect(page.locator('.spine')).toHaveCount(8);
     await expect(page.locator('[data-analytics-event="contact_cv_download"]')).toHaveAttribute('href', 'cv/romina-caubarrere-cv.pdf');
     await page.locator('.spine[data-book="habitar"]').click();
     await expect(page.locator('#bookmodal')).toHaveAttribute('aria-hidden', 'false');
