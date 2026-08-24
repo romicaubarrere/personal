@@ -18,6 +18,7 @@ type ProjectUrlState =
   | { kind: 'valid'; project: ProjectBook; page: number; rawPage: string | null };
 
 const PAGE_KEYS: ProjectSectionKey[] = ['context', 'challenge', 'role', 'team', 'decisions', 'results', 'learnings'];
+const LEGACY_BOOK_IDS = new Set(['fisica', 'pmi', 'habitar']);
 const PAGE_TITLES = {
   es: ['Contexto', 'Desafío', 'Rol de Romina', 'Equipo y stakeholders', 'Decisiones y acciones', 'Resultados', 'Aprendizajes'],
   en: ['Context', 'Challenge', "Romina's role", 'Team and stakeholders', 'Decisions and actions', 'Outcomes', 'Learnings'],
@@ -349,22 +350,26 @@ export default function ProjectBookcase({ lang = 'es', projects }: { lang?: 'es'
             <div className="shelf-track">
               <div className="plank top" />
               <div className="books">
-                {projects.map((book) => (
-                  <button
-                    className={`spine ${book.spineClass}`}
-                    type="button"
-                    data-book={book.id}
-                    data-analytics-event="project_case_open"
-                    aria-haspopup="dialog"
-                    aria-label={book.ariaLabel}
-                    key={book.id}
-                    onClick={(event) => openBook(book, event.currentTarget)}
-                  >
-                    <span className="band" />
-                    {book.bands === 2 && <span className="band b" />}
-                    <span className="t">{book.spineLabel}</span>
-                  </button>
-                ))}
+                {projects.map((book) => {
+                  const legacyBook = LEGACY_BOOK_IDS.has(book.id);
+                  return (
+                    <button
+                      className={legacyBook ? `spine ${book.spineClass}` : `extended-spine ${book.spineClass} spine`}
+                      type="button"
+                      data-book={legacyBook ? book.id : undefined}
+                      data-project={book.id}
+                      data-analytics-event="project_case_open"
+                      aria-haspopup="dialog"
+                      aria-label={book.ariaLabel}
+                      key={book.id}
+                      onClick={(event) => openBook(book, event.currentTarget)}
+                    >
+                      <span className="band" />
+                      {book.bands === 2 && <span className="band b" />}
+                      <span className="t">{book.spineLabel}</span>
+                    </button>
+                  );
+                })}
               </div>
               <div className="plank" />
             </div>
@@ -372,26 +377,30 @@ export default function ProjectBookcase({ lang = 'es', projects }: { lang?: 'es'
           <svg className="potplant" viewBox="0 0 120 150" aria-hidden="true" focusable="false"><use href="#pot" /></svg>
         </div>
         <ul className="project-summaries" aria-label={copy.summaries}>
-          {projects.filter((book) => book.summary).map((book) => (
-            <li key={book.id}>
-              <article className="project-summary" style={{ '--summary-color': book.color } as CSSProperties}>
-                <span className="tag">{book.tag}</span>
-                <h3>{book.title}</h3>
-                <p>{book.summary}</p>
-                <button
-                  className="project-brief"
-                  type="button"
-                  data-book={book.id}
-                  data-analytics-event="project_case_open"
-                  aria-haspopup="dialog"
-                  aria-label={`${copy.open}: ${book.title}`}
-                  onClick={(event) => openBook(book, event.currentTarget)}
-                >
-                  {copy.open} <span aria-hidden="true">→</span>
-                </button>
-              </article>
-            </li>
-          ))}
+          {projects.filter((book) => book.summary).map((book) => {
+            const legacyBook = LEGACY_BOOK_IDS.has(book.id);
+            return (
+              <li key={book.id}>
+                <article className={legacyBook ? 'project-summary' : 'extended-summary project-summary'} style={{ '--summary-color': book.color } as CSSProperties}>
+                  <span className="tag">{book.tag}</span>
+                  <h3>{book.title}</h3>
+                  <p>{book.summary}</p>
+                  <button
+                    className="project-brief"
+                    type="button"
+                    data-book={legacyBook ? book.id : undefined}
+                    data-project={book.id}
+                    data-analytics-event="project_case_open"
+                    aria-haspopup="dialog"
+                    aria-label={`${copy.open}: ${book.title}`}
+                    onClick={(event) => openBook(book, event.currentTarget)}
+                  >
+                    {copy.open} <span aria-hidden="true">→</span>
+                  </button>
+                </article>
+              </li>
+            );
+          })}
         </ul>
         <div className="shelfhint hand">{copy.shelf}</div>
       </section>
