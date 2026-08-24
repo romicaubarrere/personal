@@ -4,6 +4,7 @@ import test from 'node:test';
 
 const catalog = await readFile(new URL('../src/data/portfolio-projects.ts', import.meta.url), 'utf8');
 const home = await readFile(new URL('../src/components/home/Home.astro', import.meta.url), 'utf8');
+const editorial = await readFile(new URL('../src/data/project-editorial.ts', import.meta.url), 'utf8');
 
 const expectedIds = [
   'javamoment',
@@ -33,9 +34,10 @@ test('WEB-135 distingue productos terminados de trabajo en desarrollo', () => {
 });
 
 test('WEB-135 integra el catálogo completo sin reemplazar los casos canónicos', () => {
-  assert.match(home, /completeProjectsFor\(projectsFor\(lang\), lang\)/);
+  assert.match(home, /normalizePublishedProjectCopy\(completeProjectsFor\(projectsFor\(lang\), lang\), lang\)/);
   assert.match(catalog, /if \(project\.id !== 'fisica'\) return project/);
   assert.match(catalog, /return \[\.\.\.enrichedBase, \.\.\.additions\]/);
+  assert.match(editorial, /replaceAll\('requerimientos', 'requisitos'\)/);
 });
 
 test('WEB-135 mantiene paridad de contenido en inglés y portugués', () => {
