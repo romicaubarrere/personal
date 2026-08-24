@@ -22,7 +22,7 @@ const links = [
 
 <nav class="language-switcher" aria-label={current === 'es' ? 'Elegir idioma' : current === 'en' ? 'Choose language' : 'Escolher idioma'}>
   {links.map((link) => (
-    <a href={link.href} lang={link.code} hreflang={link.code} aria-current={link.code === current ? 'page' : undefined}>
+    <a href={link.href} lang={link.code} hreflang={link.code} aria-current={link.code === current ? 'page' : undefined} title={link.label}>
       <span aria-hidden="true">{link.code.toUpperCase()}</span>
       <span class="sr-only">{link.label}</span>
     </a>
@@ -30,12 +30,14 @@ const links = [
 </nav>
 
 <style>
-  .language-switcher{position:absolute;z-index:130;top:14px;right:18px;display:flex;gap:6px;padding:6px;background:#faf3e4;border:2px solid #241f18;box-shadow:4px 4px 0 rgba(22,19,16,.28);transform:rotate(.4deg)}
-  .language-switcher a{display:grid;place-items:center;min-width:44px;min-height:44px;padding:0 8px;color:#241f18;font:700 13px/1 "DM Sans",sans-serif;text-decoration:none;border:2px solid transparent}
-  .language-switcher a:hover,.language-switcher a:focus-visible{border-color:#8f4230;outline:none}
-  .language-switcher a[aria-current="page"]{color:#faf3e4;background:#22432c;border-color:#22432c}
+  .language-switcher{position:fixed;z-index:130;top:10px;right:auto;bottom:auto;left:10px;width:max-content;max-width:none;height:auto;display:flex;flex-direction:row;align-items:center;justify-content:flex-start;gap:3px;margin:0;padding:0;overflow:visible;background:transparent;border:0;border-radius:0;box-shadow:none;transform:none;pointer-events:none}
+  .language-switcher a{pointer-events:auto;position:static;top:auto;display:grid;place-items:center;width:30px;height:30px;min-width:30px;min-height:30px;padding:0;color:rgba(250,243,228,.52);font:800 9px/1 "DM Sans",sans-serif;letter-spacing:.05em;text-decoration:none;border:1px solid rgba(250,243,228,.16);border-radius:50%;background:rgba(22,19,16,.36);box-shadow:none;backdrop-filter:blur(3px);transition:opacity .16s ease,transform .16s ease,border-color .16s ease,color .16s ease}
+  .language-switcher a:hover,.language-switcher a:focus-visible{top:auto;color:#faf3e4;border-color:rgba(250,243,228,.7);outline:none;transform:translateY(1px)}
+  .language-switcher a[aria-current="page"]{color:#faf3e4;border-color:rgba(250,243,228,.48);background:rgba(34,67,44,.72)}
   @media(max-width:760px){
-    .language-switcher{position:fixed;top:8px;right:auto;bottom:auto;left:10px;width:max-content;max-width:calc(100vw - 118px);margin:0;display:flex;flex-direction:row;gap:4px;padding:4px;overflow:visible;transform:none}
-    .language-switcher a{min-width:40px;min-height:44px;padding:0 6px}
+    .language-switcher{top:11px;right:auto;bottom:auto;left:10px;width:max-content;max-width:none;height:auto;display:flex;flex-direction:row;align-items:center;justify-content:flex-start;gap:2px;margin:0;padding:0;overflow:visible;border-radius:0;pointer-events:none}
+    .language-switcher a{width:27px;height:27px;min-width:27px;min-height:27px;padding:0;font-size:8px;opacity:.66}
+    .language-switcher a:focus-visible,.language-switcher a:hover{opacity:1}
   }
+  @media(prefers-reduced-motion:reduce){.language-switcher a{transition:none}}
 </style>

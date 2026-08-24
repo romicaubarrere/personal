@@ -1,3 +1,8 @@
-<span aria-hidden="true" style="display:block;position:relative;z-index:2;height:0;pointer-events:none">
-  <span style="display:block;position:absolute;top:-13px;left:8vw;width:70px;height:28px;background:linear-gradient(165deg,var(--cream) 68%,transparent 69%);transform:rotate(-3deg)"></span>
-</span>
+<span class="studio-seam" aria-hidden="true"><span></span></span>
+
+<style>
+  .studio-seam{display:block;position:relative;z-index:2;height:0;pointer-events:none}
+  .studio-seam span{display:block;position:absolute;top:-2px;left:8vw;width:min(260px,42vw);height:4px;background:repeating-linear-gradient(90deg,rgba(207,154,63,.62) 0 8px,transparent 8px 14px);transform:rotate(-1.2deg)}
+  .studio-seam span::before{content:"";position:absolute;left:-18px;top:1px;width:70px;height:1px;background:transparent}
+  .studio-seam span::after{content:"";position:absolute;right:-7px;top:-4px;width:9px;height:9px;border:2px solid rgba(207,154,63,.65);border-radius:50%;background:transparent}
+</style>
