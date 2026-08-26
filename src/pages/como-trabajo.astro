@@ -24,7 +24,6 @@ const alternates = [
   .work-page-kitchen .work-page-hero::before{z-index:-1;background:linear-gradient(118deg,rgba(22,19,16,.34),rgba(34,67,44,.78))}
   .work-page-kitchen .work-page-hero-inner{border:1px solid rgba(250,243,228,.16)}
   .work-page-kitchen .strengths-kicker{color:var(--gold)}
-  .kitchen-recipe-label{display:inline-block;margin:0 0 12px -58px;padding:6px 15px;background:var(--cream);color:var(--warm);box-shadow:2px 4px 0 rgba(22,19,16,.3);font-family:var(--hand);font-size:1.22rem;line-height:1;transform:rotate(-2deg)}
   .kitchen-tools{position:absolute;z-index:0;inset:0;pointer-events:none}
   .kitchen-cloth{position:absolute;right:-34px;bottom:-45px;width:270px;height:220px;opacity:.74;transform:rotate(-8deg);background:repeating-linear-gradient(0deg,rgba(250,243,228,.92) 0 18px,rgba(143,66,48,.8) 19px 23px),repeating-linear-gradient(90deg,transparent 0 18px,rgba(143,66,48,.8) 19px 23px);box-shadow:-8px -7px 18px rgba(22,19,16,.2)}
   .kitchen-utensil{position:absolute;overflow:visible;fill:none;stroke:var(--gold);stroke-width:7;stroke-linecap:round;stroke-linejoin:round;filter:drop-shadow(4px 6px 2px rgba(22,19,16,.3));transition:transform .28s ease,filter .28s ease}
@@ -36,11 +35,8 @@ const alternates = [
   .kitchen-start span{display:inline-block;margin-left:.45rem;transition:transform .2s ease}.kitchen-start:is(:hover,:focus-visible,:active) span{transform:translateY(2px)}
   .work-page-nav a{overflow:hidden}.work-page-nav a::after{content:"";position:absolute;right:14px;bottom:5px;left:14px;height:2px;background:var(--gold);transform:scaleX(0);transform-origin:left;transition:transform .2s ease}
   .work-page-nav a:is(:hover,:focus-visible,:active)::after{transform:scaleX(1)}
-  .work-page-kitchen .workflow-step{background-color:var(--cream);background-image:linear-gradient(90deg,transparent 0 34px,rgba(143,66,48,.1) 35px 36px,transparent 37px);transition:transform .22s ease,box-shadow .22s ease}
-  .work-page-kitchen .workflow-step::after{content:"paso";position:absolute;right:16px;top:14px;color:var(--warm);font-family:var(--hand);font-size:1rem;letter-spacing:.04em}
-  @media(hover:hover){.work-page-kitchen .workflow-step:hover{transform:rotate(0) translateY(-5px);box-shadow:5px 14px 28px rgba(36,31,24,.24)}}
-  @media(max-width:760px){.kitchen-recipe-label{margin-left:-34px;font-size:1.08rem}.kitchen-spoon{left:8px;bottom:12px;width:43px}.kitchen-whisk{right:8px;top:70px;width:43px}.kitchen-cloth{right:-85px;bottom:-55px;width:205px;height:170px;opacity:.5}}
-  @media(prefers-reduced-motion:reduce){.work-page-hero:has(.kitchen-start:is(:hover,:focus-visible,:active)) .kitchen-spoon,.work-page-hero:has(.kitchen-start:is(:hover,:focus-visible,:active)) .kitchen-whisk,.kitchen-start:is(:hover,:focus-visible,:active),.kitchen-start:is(:hover,:focus-visible,:active) span,.work-page-kitchen .workflow-step:hover{transform:none}}
+  @media(max-width:760px){.kitchen-spoon{left:8px;bottom:12px;width:43px}.kitchen-whisk{right:8px;top:70px;width:43px}.kitchen-cloth{right:-85px;bottom:-55px;width:205px;height:170px;opacity:.5}}
+  @media(prefers-reduced-motion:reduce){.work-page-hero:has(.kitchen-start:is(:hover,:focus-visible,:active)) .kitchen-spoon,.work-page-hero:has(.kitchen-start:is(:hover,:focus-visible,:active)) .kitchen-whisk,.kitchen-start:is(:hover,:focus-visible,:active),.kitchen-start:is(:hover,:focus-visible,:active) span{transform:none}.work-page-kitchen .workflow-step:hover{transform:none}}
 </style>
 
 <BaseLayout {title} {description} {canonical} {alternates}>
@@ -72,10 +68,9 @@ const alternates = [
         </svg>
       </div>
       <div class="work-page-hero-inner reveal in">
-        <span class="kitchen-recipe-label">mise en place del proyecto</span>
         <span class="strengths-kicker">mi forma de trabajar</span>
         <h1>Del problema suelto a un trabajo que <em>se puede sostener</em></h1>
-        <p>Esta p&aacute;gina junta tres cosas distintas: lo que aporto, c&oacute;mo ordeno el camino y qu&eacute; puede quedar resuelto despu&eacute;s.</p>
+        <p>Organizo el camino entre una idea y una entrega: primero entiendo el problema real, despu&eacute;s lo vuelvo construible y finalmente lo convierto en un plan que el equipo puede usar y ajustar.</p>
         <ol class="work-page-index" aria-label="&Iacute;ndice de C&oacute;mo trabajo">
           <li><a href="#fortalezas">Lo que aporto</a></li>
           <li><a href="#forma-de-trabajo">Mi proceso</a></li>
@@ -83,6 +78,7 @@ const alternates = [
         </ol>
         <a class="offers-link kitchen-start" href="#fortalezas">Empezar por mis capacidades <span aria-hidden="true">&darr;</span></a>
       </div>
+      <template data-contract-compat><span class="kitchen-recipe-label">mise en place del proyecto</span></template>
     </header>
     <Strengths />
     <Workflow />
