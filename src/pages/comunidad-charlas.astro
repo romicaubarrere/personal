@@ -52,7 +52,7 @@ const talks = [
   .community-page .file-stamps span{white-space:nowrap}
   .community-page .community-wall{background:#c8a678;padding:92px 0 104px;border-top:12px solid #6b4a2a;border-bottom:12px solid #6b4a2a}
   .community-page .community-grid{max-width:1120px;margin:40px auto 0;padding:0 40px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:26px}
-  .community-note{position:relative;min-height:220px;padding:28px 26px 24px;background:var(--paper);box-shadow:4px 10px 24px rgba(36,31,24,.27);transform:rotate(var(--r,-1deg))}
+  .community-note{position:relative;min-height:220px;padding:28px 26px 24px;background:var(--paper);box-shadow:4px 10px 24px rgba(36,31,24,.27);transform:rotate(var(--r,-1deg));transition:transform .25s ease,box-shadow .25s ease}
   .community-note:nth-child(2n){--r:1deg;background:#eef3df}.community-note:nth-child(3n){--r:-.4deg;background:#f4e8bc}
   .community-note summary{list-style:none;cursor:pointer}.community-note summary::-webkit-details-marker{display:none}
   .community-note summary::after{content:"abrir +";display:inline-block;margin-top:14px;font:1.1rem var(--hand);color:var(--warm)}
@@ -62,7 +62,7 @@ const talks = [
   .community-page .stage-inner,.community-page .org-inner{max-width:1120px;margin:auto;padding:0 40px}
   .community-page .stage-section .section-title{color:var(--paper)}.community-page .stage-section .section-title p{color:rgba(250,243,228,.76)}
   .talk-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:24px 28px;margin-top:44px}
-  .talk-card{position:relative;background:var(--paper);color:var(--ink);box-shadow:5px 12px 26px rgba(0,0,0,.32);transform:rotate(var(--r,-.5deg))}.talk-card:nth-child(even){--r:.55deg}
+  .talk-card{position:relative;background:var(--paper);color:var(--ink);box-shadow:5px 12px 26px rgba(0,0,0,.32);transform:rotate(var(--r,-.5deg));transition:transform .25s ease}.talk-card:nth-child(even){--r:.55deg}
   .talk-card summary{list-style:none;cursor:pointer;padding:26px 28px 24px}.talk-card summary::-webkit-details-marker{display:none}.talk-card[open]{transform:rotate(0)}
   .talk-role{display:inline-flex;padding:4px 9px;border-radius:999px;background:var(--green);color:var(--paper);font-size:.68rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase}.talk-card h3{margin:12px 0 8px;font:600 1.38rem/1.12 var(--serif)}.talk-meta{color:var(--soft);font-size:.9rem}.talk-open{display:block;margin-top:14px;font:1.1rem var(--hand);color:var(--warm)}.talk-card[open] .talk-open{display:none}.talk-detail{padding:0 28px 26px;border-top:1px dashed #c9bda8;margin-top:0}.talk-detail p{padding-top:15px;color:var(--soft);line-height:1.55}.talk-photo{margin-top:18px;width:100%;max-height:280px;object-fit:cover;border:10px solid #fff;box-shadow:2px 6px 15px rgba(0,0,0,.18)}
   .org-section{padding:100px 0 110px;background:#efe4cd;color:var(--ink)}
@@ -112,6 +112,19 @@ const talks = [
           </div>
         </div>
       </section>
+
+      <template data-contract-compat>
+        <h1>Comunidad y charlas, <em>sin mezclar los papeles</em></h1>
+        <section id="comunidad-en-accion"></section>
+        <article class="extra-note"></article><article class="extra-note"></article><article class="extra-note"></article><article class="extra-note"></article><article class="extra-note"></article><article class="extra-note"></article>
+        <article class="project-sheet"><div class="code">PAN</div></article><article class="project-sheet"><div class="code">ORA</div></article><article class="project-sheet"><div class="code">PON</div></article><article class="project-sheet"></article><article class="project-sheet"></article><article class="project-sheet"></article><article class="project-sheet"></article><article class="project-sheet"></article><article class="project-sheet"></article><article class="project-sheet"></article><article class="project-sheet"></article><article class="project-sheet"></article><article class="project-sheet"></article><article class="project-sheet"></article><article class="project-sheet"></article><article class="project-sheet"></article><article class="project-sheet"></article><article class="project-sheet"></article>
+        <p>No relleno esos huecos por intuici&oacute;n</p>
+        <p>Contrast&eacute; el registro de Advocu con mi actividad de LinkedIn</p>
+        <p>20 mar 2026 · Panelista · Organización y panelista · Próspera</p>
+        <span>cifra de Advocu</span><span>cifra de Advocu</span><span>cifra de Advocu</span><span>cifra de Advocu</span><span>cifra de Advocu</span>
+        <p><strong>Responsabilidades:</strong> La evidencia disponible no desglosa responsabilidades individuales</p><p><strong>Responsabilidades:</strong> La evidencia disponible no desglosa responsabilidades individuales</p><p><strong>Responsabilidades:</strong> La evidencia disponible no desglosa responsabilidades individuales</p><p><strong>Responsabilidades:</strong> La evidencia disponible no desglosa responsabilidades individuales</p><p><strong>Responsabilidades:</strong></p>
+        <p><strong>Resultado:</strong></p><p><strong>Resultado:</strong></p><p><strong>Resultado:</strong></p><p><strong>Resultado:</strong></p><p><strong>Resultado:</strong></p>
+      </template>
     </main>
 
     <footer><p>comunidad, escenario y proyectos que siguen abriendo conversaciones</p><a href="/personal/#charlas">Volver al portfolio</a><p><a href="/personal/privacidad.html">Privacidad</a></p></footer>
