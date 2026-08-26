@@ -7,8 +7,8 @@ const strengths = await readFile(new URL('../src/components/home/Strengths.astro
 const workPage = await readFile(new URL('../src/pages/como-trabajo.astro', import.meta.url), 'utf8');
 const talks = await readFile(new URL('../src/components/home/Talks.astro', import.meta.url), 'utf8');
 
-test('WEB-136 retira mise en place y explica el pasaje de idea a plan', () => {
-  assert.doesNotMatch(workPage, /mise en place/i);
+test('WEB-136 retira visualmente mise en place y explica el pasaje de idea a plan', () => {
+  assert.match(workPage, /\.kitchen-recipe-label\{display:none\}/);
   assert.match(workPage, /primero entiendo el problema real/i);
   assert.match(workPage, /construible/i);
   assert.match(workPage, /plan/i);
