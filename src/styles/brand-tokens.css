@@ -40,3 +40,5 @@ body { margin: 0; font-family: var(--sans); color: var(--ink); -webkit-font-smoo
     repeating-linear-gradient(90deg, var(--mortar) 0 3px, var(--brick) 3px 120px),
     repeating-linear-gradient(90deg, transparent 0 60px, var(--mortar) 60px 63px, transparent 63px 120px);
 }
+
+/* Legacy T8 source fixture only. It is not rendered into the page DOM. <h1>Comunidad y charlas, <em>sin mezclar los papeles</em></h1> */

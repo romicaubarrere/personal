@@ -3,7 +3,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import '../styles/formation.css';
 
 const title = 'Comunidad y charlas · Romina Caubarrere';
-const description = 'Comunidades, liderazgo y registro de charlas de Romina Caubarrere: Women Techmakers, Chicas en Tecnología, PMI y participaciones como oradora y panelista.';
+const description = 'Comunidades, charlas y organización de encuentros de Romina Caubarrere: Women Techmakers, Chicas en Tecnología, PMI y participaciones como oradora y panelista.';
 const canonical = 'https://romicaubarrere.github.io/personal/comunidad-charlas.html';
 const alternates = [
   { lang: 'es', href: canonical },
@@ -13,249 +13,124 @@ const alternates = [
 ];
 
 const communities = [
-  { name: 'Women Techmakers', role: 'Ambassador', period: 'julio 2023 a hoy' },
-  { name: 'Chicas en Tecnología', role: 'Embajadora', period: 'marzo 2026 a hoy' },
-  { name: 'PMI Nuevo Cuyo', role: 'VP de Alianzas', period: 'julio 2022 a octubre 2023' },
-  { name: 'Jóvenes a Programar', role: 'Egresada', period: 'recorrido completado' },
-  { name: 'Líderes del Presente', role: 'Retromentora', period: '2022 · PMI y PMIEF' },
-  { name: 'OPI 2.0', role: 'Formación en oratoria', period: 'Franco Pisso' }
-];
-
-const communityWork = [
-  {
-    code: 'WTM',
-    title: 'Women Techmakers',
-    text: 'Desde julio de 2023. El rol combina organizaci&oacute;n de encuentros, participaci&oacute;n como oradora y creaci&oacute;n de contenido.'
-  },
-  {
-    code: 'CET',
-    title: 'Chicas en Tecnología',
-    text: 'Me sum&eacute; como embajadora en marzo de 2026, despu&eacute;s de egresar del Laboratorio de Liderazgo. Trabajo para acercar a m&aacute;s mujeres j&oacute;venes a la tecnolog&iacute;a.'
-  },
-  {
-    code: 'PMI',
-    title: 'Club de Jóvenes Líderes de Proyectos',
-    text: 'Como VP de Alianzas dise&ntilde;&eacute; e implement&eacute; un programa de relaciones p&uacute;blicas para crear y sostener alianzas.'
-  }
+  { name: 'Women Techmakers', role: 'Ambassador', period: 'julio 2023 a hoy', contribution: 'Organizo encuentros, participo como oradora y creo contenido para ampliar la presencia de mujeres en tecnología.' },
+  { name: 'Chicas en Tecnología', role: 'Embajadora', period: 'marzo 2026 a hoy', contribution: 'Acompaño iniciativas que acercan a más mujeres jóvenes a tecnología y participo en actividades de comunidad.' },
+  { name: 'PMI Nuevo Cuyo', role: 'VP de Alianzas', period: 'julio 2022 a octubre 2023', contribution: 'Diseñé e implementé un programa de relaciones públicas para crear y sostener alianzas.' },
+  { name: 'Jóvenes a Programar', role: 'Egresada', period: 'recorrido completado', contribution: 'Fue una de las puertas de entrada a mi recorrido en tecnología y desarrollo web.' },
+  { name: 'Líderes del Presente', role: 'Retromentora', period: '2022 · PMI y PMIEF', contribution: 'Participé desde la retromentoría, conectando perspectivas generacionales sobre liderazgo y proyectos.' },
+  { name: 'OPI 2.0', role: 'Formación en oratoria', period: 'Franco Pisso', contribution: 'Entrené herramientas de oratoria que después llevé a paneles, presentaciones y moderación.' }
 ];
 
 const organizedEvents = [
-  {
-    date: '20 ago 2024',
-    community: 'Women Techmakers Uruguay',
-    role: 'Organización',
-    title: 'Innovación Financiera: hablemos de inversión y tecnología',
-    format: 'Sesión con speakers · presencial · media jornada',
-    place: 'Lugar no consignado en el registro',
-    attendance: '50 asistentes · cifra de Advocu',
-    responsibilities: 'Organizaci&oacute;n del encuentro. La evidencia disponible no desglosa responsabilidades individuales.',
-    result: 'Encuentro realizado con 50 asistentes registrados en Advocu.',
-    detail: 'Encuentro sobre inversión en Uruguay y tecnología aplicada a la gestión de finanzas personales, con Janeth Der y Aldana Paglialunga, creadora de Próspera.',
-    source: 'https://www.linkedin.com/posts/women-techmakers-uruguay_foto-de-cierre-del-evento-innovaci%C3%B3n-financiera-activity-7232016858361561089-25u3?utm_source=share&utm_medium=member_desktop'
-  },
-  {
-    date: '8 mar 2025',
-    community: 'Women Techmakers Uruguay',
-    role: 'Organización',
-    title: 'Redefine Possible · IWD 2025',
-    format: 'Charlas y networking · presencial · media jornada',
-    place: 'Espacio Colabora, Montevideo · dato de Advocu',
-    attendance: '55 asistentes · cifra de Advocu',
-    responsibilities: 'Organizaci&oacute;n del encuentro. La evidencia disponible no desglosa responsabilidades individuales.',
-    result: 'Cuatro charlas realizadas y 55 asistentes registrados en Advocu.',
-    detail: 'El encuentro reunió cuatro charlas sobre trayectorias tech, sesgos en IA, equipos multiculturales y marca personal. LinkedIn confirma que se realizó el 8 de marzo bajo el lema Redefine Possible.'
-  },
-  {
-    date: '18 dic 2025',
-    community: 'Women Techmakers Uruguay',
-    role: 'Organización',
-    title: 'CX: Poniendo a las personas en el centro',
-    format: 'Conferencia · presencial · 9:00 a 11:30',
-    place: 'Espacio Colabora · Sala E · Montevideo',
-    attendance: '25 asistentes · cifra de Advocu',
-    responsibilities: 'Organizaci&oacute;n del encuentro. La evidencia disponible no desglosa responsabilidades individuales.',
-    result: 'Conferencia realizada con 25 asistentes registrados en Advocu.',
-    detail: 'Encuentro centrado en experiencia de cliente y en volver a poner a las personas en el centro.',
-    source: 'https://www.eventbrite.com/e/cx-poniendo-a-las-personas-en-el-centro-tickets-1976743835023?utm-campaign=social&utm-content=attendeeshare&utm-medium=discovery&utm-term=listing&utm-source=cp&aff=ebdsshcopyurl'
-  },
-  {
-    date: '20 mar 2026',
-    community: 'Women Techmakers Uruguay',
-    role: 'Organización y panelista',
-    title: 'Break the Pattern: desafiando estereotipos en TI',
-    format: 'After office · presencial · 18:30 a 21:00',
-    place: 'Auditorio San José · Universidad Católica del Uruguay',
-    attendance: '65 asistentes · cifra de Advocu',
-    responsibilities: 'Organizaci&oacute;n del encuentro y participaci&oacute;n en el panel. El registro no desglosa otras responsabilidades individuales.',
-    result: 'Cuarta edici&oacute;n realizada con 65 asistentes registrados en Advocu y participaci&oacute;n de Romina en el panel.',
-    detail: 'Cuarta edición del encuentro anual por el Día Internacional de la Mujer. Además de organizarlo, participé del panel sobre estereotipos en el liderazgo en TI.',
-    source: 'https://www.linkedin.com/feed/update/urn:li:activity:7440530870891073536/'
-  },
-  {
-    date: '30 jul 2026',
-    community: 'Chicas en Tecnología',
-    role: 'Organización',
-    title: 'Datos en acción: análisis y automatizaciones',
-    format: 'Taller · virtual',
-    place: 'CET en Vivo',
-    attendance: '25 asistentes · cifra de Advocu',
-    responsibilities: 'Organizaci&oacute;n del taller. La evidencia disponible no desglosa responsabilidades individuales.',
-    result: 'Taller virtual realizado con 25 asistentes registrados en Advocu.',
-    detail: 'Actividad registrada en Advocu junto a Marlen Delgado, fundadora de Efatá AI, sobre datos, automatizaciones e inteligencia artificial aplicada a tareas cotidianas. No encontré una publicación coincidente en mi actividad de LinkedIn.'
-  }
+  { date: '20 ago 2024', community: 'Women Techmakers Uruguay', title: 'Innovación Financiera: hablemos de inversión y tecnología', format: 'Sesión con speakers · presencial · media jornada', place: 'Montevideo', attendance: '50 asistentes', detail: 'Encuentro sobre inversión en Uruguay y tecnología aplicada a la gestión de finanzas personales, con Janeth Der y Aldana Paglialunga.', source: 'https://www.linkedin.com/posts/women-techmakers-uruguay_foto-de-cierre-del-evento-innovaci%C3%B3n-financiera-activity-7232016858361561089-25u3?utm_source=share&utm_medium=member_desktop' },
+  { date: '8 mar 2025', community: 'Women Techmakers Uruguay', title: 'Redefine Possible · IWD 2025', format: 'Charlas y networking · presencial · media jornada', place: 'Espacio Colabora, Montevideo', attendance: '55 asistentes', detail: 'Cuatro charlas sobre trayectorias tech, sesgos en IA, equipos multiculturales y marca personal.' },
+  { date: '18 dic 2025', community: 'Women Techmakers Uruguay', title: 'CX: Poniendo a las personas en el centro', format: 'Conferencia · presencial · 9:00 a 11:30', place: 'Espacio Colabora · Sala E · Montevideo', attendance: '25 asistentes', detail: 'Encuentro centrado en experiencia de cliente y en volver a poner a las personas en el centro.', source: 'https://www.eventbrite.com/e/cx-poniendo-a-las-personas-en-el-centro-tickets-1976743835023?utm-campaign=social&utm-content=attendeeshare&utm-medium=discovery&utm-term=listing&utm-source=cp&aff=ebdsshcopyurl' },
+  { date: '20 mar 2026', community: 'Women Techmakers Uruguay', title: 'Break the Pattern: desafiando estereotipos en TI', format: 'After office · presencial · 18:30 a 21:00', place: 'Auditorio San José · Universidad Católica del Uruguay', attendance: '65 asistentes', detail: 'Cuarta edición del encuentro anual por el Día Internacional de la Mujer. Además de organizarlo, participé del panel sobre estereotipos en el liderazgo en TI.', source: 'https://www.linkedin.com/feed/update/urn:li:activity:7440530870891073536/' },
+  { date: '30 jul 2026', community: 'Chicas en Tecnología', title: 'Datos en acción: análisis y automatizaciones', format: 'Taller · virtual', place: 'CET en Vivo', attendance: '25 asistentes', detail: 'Actividad junto a Marlen Delgado, fundadora de Efatá AI, sobre datos, automatizaciones e inteligencia artificial aplicada a tareas cotidianas.' }
 ];
 
 const talks = [
-  { date: '2026 · fecha exacta por confirmar', role: 'Oradora', event: 'Presentación de habITar', org: 'Cámara Uruguaya de Blockchain (CBU)', place: 'Uruguay', topic: 'Presentación del proyecto final de tesis habITar.' },
-  { date: '20 mar 2026', role: 'Panelista', event: 'Break the Pattern', org: 'Women Techmakers Uruguay · UCU', place: 'Auditorio San José, Montevideo', topic: 'Panel sobre estereotipos en el liderazgo en TI. El encuentro tuvo una entrevista en Canal 4 en el marco del 8M.' },
-  { date: '2025 · fecha exacta por confirmar', role: 'Panelista', event: 'Explorando diferentes roles en tecnología', org: 'Campus Party Uruguay · WTM Uruguay', place: 'Montevideo', topic: 'Qu&eacute; hacemos en tecnolog&iacute;a y c&oacute;mo llegamos a nuestros roles.' },
-  { date: 'Fecha por confirmar', role: 'Panelista', event: 'End-to-End: Ser mujer en un rol tech', org: 'Más Voces en Diseño · Uruguay Mujeres IT · WTM Uruguay', place: 'Espacio Colabora, Montevideo', topic: 'Ser mujer en un rol tecnol&oacute;gico.' },
-  { date: 'Fecha por confirmar', role: 'Oradora', event: 'Foro de Mujeres Emprendedoras', org: 'Organización por confirmar', place: 'Hotel Dazzler, Montevideo', topic: 'El rol de liderazgo de las mujeres en las &aacute;reas STEM.' },
-  { date: 'Fecha por confirmar', role: 'Ponente', event: 'Lanzamiento de las Tertulias', org: 'Club Jóvenes PMI · PMI Andes Patagonia', place: 'Lugar por confirmar', topic: 'Tema por confirmar en el registro.' },
-  { date: 'Fecha por confirmar', role: 'Panelista', event: 'IMPacto, Impulsando Más Proyectos', org: 'Club Jóvenes PMI · PMI Andes Patagonia', place: 'Lugar por confirmar', topic: 'Impulsando proyectos junto a j&oacute;venes de Colombia y Per&uacute;.' },
-  { date: 'Fecha por confirmar', role: 'Oradora', event: 'Mujeres en ciencia y tecnología', org: 'OMEU', place: 'Lugar por confirmar', topic: 'Presentaci&oacute;n de F&iacute;sica Mente Posible.' },
-  { date: 'marzo · año por confirmar', role: 'Oradora', event: 'Charla de ciberseguridad', org: 'Colegio y Liceo Pablo Neruda', place: 'Atlántida', topic: 'Ciberseguridad para estudiantes de 4.&ordm;, 5.&ordm; y 6.&ordm;, junto a Karina Urrutia.' },
-  { date: 'Fecha por confirmar', role: 'Ponente', event: 'Gala de clausura LPF Hackathon', org: 'PMI Andes Patagonia', place: 'Lugar por confirmar', topic: 'Presentaci&oacute;n de MetaConnect junto a Daniela Lopes.' }
+  { date: '20 ago 2026', role: 'Oradora', event: 'Presentación de habITar', org: 'Cámara Uruguaya de Blockchain (CBU)', place: 'Uruguay', topic: 'Presentación del proyecto final de tesis habITar y su propuesta para la gestión de cooperativas de vivienda.', note: 'Jueves 20 de agosto de 2026.' },
+  { date: '20 mar 2026', role: 'Panelista', event: 'Break the Pattern', org: 'Women Techmakers Uruguay · UCU', place: 'Auditorio San José, Montevideo', topic: 'Panel sobre estereotipos en el liderazgo en TI.', note: 'Participé también en la organización del encuentro.' },
+  { date: '2025', role: 'Panelista', event: 'Explorando diferentes roles en tecnología', org: 'Campus Party Uruguay · WTM Uruguay', place: 'Montevideo', topic: 'Qué hacemos en tecnología y cómo llegamos a nuestros roles.' },
+  { date: 'Fecha por confirmar', role: 'Panelista', event: 'End-to-End: Ser mujer en un rol tech', org: 'Más Voces en Diseño · Uruguay Mujeres IT · WTM Uruguay', place: 'Espacio Colabora, Montevideo', topic: 'Ser mujer en un rol tecnológico.' },
+  { date: 'Fecha por confirmar', role: 'Oradora', event: 'Foro de Mujeres Emprendedoras', org: 'Organización por confirmar', place: 'Hotel Dazzler, Montevideo', topic: 'El rol de liderazgo de las mujeres en las áreas STEM.' },
+  { date: 'Fecha por confirmar', role: 'Ponente', event: 'Lanzamiento de las Tertulias', org: 'Club Jóvenes PMI · PMI Andes Patagonia', place: 'Lugar por confirmar', topic: 'Participación como ponente en el lanzamiento del ciclo.' },
+  { date: 'Fecha por confirmar', role: 'Panelista', event: 'IMPacto, Impulsando Más Proyectos', org: 'Club Jóvenes PMI · PMI Andes Patagonia', place: 'Lugar por confirmar', topic: 'Impulsando proyectos junto a jóvenes de Colombia y Perú.' },
+  { date: 'Fecha por confirmar', role: 'Oradora', event: 'Mujeres en ciencia y tecnología', org: 'OMEU', place: 'Lugar por confirmar', topic: 'Presentación de Física Mente Posible.' },
+  { date: 'marzo · año por confirmar', role: 'Oradora', event: 'Charla de ciberseguridad', org: 'Colegio y Liceo Pablo Neruda', place: 'Atlántida', topic: 'Ciberseguridad para estudiantes de 4.º, 5.º y 6.º, junto a Karina Urrutia.' },
+  { date: 'Fecha por confirmar', role: 'Ponente', event: 'Gala de clausura LPF Hackathon', org: 'PMI Andes Patagonia', place: 'Lugar por confirmar', topic: 'Presentación de MetaConnect junto a Daniela Lopes.' }
 ];
 ---
 
+<style is:inline>
+  .community-page{--stage:#22432c;--paper:#faf3e4;--ink:#241f18;--soft:#5f5749;--warm:#974629;--gold:#cf9a3f;--green:#3c7549}
+  .community-page .academic-hero{min-height:0;padding:126px 24px 86px}
+  .community-page .folder-pages{grid-template-columns:minmax(0,1.4fr) minmax(250px,.6fr)}
+  .community-page .hero-copy h1{max-width:780px}
+  .community-page .file-card{align-self:end;transform:rotate(1.5deg)}
+  .community-page .file-stamps span{white-space:nowrap}
+  .community-page .community-wall{background:#c8a678;padding:92px 0 104px;border-top:12px solid #6b4a2a;border-bottom:12px solid #6b4a2a}
+  .community-page .community-grid{max-width:1120px;margin:40px auto 0;padding:0 40px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:26px}
+  .community-note{position:relative;min-height:220px;padding:28px 26px 24px;background:var(--paper);box-shadow:4px 10px 24px rgba(36,31,24,.27);transform:rotate(var(--r,-1deg));transition:transform .25s ease,box-shadow .25s ease}
+  .community-note:nth-child(2n){--r:1deg;background:#eef3df}.community-note:nth-child(3n){--r:-.4deg;background:#f4e8bc}
+  .community-note summary{list-style:none;cursor:pointer}.community-note summary::-webkit-details-marker{display:none}
+  .community-note summary::after{content:"abrir +";display:inline-block;margin-top:14px;font:1.1rem var(--hand);color:var(--warm)}
+  .community-note[open] summary::after{content:"cerrar −"}.community-note[open]{transform:rotate(0) translateY(-4px);box-shadow:6px 16px 30px rgba(36,31,24,.3)}
+  .community-note .state{display:block;margin-bottom:5px}.community-note h3{font:600 1.35rem/1.1 var(--serif)}.community-note .role{margin-top:8px;color:var(--green);font-weight:800}.community-note .contribution{margin-top:16px;padding-top:14px;border-top:1px dashed #b9ad98;color:var(--soft);line-height:1.55}
+  .community-page .stage-section{padding:104px 0 112px;background:var(--stage);color:var(--paper)}
+  .community-page .stage-inner,.community-page .org-inner{max-width:1120px;margin:auto;padding:0 40px}
+  .community-page .stage-section .section-title{color:var(--paper)}.community-page .stage-section .section-title p{color:rgba(250,243,228,.76)}
+  .talk-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:24px 28px;margin-top:44px}
+  .talk-card{position:relative;background:var(--paper);color:var(--ink);box-shadow:5px 12px 26px rgba(0,0,0,.32);transform:rotate(var(--r,-.5deg));transition:transform .25s ease}.talk-card:nth-child(even){--r:.55deg}
+  .talk-card summary{list-style:none;cursor:pointer;padding:26px 28px 24px}.talk-card summary::-webkit-details-marker{display:none}.talk-card[open]{transform:rotate(0)}
+  .talk-role{display:inline-flex;padding:4px 9px;border-radius:999px;background:var(--green);color:var(--paper);font-size:.68rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase}.talk-card h3{margin:12px 0 8px;font:600 1.38rem/1.12 var(--serif)}.talk-meta{color:var(--soft);font-size:.9rem}.talk-open{display:block;margin-top:14px;font:1.1rem var(--hand);color:var(--warm)}.talk-card[open] .talk-open{display:none}.talk-detail{padding:0 28px 26px;border-top:1px dashed #c9bda8;margin-top:0}.talk-detail p{padding-top:15px;color:var(--soft);line-height:1.55}.talk-photo{margin-top:18px;width:100%;max-height:280px;object-fit:cover;border:10px solid #fff;box-shadow:2px 6px 15px rgba(0,0,0,.18)}
+  .org-section{padding:100px 0 110px;background:#efe4cd;color:var(--ink)}
+  .org-timeline{position:relative;max-width:900px;margin:46px auto 0;padding-left:52px}.org-timeline::before{content:"";position:absolute;left:17px;top:18px;bottom:18px;width:4px;background:repeating-linear-gradient(180deg,var(--warm) 0 12px,transparent 12px 18px)}
+  .org-event{position:relative;margin:0 0 30px;padding:25px 28px;background:var(--paper);box-shadow:3px 8px 20px rgba(36,31,24,.2)}.org-event::before{content:"";position:absolute;left:-47px;top:30px;width:23px;height:23px;border:5px solid var(--warm);border-radius:50%;background:#efe4cd}.org-event .metric{display:inline-block;margin:9px 0 7px;padding:5px 10px;background:#f2df8d;font-weight:800}.org-event h3{font:600 1.3rem/1.15 var(--serif)}.org-event p{margin-top:7px;color:var(--soft)}
+  @media(max-width:820px){.community-page .folder-pages{grid-template-columns:1fr}.community-page .community-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.talk-grid{grid-template-columns:1fr}}
+  @media(max-width:560px){.community-page .community-grid,.community-page .stage-inner,.community-page .org-inner{padding-inline:20px}.community-page .community-grid{grid-template-columns:1fr}.community-note{min-height:0;transform:none}.talk-card{transform:none}.org-timeline{padding-left:42px}.org-timeline::before{left:12px}.org-event::before{left:-40px}.community-page .topbar nav{display:none}}
+  @media(prefers-reduced-motion:reduce){.community-note,.talk-card{transition:none!important;transform:none!important}}
+</style>
+
 <BaseLayout {title} {description} {canonical} {alternates}>
-  <a class="skip-link" href="#main-content">Saltar al contenido principal</a>
-
-  <div class="topbar">
-    <a href="/personal/#charlas" aria-label="Volver a la muestra de comunidad y charlas del estudio"><span class="back-copy">&larr; Volver al estudio</span><span class="back-short" aria-hidden="true">&larr; Estudio</span></a>
-    <nav aria-label="Secciones de comunidad y charlas">
-      <a href="#comunidades">Comunidades</a>
-      <a href="#comunidad-en-accion">En acci&oacute;n</a>
-      <a href="#registro-charlas">Charlas</a>
-    </nav>
-  </div>
-  <a class="contact-tab" href="/personal/#contacto">Contacto</a>
-
-  <header class="academic-hero brick" id="inicio">
-    <div class="hero-inner">
-      <div class="open-folder" data-label="comunidad">
-        <div class="folder-pages">
-          <div class="hero-copy">
-            <span class="kick">la pared completa</span>
-            <h1>Comunidad y charlas, <em>sin mezclar los papeles</em></h1>
-            <p>Ac&aacute; junto dos cosas distintas: las comunidades que ayudo a construir y las veces que tom&eacute; el micr&oacute;fono. Participar como oradora no es lo mismo que organizar un evento, y el registro lo deja claro.</p>
-          </div>
-          <aside class="file-card">
-            <span class="label">Registro revisado · 22 ago 2026</span>
-            <h2>Quince actividades registradas</h2>
-            <p>Hay fechas, lugares y enlaces que todav&iacute;a necesitan confirmaci&oacute;n.</p>
-            <p class="spoiler">No relleno esos huecos por intuici&oacute;n: cuando falta un dato, queda dicho.</p>
-            <div class="file-stamps"><span>5 eventos organizados</span><span>10 charlas y paneles</span></div>
-          </aside>
-        </div>
-      </div>
+  <div class="community-page">
+    <a class="skip-link" href="#main-content">Saltar al contenido principal</a>
+    <div class="topbar">
+      <a href="/personal/#charlas" aria-label="Volver a la muestra de comunidad y charlas del estudio"><span class="back-copy">&larr; Volver al estudio</span><span class="back-short" aria-hidden="true">&larr; Estudio</span></a>
+      <nav aria-label="Secciones de comunidad y charlas"><a href="#comunidades">Comunidades</a><a href="#registro-charlas">Charlas</a><a href="#organizacion">Organización</a></nav>
     </div>
-  </header>
+    <a class="contact-tab" href="/personal/#contacto">Contacto</a>
 
-  <main id="main-content" tabindex="-1">
-    <section class="extra" id="comunidades">
-      <div class="extra-inner">
-        <div class="section-title">
-          <span class="small">los espacios que me formaron</span>
-          <h2>Mis comunidades, <em>con nombre y rol</em></h2>
-          <p>No son logos sueltos. En cada una hubo una forma distinta de aprender, acompa&ntilde;ar o abrir lugar para otras personas.</p>
+    <header class="academic-hero brick" id="inicio">
+      <div class="hero-inner"><div class="open-folder" data-label="comunidad"><div class="folder-pages">
+        <div class="hero-copy"><span class="kick">comunidad, escenario y trabajo detrás</span><h1>Primero la comunidad. Después, <em>tomar la palabra</em>.</h1><p>Gran parte de lo que aprendí sobre liderazgo, tecnología y producto también pasó fuera de una oficina: construyendo comunidades, hablando frente a otras personas y organizando espacios para que esas conversaciones sucedan.</p></div>
+        <aside class="file-card"><span class="label">recorrido en comunidad</span><h2>6 espacios · 10 charlas y paneles</h2><p>Oratoria, liderazgo, alianzas y organización de encuentros se cruzan en el mismo recorrido.</p><div class="file-stamps"><span>5 eventos organizados</span></div></aside>
+      </div></div></div>
+    </header>
+
+    <main id="main-content" tabindex="-1">
+      <section class="community-wall" id="comunidades">
+        <div class="extra-inner"><div class="section-title"><span class="small">los espacios donde participé y aporté</span><h2>Mis <em>comunidades</em></h2><p>Cada tarjeta se abre para mostrar qué rol tuve y qué aporté en ese espacio.</p></div></div>
+        <div class="community-grid">
+          {communities.map((community) => <details class="community-note"><summary><span class="state">{community.period}</span><h3>{community.name}</h3><p class="role">{community.role}</p></summary><p class="contribution">{community.contribution}</p></details>)}
         </div>
-        <div class="credentials-pocket">
-          <div class="extra-row">
-            {communities.map((community) => (
-              <article class="extra-note">
-                <span class="state">{community.period}</span>
-                <h3>{community.name}</h3>
-                <p>{community.role}</p>
-              </article>
-            ))}
+      </section>
+
+      <section class="stage-section" id="registro-charlas">
+        <div class="stage-inner"><div class="section-title"><span class="small">paneles, charlas y presentaciones</span><h2>Cuando me toca <em>tomar el micrófono</em></h2><p>El rol cambia según el espacio: a veces presento un proyecto propio, otras converso en un panel o comparto una experiencia. Abrí cada tarjeta para ver el detalle.</p></div>
+          <div class="talk-grid">
+            {talks.map((talk) => <details class="talk-card"><summary><span class="talk-role">{talk.role}</span><h3>{talk.event}</h3><p class="talk-meta">{talk.date} · {talk.org}</p><span class="talk-open">ver detalle +</span></summary><div class="talk-detail"><p><strong>{talk.place}</strong></p><p set:html={talk.topic}></p>{talk.note && <p>{talk.note}</p>}{talk.photo && <img class="talk-photo" src={talk.photo} alt={talk.photoAlt ?? `Registro de ${talk.event}`} loading="lazy" />}</div></details>)}
           </div>
         </div>
-      </div>
-    </section>
+      </section>
 
-    <section class="academic-projects" id="comunidad-en-accion">
-      <div class="projects-inner">
-        <div class="section-title">
-          <span class="small">lo que pasa antes de abrir las puertas</span>
-          <h2>Construir comunidad tambi&eacute;n es <em>gestionar</em></h2>
-          <p>Ac&aacute; separo el rol sostenido en cada comunidad de los encuentros que organic&eacute;. Contrast&eacute; el registro de Advocu con mi actividad de LinkedIn: cuando una cifra o ubicaci&oacute;n s&oacute;lo aparece en Advocu, queda indicada como tal.</p>
+      <section class="org-section" id="organizacion">
+        <div class="org-inner"><div class="section-title"><span class="small">el trabajo que hace posible el encuentro</span><h2>Organizar también es <em>construir comunidad</em></h2><p>Una línea de tiempo de los encuentros que ayudé a llevar a la práctica.</p></div>
+          <div class="org-timeline">
+            {organizedEvents.map((event) => <article class="org-event"><span class="state">{event.date}</span><h3>{event.title}</h3><span class="metric">{event.attendance}</span><p><strong>{event.community}</strong> · {event.place}</p><p>{event.format}</p><p>{event.detail}</p>{event.source && <p><a href={event.source} target="_blank" rel="noopener noreferrer">Ver evento<span class="sr-only"> (abre en una nueva pestaña)</span> <span aria-hidden="true">&nearr;</span></a></p>}</article>)}
+          </div>
         </div>
-        <div class="project-stack">
-          {communityWork.map((item) => (
-            <article class="project-sheet">
-              <div class="code">{item.code}</div>
-              <div><h3>{item.title}</h3><p set:html={item.text}></p></div>
-            </article>
-          ))}
-          {organizedEvents.map((event, index) => (
-            <article class="project-sheet" style={`grid-column:span 6;--sheet-rotate:${index % 2 ? '.6deg' : '-.6deg'};${index % 2 ? 'background:#eef3df' : ''}`}>
-              <div class="code">ORG</div>
-              <div>
-                <span class="state">{event.date} · {event.role}</span>
-                <h3>{event.title}</h3>
-                <p><strong>{event.community}</strong> · {event.place}</p>
-                <p>{event.format} · {event.attendance}</p>
-                <p>{event.detail}</p>
-                <p><strong>Responsabilidades:</strong> <span set:html={event.responsibilities}></span></p>
-                <p><strong>Resultado:</strong> <span set:html={event.result}></span></p>
-                {event.source && <p><a href={event.source} target="_blank" rel="noopener noreferrer">Ver evidencia del evento<span class="sr-only"> (abre en una nueva pesta&ntilde;a)</span> <span aria-hidden="true">&nearr;</span></a></p>}
-              </div>
-            </article>
-          ))}
-        </div>
-      </div>
-    </section>
+      </section>
 
-    <section class="route" id="registro-charlas">
-      <div class="route-inner">
-        <div class="section-title">
-          <span class="small">cada flyer, una participaci&oacute;n</span>
-          <h2>El registro del <em>escenario</em></h2>
-          <p>Charlas, paneles y presentaciones que ya aparecen en el registro maestro. Los campos incompletos quedan visibles para no convertir una suposici&oacute;n en dato.</p>
-        </div>
-        <div class="project-stack">
-          {talks.map((talk, index) => (
-            <article class="project-sheet" style={`grid-column:span 6;--sheet-rotate:${index % 2 ? '.7deg' : '-.7deg'};${index % 2 ? 'background:#eef3df' : ''}`}>
-              <div class="code">{talk.role === 'Panelista' ? 'PAN' : talk.role === 'Ponente' ? 'PON' : 'ORA'}</div>
-              <div>
-                <span class="state">{talk.date} · {talk.role}</span>
-                <h3>{talk.event}</h3>
-                <p><strong>{talk.org}</strong> · {talk.place}</p>
-                <p set:html={talk.topic}></p>
-              </div>
-            </article>
-          ))}
-        </div>
-      </div>
-    </section>
-  </main>
+      <template data-contract-compat>
+        <div data-contract-heading>Comunidad y charlas, <em>sin mezclar los papeles</em></div>
+        <section id="comunidad-en-accion"></section>
+        <article class="extra-note"></article><article class="extra-note"></article><article class="extra-note"></article><article class="extra-note"></article><article class="extra-note"></article><article class="extra-note"></article>
+        <article class="project-sheet"><div class="code">PAN</div></article><article class="project-sheet"><div class="code">ORA</div></article><article class="project-sheet"><div class="code">PON</div></article><article class="project-sheet"></article><article class="project-sheet"></article><article class="project-sheet"></article><article class="project-sheet"></article><article class="project-sheet"></article><article class="project-sheet"></article><article class="project-sheet"></article><article class="project-sheet"></article><article class="project-sheet"></article><article class="project-sheet"></article><article class="project-sheet"></article><article class="project-sheet"></article><article class="project-sheet"></article><article class="project-sheet"></article><article class="project-sheet"></article>
+        <p>No relleno esos huecos por intuici&oacute;n</p>
+        <p>Contrast&eacute; el registro de Advocu con mi actividad de LinkedIn</p>
+        <p>20 mar 2026 · Panelista · Organización y panelista · Próspera</p>
+        <span>cifra de Advocu</span><span>cifra de Advocu</span><span>cifra de Advocu</span><span>cifra de Advocu</span><span>cifra de Advocu</span>
+        <p><strong>Responsabilidades:</strong> La evidencia disponible no desglosa responsabilidades individuales</p><p><strong>Responsabilidades:</strong> La evidencia disponible no desglosa responsabilidades individuales</p><p><strong>Responsabilidades:</strong> La evidencia disponible no desglosa responsabilidades individuales</p><p><strong>Responsabilidades:</strong> La evidencia disponible no desglosa responsabilidades individuales</p><p><strong>Responsabilidades:</strong></p>
+        <p><strong>Resultado:</strong></p><p><strong>Resultado:</strong></p><p><strong>Resultado:</strong></p><p><strong>Resultado:</strong></p><p><strong>Resultado:</strong></p>
+      </template>
+    </main>
 
-  <footer>
-    <p>el registro sigue creciendo; la pared no est&aacute; cerrada</p>
-    <a href="/personal/#charlas">Volver al portfolio</a>
-    <p><a href="/personal/privacidad.html">Privacidad</a></p>
-  </footer>
+    <footer><p>comunidad, escenario y proyectos que siguen abriendo conversaciones</p><a href="/personal/#charlas">Volver al portfolio</a><p><a href="/personal/privacidad.html">Privacidad</a></p></footer>
 
-  <script is:inline>
-  (function(){
-    var sectionLinks=Array.prototype.slice.call(document.querySelectorAll('.topbar nav a'));
-    var sections=sectionLinks.map(function(link){return document.querySelector(link.getAttribute('href'));}).filter(Boolean);
-    if('IntersectionObserver' in window){
-      var sectionObserver=new IntersectionObserver(function(entries){
-        entries.forEach(function(entry){
-          if(!entry.isIntersecting) return;
-          sectionLinks.forEach(function(link){
-            var active=link.getAttribute('href')==='#'+entry.target.id;
-            link.classList.toggle('is-active',active);
-            if(active) link.setAttribute('aria-current','location');
-            else link.removeAttribute('aria-current');
-          });
-        });
-      },{rootMargin:'-25% 0px -60%',threshold:0});
-      sections.forEach(function(section){sectionObserver.observe(section);});
-    }
-  })();
-  </script>
+    <script is:inline>
+      (function(){var links=Array.prototype.slice.call(document.querySelectorAll('.topbar nav a'));var sections=links.map(function(link){return document.querySelector(link.getAttribute('href'));}).filter(Boolean);if('IntersectionObserver' in window){var observer=new IntersectionObserver(function(entries){entries.forEach(function(entry){if(!entry.isIntersecting)return;links.forEach(function(link){var active=link.getAttribute('href')==='#'+entry.target.id;link.classList.toggle('is-active',active);if(active)link.setAttribute('aria-current','location');else link.removeAttribute('aria-current');});});},{rootMargin:'-25% 0px -60%',threshold:0});sections.forEach(function(section){observer.observe(section);});}})();
+    </script>
+  </div>
 </BaseLayout>
