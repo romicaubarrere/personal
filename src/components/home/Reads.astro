@@ -34,7 +34,7 @@ const readingLink = {
     .reading-ledger-link{display:inline-flex;align-items:center;min-height:44px;margin-top:17px;padding:8px 12px;background:var(--gold);color:var(--ink);font-family:var(--hand);font-size:1.05rem;font-weight:700;text-decoration:none;box-shadow:3px 4px 0 rgba(36,31,24,.18);transform:rotate(-1deg);transition:transform .18s ease,box-shadow .18s ease}
     .reading-ledger-link:is(:hover,:focus-visible){transform:rotate(0) translateY(-2px);box-shadow:4px 6px 0 rgba(36,31,24,.2)}
     @media(max-width:760px){.reading-notes-layout{grid-template-columns:1fr}.notes-panel .sticky:last-child{transform:rotate(.4deg)}.nowbook{margin-top:22px}}
-    @media(prefers-reduced-motion:reduce){.sticky-link.is-lifting{animation:none}.reading-ledger-link,.notes-panel .sticky{transition:none;transform:none!important}}
+    @media(prefers-reduced-motion:reduce){.sticky-link.is-lifting{animation:none}.reading-ledger-link{transition:none;transform:none!important}.notes-panel .sticky{transition:none;transform:none!important}}
   </style>
   <div class="hd reveal">
     <h2>{sectionTitle[0]}<em>{sectionTitle[1]}</em>{sectionTitle[2]}</h2>
