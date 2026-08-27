@@ -14,7 +14,11 @@ test('WEB-138 · home muestra notas antes que lectura actual', async ({ page }) 
   const readingBox = await section.locator('.nowbook').boundingBox();
   expect(notesBox).not.toBeNull();
   expect(readingBox).not.toBeNull();
-  if (notesBox && readingBox) expect(notesBox.x).toBeLessThan(readingBox.x);
+  if (notesBox && readingBox) {
+    const viewport = page.viewportSize();
+    if (viewport && viewport.width > 760) expect(notesBox.x).toBeLessThan(readingBox.x);
+    else expect(notesBox.y).toBeLessThan(readingBox.y);
+  }
 });
 
 test('WEB-138 · página completa muestra dos notas y solo cinco lecturas recientes', async ({ page }) => {
