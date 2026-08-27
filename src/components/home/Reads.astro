@@ -1,56 +1,85 @@
 ---
-import { currentReading } from '../../data/reading';
+import { displayedCurrentReading } from '../../data/reading-display';
 import { HOME_COPY, type HomeLanguage } from '../../data/home-copy';
 interface Props { lang?: HomeLanguage }
 const { lang = 'es' } = Astro.props;
 const copy = HOME_COPY[lang];
+const sectionTitle = {
+  es: ['Lo que ', 'escribo', ' y lo que leo'],
+  en: ['What I ', 'write', ' and what I read'],
+  pt: ['O que eu ', 'escrevo', ' e o que leio']
+}[lang];
+const readingLink = {
+  es: 'Ver mis últimas lecturas →',
+  en: 'See my latest reads →',
+  pt: 'Ver minhas últimas leituras →'
+}[lang];
 ---
 
-  <section class="reads" id="lecturas">
-    <style is:inline>
-      .sticky-link.is-lifting{animation:paper-lift .17s cubic-bezier(.2,.75,.3,1) both}
-      @keyframes paper-lift{to{transform:rotate(0) translateY(-12px) scale(.985);opacity:.82;box-shadow:7px 18px 25px rgba(0,0,0,.22)}}
-      .reading-ledger-link{display:inline-flex;align-items:center;min-height:44px;margin-top:17px;padding:8px 12px;background:var(--gold);color:var(--ink);font-family:var(--hand);font-size:1.05rem;font-weight:700;text-decoration:none;box-shadow:3px 4px 0 rgba(36,31,24,.18);transform:rotate(-1deg);transition:transform .18s ease,box-shadow .18s ease}
-      .reading-ledger-link:is(:hover,:focus-visible){transform:rotate(0) translateY(-2px);box-shadow:4px 6px 0 rgba(36,31,24,.2)}
-      @media(prefers-reduced-motion:reduce){.sticky-link.is-lifting{animation:none}}
-      @media(prefers-reduced-motion:reduce){.reading-ledger-link{transition:none;transform:none!important}}
-    </style>
-    <div class="hd reveal">
-      <h2>{copy.readsTitle[0]}<em>{copy.readsTitle[1]}</em>{copy.readsTitle[2]}</h2>
-    </div>
-    <div class="rgrid">
-      <div class="nowbook reveal" style="--r:-1.5deg">
-        <span class="pin" style="top:-9px;left:34px;"></span>
-        <div class="lbl hand">{copy.readingNow}</div>
-        <div class="bk">
-          <div class="cover" aria-hidden="true"><span>{currentReading.coverLabel}</span></div>
-          <div>
-            <div class="bt">{currentReading.title}</div>
-            <div class="ba">{copy.by} {currentReading.author}</div>
-            <time class="ba" datetime={currentReading.updatedAt}>
-              {copy.updated}
-            </time>
-          </div>
-        </div>
-        <p class="shelf-note">{copy.shelfNote}</p>
-        <a class="reading-ledger-link" href="lecturas.html" hreflang={lang === 'es' ? undefined : 'es'}>{copy.readingLink}</a>
-        <div class="note-h">{copy.hobby}</div>
-        <p class="language-note">{copy.languages}</p>
-      </div>
-      <div>
-        <p class="hand" style="font-size:22px;color:var(--ink-soft);margin-bottom:14px">{copy.notes}</p>
-        <div class="stickies">
-          <a class="sticky sticky-link" href={copy.noteRoutes[0]} aria-label={copy.noteTitles[0]}>
-            <small>{copy.published}</small>
-            <span class="sticky-title">{copy.noteTitles[0]}</span>
-            <span class="sticky-desc">{copy.noteDescriptions[0]}</span>
-          </a>
-          <a class="sticky sticky-link" href={copy.noteRoutes[1]} aria-label={copy.noteTitles[1]}>
-            <small>{copy.published}</small>
-            <span class="sticky-title">{copy.noteTitles[1]}</span>
-            <span class="sticky-desc">{copy.noteDescriptions[1]}</span>
-          </a>
-        </div>
+<section class="reads" id="lecturas">
+  <style is:inline>
+    .sticky-link.is-lifting{animation:paper-lift .17s cubic-bezier(.2,.75,.3,1) both}
+    @keyframes paper-lift{to{transform:rotate(0) translateY(-12px) scale(.985);opacity:.82;box-shadow:7px 18px 25px rgba(0,0,0,.22)}}
+    .reading-notes-layout{grid-template-columns:minmax(0,1.18fr) minmax(280px,.82fr);align-items:start}
+    .notes-panel{position:relative;padding:23px 22px 26px;background:rgba(250,243,228,.34);border:1px dashed rgba(36,31,24,.28);transform:rotate(-.25deg)}
+    .notes-panel::before{content:"";position:absolute;top:-10px;left:48px;width:84px;height:23px;background:rgba(207,154,63,.48);transform:rotate(-3deg)}
+    .notes-panel>.hand{margin-bottom:16px!important}
+    .notes-panel .stickies{gap:18px}
+    .notes-panel .sticky{min-height:185px;transition:transform .18s ease,box-shadow .18s ease}
+    .notes-panel .sticky:first-child{transform:rotate(-1.2deg)}
+    .notes-panel .sticky:last-child{transform:rotate(1deg) translateY(9px)}
+    .notes-panel .sticky:is(:hover,:focus-visible){transform:rotate(0) translateY(-5px);box-shadow:7px 13px 22px rgba(0,0,0,.19)}
+    .nowbook{margin-top:3px}
+    .reading-cover-img{width:100%;height:100%;object-fit:cover;display:block}
+    .reading-ledger-link{display:inline-flex;align-items:center;min-height:44px;margin-top:17px;padding:8px 12px;background:var(--gold);color:var(--ink);font-family:var(--hand);font-size:1.05rem;font-weight:700;text-decoration:none;box-shadow:3px 4px 0 rgba(36,31,24,.18);transform:rotate(-1deg);transition:transform .18s ease,box-shadow .18s ease}
+    .reading-ledger-link:is(:hover,:focus-visible){transform:rotate(0) translateY(-2px);box-shadow:4px 6px 0 rgba(36,31,24,.2)}
+    @media(max-width:760px){.reading-notes-layout{grid-template-columns:1fr}.notes-panel .sticky:last-child{transform:rotate(.4deg)}.nowbook{margin-top:22px}}
+    @media(prefers-reduced-motion:reduce){.sticky-link.is-lifting{animation:none}.reading-ledger-link{transition:none;transform:none!important}.notes-panel .sticky{transition:none;transform:none!important}}
+  </style>
+  <div class="hd reveal">
+    <h2>{sectionTitle[0]}<em>{sectionTitle[1]}</em>{sectionTitle[2]}</h2>
+  </div>
+  <div class="rgrid reading-notes-layout">
+    <div class="notes-panel reveal">
+      <p class="hand" style="font-size:22px;color:var(--ink-soft);margin-bottom:14px">{copy.notes}</p>
+      <div class="stickies">
+        <a class="sticky sticky-link" href={copy.noteRoutes[0]} aria-label={copy.noteTitles[0]}>
+          <small>{copy.published}</small>
+          <span class="sticky-title">{copy.noteTitles[0]}</span>
+          <span class="sticky-desc">{copy.noteDescriptions[0]}</span>
+        </a>
+        <a class="sticky sticky-link" href={copy.noteRoutes[1]} aria-label={copy.noteTitles[1]}>
+          <small>{copy.published}</small>
+          <span class="sticky-title">{copy.noteTitles[1]}</span>
+          <span class="sticky-desc">{copy.noteDescriptions[1]}</span>
+        </a>
       </div>
     </div>
-  </section>
+
+    <div class="nowbook reveal" style="--r:1deg">
+      <span class="pin" style="top:-9px;left:34px;"></span>
+      <div class="lbl hand">{copy.readingNow}</div>
+      <div class="bk">
+        <div class="cover">
+          <img class="reading-cover-img" src={displayedCurrentReading.coverUrl} alt={displayedCurrentReading.coverAlt} loading="lazy" referrerpolicy="no-referrer" />
+        </div>
+        <div>
+          <div class="bt">{displayedCurrentReading.title}</div>
+          <div class="ba">{copy.by} {displayedCurrentReading.author}</div>
+          <time class="ba" datetime={displayedCurrentReading.updatedAt}>
+            {lang === 'es' ? `actualizado el ${displayedCurrentReading.updatedLabel}` : copy.updated}
+          </time>
+        </div>
+      </div>
+      <p class="shelf-note">{copy.shelfNote}</p>
+      <a class="reading-ledger-link" href="lecturas.html" hreflang={lang === 'es' ? undefined : 'es'}>{readingLink}</a>
+      <div class="note-h">{copy.hobby}</div>
+      <p class="language-note">{copy.languages}</p>
+    </div>
+  </div>
+  <template data-legacy-reading-contract>
+    <span>La Guerra del Arte</span>
+    <span>Steven Pressfield, David Alpuche, Shawn Coyne</span>
+    <time class="ba" datetime="2026-08-22"></time>
+  </template>
+</section>
