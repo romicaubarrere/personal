@@ -21,10 +21,16 @@ repositorio no use.
 | Contenido | Textos aprobados, datos verificables, estructura académica y casos | `tests/portfolio.test.mjs` |
 | Navegación | Rutas, fragmentos, estados activos y enlaces seguros | `tests/seo-navigation.test.mjs` |
 | Accesibilidad | Semántica, teclado, foco, ARIA y movimiento reducido | `tests/portfolio.test.mjs`, `tests/seo-navigation.test.mjs` |
-| Responsive e interacción | Menú móvil, libros, modales, tacto y alturas reducidas | `tests/portfolio.test.mjs` |
+| Responsive e interacción | Menú móvil, libros, modales, tacto y alturas reducidas | `tests/portfolio.test.mjs`, Playwright Pixel 7 + iPhone 13 |
+| Compatibilidad de motores | Regresiones de interacción entre Chromium, Firefox y WebKit | `playwright.config.ts`, `.github/workflows/deploy-pages.yml` |
 | SEO técnico | Títulos, canonical, Open Graph, sitemap, robots y 404 | `tests/seo-navigation.test.mjs` |
 | Performance | Presupuestos de transferencia y peso de recursos críticos | `tests/performance-assets.test.mjs` |
 | Entrega | Validación previa, artefacto único y smoke test posterior | `.github/workflows/deploy-pages.yml`, `docs/ci-cd.md` |
+
+La matriz automatizada de navegador usa Desktop Chrome, Desktop Firefox,
+Desktop Safari vía WebKit, Pixel 7 vía Chromium e iPhone 13 vía WebKit. WebKit
+mejora la detección de problemas compatibles con Safari, pero no se presenta
+como sustituto de una prueba manual en Safari real o en hardware físico.
 
 Los tests automatizados expresan contratos, pero no sustituyen la revisión en
 contexto cuando un cambio afecta diseño, responsive o interacción. Un defecto
@@ -37,11 +43,12 @@ prueba de regresión.
 2. Aislar el cambio en una rama cuando corresponde.
 3. Revisar el diff para evitar modificaciones fuera de alcance.
 4. Ejecutar `npm test`, que construye la salida de producción y corre la suite.
-5. Revisar manualmente los comportamientos visuales o interactivos afectados.
-6. Abrir el pull request con resumen y evidencia de verificación.
-7. Integrar solamente cuando las validaciones pasan.
-8. Confirmar la publicación y revisar el cambio en su contexto real.
-9. Registrar en el historial solo los hitos que cambian el producto o el proceso.
+5. Ejecutar `npm run test:e2e` sobre la matriz Playwright aplicable.
+6. Revisar manualmente los comportamientos visuales o interactivos afectados.
+7. Abrir el pull request con resumen y evidencia de verificación.
+8. Integrar solamente cuando las validaciones pasan.
+9. Confirmar la publicación y revisar el cambio en su contexto real.
+10. Registrar en el historial solo los hitos que cambian el producto o el proceso.
 
 ## Definition of Done
 
@@ -53,6 +60,7 @@ Un ticket se considera terminado cuando cumple todo lo aplicable:
 - las rutas y enlaces modificados resuelven correctamente;
 - teclado, foco, semántica y movimiento reducido no regresionan;
 - desktop y móvil conservan una navegación utilizable;
+- cambios de interacción críticos pasan en Chromium, Firefox y WebKit;
 - se agregó una regresión cuando el cambio corrige un defecto reproducible;
 - `npm test` finaliza sin fallas;
 - el pull request explica qué cambió y cómo se verificó;
