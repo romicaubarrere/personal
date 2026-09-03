@@ -47,10 +47,9 @@ test('CI y rollback instalan la misma matriz Playwright', () => {
   }
 });
 
-test('la estrategia distingue WebKit de una validación manual en Safari real', () => {
-  assert.match(qa, /Chromium, Firefox y WebKit/);
-  assert.match(qa, /regresión completa.*Chromium/i);
-  assert.match(qa, /smoke.*Firefox.*WebKit/i);
+test('la estrategia distingue cobertura automatizada de validación manual real', () => {
+  assert.match(qa, /regresión completa de interacción se ejecuta en Chromium/i);
+  assert.match(qa, /Firefox y WebKit ejecutan un smoke cross-browser/i);
   assert.match(qa, /Safari real/);
   assert.match(qa, /hardware físico/);
 });
