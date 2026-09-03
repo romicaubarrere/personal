@@ -38,6 +38,9 @@ test('CROSS-BROWSER · un proyecto abre y cierra como diálogo', async ({ page }
   await page.goto('/personal/', { waitUntil: 'domcontentloaded' });
   const trigger = page.locator('.spine[data-book="habitar"]');
   await expect(trigger).toBeVisible();
+  const island = trigger.locator('xpath=ancestor::astro-island');
+  await expect(island).toHaveCount(1);
+  await expect.poll(() => island.getAttribute('ssr')).toBeNull();
   await trigger.click({ force: true });
   const modal = page.locator('#bookmodal');
   await expect(modal).toHaveAttribute('aria-hidden', 'false');
