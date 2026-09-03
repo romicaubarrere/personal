@@ -43,14 +43,17 @@ test('CROSS-BROWSER · un proyecto abre y cierra como diálogo', async ({ page }
   await expect(modal).toHaveAttribute('aria-hidden', 'false');
   await expect(modal).toBeVisible();
 
-  const close = page.locator('.bm-close').first();
-  await close.click({ force: true });
+  await page.keyboard.press('Escape');
   await expect(modal).toHaveAttribute('aria-hidden', 'true');
 });
 
 test('CROSS-BROWSER · reduced motion mantiene contenido visible', async ({ page }) => {
   await page.emulateMedia({ reducedMotion: 'reduce' });
+
   await page.goto('/personal/', { waitUntil: 'domcontentloaded' });
-  await expect(page.locator('#experiencia')).toBeVisible();
+  await expect(page.locator('.hero')).toBeVisible();
   await expect(page.locator('[data-age]').first()).toBeVisible();
+
+  await page.goto('/personal/formacion.html', { waitUntil: 'domcontentloaded' });
+  await expect(page.locator('#experiencia')).toBeVisible();
 });
