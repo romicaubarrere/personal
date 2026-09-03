@@ -18,8 +18,8 @@
     "npm": "11.9.0"
   },
   "dependencies": {
-    "@astrojs/react": "^6.0.4",
-    "astro": "^7.2.9",
+    "@astrojs/react": "^6.0.5",
+    "astro": "^7.2.10",
     "react": "^19.2.8",
     "react-dom": "^19.2.8"
   },
