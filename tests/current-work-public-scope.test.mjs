@@ -20,8 +20,8 @@ test('el trabajo actual usa únicamente responsabilidades públicas del rol', ()
   assert.match(role, /equipos de desarrollo/);
   assert.match(role, /team leads/);
   assert.match(role, /stakeholders/);
-  assert.match(role, /planificaci[oó]n/);
-  assert.match(role, /ceremonias [aá]giles/);
+  assert.match(role, /planificaci(?:ó|&oacute;)n/);
+  assert.match(role, /ceremonias (?:á|&aacute;)giles/);
   assert.match(role, /entregas/);
   assert.match(role, /riesgos/);
 });
