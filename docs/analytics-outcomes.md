@@ -1,6 +1,6 @@
 # Resultados de la medici&oacute;n
 
-Los clics ayudan a entender el recorrido dentro del portfolio, pero no prueban que haya existido una oportunidad profesional. Los resultados se registran manualmente cuando ocurren y se consultan con el modelo privado definido en [Modelo privado de m&eacute;tricas](./metrics-private-model.md).
+Los clics ayudan a entender el recorrido dentro del portfolio, pero no prueban que haya existido una oportunidad profesional. Los resultados se registran manualmente cuando ocurren y se consultan con el modelo privado definido en [Modelo privado de m&eacute;tricas](./metrics-private-model.md). WEB-065 queda resuelto por ese modelo sin crear una ruta est&aacute;tica que simule autenticaci&oacute;n.
 
 ## Formato
 
