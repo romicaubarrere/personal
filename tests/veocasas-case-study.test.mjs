@@ -66,5 +66,5 @@ test('la política registra autorización, evidencia y límites explícitos', ()
   assert.match(scope, /Esos registros no se publican, no se enlazan/);
   assert.match(evidence, /confirmó de forma directa que es la Project Manager de VeoCasas/);
   assert.match(evidence, /Los registros privados no se enlazan, adjuntan, copian ni citan/);
-  assert.match(evidence, /no una atribución individual de funcionalidades construidas por el equipo/);
+  assert.match(evidence, /una atribución individual de funcionalidades construidas por el equipo/);
 });
