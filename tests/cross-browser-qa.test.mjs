@@ -9,6 +9,7 @@ const config = await readFile(join(root, 'playwright.config.ts'), 'utf8');
 const deploy = await readFile(join(root, '.github', 'workflows', 'deploy-pages.yml'), 'utf8');
 const rollback = await readFile(join(root, '.github', 'workflows', 'rollback-pages.yml'), 'utf8');
 const qa = await readFile(join(root, 'docs', 'qa-strategy.md'), 'utf8');
+const smoke = await readFile(join(root, 'e2e', 'cross-browser-smoke.spec.ts'), 'utf8');
 
 test('WEB-063 cubre los tres motores principales en escritorio', () => {
   assert.match(config, /desktop-chromium/);
@@ -26,6 +27,19 @@ test('WEB-063 conserva cobertura móvil en Chromium y WebKit', () => {
   assert.match(config, /iPhone 13/);
 });
 
+test('Chromium mantiene regresión completa y los otros motores usan smoke focalizado', () => {
+  assert.match(config, /const fullSuite = \/\.\*\\\.spec\\\.ts\//);
+  assert.match(config, /const crossBrowserSmoke = \/cross-browser-smoke\\\.spec\\\.ts\//);
+  assert.match(config, /desktop-chromium', testMatch: fullSuite/);
+  assert.match(config, /mobile-chromium', testMatch: fullSuite/);
+  assert.match(config, /desktop-firefox', testMatch: crossBrowserSmoke/);
+  assert.match(config, /desktop-webkit', testMatch: crossBrowserSmoke/);
+  assert.match(config, /mobile-webkit', testMatch: crossBrowserSmoke/);
+  for (const contract of ['rutas principales', 'idioma y navegación', 'proyecto abre y cierra', 'reduced motion']) {
+    assert.match(smoke, new RegExp(contract));
+  }
+});
+
 test('CI y rollback instalan la misma matriz Playwright', () => {
   for (const workflow of [deploy, rollback]) {
     assert.match(workflow, /playwright install --with-deps chromium firefox webkit/);
@@ -35,6 +49,8 @@ test('CI y rollback instalan la misma matriz Playwright', () => {
 
 test('la estrategia distingue WebKit de una validación manual en Safari real', () => {
   assert.match(qa, /Chromium, Firefox y WebKit/);
+  assert.match(qa, /regresión completa.*Chromium/i);
+  assert.match(qa, /smoke.*Firefox.*WebKit/i);
   assert.match(qa, /Safari real/);
   assert.match(qa, /hardware físico/);
 });
