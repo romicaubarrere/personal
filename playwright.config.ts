@@ -1,5 +1,8 @@
 import { defineConfig, devices } from '@playwright/test';
 
+const fullSuite = /.*\.spec\.ts/;
+const crossBrowserSmoke = /cross-browser-smoke\.spec\.ts/;
+
 export default defineConfig({
   testDir: './e2e',
   fullyParallel: true,
@@ -15,11 +18,11 @@ export default defineConfig({
     screenshot: 'only-on-failure'
   },
   projects: [
-    { name: 'desktop-chromium', use: { ...devices['Desktop Chrome'] } },
-    { name: 'desktop-firefox', use: { ...devices['Desktop Firefox'] } },
-    { name: 'desktop-webkit', use: { ...devices['Desktop Safari'] } },
-    { name: 'mobile-chromium', use: { ...devices['Pixel 7'] } },
-    { name: 'mobile-webkit', use: { ...devices['iPhone 13'] } }
+    { name: 'desktop-chromium', testMatch: fullSuite, use: { ...devices['Desktop Chrome'] } },
+    { name: 'mobile-chromium', testMatch: fullSuite, use: { ...devices['Pixel 7'] } },
+    { name: 'desktop-firefox', testMatch: crossBrowserSmoke, use: { ...devices['Desktop Firefox'] } },
+    { name: 'desktop-webkit', testMatch: crossBrowserSmoke, use: { ...devices['Desktop Safari'] } },
+    { name: 'mobile-webkit', testMatch: crossBrowserSmoke, use: { ...devices['iPhone 13'] } }
   ],
   webServer: {
     command: 'npm run preview -- --host 127.0.0.1 --port 4173',
