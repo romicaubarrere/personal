@@ -40,11 +40,12 @@ Node sobre el código y los archivos compilados:
 npm test
 ```
 
-Las pruebas de interacción real se ejecutan con Playwright en configuraciones
-desktop y móvil. La primera vez hay que instalar Chromium:
+Las pruebas de interacción real se ejecutan con Playwright en Chromium, Firefox
+y WebKit. La matriz incluye escritorio en los tres motores, Pixel 7 en Chromium
+y iPhone 13 en WebKit:
 
 ```bash
-npx playwright install chromium
+npx playwright install chromium firefox webkit
 npm run test:e2e
 ```
 
@@ -55,6 +56,7 @@ Entre ambas capas se comprueban:
 - navegación, enlaces, idiomas, SEO técnico y datos estructurados;
 - semántica, teclado, foco, ARIA y movimiento reducido;
 - menú, libro de proyectos, modales y responsive en desktop y móvil;
+- compatibilidad automatizada entre Chromium, Firefox y WebKit;
 - presupuestos de transferencia, dependencias y cadena de suministro;
 - workflows, artefacto publicado, rollback y smoke test de producción.
 
