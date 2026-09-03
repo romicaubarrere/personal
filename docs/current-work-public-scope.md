@@ -1,6 +1,6 @@
 # Alcance público del trabajo actual
 
-Estado: vigente desde agosto de 2026.
+Estado: vigente desde agosto de 2026; evidencia pública revisada nuevamente el 3 de septiembre de 2026.
 
 Este documento fija qué información sobre el rol actual en eagerworks puede aparecer en el portfolio. La regla es simple: el portfolio puede describir responsabilidades que eagerworks ya publica para el rol de Project Manager y hechos que Romina/eagerworks ya hicieron públicos; no puede inferir ni revelar información de proyectos o clientes concretos.
 
@@ -11,7 +11,7 @@ Este documento fija qué información sobre el rol actual en eagerworks puede ap
 - La página pública de carrera `Project Manager` de eagerworks describe como responsabilidades: gestionar proyectos junto a equipos y team leaders, facilitar ceremonias ágiles y la ejecución de sprints, seguir deadlines y entregables, identificar y mitigar riesgos y coordinar comunicación con stakeholders.
 - La comunicación institucional de eagerworks se presenta como socio tecnológico de startups y empresas y publica casos de estudio propios, pero eso no demuestra que Romina trabaje personalmente en ninguno de esos clientes o casos.
 
-Fuentes públicas consultadas el 27 de agosto de 2026:
+Fuentes públicas consultadas y revalidadas:
 
 - https://www.linkedin.com/in/rominacaubarrere/
 - https://www.linkedin.com/posts/rominacaubarrere_la-semana-pasada-comenc%C3%A9-una-nueva-etapa-activity-7408981925404651520-GqJU
@@ -39,6 +39,6 @@ Fuentes públicas consultadas el 27 de agosto de 2026:
 
 ## Copy aprobado para el portfolio
 
-> Coordino proyectos de software junto a equipos de desarrollo, team leads y stakeholders. Facilito planificación y ceremonias ágiles, sigo progreso, entregas y riesgos, y trabajo para que prioridades, decisiones y próximos pasos queden claros.
+> Coordino proyectos de software junto a equipos de desarrollo, team leads y stakeholders. Facilito la planificación y las ceremonias ágiles, sigo el progreso, las entregas y los riesgos y mantengo prioridades, decisiones y próximos pasos claros.
 
 Este texto describe el alcance público del rol. Si en el futuro se quiere convertir un trabajo de eagerworks en un caso de estudio, primero debe existir evidencia pública que vincule a Romina con ese caso o una autorización explícita para publicarlo.
