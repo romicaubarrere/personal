@@ -39,7 +39,8 @@ test('WEB-012 y WEB-016 · VeoCasas abre como caso de Project Management', async
   await expect(dialog).toBeVisible();
   await expect(dialog).toContainText('VeoCasas');
   await expect(dialog).toContainText('Project Manager');
-  await expect(dialog).toContainText(/plannings|backlog|bloqueos|dependencias/i);
+  await expect(dialog).toContainText('Preparo y facilito plannings');
+  await expect(dialog).toContainText('bloqueos, dependencias, riesgos y entregas');
 });
 
 test('WEB-135 · móvil conserva scroll horizontal y acceso a los casos nuevos', async ({ page }) => {
