@@ -17,11 +17,15 @@ import type { HomeLanguage } from '../../data/home-copy';
 import { projectsFor } from '../../data/projects';
 import { completeProjectsFor } from '../../data/portfolio-projects';
 import { normalizePublishedProjectCopy } from '../../data/project-editorial';
+import { veocasasProjectFor } from '../../data/veocasas-project';
 
 interface Props { lang?: HomeLanguage }
 const { lang = 'es' } = Astro.props;
 const base = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL : `${import.meta.env.BASE_URL}/`;
-const projects = normalizePublishedProjectCopy(completeProjectsFor(projectsFor(lang), lang), lang);
+const projects = [
+  ...normalizePublishedProjectCopy(completeProjectsFor(projectsFor(lang), lang), lang),
+  ...normalizePublishedProjectCopy([veocasasProjectFor(lang)], lang)
+];
 ---
 
 {lang !== 'es' && <BookModalStyles />}
